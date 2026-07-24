@@ -2,8 +2,8 @@
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+// import Navbar from "@/components/layout/Navbar";
+// import Footer from "@/components/layout/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,9 +42,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="font-sans bg-gray-50 text-gray-900 antialiased">
-        <Navbar />
+        {/* <Navbar /> */}
         <main className="min-h-screen">{children}</main>
-        <Footer />
+        {/* <Footer /> */}
         <Toaster position="top-center" />
       </body>
     </html>
