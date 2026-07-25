@@ -1,10 +1,40 @@
 @import "tailwindcss";
 
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-dark text-white font-medium px-6 py-3 rounded-xl transition-all duration-300 shadow-card hover:shadow-card-hover;
+  }
+  .btn-secondary {
+    @apply bg-secondary hover:bg-secondary-dark text-white font-medium px-6 py-3 rounded-xl transition-all duration-300;
+  }
+  .btn-accent {
+    @apply bg-accent hover:bg-accent-dark text-white font-medium px-6 py-3 rounded-xl transition-all duration-300;
+  }
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  .section-title {
+    @apply font-display font-bold text-3xl md:text-4xl text-primary;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300;
+  }
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
+
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -23,3 +53,5 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+
