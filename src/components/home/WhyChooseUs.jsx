@@ -1,0 +1,61 @@
+// src/components/home/WhyChooseUs.jsx
+import { FiCheckCircle, FiPhoneCall, FiDollarSign, FiShield } from "react-icons/fi";
+
+const features = [
+  {
+    icon: FiCheckCircle,
+    title: "Verified Stays",
+    desc: "Every hotel is personally vetted for quality and cleanliness.",
+  },
+  {
+    icon: FiDollarSign,
+    title: "Best Price Promise",
+    desc: "Transparent pricing with zero hidden charges, ever.",
+  },
+  {
+    icon: FiPhoneCall,
+    title: "Instant Support",
+    desc: "Message us directly on WhatsApp — real replies, real fast.",
+  },
+  {
+    icon: FiShield,
+    title: "Safe & Secure",
+    desc: "Your data and enquiries are handled with full privacy.",
+  },
+];
+
+export default function WhyChooseUs() {
+  return (
+    <section className="py-20 bg-gray-50">
+      <div className="container-custom">
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="text-secondary font-semibold text-sm uppercase tracking-wider">
+            Why StayFinder
+          </span>
+          <h2 className="section-title mt-2">
+            Booking Made Simple & Trustworthy
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="card p-7 text-center hover:-translate-y-1"
+            >
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
+                <f.icon className="text-primary text-2xl" />
+              </div>
+              <h3 className="font-display font-semibold text-lg text-primary">
+                {f.title}
+              </h3>
+              <p className="text-gray-500 text-sm mt-2 leading-relaxed">
+                {f.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
