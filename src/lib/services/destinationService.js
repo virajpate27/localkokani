@@ -22,7 +22,13 @@ export async function getAllDestinations() {
   const snap = await getDocs(
     query(collection(db, COLLECTION), orderBy("name", "asc"))
   );
-  return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+  return serializeDocs(
+    snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data(),
+      hotelCount: d.data().hotelCount || 0,
+    }))
+  );
 }
 
 export async function getFeaturedDestinations(limitCount = 4) {
