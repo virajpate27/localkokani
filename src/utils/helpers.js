@@ -38,7 +38,7 @@ export function generateBreadcrumbSchema(items) {
     })),
   };
 } 
-
+  
 export function slugify(text) {
   return text
     .toString()
@@ -47,7 +47,7 @@ export function slugify(text) {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
-}
+}   
 
 export function formatCurrency(amount, currency = "INR") {
   return new Intl.NumberFormat("en-IN", {
@@ -57,7 +57,7 @@ export function formatCurrency(amount, currency = "INR") {
   }).format(amount);
 }
 
-
+  
 
 export function serializeDoc(doc) {
   const serialized = { ...doc };
