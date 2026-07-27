@@ -39,7 +39,7 @@ export const placeholderDestinations = [
       "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=800&q=80",
   },
 ];
-
+  
 
 export const placeholderHotels = [
   {
