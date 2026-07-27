@@ -2,10 +2,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FiMapPin, FiHome, FiStar } from "react-icons/fi";
-import {
-  getDestinationBySlug,
-  getAllDestinations,
-} from "@/lib/services/destinationService";
+import { getDestinationBySlug, getAllDestinations } from "@/lib/services/destinationService";
 import { getHotelsByDestination } from "@/lib/services/hotelService";
 import HotelCard from "@/components/hotels/HotelCard";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -14,14 +11,13 @@ import JsonLd from "@/components/ui/JsonLd";
 
 export const revalidate = 3600;
 
-// Pre-render all destination pages at build time (great for SEO + speed)
 export async function generateStaticParams() {
   const destinations = await getAllDestinations();
   return destinations.map((dest) => ({ slug: dest.slug }));
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params; // ⬅️ AWAIT added here
   const destination = await getDestinationBySlug(slug);
 
   if (!destination) {
@@ -29,9 +25,7 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title:
-      destination.seo?.metaTitle ||
-      `Best Hotels in ${destination.name} | StayFinder`,
+    title: destination.seo?.metaTitle || `Best Hotels in ${destination.name} | StayFinder`,
     description:
       destination.seo?.metaDescription ||
       `Explore ${destination.hotelCount || "top"} handpicked hotels in ${destination.name}. ${destination.description?.slice(0, 100)}`,
@@ -47,7 +41,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function DestinationDetailPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params; // ⬅️ AWAIT added here
   const destination = await getDestinationBySlug(slug);
 
   if (!destination) {
@@ -76,18 +70,14 @@ export default async function DestinationDetailPage({ params }) {
         <Breadcrumbs
           items={[
             { name: "Destinations", url: "/destinations" },
-            {
-              name: destination.name,
-              url: `/destinations/${destination.slug}`,
-            },
+            { name: destination.name, url: `/destinations/${destination.slug}` },
           ]}
         />
-      </div> 
+      </div>
 
-      {/* Hero Banner */}
       <section className="relative h-[45vh] min-h-[350px] overflow-hidden">
         <Image
-          src={destination.image?.url || "/placeholder-destination.webp"}
+          src={destination.image?.url || "/placeholder-destination.jpg"}
           alt={`${destination.name}, ${destination.country}`}
           fill
           priority
@@ -105,14 +95,12 @@ export default async function DestinationDetailPage({ params }) {
             </h1>
             <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
               <FiHome className="text-accent" />
-              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
-              available
+              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"} available
             </p>
           </div>
         </div>
       </section>
 
-      {/* Description */}
       <section className="py-12 bg-white border-b border-gray-100">
         <div className="container-custom max-w-3xl">
           <h2 className="font-display font-bold text-2xl text-primary mb-4">
@@ -124,7 +112,6 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-      {/* Hotels List */}
       <section className="py-16 bg-gray-50 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
