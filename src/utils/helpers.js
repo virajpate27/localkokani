@@ -69,3 +69,7 @@ export function serializeDoc(doc) {
 }
 
 
+export function serializeDocs(docs) {
+  return docs.map(serializeDoc);
+}
+
