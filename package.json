@@ -21,9 +21,10 @@
     "swiper": "^14.0.6"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "autoprefixer": "^10.5.4",
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
-    "tailwindcss": "^4"
+    "postcss": "^8.5.23",
+    "tailwindcss": "^3.4.17"
   }
 }
