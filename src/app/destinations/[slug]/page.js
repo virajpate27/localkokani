@@ -112,7 +112,7 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50 min-h-[40vh]">
+      {/* <section className="py-16 bg-gray-50 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
             <h2 className="section-title">Hotels in {destination.name}</h2>
@@ -121,7 +121,7 @@ export default async function DestinationDetailPage({ params }) {
             </span>
           </div>
 
-          {/* {hotels.length === 0 ? (
+          {hotels.length === 0 ? (
             <EmptyState
               title={`No hotels listed in ${destination.name} yet`}
               description="Check back soon, or explore other destinations."
@@ -132,9 +132,9 @@ export default async function DestinationDetailPage({ params }) {
                 <HotelCard key={hotel.id} hotel={hotel} />
               ))}
             </div>
-          )} */}
+          )}
         </div>
-      </section>
+      </section> */}
     </>
   );
 }
