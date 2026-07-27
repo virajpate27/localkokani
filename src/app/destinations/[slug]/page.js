@@ -64,8 +64,7 @@ export default async function DestinationDetailPage({ params }) {
 
   return (
     <>
-      <JsonLd data={destinationSchema} />
-
+     
       <div className="bg-white">
         <Breadcrumbs
           items={[
@@ -112,29 +111,7 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50 min-h-[40vh]">
-        <div className="container-custom">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="section-title">Hotels in {destination.name}</h2>
-            <span className="text-gray-400 text-sm">
-              Sorted by price (low to high)
-            </span>
-          </div>
-
-          {hotels.length === 0 ? (
-            <EmptyState
-              title={`No hotels listed in ${destination.name} yet`}
-              description="Check back soon, or explore other destinations."
-            />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {hotels.map((hotel) => (
-                <HotelCard key={hotel.id} hotel={hotel} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+  
     </>
   );
 }
