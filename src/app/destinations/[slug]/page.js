@@ -65,10 +65,7 @@ export default async function DestinationDetailPage({ params }) {
             <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
               {destination.name}
             </h1>
-            <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-              <FiHome className="text-accent" />
-              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"} available
-            </p>
+           
           </div>
         </div>
       </section>
