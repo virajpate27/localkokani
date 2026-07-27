@@ -18,6 +18,11 @@ import { serializeDoc, serializeDocs } from "@/utils/helpers";
 
 const COLLECTION = "hotels";
 
+// ─────────────────────────────────────────────
+// PUBLIC READ QUERIES
+// ─────────────────────────────────────────────
+
+// All active hotels — used on /hotels listing page
 export async function getAllHotels() {
   const snap = await getDocs(
     query(
@@ -29,6 +34,7 @@ export async function getAllHotels() {
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
 
+// Featured hotels only — used on homepage
 export async function getFeaturedHotels(limitCount = 4) {
   const snap = await getDocs(
     query(
@@ -41,6 +47,7 @@ export async function getFeaturedHotels(limitCount = 4) {
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
 
+// Hotels within a specific destination — used on /destinations/[slug]
 export async function getHotelsByDestination(destinationId) {
   const snap = await getDocs(
     query(
@@ -53,6 +60,7 @@ export async function getHotelsByDestination(destinationId) {
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
 
+// Single hotel by slug — used on /hotels/[slug] (Day 11)
 export async function getHotelBySlug(slug) {
   const snap = await getDocs(
     query(collection(db, COLLECTION), where("slug", "==", slug), fbLimit(1))
@@ -62,6 +70,7 @@ export async function getHotelBySlug(slug) {
   return serializeDoc({ id: docSnap.id, ...docSnap.data() });
 }
 
+// Single hotel by Firestore document ID — used in admin edit forms
 export async function getHotelById(id) {
   const docRef = doc(db, COLLECTION, id);
   const docSnap = await getDoc(docRef);
@@ -70,12 +79,21 @@ export async function getHotelById(id) {
     : null;
 }
 
+// ─────────────────────────────────────────────
+// ADMIN QUERIES
+// ─────────────────────────────────────────────
+
+// All hotels regardless of status (includes drafts) — used in admin panel
 export async function getAllHotelsAdmin() {
   const snap = await getDocs(
     query(collection(db, COLLECTION), orderBy("createdAt", "desc"))
   );
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
+
+// ─────────────────────────────────────────────
+// WRITE OPERATIONS
+// ─────────────────────────────────────────────
 
 export async function createHotel(data) {
   return addDoc(collection(db, COLLECTION), {

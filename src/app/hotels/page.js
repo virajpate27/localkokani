@@ -40,11 +40,11 @@ export default async function HotelsPage() {
         </div>
       </section>
 
-      {/* <section className="py-12 bg-gray-50 min-h-[60vh]">
+      <section className="py-12 bg-gray-50 min-h-[60vh]">
         <div className="container-custom">
           <HotelsFilterGrid hotels={hotels} />
         </div>
-      </section> */}
+      </section>
     </>
   );
 }
