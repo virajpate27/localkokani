@@ -37,7 +37,7 @@ export function generateBreadcrumbSchema(items) {
       item: item.url,
     })),
   };
-}
+} 
 
 export function slugify(text) {
   return text
