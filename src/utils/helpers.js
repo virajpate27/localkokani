@@ -5,18 +5,20 @@ export function generateHotelSchema(hotel) {
     "@context": "https://schema.org",
     "@type": "Hotel",
     name: hotel.name,
-    description: hotel.description,
-    image: hotel.images?.[0]?.url,
+    description: hotel.description || "",
+    image: hotel.images?.[0]?.url || "",
     address: {
       "@type": "PostalAddress",
-      addressLocality: hotel.destinationName,
+      streetAddress: hotel.address || "",
+      addressLocality: hotel.destinationName || "",
       addressCountry: "IN",
     },
     priceRange: hotel.priceRange || "$$",
-    starRating: {
-      "@type": "Rating",
-      ratingValue: hotel.rating || 4,
-    },
+    aggregateRating: hotel.reviewCount > 0 ? {
+      "@type": "AggregateRating",
+      ratingValue: hotel.rating || 0,
+      reviewCount: hotel.reviewCount || 0,
+    } : undefined,
     amenityFeature: (hotel.amenities || []).map((a) => ({
       "@type": "LocationFeatureSpecification",
       name: a,
