@@ -2,10 +2,12 @@
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 import HotelCard from "@/components/hotels/HotelCard";
-import { placeholderHotels } from "@/utils/placeholderData";
+import { getFeaturedHotels } from "@/lib/services/hotelService";
 
-export default function FeaturedHotels() {
-  const hotels = placeholderHotels; // Day 7: replace with Firestore fetch
+export default async function FeaturedHotels() {
+  const hotels = await getFeaturedHotels(4);
+
+  if (!hotels.length) return null;
 
   return (
     <section className="py-20 bg-white">

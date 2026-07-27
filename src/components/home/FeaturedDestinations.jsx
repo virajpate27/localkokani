@@ -2,10 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight, FiHome } from "react-icons/fi";
-import { placeholderDestinations } from "@/utils/placeholderData";
+import { getFeaturedDestinations } from "@/lib/services/destinationService";
 
-export default function FeaturedDestinations() {
-  const destinations = placeholderDestinations; // Day 7: replace with Firestore fetch
+export default async function FeaturedDestinations() {
+  const destinations = await getFeaturedDestinations(4);
+
+  if (!destinations.length) return null; // gracefully hide section if empty
 
   return (
     <section className="py-20 bg-white">
@@ -33,7 +35,7 @@ export default function FeaturedDestinations() {
               className="group relative rounded-2xl overflow-hidden aspect-[3/4] shadow-card hover:shadow-card-hover transition-all duration-300"
             >
               <Image
-                src={dest.image}
+                src={dest.image?.url}
                 alt={`Hotels in ${dest.name}`}
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
@@ -46,7 +48,7 @@ export default function FeaturedDestinations() {
                 </h3>
                 <p className="flex items-center gap-1.5 text-white/80 text-sm mt-1">
                   <FiHome className="text-accent" />
-                  {dest.hotelCount} hotels
+                  {dest.hotelCount || 0} hotels
                 </p>
               </div>
             </Link>

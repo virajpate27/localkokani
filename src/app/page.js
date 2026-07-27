@@ -6,6 +6,8 @@ import WhyChooseUs from "@/components/home/WhyChooseUs";
 import Testimonials from "@/components/home/Testimonials";
 import CtaBanner from "@/components/home/CtaBanner";
 
+export const revalidate = 3600; // regenerate page every 1 hour
+
 export const metadata = {
   title: "StayFinder | Book Hotels & Explore Top Destinations",
   description:
