@@ -1,7 +1,22 @@
 // src/lib/services/destinationService.js
-import { serializeDocs, serializeDoc } from "@/utils/helpers";
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  orderBy,
+  limit as fbLimit,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { serializeDoc, serializeDocs } from "@/utils/helpers";
 
-// ... update each function's return statement:
+const COLLECTION = "destinations";
 
 export async function getAllDestinations() {
   const snap = await getDocs(
@@ -36,4 +51,23 @@ export async function getDestinationById(id) {
   return docSnap.exists()
     ? serializeDoc({ id: docSnap.id, ...docSnap.data() })
     : null;
+}
+
+export async function createDestination(data) {
+  return addDoc(collection(db, COLLECTION), {
+    ...data,
+    hotelCount: 0,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function updateDestination(id, data) {
+  const docRef = doc(db, COLLECTION, id);
+  return updateDoc(docRef, { ...data, updatedAt: serverTimestamp() });
+}
+
+export async function deleteDestination(id) {
+  const docRef = doc(db, COLLECTION, id);
+  return deleteDoc(docRef);
 }
