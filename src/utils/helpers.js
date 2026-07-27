@@ -68,22 +68,4 @@ export function serializeDoc(doc) {
   return serialized;
 }
 
-export function serializeDocs(docs) {
-  return docs.map(serializeDoc);
-}
 
-
-export function serializeDoc(doc) {
-  const serialized = { ...doc };
-  for (const key in serialized) {
-    if (serialized[key]?.toDate) {
-      // Firestore Timestamp → ISO string
-      serialized[key] = serialized[key].toDate().toISOString();
-    }
-  }
-  return serialized;
-}
-
-export function serializeDocs(docs) {
-  return docs.map(serializeDoc);
-}
