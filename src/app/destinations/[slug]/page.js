@@ -82,7 +82,7 @@ export default async function DestinationDetailPage({ params }) {
             },
           ]}
         />
-      </div>
+      </div> 
 
       {/* Hero Banner */}
       <section className="relative h-[45vh] min-h-[350px] overflow-hidden">
