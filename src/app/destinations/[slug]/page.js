@@ -31,21 +31,14 @@ export default async function DestinationDetailPage({ params }) {
   return (
     <>
      
-    
-
-      <section className="relative h-[45vh] min-h-[350px] overflow-hidden">
-       
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 pb-10">
-          <div className="container-custom">
-         
-            <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
-              {destination.name}
-            </h1>
-           
-          </div>
-        </div>
-      </section>
+      <div className="bg-white">
+        <Breadcrumbs
+          items={[
+            { name: "Destinations", url: "/destinations" },
+            { name: destination.name, url: `/destinations/${destination.slug}` },
+          ]}
+        />
+      </div>
 
       <section className="relative h-[45vh] min-h-[350px] overflow-hidden">
         <Image
@@ -69,8 +62,8 @@ export default async function DestinationDetailPage({ params }) {
           </div>
         </div>
       </section>
-
-      <section className="py-12 bg-white border-b border-gray-100">
+    
+       <section className="py-12 bg-white border-b border-gray-100">
         <div className="container-custom max-w-3xl">
           <h2 className="font-display font-bold text-2xl text-primary mb-4">
             About {destination.name}
@@ -80,6 +73,9 @@ export default async function DestinationDetailPage({ params }) {
           </p>
         </div>
       </section>
+
+
+      
 
   
     </>
