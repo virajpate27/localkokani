@@ -1,4 +1,8 @@
 // src/components/layout/Footer.jsx
+
+"use client";
+
+
 import Link from 'next/link';
 import {
   FiMapPin,
