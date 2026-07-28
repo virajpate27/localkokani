@@ -11,14 +11,13 @@ import JsonLd from "@/components/ui/JsonLd";
 
 export const revalidate = 3600;
 
-// Pre-render all destination pages at build time (great for SEO + speed)
 export async function generateStaticParams() {
   const destinations = await getAllDestinations();
   return destinations.map((dest) => ({ slug: dest.slug }));
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params; // ⬅️ AWAIT added here
   const destination = await getDestinationBySlug(slug);
 
   if (!destination) {
@@ -42,7 +41,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function DestinationDetailPage({ params }) {
-  const { slug } = params;
+  const { slug } = await params; // ⬅️ AWAIT added here
   const destination = await getDestinationBySlug(slug);
 
   if (!destination) {
@@ -76,10 +75,9 @@ export default async function DestinationDetailPage({ params }) {
         />
       </div>
 
-      {/* Hero Banner */}
       <section className="relative h-[45vh] min-h-[350px] overflow-hidden">
         <Image
-          src={destination.image?.url}
+          src={destination.image?.url || "/placeholder-destination.jpg"}
           alt={`${destination.name}, ${destination.country}`}
           fill
           priority
@@ -103,7 +101,6 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-      {/* Description */}
       <section className="py-12 bg-white border-b border-gray-100">
         <div className="container-custom max-w-3xl">
           <h2 className="font-display font-bold text-2xl text-primary mb-4">
@@ -115,13 +112,10 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-      {/* Hotels List */}
       <section className="py-16 bg-gray-50 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
-            <h2 className="section-title">
-              Hotels in {destination.name}
-            </h2>
+            <h2 className="section-title">Hotels in {destination.name}</h2>
             <span className="text-gray-400 text-sm">
               Sorted by price (low to high)
             </span>
