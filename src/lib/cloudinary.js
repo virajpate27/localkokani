@@ -28,3 +28,19 @@ export function getOptimizedUrl(url, { width = 800, quality = "auto" } = {}) {
   if (!url) return "";
   return url.replace("/upload/", `/upload/f_auto,q_${quality},w_${width}/`);
 }
+
+
+export async function deleteFromCloudinary(publicId) {
+  if (!publicId) return;
+  try {
+    await fetch("/api/cloudinary/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ publicId }),
+    });
+  } catch (error) {
+    console.error("Failed to delete old image:", error);
+    // Non-critical — don't throw, just log. A stray orphaned image in
+    // Cloudinary isn't worth blocking the admin's save action over.
+  }
+}
