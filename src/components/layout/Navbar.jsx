@@ -40,9 +40,9 @@ export default function Navbar() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
             <FiMapPin className="text-white text-xl" />
           </div>
-          <span className="font-display font-bold text-2xl text-primary">
-            Stay<span className="text-accent">Finder</span>
-          </span>
+         <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
+  Stay<span className="text-accent">Finder</span>
+</span>
         </Link>
 
         {/* Desktop Links */}

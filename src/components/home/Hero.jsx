@@ -27,7 +27,7 @@ export default function Hero() {
           ✨ Trusted by 10,000+ happy travelers
         </span>
 
-        <h1 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl text-white leading-tight max-w-4xl mx-auto animate-slide-up">
+       <h1 className="font-display font-extrabold text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-white leading-tight max-w-4xl mx-auto animate-slide-up">
           Find Your Perfect Stay,
           <br />
           <span className="text-accent">Anywhere You Go</span>
@@ -41,17 +41,18 @@ export default function Hero() {
         {/* Search Bar */}
         <form
           onSubmit={handleSearch}
-          className="mt-10 bg-white rounded-2xl shadow-2xl p-3 max-w-3xl mx-auto flex flex-col sm:flex-row items-stretch gap-2 animate-slide-up"
+          className="mt-10 bg-white rounded-2xl shadow-2xl p-2 sm:p-3 max-w-3xl mx-auto flex flex-col sm:flex-row items-stretch gap-2"
         >
           <div className="flex items-center gap-3 flex-1 px-4 py-3">
             <FiMapPin className="text-secondary text-xl shrink-0" />
             <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search destination or hotel name..."
-              className="w-full outline-none text-gray-700 placeholder:text-gray-400"
-            />
+  type="text"
+  value={query}
+  onChange={(e) => setQuery(e.target.value)}
+  placeholder="Search destination or hotel name..."
+  aria-label="Search destination or hotel"
+  className="w-full outline-none text-gray-700 placeholder:text-gray-400"
+/>
           </div>
           <button
             type="submit"

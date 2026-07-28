@@ -101,11 +101,10 @@ export default function HotelsFilterGrid({ hotels }) {
 
       {/* Filter Sidebar */}
       <aside
-        className={`${
-          showMobileFilters
-            ? "fixed inset-0 z-50 bg-white p-6 overflow-y-auto"
+        className={`${showMobileFilters
+            ? "fixed inset-0 z-[60] bg-white p-6 overflow-y-auto"
             : "hidden"
-        } lg:block lg:static lg:bg-transparent lg:p-0`}
+          } lg:block lg:static lg:bg-transparent lg:p-0`}
       >
         <div className="flex items-center justify-between lg:hidden mb-6">
           <h3 className="font-display font-bold text-xl text-primary">Filters</h3>
@@ -163,11 +162,10 @@ export default function HotelsFilterGrid({ hotels }) {
                 <button
                   key={r}
                   onClick={() => setMinRating(r)}
-                  className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
-                    minRating === r
+                  className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${minRating === r
                       ? "bg-primary text-white border-primary"
                       : "border-gray-200 text-gray-600 hover:border-primary"
-                  }`}
+                    }`}
                 >
                   {r === 0 ? "Any" : `${r}+ ★`}
                 </button>

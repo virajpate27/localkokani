@@ -1,7 +1,7 @@
 // src/components/hotels/HotelGallery.jsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, FreeMode } from "swiper/modules";
@@ -16,6 +16,22 @@ export default function HotelGallery({ images = [], hotelName }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+  const handleEscape = (e) => {
+    if (e.key === "Escape") setLightboxOpen(false);
+  };
+  if (lightboxOpen) {
+    document.addEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden"; // prevent background scroll
+  }
+  return () => {
+    document.removeEventListener("keydown", handleEscape);
+    document.body.style.overflow = "";
+  };
+}, [lightboxOpen]);
+
+
 
   const galleryImages = images.length > 0
     ? images
@@ -79,7 +95,7 @@ export default function HotelGallery({ images = [], hotelName }) {
 
       {/* Lightbox */}
       {lightboxOpen && (
-        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 pb-safe">
           <button
             onClick={() => setLightboxOpen(false)}
             className="absolute top-6 right-6 text-white text-3xl z-10"

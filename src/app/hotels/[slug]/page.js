@@ -90,9 +90,9 @@ export default async function HotelDetailPage({ params }) {
         <HotelGallery images={hotel.images} hotelName={hotel.name} />
 
         {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 mt-10">
+       <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 mt-10">
           {/* Main content */}
-          <div className="space-y-10">
+          <div className="space-y-10 order-2 lg:order-1">
             {/* Description */}
             <div>
               <h2 className="font-display font-bold text-2xl text-primary mb-4">
@@ -144,7 +144,7 @@ export default async function HotelDetailPage({ params }) {
           </div>
 
           {/* Sidebar */}
-          <div>
+          <div className="order-1 lg:order-2">
             <BookingSidebar hotel={hotel} />
           </div>
         </div>
