@@ -8,11 +8,13 @@ import {
   FiFacebook,
 } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
   const year = new Date().getFullYear();
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
-
+   const pathname = usePathname();
+  if (pathname?.startsWith("/admin")) return null;
   
   return (
     <footer className="bg-primary text-white mt-24">
