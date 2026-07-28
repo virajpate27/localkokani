@@ -13,6 +13,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
+  
   return (
     <footer className="bg-primary text-white mt-24">
       <div className="container-custom py-16 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-10">
