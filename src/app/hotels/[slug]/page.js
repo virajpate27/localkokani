@@ -9,6 +9,7 @@ import RoomTypesList from "@/components/hotels/RoomTypesList";
 import BookingSidebar from "@/components/hotels/BookingSidebar";
 import JsonLd from "@/components/ui/JsonLd";
 import { generateHotelSchema } from "@/utils/helpers";
+import MobileStickyBar from "@/components/hotels/MobileStickyBar";
 
 export const revalidate = 1800;
 
@@ -62,7 +63,7 @@ export default async function HotelDetailPage({ params }) {
         />
       </div>
 
-      <div className="container-custom py-8">
+      <div className="container-custom py-8 pb-24 lg:pb-8">
         {/* Header */}
         <div className="mb-6">
           <p className="flex items-center gap-1.5 text-secondary font-medium text-sm uppercase tracking-wide">
@@ -148,6 +149,8 @@ export default async function HotelDetailPage({ params }) {
           </div>
         </div>
       </div>
+
+       <MobileStickyBar hotel={hotel} />
     </>
   );
 }

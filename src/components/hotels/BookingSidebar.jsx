@@ -1,10 +1,11 @@
 // src/components/hotels/BookingSidebar.jsx
 import { FiStar, FiMapPin } from "react-icons/fi";
 import { formatCurrency } from "@/utils/helpers";
+import HotelEnquiryForm from "./HotelEnquiryForm";
 
 export default function BookingSidebar({ hotel }) {
   return (
-    <div className="card p-6 lg:sticky lg:top-24">
+    <div id="enquiry-form" className="card p-6 lg:sticky lg:top-24">
       <div className="flex items-center justify-between mb-4">
         <div>
           <p className="text-gray-400 text-xs">Starting from</p>
@@ -25,14 +26,7 @@ export default function BookingSidebar({ hotel }) {
         <FiMapPin className="text-secondary" /> {hotel.address}
       </p>
 
-      {/* 
-        Day 12 will replace this section with:
-        <HotelEnquiryForm hotel={hotel} /> 
-        (form fields + WhatsApp deep link submission)
-      */}
-      <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center text-gray-400 text-sm">
-        Enquiry form coming in the next step
-      </div>
+      <HotelEnquiryForm hotel={hotel} />
     </div>
   );
 }
