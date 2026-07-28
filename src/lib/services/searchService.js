@@ -1,0 +1,98 @@
+// src/lib/services/searchService.js
+import { getAllHotels } from "./hotelService";
+import { getAllDestinations } from "./destinationService";
+
+let cachedSearchIndex = null;
+let cacheTimestamp = null;
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+// Builds a unified, lightweight search index combining hotels + destinations
+async function buildSearchIndex() {
+  const now = Date.now();
+  if (cachedSearchIndex && cacheTimestamp && now - cacheTimestamp < CACHE_TTL) {
+    return cachedSearchIndex;
+  }
+
+  const [hotels, destinations] = await Promise.all([
+    getAllHotels(),
+    getAllDestinations(),
+  ]);
+
+  const hotelEntries = hotels.map((hotel) => ({
+    type: "hotel",
+    id: hotel.id,
+    slug: hotel.slug,
+    title: hotel.name,
+    subtitle: hotel.destinationName,
+    image: hotel.images?.[0]?.url,
+    price: hotel.price,
+    rating: hotel.rating,
+    searchText: [
+      hotel.name,
+      hotel.destinationName,
+      ...(hotel.amenities || []),
+      ...(hotel.searchKeywords || []),
+    ]
+      .join(" ")
+      .toLowerCase(),
+  }));
+
+  const destinationEntries = destinations.map((dest) => ({
+    type: "destination",
+    id: dest.id,
+    slug: dest.slug,
+    title: dest.name,
+    subtitle: `${dest.country} · ${dest.hotelCount || 0} hotels`,
+    image: dest.image?.url,
+    searchText: [dest.name, dest.country].join(" ").toLowerCase(),
+  }));
+
+  cachedSearchIndex = [...destinationEntries, ...hotelEntries];
+  cacheTimestamp = now;
+  return cachedSearchIndex;
+}
+
+// Simple relevance scoring: exact start match > word match > substring match
+function scoreMatch(searchText, query) {
+  if (searchText.startsWith(query)) return 3;
+  if (searchText.split(" ").some((word) => word.startsWith(query))) return 2;
+  if (searchText.includes(query)) return 1;
+  return 0;
+}
+
+export async function searchAll(rawQuery, limitCount = 8) {
+  const query = rawQuery.trim().toLowerCase();
+  if (!query) return [];
+
+  const index = await buildSearchIndex();
+
+  const results = index
+    .map((entry) => ({ ...entry, score: scoreMatch(entry.searchText, query) }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  return results.slice(0, limitCount);
+}
+
+// Used by the full /search results page (Day 16) — returns everything, unranked cap
+export async function searchAllFull(rawQuery) {
+  const query = rawQuery.trim().toLowerCase();
+  if (!query) return { hotels: [], destinations: [] };
+
+  const index = await buildSearchIndex();
+
+  const matched = index
+    .map((entry) => ({ ...entry, score: scoreMatch(entry.searchText, query) }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  return {
+    hotels: matched.filter((r) => r.type === "hotel"),
+    destinations: matched.filter((r) => r.type === "destination"),
+  };
+}
+
+export function clearSearchCache() {
+  cachedSearchIndex = null;
+  cacheTimestamp = null;
+}
