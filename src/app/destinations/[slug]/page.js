@@ -16,56 +16,21 @@ export async function generateStaticParams() {
   return destinations.map((dest) => ({ slug: dest.slug }));
 }
 
-export async function generateMetadata({ params }) {
-  const { slug } = await params; // ⬅️ AWAIT added here
-  const destination = await getDestinationBySlug(slug);
 
-  if (!destination) {
-    return { title: "Destination Not Found | StayFinder" };
-  }
-
-  return {
-    title: destination.seo?.metaTitle || `Best Hotels in ${destination.name} | StayFinder`,
-    description:
-      destination.seo?.metaDescription ||
-      `Explore ${destination.hotelCount || "top"} handpicked hotels in ${destination.name}. ${destination.description?.slice(0, 100)}`,
-    alternates: {
-      canonical: `/destinations/${destination.slug}`,
-    },
-    openGraph: {
-      title: `Best Hotels in ${destination.name} | StayFinder`,
-      description: destination.description,
-      images: destination.image?.url ? [destination.image.url] : [],
-    },
-  };
-}
 
 export default async function DestinationDetailPage({ params }) {
-  const { slug } = await params; // ⬅️ AWAIT added here
+  const { slug } = await params; 
   const destination = await getDestinationBySlug(slug);
 
   if (!destination) {
     notFound();
   }
 
-  const hotels = await getHotelsByDestination(destination.id);
-
-  const destinationSchema = {
-    "@context": "https://schema.org",
-    "@type": "TouristDestination",
-    name: destination.name,
-    description: destination.description,
-    image: destination.image?.url,
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: destination.country,
-    },
-  };
+  
 
   return (
     <>
-      <JsonLd data={destinationSchema} />
-
+     
       <div className="bg-white">
         <Breadcrumbs
           items={[
@@ -93,15 +58,12 @@ export default async function DestinationDetailPage({ params }) {
             <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
               {destination.name}
             </h1>
-            <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-              <FiHome className="text-accent" />
-              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"} available
-            </p>
+           
           </div>
         </div>
       </section>
-
-      <section className="py-12 bg-white border-b border-gray-100">
+    
+       <section className="py-12 bg-white border-b border-gray-100">
         <div className="container-custom max-w-3xl">
           <h2 className="font-display font-bold text-2xl text-primary mb-4">
             About {destination.name}
@@ -112,29 +74,10 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50 min-h-[40vh]">
-        <div className="container-custom">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="section-title">Hotels in {destination.name}</h2>
-            <span className="text-gray-400 text-sm">
-              Sorted by price (low to high)
-            </span>
-          </div>
 
-          {hotels.length === 0 ? (
-            <EmptyState
-              title={`No hotels listed in ${destination.name} yet`}
-              description="Check back soon, or explore other destinations."
-            />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {hotels.map((hotel) => (
-                <HotelCard key={hotel.id} hotel={hotel} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      
+
+  
     </>
   );
 }
