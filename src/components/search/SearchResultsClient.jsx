@@ -1,0 +1,215 @@
+// src/components/search/SearchResultsClient.jsx
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { FiSearch, FiMapPin, FiHome, FiStar, FiLoader } from "react-icons/fi";
+import { useDebounce } from "@/hooks/useDebounce";
+import { formatCurrency } from "@/utils/helpers";
+import HotelCard from "@/components/hotels/HotelCard";
+import EmptyState from "@/components/ui/EmptyState";
+import { HotelGridSkeleton } from "@/components/ui/Skeleton";
+
+export default function SearchResultsClient({
+  initialQuery,
+  initialHotels,
+  initialDestinations,
+}) {
+  const router = useRouter();
+  const [inputValue, setInputValue] = useState(initialQuery);
+  const [hotels, setHotels] = useState(initialHotels);
+  const [destinations, setDestinations] = useState(initialDestinations);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(!!initialQuery);
+
+  const debouncedValue = useDebounce(inputValue, 400);
+
+  const runSearch = useCallback(async (searchQuery) => {
+    if (!searchQuery.trim()) {
+      setHotels([]);
+      setDestinations([]);
+      setHasSearched(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setHasSearched(true);
+
+    try {
+      const res = await fetch(`/api/search/full?q=${encodeURIComponent(searchQuery)}`);
+      const data = await res.json();
+      setHotels(data.hotels || []);
+      setDestinations(data.destinations || []);
+    } catch (error) {
+      console.error("Search error:", error);
+      setHotels([]);
+      setDestinations([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Skip the very first run since we already have server-rendered initial results
+  const [isFirstRun, setIsFirstRun] = useState(true);
+  useEffect(() => {
+    if (isFirstRun) {
+      setIsFirstRun(false);
+      return;
+    }
+
+    // Update the URL to reflect the new search (shareable link, browser back button works)
+    const newUrl = debouncedValue.trim()
+      ? `/search?q=${encodeURIComponent(debouncedValue.trim())}`
+      : "/search";
+    window.history.replaceState(null, "", newUrl);
+
+    runSearch(debouncedValue);
+  }, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const totalResults = hotels.length + destinations.length;
+
+  return (
+    <>
+      {/* Search Header */}
+      <section className="bg-hero-gradient py-12">
+        <div className="container-custom">
+          <h1 className="font-display font-bold text-3xl text-white text-center mb-6">
+            Search Hotels & Destinations
+          </h1>
+          <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-2">
+            <div className="flex items-center gap-3 px-3 py-2.5">
+              <FiSearch className="text-secondary text-xl shrink-0" />
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Search destination or hotel name..."
+                aria-label="Search"
+                autoFocus
+                className="w-full outline-none text-gray-700 placeholder:text-gray-400"
+              />
+              {isLoading && <FiLoader className="animate-spin text-gray-400 shrink-0" />}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Results */}
+      <section className="py-12 bg-gray-50 min-h-[50vh]">
+        <div className="container-custom">
+          {!hasSearched ? (
+            <EmptyState
+              title="Start typing to search"
+              description="Search by destination name, hotel name, or amenities like 'pool' or 'beach'."
+            />
+          ) : isLoading ? (
+            <HotelGridSkeleton count={6} />
+          ) : totalResults === 0 ? (
+            <EmptyState
+              title={`No results for "${inputValue}"`}
+              description="Try a different destination, hotel name, or check your spelling."
+            />
+          ) : (
+            <>
+              <p className="text-gray-500 text-sm mb-8">
+                <span className="font-semibold text-primary">{totalResults}</span>{" "}
+                {totalResults === 1 ? "result" : "results"} for "
+                <span className="font-medium text-primary">{inputValue}</span>"
+              </p>
+
+              {/* Destinations Section */}
+              {destinations.length > 0 && (
+                <div className="mb-12">
+                  <h2 className="font-display font-bold text-xl text-primary mb-5 flex items-center gap-2">
+                    <FiMapPin className="text-secondary" />
+                    Destinations ({destinations.length})
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {destinations.map((dest) => (
+                      <Link
+                        key={dest.id}
+                        href={`/destinations/${dest.slug}`}
+                        className="group card overflow-hidden flex items-center gap-4 p-4 hover:-translate-y-1"
+                      >
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0">
+                          {dest.image && (
+                            <Image
+                              src={dest.image}
+                              alt={dest.title}
+                              fill
+                              sizes="80px"
+                              className="object-cover group-hover:scale-110 transition-transform"
+                            />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-display font-semibold text-primary truncate">
+                            {dest.title}
+                          </p>
+                          <p className="text-gray-400 text-sm truncate">{dest.subtitle}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Hotels Section */}
+              {hotels.length > 0 && (
+                <div>
+                  <h2 className="font-display font-bold text-xl text-primary mb-5 flex items-center gap-2">
+                    <FiHome className="text-secondary" />
+                    Hotels ({hotels.length})
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {hotels.map((hotel) => (
+                      <Link
+                        key={hotel.id}
+                        href={`/hotels/${hotel.slug}`}
+                        className="group card overflow-hidden flex flex-col hover:-translate-y-1"
+                      >
+                        <div className="relative aspect-[4/3] overflow-hidden">
+                          {hotel.image && (
+                            <Image
+                              src={hotel.image}
+                              alt={hotel.title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              className="object-cover group-hover:scale-110 transition-transform duration-500"
+                            />
+                          )}
+                          {hotel.rating > 0 && (
+                            <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary shadow-sm">
+                              <FiStar className="text-accent fill-accent" />
+                              {hotel.rating}
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-5">
+                          <p className="text-secondary text-xs font-medium uppercase tracking-wide">
+                            {hotel.subtitle}
+                          </p>
+                          <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+                            {hotel.title}
+                          </h3>
+                          {hotel.price && (
+                            <p className="font-display font-bold text-primary mt-3 pt-3 border-t border-gray-100">
+                              {formatCurrency(hotel.price)}
+                              <span className="text-xs font-normal text-gray-400"> /night</span>
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
