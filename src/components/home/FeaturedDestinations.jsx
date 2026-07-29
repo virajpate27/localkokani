@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight, FiHome } from "react-icons/fi";
 import { getFeaturedDestinations } from "@/lib/services/destinationService";
+import { getOptimizedUrl } from "@/lib/cloudinary";
 
 export default async function FeaturedDestinations() {
   const destinations = await getFeaturedDestinations(4);
@@ -35,9 +36,10 @@ export default async function FeaturedDestinations() {
               className="group relative rounded-2xl overflow-hidden aspect-[3/4] shadow-card hover:shadow-card-hover transition-all duration-300"
             >
               <Image
-                src={dest.image?.url}
+                src={getOptimizedUrl(dest.image?.url, { width: 500 })}
                 alt={`Hotels in ${dest.name}`}
                 fill
+                priority={destinations.indexOf(dest) < 2} // first 2 cards load eagerly, rest lazy
                 sizes="(max-width: 768px) 50vw, 25vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
               />

@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiStar, FiMapPin } from "react-icons/fi";
 import { formatCurrency } from "@/utils/helpers";
+import { getOptimizedUrl } from "@/lib/cloudinary";
 
 export default function HotelCard({ hotel }) {
-  const imageUrl = hotel.images?.[0]?.url || "/placeholder-hotel.jpg";
+  const imageUrl = getOptimizedUrl(hotel.images?.[0]?.url, { width: 600 }) || "/placeholder-hotel.jpg";
 
   return (
     <Link
@@ -17,6 +18,7 @@ export default function HotelCard({ hotel }) {
           src={imageUrl}
           alt={hotel.name}
           fill
+          priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="object-cover group-hover:scale-110 transition-transform duration-500"
         />

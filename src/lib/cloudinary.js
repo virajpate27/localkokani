@@ -25,10 +25,10 @@ export async function uploadToCloudinary(file, folder = "general") {
 
 // Helper to build optimized image URLs on the fly
 export function getOptimizedUrl(url, { width = 800, quality = "auto" } = {}) {
-  if (!url) return "";
+  if (!url || !url.includes("cloudinary.com")) return url;
+  // Insert Cloudinary transformation params right after "/upload/"
   return url.replace("/upload/", `/upload/f_auto,q_${quality},w_${width}/`);
 }
-
 
 export async function deleteFromCloudinary(publicId) {
   if (!publicId) return;

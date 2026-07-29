@@ -12,6 +12,7 @@ import { createHotel, updateHotel } from "@/lib/services/hotelService";
 import { incrementHotelCount, getAllDestinations } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { slugify } from "@/utils/helpers";
+import { triggerRevalidation } from "@/utils/revalidate";
 
 export default function HotelForm({ initialData = null }) {
   const router = useRouter();
@@ -140,11 +141,22 @@ export default function HotelForm({ initialData = null }) {
         for (const img of removedImages) {
           if (img.publicId) await deleteFromCloudinary(img.publicId);
         }
-
+        await triggerRevalidation([
+          "/hotels",
+          "/",
+          `/hotels/${payload.slug}`,
+          `/destinations/${payload.destinationSlug}`,
+        ]);
         toast.success("Hotel updated");
       } else {
         await createHotel(payload);
         await incrementHotelCount(formData.destinationId, 1);
+        await triggerRevalidation([
+          "/hotels",
+          "/",
+          `/hotels/${payload.slug}`,
+          `/destinations/${payload.destinationSlug}`,
+        ]);
         toast.success("Hotel created");
       }
 

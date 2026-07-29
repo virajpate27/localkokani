@@ -9,6 +9,7 @@ import ImageUploader from "./ImageUploader";
 import { createDestination, updateDestination } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { slugify } from "@/utils/helpers";
+import { triggerRevalidation } from "@/utils/revalidate";
 
 export default function DestinationForm({ initialData = null }) {
   const router = useRouter();
@@ -77,6 +78,7 @@ export default function DestinationForm({ initialData = null }) {
         toast.success("Destination updated");
       } else {
         await createDestination(payload);
+        await triggerRevalidation(["/destinations", "/", `/destinations/${payload.slug}`]);
         toast.success("Destination created");
       }
       router.push("/admin/destinations");

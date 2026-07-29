@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, FreeMode } from "swiper/modules";
 import { FiX } from "react-icons/fi";
+import { getOptimizedUrl } from "@/lib/cloudinary";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -18,18 +19,18 @@ export default function HotelGallery({ images = [], hotelName }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-  const handleEscape = (e) => {
-    if (e.key === "Escape") setLightboxOpen(false);
-  };
-  if (lightboxOpen) {
-    document.addEventListener("keydown", handleEscape);
-    document.body.style.overflow = "hidden"; // prevent background scroll
-  }
-  return () => {
-    document.removeEventListener("keydown", handleEscape);
-    document.body.style.overflow = "";
-  };
-}, [lightboxOpen]);
+    const handleEscape = (e) => {
+      if (e.key === "Escape") setLightboxOpen(false);
+    };
+    if (lightboxOpen) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden"; // prevent background scroll
+    }
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [lightboxOpen]);
 
 
 
@@ -54,7 +55,7 @@ export default function HotelGallery({ images = [], hotelName }) {
                 className="relative w-full h-full block cursor-zoom-in"
               >
                 <Image
-                  src={img.url}
+                  src={getOptimizedUrl(img.url, { width: 1200 })}
                   alt={`${hotelName} - photo ${i + 1}`}
                   fill
                   priority={i === 0}
@@ -80,7 +81,7 @@ export default function HotelGallery({ images = [], hotelName }) {
               <SwiperSlide key={i} className="cursor-pointer rounded-lg overflow-hidden opacity-60 hover:opacity-100 transition-opacity [&.swiper-slide-thumb-active]:opacity-100">
                 <div className="relative w-full h-full">
                   <Image
-                    src={img.url}
+                    src={getOptimizedUrl(img.url, { width: 150 })}
                     alt={`Thumbnail ${i + 1}`}
                     fill
                     sizes="120px"
