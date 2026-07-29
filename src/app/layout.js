@@ -6,6 +6,8 @@ import NextTopLoader from "nextjs-toploader";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import JsonLd from "@/components/ui/JsonLd";
+import { generateOrganizationSchema } from "@/utils/helpers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,7 +23,7 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://yourdomain.com"),
+  metadataBase: new URL("https://localkokani.vercel.app"),
   title: {
     default: "StayFinder | Book Hotels & Explore Top Destinations",
     template: "%s | StayFinder",
@@ -34,6 +36,12 @@ export const metadata = {
     locale: "en_US",
     siteName: "StayFinder",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "StayFinder | Book Hotels & Explore Top Destinations",
+    description:
+      "Discover handpicked hotels across top destinations. Best prices, verified stays.",
+  },
   robots: { index: true, follow: true },
 };
 
@@ -41,6 +49,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="font-sans bg-gray-50 text-gray-900 antialiased">
+         <JsonLd data={generateOrganizationSchema()} />
         <AuthProvider>
           <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
           <Navbar />

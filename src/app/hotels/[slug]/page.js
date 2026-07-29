@@ -26,16 +26,24 @@ export async function generateMetadata({ params }) {
     return { title: "Hotel Not Found | StayFinder" };
   }
 
+  const title = `${hotel.name} | ${hotel.destinationName} | StayFinder`;
+  const description =
+    hotel.description?.slice(0, 155) ||
+    `Book ${hotel.name} in ${hotel.destinationName}. Verified stay, best price guarantee.`;
+
   return {
-    title: `${hotel.name} | ${hotel.destinationName} | StayFinder`,
-    description:
-      hotel.description?.slice(0, 155) ||
-      `Book ${hotel.name} in ${hotel.destinationName}. Verified stay, best price guarantee.`,
+    title,
+    description,
     alternates: { canonical: `/hotels/${hotel.slug}` },
     openGraph: {
-      title: `${hotel.name} | StayFinder`,
-      description: hotel.description,
-      images: hotel.images?.[0]?.url ? [hotel.images[0].url] : [],
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
     },
   };
 }
