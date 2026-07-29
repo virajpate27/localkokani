@@ -3,6 +3,7 @@
 
 import { FiX, FiPhone, FiMail, FiCalendar, FiUsers, FiMessageSquare, FiHome } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
+import Link from "next/link";
 
 const statusOptions = [
   { value: "new", label: "New", color: "bg-secondary/10 text-secondary" },
