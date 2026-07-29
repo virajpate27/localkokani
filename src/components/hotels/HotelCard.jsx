@@ -5,7 +5,7 @@ import { FiStar, FiMapPin } from "react-icons/fi";
 import { formatCurrency } from "@/utils/helpers";
 import { getOptimizedUrl } from "@/lib/cloudinary";
 
-export default function HotelCard({ hotel }) {
+export default function HotelCard({ hotel, priority = false }) {
   const imageUrl = getOptimizedUrl(hotel.images?.[0]?.url, { width: 600 }) || "/placeholder-hotel.jpg";
 
   return (

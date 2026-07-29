@@ -1,12 +1,22 @@
 // src/app/page.js
+import dynamic from "next/dynamic";
 import Hero from "@/components/home/Hero";
 import FeaturedDestinations from "@/components/home/FeaturedDestinations";
 import FeaturedHotels from "@/components/home/FeaturedHotels";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
-import Testimonials from "@/components/home/Testimonials";
 import CtaBanner from "@/components/home/CtaBanner";
 
+
+// Dynamically import Testimonials since Swiper's JS isn't needed until scrolled into view
+const Testimonials = dynamic(() => import("@/components/home/Testimonials"), {
+  loading: () => <div className="h-96 bg-gray-50" />, // prevents layout shift while chunk loads
+});
+
+
 export const revalidate = 3600; // regenerate page every 1 hour
+
+
+
 
 export const metadata = {
   title: "StayFinder | Book Hotels & Explore Top Destinations",
