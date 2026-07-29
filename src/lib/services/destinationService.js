@@ -12,9 +12,11 @@ import {
   orderBy,
   limit as fbLimit,
   serverTimestamp,
+  increment,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { serializeDoc, serializeDocs } from "@/utils/helpers";
+
 
 const COLLECTION = "destinations";
 
@@ -76,4 +78,9 @@ export async function updateDestination(id, data) {
 export async function deleteDestination(id) {
   const docRef = doc(db, COLLECTION, id);
   return deleteDoc(docRef);
+}
+
+export async function incrementHotelCount(destinationId, amount = 1) {
+  const docRef = doc(db, COLLECTION, destinationId);
+  return updateDoc(docRef, { hotelCount: increment(amount) });
 }
