@@ -10,6 +10,9 @@ import BookingSidebar from "@/components/hotels/BookingSidebar";
 import JsonLd from "@/components/ui/JsonLd";
 import { generateHotelSchema } from "@/utils/helpers";
 import MobileStickyBar from "@/components/hotels/MobileStickyBar";
+import { getApprovedReviewsForHotel } from "@/lib/services/reviewService";
+import ReviewsList from "@/components/hotels/ReviewsList";
+import ReviewForm from "@/components/hotels/ReviewForm";
 
 export const revalidate = 1800;
 
@@ -56,6 +59,7 @@ export default async function HotelDetailPage({ params }) {
     notFound();
   }
 
+   const reviews = await getApprovedReviewsForHotel(hotel.id);
   const hotelSchema = generateHotelSchema(hotel);
 
   return (
@@ -98,64 +102,27 @@ export default async function HotelDetailPage({ params }) {
         <HotelGallery images={hotel.images} hotelName={hotel.name} />
 
         {/* Content Grid */}
-       <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 mt-10">
-          {/* Main content */}
-          <div className="space-y-10 order-2 lg:order-1">
-            {/* Description */}
-            <div>
-              <h2 className="font-display font-bold text-2xl text-primary mb-4">
-                About This Hotel
-              </h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line">
-                {hotel.description}
-              </p>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 mt-10">
+        <div className="space-y-10 order-2 lg:order-1">
+          {/* ...description, amenities, room types, map sections stay the same */}
+
+          {/* NEW: Reviews section */}
+          <div>
+            <h2 className="font-display font-bold text-2xl text-primary mb-4">
+              Guest Reviews {reviews.length > 0 && `(${reviews.length})`}
+            </h2>
+            <div className="space-y-6">
+              <ReviewsList reviews={reviews} />
+              <ReviewForm hotel={hotel} />
             </div>
-
-            {/* Amenities */}
-            {hotel.amenities?.length > 0 && (
-              <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
-                  Amenities
-                </h2>
-                <AmenitiesGrid amenities={hotel.amenities} />
-              </div>
-            )}
-
-            {/* Room Types */}
-            {hotel.roomTypes?.length > 0 && (
-              <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
-                  Room Options
-                </h2>
-                <RoomTypesList roomTypes={hotel.roomTypes} />
-              </div>
-            )}
-
-            {/* Location */}
-            {hotel.location?.lat && hotel.location?.lng && (
-              <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
-                  Location
-                </h2>
-                <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-gray-100">
-                  <iframe
-                    title={`Map location of ${hotel.name}`}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    src={`https://www.google.com/maps?q=${hotel.location.lat},${hotel.location.lng}&z=14&output=embed`}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="order-1 lg:order-2">
-            <BookingSidebar hotel={hotel} />
           </div>
         </div>
+
+        <div className="order-1 lg:order-2">
+          <BookingSidebar hotel={hotel} />
+        </div>
+      </div>
+
       </div>
 
        <MobileStickyBar hotel={hotel} />

@@ -8,6 +8,7 @@ const pageTitles = {
   "/admin/destinations": "Destinations",
   "/admin/hotels": "Hotels",
   "/admin/leads": "Leads & Enquiries",
+  "/admin/reviews": "Reviews",
 };
 
 export default function AdminTopbar() {

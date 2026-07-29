@@ -4,10 +4,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  FiGrid, FiMapPin, FiHome, FiMessageSquare,
-  FiLogOut, FiMenu, FiX
-} from "react-icons/fi";
+import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX } from "react-icons/fi";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -18,6 +15,7 @@ const navItems = [
   { label: "Destinations", href: "/admin/destinations", icon: FiMapPin },
   { label: "Hotels", href: "/admin/hotels", icon: FiHome },
   { label: "Leads", href: "/admin/leads", icon: FiMessageSquare },
+  { label: "Reviews", href: "/admin/reviews", icon: FiStar },
 ];
 
 export default function AdminSidebar() {
