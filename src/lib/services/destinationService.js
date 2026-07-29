@@ -25,11 +25,9 @@ export async function getAllDestinations() {
     query(collection(db, COLLECTION), orderBy("name", "asc"))
   );
   return serializeDocs(
-    snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data(),
-      hotelCount: d.data().hotelCount || 0,
-    }))
+    snap.docs
+      .map((d) => ({ id: d.id, ...d.data(), hotelCount: d.data().hotelCount || 0 }))
+      .filter((d) => !d.archived)
   );
 }
 
@@ -83,4 +81,14 @@ export async function deleteDestination(id) {
 export async function incrementHotelCount(destinationId, amount = 1) {
   const docRef = doc(db, COLLECTION, destinationId);
   return updateDoc(docRef, { hotelCount: increment(amount) });
+}
+
+export async function archiveDestination(id) {
+  const docRef = doc(db, COLLECTION, id);
+  return updateDoc(docRef, { archived: true, featured: false, updatedAt: serverTimestamp() });
+}
+
+export async function restoreDestination(id) {
+  const docRef = doc(db, COLLECTION, id);
+  return updateDoc(docRef, { archived: false, updatedAt: serverTimestamp() });
 }

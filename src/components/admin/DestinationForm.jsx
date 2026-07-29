@@ -111,9 +111,8 @@ export default function DestinationForm({ initialData = null }) {
               value={formData.name}
               onChange={handleChange}
               placeholder="e.g. Goa"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
@@ -128,9 +127,8 @@ export default function DestinationForm({ initialData = null }) {
               value={formData.country}
               onChange={handleChange}
               placeholder="e.g. India"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.country ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.country ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
             {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
           </div>
@@ -146,9 +144,8 @@ export default function DestinationForm({ initialData = null }) {
             onChange={handleChange}
             rows={4}
             placeholder="A short, appealing description of this destination..."
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${
-              errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
@@ -211,7 +208,13 @@ export default function DestinationForm({ initialData = null }) {
         </button>
         <button
           type="button"
-          onClick={() => router.push("/admin/destinations")}
+          onClick={async () => {
+            // If a new image was uploaded but not saved, and it's different from the original, clean it up
+            if (image?.publicId && image.publicId !== originalImage?.publicId) {
+              await deleteFromCloudinary(image.publicId);
+            }
+            router.push("/admin/destinations");
+          }}
           className="text-gray-500 font-medium text-sm hover:text-primary"
         >
           Cancel

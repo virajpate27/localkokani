@@ -115,3 +115,13 @@ export async function deleteHotel(id) {
   const docRef = doc(db, COLLECTION, id);
   return deleteDoc(docRef);
 }
+
+export async function archiveHotel(id) {
+  const docRef = doc(db, COLLECTION, id);
+  return updateDoc(docRef, { status: "archived", updatedAt: serverTimestamp() });
+}
+
+export async function restoreHotel(id) {
+  const docRef = doc(db, COLLECTION, id);
+  return updateDoc(docRef, { status: "active", updatedAt: serverTimestamp() });
+}

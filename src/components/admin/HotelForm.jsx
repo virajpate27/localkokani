@@ -177,9 +177,8 @@ export default function HotelForm({ initialData = null }) {
               value={formData.name}
               onChange={handleChange}
               placeholder="e.g. The Leela Goa"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
@@ -191,9 +190,8 @@ export default function HotelForm({ initialData = null }) {
               value={formData.destinationId}
               onChange={handleChange}
               disabled={isLoadingDestinations}
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${
-                errors.destinationId ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${errors.destinationId ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             >
               <option value="">
                 {isLoadingDestinations ? "Loading..." : "Select a destination"}
@@ -223,9 +221,8 @@ export default function HotelForm({ initialData = null }) {
             onChange={handleChange}
             rows={4}
             placeholder="Describe the hotel's highlights, atmosphere, and unique features..."
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${
-              errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
@@ -238,9 +235,8 @@ export default function HotelForm({ initialData = null }) {
             value={formData.address}
             onChange={handleChange}
             placeholder="e.g. Cavelossim Beach, South Goa"
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-              errors.address ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.address ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
           {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
         </div>
@@ -260,9 +256,8 @@ export default function HotelForm({ initialData = null }) {
               value={formData.price}
               onChange={handleChange}
               placeholder="e.g. 4500"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.price ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.price ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
             {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
           </div>
@@ -295,9 +290,8 @@ export default function HotelForm({ initialData = null }) {
               value={formData.rating}
               onChange={handleChange}
               placeholder="e.g. 4.5"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.rating ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.rating ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
             {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
           </div>
@@ -391,7 +385,16 @@ export default function HotelForm({ initialData = null }) {
         </button>
         <button
           type="button"
-          onClick={() => router.push("/admin/hotels")}
+          onClick={async () => {
+            // Find images that were uploaded during this session but aren't part of the original data
+            const newlyUploaded = images.filter(
+              (img) => !originalImages.some((orig) => orig.publicId === img.publicId)
+            );
+            for (const img of newlyUploaded) {
+              if (img.publicId) await deleteFromCloudinary(img.publicId);
+            }
+            router.push("/admin/hotels");
+          }}
           className="text-gray-500 font-medium text-sm hover:text-primary"
         >
           Cancel
