@@ -1,7 +1,7 @@
 // src/components/admin/AdminSidebar.jsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -11,6 +11,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { getNewLeadsCount } from "@/lib/services/dashboardService";
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: FiGrid },
@@ -24,6 +25,11 @@ export default function AdminSidebar() {
   const { logout, user } = useAuth();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [newLeadsCount, setNewLeadsCount] = useState(0);
+
+  useEffect(() => {
+    getNewLeadsCount().then(setNewLeadsCount).catch(() => { });
+  }, [pathname]);
 
   const handleLogout = async () => {
     try {
@@ -60,14 +66,16 @@ export default function AdminSidebar() {
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${
-                isActive
-                  ? "bg-white/10 text-white"
-                  : "text-white/60 hover:bg-white/5 hover:text-white"
-              }`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${isActive ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
+                }`}
             >
               <item.icon className={isActive ? "text-accent" : ""} />
               {item.label}
+              {item.href === "/admin/leads" && newLeadsCount > 0 && (
+                <span className="ml-auto bg-accent text-white text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                  {newLeadsCount}
+                </span>
+              )}
             </Link>
           );
         })}
