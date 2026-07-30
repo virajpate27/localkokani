@@ -185,6 +185,7 @@ export default function HotelEnquiryForm({ hotel }) {
       <form onSubmit={handleReviewClick} className="space-y-4">
         {/* Name */}
         <div>
+          
           <div className="relative">
             <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
             <input

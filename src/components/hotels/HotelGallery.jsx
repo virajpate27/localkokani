@@ -53,6 +53,7 @@ export default function HotelGallery({ images = [], hotelName }) {
               <button
                 onClick={() => setLightboxOpen(true)}
                 className="relative w-full h-full block cursor-zoom-in"
+                 aria-label={`View larger image ${i + 1} of ${galleryImages.length}`}
               >
                 <Image
                   src={getOptimizedUrl(img.url, { width: 1200 })}

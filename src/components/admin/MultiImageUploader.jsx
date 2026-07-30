@@ -104,6 +104,7 @@ export default function MultiImageUploader({
                     onClick={() => setAsPrimary(index)}
                     className="w-8 h-8 rounded-full bg-white/90 text-primary flex items-center justify-center hover:bg-white"
                     title="Set as cover photo"
+                    aria-label="Set as cover photo"
                   >
                     <FiStar className="text-sm" />
                   </button>

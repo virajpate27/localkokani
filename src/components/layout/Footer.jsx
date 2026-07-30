@@ -28,9 +28,9 @@ export default function Footer() {
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
               <FiMapPin className="text-accent text-xl" />
             </div>
-            <span className="font-display font-bold text-2xl">
-              Stay<span className="text-accent">Finder</span>
-            </span>
+           <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
+  Stay<span className="text-accent-dark">Finder</span>
+</span>
           </div>
           <p className="text-white/70 text-sm leading-relaxed">
             Handpicked hotels across top destinations. Verified stays, honest

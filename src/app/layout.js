@@ -9,6 +9,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import JsonLd from "@/components/ui/JsonLd";
 import { generateOrganizationSchema } from "@/utils/helpers";
 import { WishlistProvider } from "@/context/WishlistContext";
+import Link from "next/link";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,6 +51,9 @@ export default function RootLayout({ children }) {
   return (
       <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="font-sans bg-gray-50 text-gray-900 antialiased">
+        <Link href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+          Skip to main content
+        </Link>
         <JsonLd data={generateOrganizationSchema()} />
         <AuthProvider>
           <WishlistProvider>

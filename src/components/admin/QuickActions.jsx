@@ -8,7 +8,7 @@ export default function QuickActions() {
       <h3 className="font-display font-semibold text-primary mb-4">
         Quick Actions
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-1 gap-3">
         <Link
           href="/admin/destinations/new"
           className="flex items-center gap-3 border border-gray-100 rounded-xl p-4 hover:border-secondary hover:bg-secondary/5 transition-colors"
