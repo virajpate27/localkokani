@@ -14,7 +14,6 @@ import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { slugify } from "@/utils/helpers";
 import { triggerRevalidation } from "@/utils/revalidate";
 
-
 export default function HotelForm({ initialData = null }) {
   const router = useRouter();
   const isEditMode = !!initialData;
@@ -125,14 +124,26 @@ export default function HotelForm({ initialData = null }) {
           : null,
     };
 
-
+    // Collect every public path that needs fresh data after this save,
+    // including old slug/destination paths in case of a rename or move.
+    const pathsToRevalidate = new Set([
+      "/hotels",
+      "/",
+      `/hotels/${payload.slug}`,
+      `/destinations/${payload.destinationSlug}`,
+    ]);
 
     try {
-
-     
-
-
       if (isEditMode) {
+        if (initialData.slug !== payload.slug) {
+          pathsToRevalidate.add(`/hotels/${initialData.slug}`);
+        }
+        if (initialData.destinationSlug !== payload.destinationSlug) {
+          if (initialData.destinationSlug) {
+            pathsToRevalidate.add(`/destinations/${initialData.destinationSlug}`);
+          }
+        }
+
         await updateHotel(initialData.id, payload);
 
         // If destination changed, adjust hotelCount on both old and new destination
@@ -149,27 +160,15 @@ export default function HotelForm({ initialData = null }) {
           if (img.publicId) await deleteFromCloudinary(img.publicId);
         }
 
-
-        
-
-
-        await triggerRevalidation([
-          "/hotels",
-          "/",
-          `/hotels/${payload.slug}`,
-          `/destinations/${payload.destinationSlug}`,
-        ]);
+        await triggerRevalidation(Array.from(pathsToRevalidate));
 
         toast.success("Hotel updated");
       } else {
         await createHotel(payload);
         await incrementHotelCount(formData.destinationId, 1);
-        await triggerRevalidation([
-          "/hotels",
-          "/",
-          `/hotels/${payload.slug}`,
-          `/destinations/${payload.destinationSlug}`,
-        ]);
+
+        await triggerRevalidation(Array.from(pathsToRevalidate));
+
         toast.success("Hotel created");
       }
 
@@ -181,6 +180,17 @@ export default function HotelForm({ initialData = null }) {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleCancel = async () => {
+    // Clean up any newly-uploaded (unsaved) images so nothing is orphaned in Cloudinary
+    const newlyUploaded = images.filter(
+      (img) => !originalImages.some((orig) => orig.publicId === img.publicId)
+    );
+    for (const img of newlyUploaded) {
+      if (img.publicId) await deleteFromCloudinary(img.publicId);
+    }
+    router.push("/admin/hotels");
   };
 
   return (
@@ -202,8 +212,9 @@ export default function HotelForm({ initialData = null }) {
               value={formData.name}
               onChange={handleChange}
               placeholder="e.g. The Leela Goa"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
-                }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+                errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
@@ -215,8 +226,9 @@ export default function HotelForm({ initialData = null }) {
               value={formData.destinationId}
               onChange={handleChange}
               disabled={isLoadingDestinations}
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${errors.destinationId ? "border-red-300" : "border-gray-200 focus:border-secondary"
-                }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${
+                errors.destinationId ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
             >
               <option value="">
                 {isLoadingDestinations ? "Loading..." : "Select a destination"}
@@ -231,7 +243,7 @@ export default function HotelForm({ initialData = null }) {
               <p className="text-red-500 text-xs mt-1">{errors.destinationId}</p>
             )}
             {destinations.length === 0 && !isLoadingDestinations && (
-              <p className="text-accent text-xs mt-1">
+              <p className="text-accent-dark text-xs mt-1">
                 No destinations found — add one first.
               </p>
             )}
@@ -246,8 +258,9 @@ export default function HotelForm({ initialData = null }) {
             onChange={handleChange}
             rows={4}
             placeholder="Describe the hotel's highlights, atmosphere, and unique features..."
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${
+              errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            }`}
           />
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
@@ -260,8 +273,9 @@ export default function HotelForm({ initialData = null }) {
             value={formData.address}
             onChange={handleChange}
             placeholder="e.g. Cavelossim Beach, South Goa"
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.address ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+              errors.address ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            }`}
           />
           {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
         </div>
@@ -281,8 +295,9 @@ export default function HotelForm({ initialData = null }) {
               value={formData.price}
               onChange={handleChange}
               placeholder="e.g. 4500"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.price ? "border-red-300" : "border-gray-200 focus:border-secondary"
-                }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+                errors.price ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
             />
             {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
           </div>
@@ -315,8 +330,9 @@ export default function HotelForm({ initialData = null }) {
               value={formData.rating}
               onChange={handleChange}
               placeholder="e.g. 4.5"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.rating ? "border-red-300" : "border-gray-200 focus:border-secondary"
-                }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+                errors.rating ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
             />
             {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
           </div>
@@ -395,6 +411,7 @@ export default function HotelForm({ initialData = null }) {
           >
             <option value="active">Active (visible to public)</option>
             <option value="draft">Draft (hidden from public)</option>
+            <option value="archived">Archived (hidden from public)</option>
           </select>
         </div>
       </div>
@@ -410,16 +427,7 @@ export default function HotelForm({ initialData = null }) {
         </button>
         <button
           type="button"
-          onClick={async () => {
-            // Find images that were uploaded during this session but aren't part of the original data
-            const newlyUploaded = images.filter(
-              (img) => !originalImages.some((orig) => orig.publicId === img.publicId)
-            );
-            for (const img of newlyUploaded) {
-              if (img.publicId) await deleteFromCloudinary(img.publicId);
-            }
-            router.push("/admin/hotels");
-          }}
+          onClick={handleCancel}
           className="text-gray-500 font-medium text-sm hover:text-primary"
         >
           Cancel
