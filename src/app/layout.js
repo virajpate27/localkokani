@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import JsonLd from "@/components/ui/JsonLd";
 import { generateOrganizationSchema } from "@/utils/helpers";
+import { WishlistProvider } from "@/context/WishlistContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -47,15 +48,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+      <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="font-sans bg-gray-50 text-gray-900 antialiased">
-         <JsonLd data={generateOrganizationSchema()} />
+        <JsonLd data={generateOrganizationSchema()} />
         <AuthProvider>
-          <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <Toaster position="top-center" />
+          <WishlistProvider>
+            <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
+            <Navbar />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+            <Toaster position="top-center" />
+          </WishlistProvider>
         </AuthProvider>
       </body>
     </html>

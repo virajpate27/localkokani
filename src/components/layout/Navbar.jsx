@@ -6,8 +6,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiMenu, FiX, FiSearch, FiMapPin } from "react-icons/fi";
+import { FiMenu, FiX, FiSearch, FiMapPin, FiHeart } from "react-icons/fi";
 import SearchAutosuggest from "@/components/search/SearchAutosuggest";
+
+import { useWishlist } from "@/context/WishlistContext";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -20,7 +22,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
- 
+  const { count } = useWishlist();
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -36,9 +39,8 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-card" : "bg-white/80 backdrop-blur-md"
-      }`}
+      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "bg-white shadow-card" : "bg-white/80 backdrop-blur-md"
+        }`}
     >
       <nav className="container-custom flex items-center justify-between h-20">
         <Link href="/" className="flex items-center gap-2 group shrink-0">
@@ -60,9 +62,8 @@ export default function Navbar() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className={`font-medium transition-colors relative whitespace-nowrap ${
-                      pathname === link.href ? "text-primary" : "text-gray-600 hover:text-primary"
-                    }`}
+                    className={`font-medium transition-colors relative whitespace-nowrap ${pathname === link.href ? "text-primary" : "text-gray-600 hover:text-primary"
+                      }`}
                   >
                     {link.label}
                     {pathname === link.href && (
@@ -76,6 +77,19 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3 shrink-0">
+
+          <Link
+            href="/wishlist"
+            className="relative w-11 h-11 rounded-full flex items-center justify-center bg-gray-100 hover:bg-secondary hover:text-white transition-colors"
+            aria-label="Wishlist"
+          >
+            <FiHeart />
+            {count > 0 && (
+              <span className="absolute -top-1 -right-1 bg-accent text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                {count}
+              </span>
+            )}
+          </Link>
           <button
             onClick={() => setSearchOpen((prev) => !prev)}
             className="w-11 h-11 rounded-full flex items-center justify-center bg-gray-100 hover:bg-secondary hover:text-white transition-colors"
@@ -108,9 +122,8 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-4 py-3 rounded-xl font-medium ${
-                    pathname === link.href ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50"
-                  }`}
+                  className={`block px-4 py-3 rounded-xl font-medium ${pathname === link.href ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50"
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -126,6 +139,16 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
+          <div className="px-4">
+            <Link
+              href="/wishlist"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-600 hover:bg-gray-50"
+            >
+              <FiHeart className="text-secondary" />
+              Wishlist {count > 0 && <span className="text-accent font-semibold">({count})</span>}
+            </Link>
+          </div>
         </div>
       )}
     </header>

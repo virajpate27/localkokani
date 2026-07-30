@@ -4,6 +4,8 @@ import Link from "next/link";
 import { FiStar, FiMapPin } from "react-icons/fi";
 import { formatCurrency } from "@/utils/helpers";
 import { getOptimizedUrl } from "@/lib/cloudinary";
+import WishlistButton from "@/components/ui/WishlistButton";
+
 
 export default function HotelCard({ hotel, priority = false }) {
   const imageUrl = getOptimizedUrl(hotel.images?.[0]?.url, { width: 600 }) || "/placeholder-hotel.jpg";
@@ -26,6 +28,7 @@ export default function HotelCard({ hotel, priority = false }) {
           <FiStar className="text-accent fill-accent" />
           {hotel.rating}
         </div>
+        <WishlistButton hotel={hotel} className="absolute top-3 right-3" />
       </div>
 
       <div className="p-5 flex flex-col flex-1">
