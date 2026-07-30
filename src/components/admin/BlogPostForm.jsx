@@ -11,6 +11,8 @@ import { createPost, updatePost } from "@/lib/services/blogService";
 import { getAllDestinations } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { slugify } from "@/utils/helpers";
+import { triggerRevalidation } from "@/utils/revalidate";
+
 
 const CATEGORIES = ["Travel Guide", "Tips & Tricks", "Food & Culture", "Adventure", "Budget Travel"];
 
@@ -90,25 +92,40 @@ export default function BlogPostForm({ initialData = null }) {
       },
     };
 
-    try {
-      if (isEditMode) {
-        await updatePost(initialData.id, payload, initialData.published);
-        if (originalImage?.publicId && originalImage.publicId !== coverImage?.publicId) {
-          await deleteFromCloudinary(originalImage.publicId);
-        }
-        toast.success("Post updated");
-      } else {
-        await createPost(payload);
-        toast.success("Post created");
-      }
-      router.push("/admin/blog");
-      router.refresh();
-    } catch (error) {
-      console.error("Save post error:", error);
-      toast.error("Failed to save post. Please try again.");
-    } finally {
-      setIsSaving(false);
+   try {
+  const pathsToRevalidate = new Set(["/blog", `/blog/${payload.slug}`]);
+
+  if (isEditMode) {
+    if (initialData.slug !== payload.slug) {
+      pathsToRevalidate.add(`/blog/${initialData.slug}`);
     }
+    // If the linked destination changed, revalidate both old and new destination pages too,
+    // since blog posts can appear in a destination's related content (if you add that later)
+    if (initialData.destinationSlug !== payload.destinationSlug) {
+      if (initialData.destinationSlug) pathsToRevalidate.add(`/destinations/${initialData.destinationSlug}`);
+      if (payload.destinationSlug) pathsToRevalidate.add(`/destinations/${payload.destinationSlug}`);
+    }
+
+    await updatePost(initialData.id, payload, initialData.published);
+    if (originalImage?.publicId && originalImage.publicId !== coverImage?.publicId) {
+      await deleteFromCloudinary(originalImage.publicId);
+    }
+    toast.success("Post updated");
+  } else {
+    await createPost(payload);
+    toast.success("Post created");
+  }
+
+  await triggerRevalidation(Array.from(pathsToRevalidate));
+
+  router.push("/admin/blog");
+  router.refresh();
+} catch (error) {
+  console.error("Save post error:", error);
+  toast.error("Failed to save post. Please try again.");
+} finally {
+  setIsSaving(false);
+}
   };
 
   return (

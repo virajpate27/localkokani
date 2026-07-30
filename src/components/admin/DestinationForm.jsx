@@ -67,10 +67,15 @@ export default function DestinationForm({ initialData = null }) {
     };
 
     try {
+      const pathsToRevalidate = new Set(["/destinations", "/", `/destinations/${payload.slug}`]);
+
       if (isEditMode) {
+        if (initialData.slug !== payload.slug) {
+          pathsToRevalidate.add(`/destinations/${initialData.slug}`);
+        }
+
         await updateDestination(initialData.id, payload);
 
-        // If the image was changed/removed, clean up the old one in Cloudinary
         if (originalImage?.publicId && originalImage.publicId !== image?.publicId) {
           await deleteFromCloudinary(originalImage.publicId);
         }
@@ -78,9 +83,11 @@ export default function DestinationForm({ initialData = null }) {
         toast.success("Destination updated");
       } else {
         await createDestination(payload);
-        await triggerRevalidation(["/destinations", "/", `/destinations/${payload.slug}`]);
         toast.success("Destination created");
       }
+
+      await triggerRevalidation(Array.from(pathsToRevalidate));
+
       router.push("/admin/destinations");
       router.refresh();
     } catch (error) {

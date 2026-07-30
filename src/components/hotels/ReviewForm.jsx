@@ -37,6 +37,7 @@ export default function ReviewForm({ hotel }) {
       await createReview({
         hotelId: hotel.id,
         hotelName: hotel.name,
+        hotelSlug: hotel.slug,
         guestName: guestName.trim(),
         rating,
         comment: comment.trim(),

@@ -14,6 +14,7 @@ import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { slugify } from "@/utils/helpers";
 import { triggerRevalidation } from "@/utils/revalidate";
 
+
 export default function HotelForm({ initialData = null }) {
   const router = useRouter();
   const isEditMode = !!initialData;
@@ -124,7 +125,13 @@ export default function HotelForm({ initialData = null }) {
           : null,
     };
 
+
+
     try {
+
+     
+
+
       if (isEditMode) {
         await updateHotel(initialData.id, payload);
 
@@ -141,12 +148,18 @@ export default function HotelForm({ initialData = null }) {
         for (const img of removedImages) {
           if (img.publicId) await deleteFromCloudinary(img.publicId);
         }
+
+
+        
+
+
         await triggerRevalidation([
           "/hotels",
           "/",
           `/hotels/${payload.slug}`,
           `/destinations/${payload.destinationSlug}`,
         ]);
+
         toast.success("Hotel updated");
       } else {
         await createHotel(payload);

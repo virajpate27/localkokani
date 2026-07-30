@@ -9,6 +9,8 @@ import {
   approveReview,
   rejectReview,
 } from "@/lib/services/reviewService";
+import { triggerRevalidation } from "@/utils/revalidate";
+
 
 const filterTabs = [
   { value: "pending", label: "Pending" },
@@ -48,35 +50,48 @@ export default function AdminReviewsPage() {
     loadReviews();
   }, []);
 
-  const handleApprove = async (review) => {
-    setProcessingId(review.id);
-    try {
-      await approveReview(review.id, review.hotelId);
-      setReviews((prev) =>
-        prev.map((r) => (r.id === review.id ? { ...r, approved: true } : r))
-      );
-      toast.success("Review approved and published");
-    } catch (error) {
-      console.error("Approve error:", error);
-      toast.error("Failed to approve review");
-    } finally {
-      setProcessingId(null);
+ const handleApprove = async (review) => {
+  setProcessingId(review.id);
+  try {
+    await approveReview(review.id, review.hotelId);
+    setReviews((prev) =>
+      prev.map((r) => (r.id === review.id ? { ...r, approved: true } : r))
+    );
+
+    // Need the hotel's slug to revalidate its public page — fetch it if not already available
+    // Since review.hotelId is what we have, look it up via the hotel data we might already have,
+    // or add hotelSlug to the review document itself at creation time (better long-term fix below)
+    if (review.hotelSlug) {
+      await triggerRevalidation([`/hotels/${review.hotelSlug}`]);
     }
-  };
+
+    toast.success("Review approved and published");
+  } catch (error) {
+    console.error("Approve error:", error);
+    toast.error("Failed to approve review");
+  } finally {
+    setProcessingId(null);
+  }
+};
 
   const handleReject = async (review) => {
-    setProcessingId(review.id);
-    try {
-      await rejectReview(review.id, review.hotelId);
-      setReviews((prev) => prev.filter((r) => r.id !== review.id));
-      toast.success("Review rejected and removed");
-    } catch (error) {
-      console.error("Reject error:", error);
-      toast.error("Failed to reject review");
-    } finally {
-      setProcessingId(null);
+  setProcessingId(review.id);
+  try {
+    await rejectReview(review.id, review.hotelId);
+    setReviews((prev) => prev.filter((r) => r.id !== review.id));
+
+    if (review.hotelSlug) {
+      await triggerRevalidation([`/hotels/${review.hotelSlug}`]);
     }
-  };
+
+    toast.success("Review rejected and removed");
+  } catch (error) {
+    console.error("Reject error:", error);
+    toast.error("Failed to delete review");
+  } finally {
+    setProcessingId(null);
+  }
+};
 
   const filteredReviews = reviews.filter((r) => {
     if (filter === "pending") return !r.approved;
