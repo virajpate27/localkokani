@@ -22,7 +22,7 @@ export function WishlistProvider({ children }) {
     } finally {
       setIsLoaded(true);
     }
-  }, []);
+  }, []); 
 
   // Persist to localStorage whenever it changes (but skip the initial mount)
   useEffect(() => {
