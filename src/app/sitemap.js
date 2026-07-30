@@ -1,18 +1,42 @@
 // src/app/sitemap.js
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { getAllPublishedPosts } from "@/lib/services/blogService";
 
-const BASE_URL = "https://yourdomain.com";
+const BASE_URL = "https://localkokani.vercel.app";
 
 export default async function sitemap() {
   const staticRoutes = [
-    { url: `${BASE_URL}/`, changeFrequency: "daily", priority: 1, lastModified: new Date() },
-    { url: `${BASE_URL}/destinations`, changeFrequency: "daily", priority: 0.9, lastModified: new Date() },
-    { url: `${BASE_URL}/hotels`, changeFrequency: "daily", priority: 0.9, lastModified: new Date() },
+    {
+      url: `${BASE_URL}/`,
+      changeFrequency: "daily",
+      priority: 1,
+      lastModified: new Date(),
+    },
+    {
+      url: `${BASE_URL}/destinations`,
+      changeFrequency: "daily",
+      priority: 0.9,
+      lastModified: new Date(),
+    },
+    {
+      url: `${BASE_URL}/hotels`,
+      changeFrequency: "daily",
+      priority: 0.9,
+      lastModified: new Date(),
+    },
   ];
 
   let destinationRoutes = [];
   let hotelRoutes = [];
+
+  const posts = await getAllPublishedPosts();
+  const blogRoutes = posts.map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    changeFrequency: "monthly",
+    priority: 0.7,
+    lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(),
+  }));
 
   try {
     const destSnap = await getDocs(collection(db, "destinations"));
