@@ -23,7 +23,7 @@ export async function getAllPublishedPosts() {
   const snap = await getDocs(
     query(
       collection(db, COLLECTION),
-      where("published", "==", true),
+      where("published", "==", true), // ✅ already present
       orderBy("publishedAt", "desc")
     )
   );
@@ -32,12 +32,16 @@ export async function getAllPublishedPosts() {
 
 export async function getPublishedPostBySlug(slug) {
   const snap = await getDocs(
-    query(collection(db, COLLECTION), where("slug", "==", slug), fbLimit(1))
+    query(
+      collection(db, COLLECTION),
+      where("slug", "==", slug),
+      where("published", "==", true), 
+      fbLimit(1)
+    )
   );
   if (snap.empty) return null;
   const docSnap = snap.docs[0];
-  const post = serializeDoc({ id: docSnap.id, ...docSnap.data() });
-  return post.published ? post : null;
+  return serializeDoc({ id: docSnap.id, ...docSnap.data() });
 }
 
 // Related posts — same destination, excluding the current post
@@ -47,8 +51,8 @@ export async function getRelatedPosts(destinationSlug, excludeId, limitCount = 3
     query(
       collection(db, COLLECTION),
       where("destinationSlug", "==", destinationSlug),
-      where("published", "==", true),
-      fbLimit(limitCount + 1) // fetch one extra in case we need to exclude current post
+      where("published", "==", true), // ✅ already present — this one is fine
+      fbLimit(limitCount + 1)
     )
   );
   return serializeDocs(
