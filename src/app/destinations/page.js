@@ -84,21 +84,21 @@ export default async function DestinationsPage() {
                       {dest.description}
                     </p>
                   </div>
-                 <div className="px-5 pb-5 flex items-center justify-between flex-wrap gap-y-1">
-  <div className="flex items-center gap-4">
-    <span className="flex items-center gap-1.5 text-secondary font-medium text-sm">
-      <FiHome /> {dest.hotelCount || 0} hotels
-    </span>
-    {dest.restaurantCount > 0 && (
-      <span className="flex items-center gap-1.5 text-accent-dark font-medium text-sm">
-        <FiCoffee /> {dest.restaurantCount} restaurants
-      </span>
-    )}
-  </div>
-  <span className="text-primary font-medium text-sm group-hover:translate-x-1 transition-transform inline-block">
-    Explore →
-  </span>
-</div>
+                  <div className="px-5 pb-5 flex items-center justify-between flex-wrap gap-y-1">
+                    <div className="flex items-center gap-4">
+                      <span className="flex items-center gap-1.5 text-secondary font-medium text-sm">
+                        <FiHome /> {dest.hotelCount || 0} hotels
+                      </span>
+                      {dest.restaurantCount > 0 && (
+                        <span className="flex items-center gap-1.5 text-accent-dark font-medium text-sm">
+                          <FiCoffee /> {dest.restaurantCount} restaurants
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-primary font-medium text-sm group-hover:translate-x-1 transition-transform inline-block">
+                      Explore →
+                    </span>
+                  </div>
                 </Link>
               ))}
             </div>

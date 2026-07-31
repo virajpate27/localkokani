@@ -44,23 +44,23 @@ export default async function FeaturedDestinations() {
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent" />
-             <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-  <h3 className="font-display font-semibold text-lg">
-    {dest.name}
-  </h3>
-  <div className="flex items-center gap-3 mt-1">
-    <p className="flex items-center gap-1.5 text-white/80 text-sm">
-      <FiHome className="text-accent" />
-      {dest.hotelCount || 0} hotels
-    </p>
-    {dest.restaurantCount > 0 && (
-      <p className="flex items-center gap-1.5 text-white/80 text-sm">
-        <FiCoffee className="text-accent" />
-        {dest.restaurantCount}
-      </p>
-    )}
-  </div>
-</div>
+              <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                <h3 className="font-display font-semibold text-lg">
+                  {dest.name}
+                </h3>
+                <div className="flex items-center gap-3 mt-1">
+                  <p className="flex items-center gap-1.5 text-white/80 text-sm">
+                    <FiHome className="text-accent" />
+                    {dest.hotelCount || 0} hotels
+                  </p>
+                  {dest.restaurantCount > 0 && (
+                    <p className="flex items-center gap-1.5 text-white/80 text-sm">
+                      <FiCoffee className="text-accent" />
+                      {dest.restaurantCount}
+                    </p>
+                  )}
+                </div>
+              </div>
             </Link>
           ))}
         </div>

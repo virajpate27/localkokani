@@ -1,7 +1,7 @@
 // src/app/destinations/[slug]/page.js
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { FiMapPin, FiHome, FiStar } from "react-icons/fi";
+import { FiMapPin, FiHome, FiStar,FiCoffee } from "react-icons/fi";
 import {
   getDestinationBySlug,
   getAllDestinations,
@@ -98,6 +98,17 @@ export default async function DestinationDetailPage({ params }) {
             <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
               <FiHome className="text-accent" />
               {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
+              available
+            </p>
+             <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
+              <FiHome className="text-accent" />
+              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
+              available
+            </p>
+
+             <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
+              <FiHome className="text-accent" />
+              {restaurants.length} {restaurants.length === 1 ? "restaurant" : "restaurants"}{" "}
               available
             </p>
           </div>
