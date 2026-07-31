@@ -78,25 +78,33 @@ export default async function HotelDetailPage({ params }) {
 
       <div className="container-custom py-8 pb-24 lg:pb-8">
         {/* Header */}
-      <div className="mb-6">
-  <p className="flex items-center gap-1.5 text-secondary font-medium text-sm uppercase tracking-wide">
-    <FiMapPin /> {hotel.destinationName}
-  </p>
-  <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
-    <div className="flex flex-wrap items-center gap-3">
-      <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
-        {hotel.name}
-      </h1>
-      <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
-        <FiStar className="text-accent fill-accent text-sm" />
-        <span className="font-semibold text-primary text-sm">{hotel.rating}</span>
-        <span className="text-gray-400 text-xs">({hotel.reviewCount} reviews)</span>
-      </div>
-    </div>
-    <WishlistButton hotel={hotel} size="text-xl" className="!bg-gray-100 shadow-none" />
-  </div>
-  <p className="text-gray-500 mt-1">{hotel.address}</p>
-</div>
+        <div className="mb-6">
+          <p className="flex items-center gap-1.5 text-secondary font-medium text-sm uppercase tracking-wide">
+            <FiMapPin /> {hotel.destinationName}
+          </p>
+          <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
+                {hotel.name}
+              </h1>
+              <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
+                <FiStar className="text-accent fill-accent text-sm" />
+                <span className="font-semibold text-primary text-sm">
+                  {hotel.rating}
+                </span>
+                <span className="text-gray-400 text-xs">
+                  ({hotel.reviewCount} reviews)
+                </span>
+              </div>
+            </div>
+            <WishlistButton
+              hotel={hotel}
+              size="text-xl"
+              className="!bg-gray-100 shadow-none"
+            />
+          </div>
+          <p className="text-gray-500 mt-1">{hotel.address}</p>
+        </div>
 
         {/* Gallery */}
         <HotelGallery images={hotel.images} hotelName={hotel.name} />
