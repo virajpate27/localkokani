@@ -104,15 +104,11 @@ export default async function RestaurantDetailPage({ params }) {
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3">
             <p className="flex items-center gap-1.5 text-gray-600 text-sm font-medium">
-              <FaRupeeSign className="text-secondary" />
+             
               {restaurant.costForTwo
                 ? `${formatCurrency(restaurant.costForTwo)} for two`
                 : restaurant.priceRange}
-              {restaurant.costForTwo && (
-                <span className="text-gray-400 font-normal">
-                  · {restaurant.priceRange}
-                </span>
-              )}
+             
             </p>
             {restaurant.openingHours && (
               <p className="flex items-center gap-1.5 text-gray-500 text-sm">

@@ -49,19 +49,7 @@ export default function RestaurantCard({ restaurant, priority = false }) {
         </div>
 
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-          <div>
-            {restaurant.costForTwo ? (
-              <>
-                <p className="font-display font-bold text-primary text-sm">
-                  {formatCurrency(restaurant.costForTwo)}
-                  <span className="text-xs font-normal text-gray-400"> for two</span>
-                </p>
-                <p className="text-gray-400 text-xs">{restaurant.priceRange}</p>
-              </>
-            ) : (
-              <p className="text-primary font-semibold text-sm">{restaurant.priceRange}</p>
-            )}
-          </div>
+          
           {restaurant.openingHours && (
             <span className="text-gray-400 text-xs truncate max-w-[120px] text-right">
               {restaurant.openingHours}
