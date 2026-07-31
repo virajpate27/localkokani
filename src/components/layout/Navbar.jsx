@@ -15,6 +15,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "Destinations", href: "/destinations" },
   { label: "Hotels", href: "/hotels" },
+  { label: "Restaurants", href: "/restaurants" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -49,8 +50,8 @@ export default function Navbar() {
             <FiMapPin className="text-white text-xl" />
           </div>
           <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
-  Stay<span className="text-accent-dark">Finder</span>
-</span>
+            Stay<span className="text-accent-dark">Finder</span>
+          </span>
         </Link>
 
         {/* Desktop Links + inline search */}

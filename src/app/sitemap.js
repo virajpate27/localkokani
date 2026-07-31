@@ -2,6 +2,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { getAllPublishedPosts } from "@/lib/services/blogService";
+import { getAllRestaurants } from "@/lib/services/restaurantService";
 
 const BASE_URL = "https://localkokani.vercel.app";
 
@@ -36,6 +37,14 @@ export default async function sitemap() {
     changeFrequency: "monthly",
     priority: 0.7,
     lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(),
+  }));
+
+  const restaurants = await getAllRestaurants();
+  const restaurantRoutes = restaurants.map((r) => ({
+    url: `${BASE_URL}/restaurants/${r.slug}`,
+    changeFrequency: "weekly",
+    priority: 0.7,
+    lastModified: r.updatedAt ? new Date(r.updatedAt) : new Date(),
   }));
 
   try {

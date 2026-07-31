@@ -7,8 +7,10 @@ const pageTitles = {
   "/admin": "Dashboard",
   "/admin/destinations": "Destinations",
   "/admin/hotels": "Hotels",
-  "/admin/leads": "Leads & Enquiries",
+  "/admin/restaurants": "Restaurants",
+  "/admin/blog": "Blog",
   "/admin/reviews": "Reviews",
+  "/admin/leads": "Leads & Enquiries",
 };
 
 export default function AdminTopbar() {

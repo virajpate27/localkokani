@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText } from "react-icons/fi";
+import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee  } from "react-icons/fi";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ const navItems = [
   { label: "Dashboard", href: "/admin", icon: FiGrid },
   { label: "Destinations", href: "/admin/destinations", icon: FiMapPin },
   { label: "Hotels", href: "/admin/hotels", icon: FiHome },
+  { label: "Restaurants", href: "/admin/restaurants", icon: FiCoffee },
   { label: "Blog", href: "/admin/blog", icon: FiFileText },
   { label: "Reviews", href: "/admin/reviews", icon: FiStar },
   { label: "Leads", href: "/admin/leads", icon: FiMessageSquare },
