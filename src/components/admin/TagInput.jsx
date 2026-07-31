@@ -4,13 +4,18 @@
 import { useState } from "react";
 import { FiX, FiPlus } from "react-icons/fi";
 
-const SUGGESTED_TAGS = [
+const DEFAULT_SUGGESTED_TAGS = [
   "Free WiFi", "Pool", "Breakfast", "Spa", "Beach Access",
   "Mountain View", "Parking", "Air Conditioning", "Room Service",
   "Gym", "Bar", "Pet Friendly", "Airport Shuttle", "Bonfire",
 ];
 
-export default function TagInput({ value = [], onChange, label = "Amenities" }) {
+export default function TagInput({
+  value = [],
+  onChange,
+  label = "Amenities",
+  suggestions = DEFAULT_SUGGESTED_TAGS, // ⬅️ now customizable per use-case
+}) {
   const [inputValue, setInputValue] = useState("");
 
   const addTag = (tag) => {
@@ -37,7 +42,7 @@ export default function TagInput({ value = [], onChange, label = "Amenities" }) 
     }
   };
 
-  const unusedSuggestions = SUGGESTED_TAGS.filter(
+  const unusedSuggestions = suggestions.filter(
     (tag) => !value.some((v) => v.toLowerCase() === tag.toLowerCase())
   );
 
@@ -52,11 +57,7 @@ export default function TagInput({ value = [], onChange, label = "Amenities" }) 
             className="flex items-center gap-1.5 bg-secondary/10 text-secondary text-sm font-medium px-2.5 py-1 rounded-lg"
           >
             {tag}
-            <button
-              type="button"
-              onClick={() => removeTag(index)}
-              className="hover:text-secondary-dark"
-            >
+            <button type="button" onClick={() => removeTag(index)} className="hover:text-secondary-dark">
               <FiX className="text-xs" />
             </button>
           </span>
