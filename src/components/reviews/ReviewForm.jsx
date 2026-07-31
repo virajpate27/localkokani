@@ -1,4 +1,5 @@
-// src/components/hotels/ReviewForm.jsx
+// src/components/reviews/ReviewForm.jsx
+// (moved from src/components/hotels/ to a shared location since it's now used by both)
 "use client";
 
 import { useState } from "react";
@@ -7,7 +8,7 @@ import { FiUser, FiSend, FiCheckCircle } from "react-icons/fi";
 import StarRatingInput from "@/components/ui/StarRatingInput";
 import { createReview } from "@/lib/services/reviewService";
 
-export default function ReviewForm({ hotel }) {
+export default function ReviewForm({ entityType, entity }) {
   const [guestName, setGuestName] = useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -35,9 +36,10 @@ export default function ReviewForm({ hotel }) {
     setIsSubmitting(true);
     try {
       await createReview({
-        hotelId: hotel.id,
-        hotelName: hotel.name,
-        hotelSlug: hotel.slug,
+        entityType,               // "hotel" | "restaurant"
+        entityId: entity.id,
+        entitySlug: entity.slug,
+        entityName: entity.name,
         guestName: guestName.trim(),
         rating,
         comment: comment.trim(),
@@ -79,17 +81,17 @@ export default function ReviewForm({ hotel }) {
       </h3>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Your Rating
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Your Rating</label>
         <StarRatingInput value={rating} onChange={setRating} />
         {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
       </div>
 
       <div>
+        <label htmlFor="review-guest-name" className="sr-only">Your name</label>
         <div className="relative">
           <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
+            id="review-guest-name"
             type="text"
             value={guestName}
             onChange={(e) => setGuestName(e.target.value)}
@@ -107,7 +109,7 @@ export default function ReviewForm({ hotel }) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           rows={4}
-          placeholder="Tell other travelers about your stay..."
+          placeholder="Tell other travelers about your experience..."
           className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none bg-white ${
             errors.comment ? "border-red-300" : "border-gray-200 focus:border-secondary"
           }`}
