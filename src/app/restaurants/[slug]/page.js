@@ -1,6 +1,7 @@
 // src/app/restaurants/[slug]/page.js
 import { notFound } from "next/navigation";
-import { FiMapPin, FiStar, FiClock, FiDollarSign } from "react-icons/fi";
+import { FiMapPin, FiStar, FiClock } from "react-icons/fi";
+import { FaRupeeSign } from "react-icons/fa";
 import {
   getRestaurantBySlug,
   getAllRestaurants,
@@ -103,7 +104,7 @@ export default async function RestaurantDetailPage({ params }) {
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3">
             <p className="flex items-center gap-1.5 text-gray-600 text-sm font-medium">
-              <FiDollarSign className="text-secondary" />
+              <FaRupeeSign className="text-secondary" />
               {restaurant.costForTwo
                 ? `${formatCurrency(restaurant.costForTwo)} for two`
                 : restaurant.priceRange}
