@@ -1,7 +1,7 @@
 // src/app/destinations/page.js — FINAL VERSION
 import Link from "next/link";
 import Image from "next/image";
-import { FiHome, FiMapPin } from "react-icons/fi";
+import { FiHome, FiMapPin, FiCoffee } from "react-icons/fi";
 import { getAllDestinations } from "@/lib/services/destinationService";
 import EmptyState from "@/components/ui/EmptyState";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -84,14 +84,21 @@ export default async function DestinationsPage() {
                       {dest.description}
                     </p>
                   </div>
-                  <div className="px-5 pb-5 flex items-center justify-between">
-                    <span className="flex items-center gap-1.5 text-secondary font-medium text-sm">
-                      <FiHome /> {dest.hotelCount || 0} hotels
-                    </span>
-                    <span className="text-primary font-medium text-sm group-hover:translate-x-1 transition-transform inline-block">
-                      Explore →
-                    </span>
-                  </div>
+                 <div className="px-5 pb-5 flex items-center justify-between flex-wrap gap-y-1">
+  <div className="flex items-center gap-4">
+    <span className="flex items-center gap-1.5 text-secondary font-medium text-sm">
+      <FiHome /> {dest.hotelCount || 0} hotels
+    </span>
+    {dest.restaurantCount > 0 && (
+      <span className="flex items-center gap-1.5 text-accent-dark font-medium text-sm">
+        <FiCoffee /> {dest.restaurantCount} restaurants
+      </span>
+    )}
+  </div>
+  <span className="text-primary font-medium text-sm group-hover:translate-x-1 transition-transform inline-block">
+    Explore →
+  </span>
+</div>
                 </Link>
               ))}
             </div>

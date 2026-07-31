@@ -4,6 +4,7 @@ import RestaurantCard from "@/components/restaurants/RestaurantCard";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import EmptyState from "@/components/ui/EmptyState";
 
+
 export const revalidate = 1800;
 
 export const metadata = {

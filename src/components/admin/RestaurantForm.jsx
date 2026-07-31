@@ -11,7 +11,7 @@ import {
     createRestaurant,
     updateRestaurant,
 } from "@/lib/services/restaurantService";
-import { getAllDestinations } from "@/lib/services/destinationService";
+import { incrementRestaurantCount, getAllDestinations } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { slugify } from "@/utils/helpers";
 import { triggerRevalidation } from "@/utils/revalidate";
@@ -123,42 +123,50 @@ export default function RestaurantForm({ initialData = null }) {
     `/destinations/${payload.destinationSlug}`,
   ]);
 
-  try {
-    if (isEditMode) {
-      if (initialData.slug !== payload.slug) {
-        pathsToRevalidate.add(`/restaurants/${initialData.slug}`); // old slug
+ try {
+  if (isEditMode) {
+    if (initialData.slug !== payload.slug) {
+      pathsToRevalidate.add(`/restaurants/${initialData.slug}`);
+    }
+    if (initialData.destinationSlug !== payload.destinationSlug) {
+      if (initialData.destinationSlug) {
+        pathsToRevalidate.add(`/destinations/${initialData.destinationSlug}`);
       }
-      if (initialData.destinationSlug !== payload.destinationSlug) {
-        if (initialData.destinationSlug) {
-          pathsToRevalidate.add(`/destinations/${initialData.destinationSlug}`); // old destination
-        }
-      }
-
-      await updateRestaurant(initialData.id, payload);
-
-      const removedImages = originalImages.filter(
-        (orig) => !images.some((img) => img.publicId === orig.publicId)
-      );
-      for (const img of removedImages) {
-        if (img.publicId) await deleteFromCloudinary(img.publicId);
-      }
-
-      await triggerRevalidation(Array.from(pathsToRevalidate));
-      toast.success("Restaurant updated");
-    } else {
-      await createRestaurant(payload);
-      await triggerRevalidation(Array.from(pathsToRevalidate));
-      toast.success("Restaurant created");
     }
 
-    router.push("/admin/restaurants");
-    router.refresh();
-  } catch (error) {
-    console.error("Save restaurant error:", error);
-    toast.error("Failed to save restaurant. Please try again.");
-  } finally {
-    setIsSaving(false);
+    await updateRestaurant(initialData.id, payload);
+
+    // NEW: if destination changed, adjust restaurantCount on both old and new destination
+    if (initialData.destinationId !== formData.destinationId) {
+      await incrementRestaurantCount(initialData.destinationId, -1);
+      await incrementRestaurantCount(formData.destinationId, 1);
+    }
+
+    const removedImages = originalImages.filter(
+      (orig) => !images.some((img) => img.publicId === orig.publicId)
+    );
+    for (const img of removedImages) {
+      if (img.publicId) await deleteFromCloudinary(img.publicId);
+    }
+
+    await triggerRevalidation(Array.from(pathsToRevalidate));
+    toast.success("Restaurant updated");
+  } else {
+    await createRestaurant(payload);
+    await incrementRestaurantCount(formData.destinationId, 1); // NEW
+
+    await triggerRevalidation(Array.from(pathsToRevalidate));
+    toast.success("Restaurant created");
   }
+
+  router.push("/admin/restaurants");
+  router.refresh();
+} catch (error) {
+  console.error("Save restaurant error:", error);
+  toast.error("Failed to save restaurant. Please try again.");
+} finally {
+  setIsSaving(false);
+}
 };
 
     const handleCancel = async () => {

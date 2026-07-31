@@ -12,6 +12,7 @@ import {
 } from "@/lib/services/restaurantService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
+import { incrementRestaurantCount } from "@/lib/services/destinationService";
 
 export default function AdminRestaurantsPage() {
   const [restaurants, setRestaurants] = useState([]);
@@ -33,22 +34,24 @@ export default function AdminRestaurantsPage() {
   useEffect(() => { loadRestaurants(); }, []);
 
   const handleDeleteConfirm = async () => {
-    if (!deleteTarget) return;
-    setIsDeleting(true);
-    try {
-      await deleteRestaurant(deleteTarget.id);
-      for (const img of deleteTarget.images || []) {
-        if (img.publicId) await deleteFromCloudinary(img.publicId);
-      }
-      toast.success("Restaurant deleted");
-      setRestaurants((prev) => prev.filter((r) => r.id !== deleteTarget.id));
-    } catch {
-      toast.error("Failed to delete restaurant");
-    } finally {
-      setIsDeleting(false);
-      setDeleteTarget(null);
+  if (!deleteTarget) return;
+  setIsDeleting(true);
+  try {
+    await deleteRestaurant(deleteTarget.id);
+    await incrementRestaurantCount(deleteTarget.destinationId, -1); // ⬅️ ADD
+
+    for (const img of deleteTarget.images || []) {
+      if (img.publicId) await deleteFromCloudinary(img.publicId);
     }
-  };
+    toast.success("Restaurant deleted");
+    setRestaurants((prev) => prev.filter((r) => r.id !== deleteTarget.id));
+  } catch {
+    toast.error("Failed to delete restaurant");
+  } finally {
+    setIsDeleting(false);
+    setDeleteTarget(null);
+  }
+};
 
   return (
     <div>
