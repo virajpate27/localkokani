@@ -10,9 +10,10 @@ import BookingSidebar from "@/components/hotels/BookingSidebar";
 import JsonLd from "@/components/ui/JsonLd";
 import { generateHotelSchema } from "@/utils/helpers";
 import MobileStickyBar from "@/components/hotels/MobileStickyBar";
-import { getApprovedReviewsForHotel } from "@/lib/services/reviewService";
-import ReviewsList from "@/components/hotels/ReviewsList";
-import ReviewForm from "@/components/hotels/ReviewForm";
+import { getApprovedReviewsForEntity } from "@/lib/services/reviewService";
+import ReviewsList from "@/components/reviews/ReviewsList";
+import ReviewForm from "@/components/reviews/ReviewForm";
+
 import WishlistButton from "@/components/ui/WishlistButton";
 
 export const revalidate = 1800;
@@ -60,7 +61,7 @@ export default async function HotelDetailPage({ params }) {
     notFound();
   }
 
-  const reviews = await getApprovedReviewsForHotel(hotel.id);
+ const reviews = await getApprovedReviewsForEntity("hotel", hotel.id);
   const hotelSchema = generateHotelSchema(hotel);
 
   return (
@@ -169,7 +170,7 @@ export default async function HotelDetailPage({ params }) {
               </h2>
               <div className="space-y-6">
                 <ReviewsList reviews={reviews} />
-                <ReviewForm hotel={hotel} />
+                <ReviewForm entityType="hotel" entity={hotel} />
               </div>
             </div>
           </div>

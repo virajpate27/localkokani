@@ -12,6 +12,10 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ReservationForm from "@/components/restaurants/ReservationForm";
 import JsonLd from "@/components/ui/JsonLd";
 import { formatCurrency } from "@/utils/helpers";
+import { getApprovedReviewsForEntity } from "@/lib/services/reviewService";
+import ReviewsList from "@/components/reviews/ReviewsList";
+import ReviewForm from "@/components/reviews/ReviewForm";
+
 
 export const revalidate = 1800;
 
@@ -44,6 +48,8 @@ export default async function RestaurantDetailPage({ params }) {
   const restaurant = await getRestaurantBySlug(slug);
 
   if (!restaurant) notFound();
+
+    const reviews = await getApprovedReviewsForEntity("restaurant", restaurant.id);
 
   const restaurantSchema = {
     "@context": "https://schema.org",
@@ -157,6 +163,21 @@ export default async function RestaurantDetailPage({ params }) {
                 </div>
               </div>
             )}
+
+
+            {/* NEW: Reviews section */}
+          <div>
+            <h2 className="font-display font-bold text-2xl text-primary mb-4">
+              Guest Reviews {reviews.length > 0 && `(${reviews.length})`}
+            </h2>
+            <div className="space-y-6">
+              <ReviewsList reviews={reviews} />
+              <ReviewForm entityType="restaurant" entity={restaurant} />
+            </div>
+          </div>
+
+
+
           </div>
 
           <div className="order-1 lg:order-2">
