@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import Hero from "@/components/home/Hero";
 import FeaturedDestinations from "@/components/home/FeaturedDestinations";
 import FeaturedHotels from "@/components/home/FeaturedHotels";
+import FeaturedRestaurants from "@/components/home/FeaturedRestaurants";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import CtaBanner from "@/components/home/CtaBanner";
 
@@ -30,6 +31,7 @@ export default function HomePage() {
       <Hero />
       <FeaturedDestinations />
       <FeaturedHotels />
+      <FeaturedRestaurants />
       <WhyChooseUs />
       <Testimonials />
       <CtaBanner />

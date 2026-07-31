@@ -54,7 +54,7 @@ export default function RestaurantCard({ restaurant, priority = false }) {
               <>
                 <p className="font-display font-bold text-primary text-sm">
                   {formatCurrency(restaurant.costForTwo)}
-                  <span className="text-xs font-normal text-gray-400"> for two</span>
+                  <span className="text-xs font-normal text-gray-400"> for two (Approx.)</span>
                 </p>
               
               </>

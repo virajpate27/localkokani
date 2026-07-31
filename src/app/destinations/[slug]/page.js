@@ -2,7 +2,10 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FiMapPin, FiHome, FiStar } from "react-icons/fi";
-import { getDestinationBySlug, getAllDestinations } from "@/lib/services/destinationService";
+import {
+  getDestinationBySlug,
+  getAllDestinations,
+} from "@/lib/services/destinationService";
 import { getHotelsByDestination } from "@/lib/services/hotelService";
 import HotelCard from "@/components/hotels/HotelCard";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -10,6 +13,8 @@ import EmptyState from "@/components/ui/EmptyState";
 import JsonLd from "@/components/ui/JsonLd";
 import { generateDestinationCollectionSchema } from "@/utils/helpers";
 export const revalidate = 3600;
+import { getRestaurantsByDestination } from "@/lib/services/restaurantService";
+import RestaurantCard from "@/components/restaurants/RestaurantCard";
 
 export async function generateStaticParams() {
   const destinations = await getAllDestinations();
@@ -24,7 +29,9 @@ export async function generateMetadata({ params }) {
     return { title: "Destination Not Found | StayFinder" };
   }
 
-  const title = destination.seo?.metaTitle || `Best Hotels in ${destination.name} | StayFinder`;
+  const title =
+    destination.seo?.metaTitle ||
+    `Best Hotels in ${destination.name} | StayFinder`;
   const description =
     destination.seo?.metaDescription ||
     `Explore ${destination.hotelCount || "top"} handpicked hotels in ${destination.name}. ${destination.description?.slice(0, 100)}`;
@@ -47,7 +54,12 @@ export default async function DestinationDetailPage({ params }) {
 
   const hotels = await getHotelsByDestination(destination.id);
 
-const destinationSchema = generateDestinationCollectionSchema(destination, hotels);
+    const restaurants = await getRestaurantsByDestination(destination.id);
+
+  const destinationSchema = generateDestinationCollectionSchema(
+    destination,
+    hotels,
+  );
 
   return (
     <>
@@ -57,7 +69,10 @@ const destinationSchema = generateDestinationCollectionSchema(destination, hotel
         <Breadcrumbs
           items={[
             { name: "Destinations", url: "/destinations" },
-            { name: destination.name, url: `/destinations/${destination.slug}` },
+            {
+              name: destination.name,
+              url: `/destinations/${destination.slug}`,
+            },
           ]}
         />
       </div>
@@ -82,7 +97,8 @@ const destinationSchema = generateDestinationCollectionSchema(destination, hotel
             </h1>
             <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
               <FiHome className="text-accent" />
-              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"} available
+              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
+              available
             </p>
           </div>
         </div>
@@ -99,13 +115,13 @@ const destinationSchema = generateDestinationCollectionSchema(destination, hotel
         </div>
       </section>
 
+
+      {/* Hotels List — stays exactly the same */}
       <section className="py-16 bg-gray-50 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
             <h2 className="section-title">Hotels in {destination.name}</h2>
-            <span className="text-gray-400 text-sm">
-              Sorted by price (low to high)
-            </span>
+            <span className="text-gray-400 text-sm">Sorted by price (low to high)</span>
           </div>
 
           {hotels.length === 0 ? (
@@ -122,6 +138,29 @@ const destinationSchema = generateDestinationCollectionSchema(destination, hotel
           )}
         </div>
       </section>
+
+      {/* NEW: Restaurants List */}
+      {restaurants.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="container-custom">
+            <div className="flex items-center justify-between mb-10">
+              <h2 className="section-title">
+                Restaurants in {destination.name}
+              </h2>
+              <span className="text-gray-400 text-sm">
+                Sorted by rating (highest first)
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {restaurants.map((restaurant) => (
+                <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
     </>
   );
 }

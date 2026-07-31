@@ -106,7 +106,7 @@ export default async function RestaurantDetailPage({ params }) {
             <p className="flex items-center gap-1.5 text-gray-600 text-sm font-medium">
              
               {restaurant.costForTwo
-                ? `${formatCurrency(restaurant.costForTwo)} for two`
+                ? `${formatCurrency(restaurant.costForTwo)} for two (Approx.)`
                 : restaurant.priceRange}
              
             </p>
