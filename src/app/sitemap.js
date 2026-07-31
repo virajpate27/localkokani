@@ -27,7 +27,7 @@ export default async function sitemap() {
       lastModified: new Date(),
     },
   ];
-
+ 
   let destinationRoutes = [];
   let hotelRoutes = [];
 
