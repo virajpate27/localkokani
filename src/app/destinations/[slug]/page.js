@@ -95,22 +95,20 @@ export default async function DestinationDetailPage({ params }) {
             <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
               {destination.name}
             </h1>
-            <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
+            <div className="flex gap-1.5">
+              <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
               <FiHome className="text-accent" />
               {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
               available
             </p>
-             <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-              <FiHome className="text-accent" />
-              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
-              available
-            </p>
+             
 
              <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-              <FiHome className="text-accent" />
+              <FiCoffee className="text-accent" />
               {restaurants.length} {restaurants.length === 1 ? "restaurant" : "restaurants"}{" "}
               available
             </p>
+            </div>
           </div>
         </div>
       </section>
