@@ -5,14 +5,14 @@ import { FiHeart } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useWishlist } from "@/context/WishlistContext";
 
-export default function WishlistButton({ hotel, size = "text-lg", className = "" }) {
+export default function WishlistButton({ item, entityType = "hotel", size = "text-lg", className = "" }) {
   const { isInWishlist, toggleWishlist } = useWishlist();
-  const saved = isInWishlist(hotel.id);
+  const saved = isInWishlist(item.id, entityType);
 
   const handleClick = (e) => {
-    e.preventDefault(); // prevent navigating if this button sits inside a <Link>
+    e.preventDefault();
     e.stopPropagation();
-    toggleWishlist(hotel);
+    toggleWishlist(item, entityType);
     toast.success(saved ? "Removed from wishlist" : "Added to wishlist", {
       icon: saved ? "💔" : "❤️",
     });

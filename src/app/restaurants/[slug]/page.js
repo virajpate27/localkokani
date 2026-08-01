@@ -15,7 +15,7 @@ import { formatCurrency } from "@/utils/helpers";
 import { getApprovedReviewsForEntity } from "@/lib/services/reviewService";
 import ReviewsList from "@/components/reviews/ReviewsList";
 import ReviewForm from "@/components/reviews/ReviewForm";
-
+import WishlistButton from "@/components/ui/WishlistButton";
 
 export const revalidate = 1800;
 
@@ -49,7 +49,10 @@ export default async function RestaurantDetailPage({ params }) {
 
   if (!restaurant) notFound();
 
-    const reviews = await getApprovedReviewsForEntity("restaurant", restaurant.id);
+  const reviews = await getApprovedReviewsForEntity(
+    "restaurant",
+    restaurant.id,
+  );
 
   const restaurantSchema = {
     "@context": "https://schema.org",
@@ -93,28 +96,34 @@ export default async function RestaurantDetailPage({ params }) {
           <p className="flex items-center gap-1.5 text-secondary font-medium text-sm uppercase tracking-wide">
             <FiMapPin /> {restaurant.destinationName}
           </p>
-          <div className="flex flex-wrap items-center gap-3 mt-2">
-            <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
-              {restaurant.name}
-            </h1>
-            {restaurant.rating > 0 && (
-              <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
-                <FiStar className="text-accent fill-accent text-sm" />
-                <span className="font-semibold text-primary text-sm">
-                  {restaurant.rating}
-                </span>
-              </div>
-            )}
+          <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
+                {restaurant.name}
+              </h1>
+              {restaurant.rating > 0 && (
+                <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
+                  <FiStar className="text-accent fill-accent text-sm" />
+                  <span className="font-semibold text-primary text-sm">
+                    {restaurant.rating}
+                  </span>
+                </div>
+              )}
+            </div>
+            <WishlistButton
+              item={restaurant}
+              entityType="restaurant"
+              size="text-xl"
+              className="!bg-gray-100 shadow-none"
+            />
           </div>
           <p className="text-gray-500 mt-1">{restaurant.address}</p>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3">
             <p className="flex items-center gap-1.5 text-gray-600 text-sm font-medium">
-             
               {restaurant.costForTwo
                 ? `${formatCurrency(restaurant.costForTwo)} for two (Approx.)`
                 : restaurant.priceRange}
-             
             </p>
             {restaurant.openingHours && (
               <p className="flex items-center gap-1.5 text-gray-500 text-sm">
@@ -164,20 +173,16 @@ export default async function RestaurantDetailPage({ params }) {
               </div>
             )}
 
-
             {/* NEW: Reviews section */}
-          <div>
-            <h2 className="font-display font-bold text-2xl text-primary mb-4">
-              Guest Reviews {reviews.length > 0 && `(${reviews.length})`}
-            </h2>
-            <div className="space-y-6">
-              <ReviewsList reviews={reviews} />
-              <ReviewForm entityType="restaurant" entity={restaurant} />
+            <div>
+              <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                Guest Reviews {reviews.length > 0 && `(${reviews.length})`}
+              </h2>
+              <div className="space-y-6">
+                <ReviewsList reviews={reviews} />
+                <ReviewForm entityType="restaurant" entity={restaurant} />
+              </div>
             </div>
-          </div>
-
-
-
           </div>
 
           <div className="order-1 lg:order-2">

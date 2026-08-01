@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FiStar, FiMapPin } from "react-icons/fi";
 import { getOptimizedUrl } from "@/lib/cloudinary";
 import { formatCurrency } from "@/utils/helpers";
+import WishlistButton from "@/components/ui/WishlistButton"; // ⬅️ ADD
 
 export default function RestaurantCard({ restaurant, priority = false }) {
   const imageUrl =
@@ -30,6 +31,7 @@ export default function RestaurantCard({ restaurant, priority = false }) {
             {restaurant.rating}
           </div>
         )}
+        <WishlistButton item={restaurant} entityType="restaurant" className="absolute top-3 right-3" /> {/* ⬅️ ADD */}
       </div>
 
       <div className="p-5 flex flex-col flex-1">
@@ -54,9 +56,9 @@ export default function RestaurantCard({ restaurant, priority = false }) {
               <>
                 <p className="font-display font-bold text-primary text-sm">
                   {formatCurrency(restaurant.costForTwo)}
-                  <span className="text-xs font-normal text-gray-400"> for two (Approx.)</span>
+                  <span className="text-xs font-normal text-gray-400"> for two</span>
                 </p>
-              
+                <p className="text-gray-400 text-xs">{restaurant.priceRange}</p>
               </>
             ) : (
               <p className="text-primary font-semibold text-sm">{restaurant.priceRange}</p>

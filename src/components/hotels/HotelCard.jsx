@@ -28,7 +28,7 @@ export default function HotelCard({ hotel, priority = false }) {
           <FiStar className="text-accent fill-accent" />
           {hotel.rating}
         </div>
-        <WishlistButton hotel={hotel} className="absolute top-3 right-3" />
+        <WishlistButton item={hotel} className="absolute top-3 right-3" />
       </div>
 
       <div className="p-5 flex flex-col flex-1">

@@ -10,21 +10,25 @@ export function WishlistProvider({ children }) {
   const [wishlist, setWishlist] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load from localStorage on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        setWishlist(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        // Migrate old entries (no entityType) to default as "hotel"
+        const migrated = parsed.map((item) => ({
+          ...item,
+          entityType: item.entityType || "hotel",
+        }));
+        setWishlist(migrated);
       }
     } catch (error) {
       console.error("Failed to load wishlist:", error);
     } finally {
       setIsLoaded(true);
     }
-  }, []); 
+  }, []);
 
-  // Persist to localStorage whenever it changes (but skip the initial mount)
   useEffect(() => {
     if (!isLoaded) return;
     try {
@@ -34,33 +38,38 @@ export function WishlistProvider({ children }) {
     }
   }, [wishlist, isLoaded]);
 
-  const isInWishlist = (hotelId) => wishlist.some((item) => item.id === hotelId);
+  // Now checks BOTH id and entityType, since a hotel and restaurant could theoretically
+  // share the same Firestore-generated id string across different collections
+  const isInWishlist = (entityId, entityType = "hotel") =>
+    wishlist.some((item) => item.id === entityId && item.entityType === entityType);
 
-  const toggleWishlist = (hotel) => {
+  const toggleWishlist = (item, entityType = "hotel") => {
     setWishlist((prev) => {
-      const exists = prev.some((item) => item.id === hotel.id);
+      const exists = prev.some((w) => w.id === item.id && w.entityType === entityType);
       if (exists) {
-        return prev.filter((item) => item.id !== hotel.id);
+        return prev.filter((w) => !(w.id === item.id && w.entityType === entityType));
       }
-      // Store only what we need to render the wishlist page — not the full hotel object
       return [
         ...prev,
         {
-          id: hotel.id,
-          slug: hotel.slug,
-          name: hotel.name,
-          destinationName: hotel.destinationName,
-          price: hotel.price,
-          rating: hotel.rating,
-          image: hotel.images?.[0]?.url || hotel.image || null,
+          id: item.id,
+          entityType,
+          slug: item.slug,
+          name: item.name,
+          destinationName: item.destinationName,
+          price: entityType === "restaurant" ? (item.costForTwo || null) : item.price,
+          rating: item.rating,
+          image: item.images?.[0]?.url || item.image || null,
           addedAt: new Date().toISOString(),
         },
       ];
     });
   };
 
-  const removeFromWishlist = (hotelId) => {
-    setWishlist((prev) => prev.filter((item) => item.id !== hotelId));
+  const removeFromWishlist = (entityId, entityType = "hotel") => {
+    setWishlist((prev) =>
+      prev.filter((item) => !(item.id === entityId && item.entityType === entityType))
+    );
   };
 
   const clearWishlist = () => setWishlist([]);

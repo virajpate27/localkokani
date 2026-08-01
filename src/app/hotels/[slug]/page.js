@@ -99,7 +99,7 @@ export default async function HotelDetailPage({ params }) {
               </div>
             </div>
             <WishlistButton
-              hotel={hotel}
+              item={hotel}
               size="text-xl"
               className="!bg-gray-100 shadow-none"
             />

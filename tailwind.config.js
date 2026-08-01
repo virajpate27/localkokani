@@ -20,9 +20,9 @@ module.exports = {
           dark: "#25717f",
         },
         accent: {
-          DEFAULT: "#8da954",
-          light: "#a3c46b",
-          dark: "#728a41",
+          DEFAULT: "#ffc107",
+          light: "#f5ce5c",
+          dark: "#ffc107",
         },
       },
       fontFamily: {
