@@ -1,23 +1,22 @@
 // src/lib/services/searchService.js
 import { getAllHotels } from "./hotelService";
 import { getAllDestinations } from "./destinationService";
-import { getAllRestaurants } from "./restaurantService";
+import { getAllRestaurants } from "./restaurantService"; // ⬅️ ADD THIS
 
-let cachedSearchIndex = null; 
+let cachedSearchIndex = null;
 let cacheTimestamp = null;
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 5 * 60 * 1000;
 
-// Builds a unified, lightweight search index combining hotels + destinations
 async function buildSearchIndex() {
   const now = Date.now();
   if (cachedSearchIndex && cacheTimestamp && now - cacheTimestamp < CACHE_TTL) {
     return cachedSearchIndex;
   }
 
-  const [hotels, destinations] = await Promise.all([
+  const [hotels, destinations, restaurants] = await Promise.all([
     getAllHotels(),
     getAllDestinations(),
-    getAllRestaurants(),
+    getAllRestaurants(), // ⬅️ ADD THIS
   ]);
 
   const hotelEntries = hotels.map((hotel) => ({
@@ -49,7 +48,8 @@ async function buildSearchIndex() {
     searchText: [dest.name, dest.country].join(" ").toLowerCase(),
   }));
 
-   const restaurantEntries = restaurants.map((restaurant) => ({
+  // NEW: Restaurant entries, following the same shape as hotels
+  const restaurantEntries = restaurants.map((restaurant) => ({
     type: "restaurant",
     id: restaurant.id,
     slug: restaurant.slug,
@@ -68,12 +68,11 @@ async function buildSearchIndex() {
       .toLowerCase(),
   }));
 
-  cachedSearchIndex = [...destinationEntries, ...hotelEntries , ...restaurantEntries];
+  cachedSearchIndex = [...destinationEntries, ...hotelEntries, ...restaurantEntries]; // ⬅️ ADD restaurantEntries
   cacheTimestamp = now;
   return cachedSearchIndex;
 }
 
-// Simple relevance scoring: exact start match > word match > substring match
 function scoreMatch(searchText, query) {
   if (searchText.startsWith(query)) return 3;
   if (searchText.split(" ").some((word) => word.startsWith(query))) return 2;
@@ -95,10 +94,9 @@ export async function searchAll(rawQuery, limitCount = 8) {
   return results.slice(0, limitCount);
 }
 
-// Used by the full /search results page (Day 16) — returns everything, unranked cap
 export async function searchAllFull(rawQuery) {
   const query = rawQuery.trim().toLowerCase();
- if (!query) return { hotels: [], destinations: [], restaurants: [] };
+  if (!query) return { hotels: [], destinations: [], restaurants: [] }; // ⬅️ ADD restaurants key
 
   const index = await buildSearchIndex();
 
@@ -110,7 +108,7 @@ export async function searchAllFull(rawQuery) {
   return {
     hotels: matched.filter((r) => r.type === "hotel"),
     destinations: matched.filter((r) => r.type === "destination"),
-    restaurants: matched.filter((r) => r.type === "restaurant"),
+    restaurants: matched.filter((r) => r.type === "restaurant"), // ⬅️ ADD THIS
   };
 }
 
