@@ -17,9 +17,9 @@ import { slugify } from "@/utils/helpers";
 import { triggerRevalidation } from "@/utils/revalidate";
 
 const CUISINE_SUGGESTIONS = [
-  "Seafood", "Goan", "North Indian", "South Indian", "Chinese",
-  "Continental", "Italian", "Mexican", "Thai", "Mughlai",
-  "Street Food", "Vegan", "Bakery & Desserts", "BBQ & Grill",
+    "Seafood", "Goan", "North Indian", "South Indian", "Chinese",
+    "Continental", "Italian", "Mexican", "Thai", "Mughlai",
+    "Street Food", "Vegan", "Bakery & Desserts", "BBQ & Grill",
 ];
 
 export default function RestaurantForm({ initialData = null }) {
@@ -77,98 +77,98 @@ export default function RestaurantForm({ initialData = null }) {
     };
 
     const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validate()) {
-    toast.error("Please fix the highlighted fields");
-    return;
-  }
+        e.preventDefault();
+        if (!validate()) {
+            toast.error("Please fix the highlighted fields");
+            return;
+        }
 
-  setIsSaving(true);
-  const selectedDestination = destinations.find((d) => d.id === formData.destinationId);
+        setIsSaving(true);
+        const selectedDestination = destinations.find((d) => d.id === formData.destinationId);
 
-  const payload = {
-    name: formData.name.trim(),
-    slug: slugify(formData.name.trim()),
-    destinationId: formData.destinationId,
-    destinationName: selectedDestination?.name || "",
-    destinationSlug: selectedDestination?.slug || "",
-    description: formData.description.trim(),
-    address: formData.address.trim(),
-    costForTwo: formData.costForTwo ? Number(formData.costForTwo) : null,
-    priceRange: formData.priceRange,
-    rating: formData.rating ? Number(formData.rating) : 0,
-    openingHours: formData.openingHours.trim(),
-    images,
-    cuisine,
-    featured: formData.featured,
-    status: formData.status,
-    searchKeywords: [
-      formData.name.toLowerCase(),
-      selectedDestination?.slug || "",
-      selectedDestination?.name?.toLowerCase() || "",
-      ...cuisine.map((c) => c.toLowerCase()),
-    ],
-    location:
-      formData.lat && formData.lng
-        ? { lat: Number(formData.lat), lng: Number(formData.lng) }
-        : null,
-  };
+        const payload = {
+            name: formData.name.trim(),
+            slug: slugify(formData.name.trim()),
+            destinationId: formData.destinationId,
+            destinationName: selectedDestination?.name || "",
+            destinationSlug: selectedDestination?.slug || "",
+            description: formData.description.trim(),
+            address: formData.address.trim(),
+            costForTwo: formData.costForTwo ? Number(formData.costForTwo) : null,
+            priceRange: formData.priceRange,
+            rating: formData.rating ? Number(formData.rating) : 0,
+            openingHours: formData.openingHours.trim(),
+            images,
+            cuisine,
+            featured: formData.featured,
+            status: formData.status,
+            searchKeywords: [
+                formData.name.toLowerCase(),
+                selectedDestination?.slug || "",
+                selectedDestination?.name?.toLowerCase() || "",
+                ...cuisine.map((c) => c.toLowerCase()),
+            ],
+            location:
+                formData.lat && formData.lng
+                    ? { lat: Number(formData.lat), lng: Number(formData.lng) }
+                    : null,
+        };
 
-  // Collect every public path that needs fresh data after this save,
-  // including old slug/destination paths in case of a rename or move.
-  const pathsToRevalidate = new Set([
-    "/restaurants",
-    "/",
-    "/destinations", 
-    `/restaurants/${payload.slug}`,
-    `/destinations/${payload.destinationSlug}`,
-  ]);
+        // Collect every public path that needs fresh data after this save,
+        // including old slug/destination paths in case of a rename or move.
+        const pathsToRevalidate = new Set([
+            "/restaurants",
+            "/",
+            "/destinations",
+            `/restaurants/${payload.slug}`,
+            `/destinations/${payload.destinationSlug}`,
+        ]);
 
- try {
-  if (isEditMode) {
-    if (initialData.slug !== payload.slug) {
-      pathsToRevalidate.add(`/restaurants/${initialData.slug}`);
-    }
-    if (initialData.destinationSlug !== payload.destinationSlug) {
-      if (initialData.destinationSlug) {
-        pathsToRevalidate.add(`/destinations/${initialData.destinationSlug}`);
-      }
-    }
+        try {
+            if (isEditMode) {
+                if (initialData.slug !== payload.slug) {
+                    pathsToRevalidate.add(`/restaurants/${initialData.slug}`);
+                }
+                if (initialData.destinationSlug !== payload.destinationSlug) {
+                    if (initialData.destinationSlug) {
+                        pathsToRevalidate.add(`/destinations/${initialData.destinationSlug}`);
+                    }
+                }
 
-    await updateRestaurant(initialData.id, payload);
+                await updateRestaurant(initialData.id, payload);
 
-    // NEW: if destination changed, adjust restaurantCount on both old and new destination
-    if (initialData.destinationId !== formData.destinationId) {
-      await incrementRestaurantCount(initialData.destinationId, -1);
-      await incrementRestaurantCount(formData.destinationId, 1);
-    }
+                // NEW: if destination changed, adjust restaurantCount on both old and new destination
+                if (initialData.destinationId !== formData.destinationId) {
+                    await incrementRestaurantCount(initialData.destinationId, -1);
+                    await incrementRestaurantCount(formData.destinationId, 1);
+                }
 
-    const removedImages = originalImages.filter(
-      (orig) => !images.some((img) => img.publicId === orig.publicId)
-    );
-    for (const img of removedImages) {
-      if (img.publicId) await deleteFromCloudinary(img.publicId);
-    }
+                const removedImages = originalImages.filter(
+                    (orig) => !images.some((img) => img.publicId === orig.publicId)
+                );
+                for (const img of removedImages) {
+                    if (img.publicId) await deleteFromCloudinary(img.publicId);
+                }
 
-    await triggerRevalidation(Array.from(pathsToRevalidate));
-    toast.success("Restaurant updated");
-  } else {
-    await createRestaurant(payload);
-    await incrementRestaurantCount(formData.destinationId, 1); // NEW
+                await triggerRevalidation(Array.from(pathsToRevalidate));
+                toast.success("Restaurant updated");
+            } else {
+                await createRestaurant(payload);
+                await incrementRestaurantCount(formData.destinationId, 1); // NEW
 
-    await triggerRevalidation(Array.from(pathsToRevalidate));
-    toast.success("Restaurant created");
-  }
+                await triggerRevalidation(Array.from(pathsToRevalidate));
+                toast.success("Restaurant created");
+            }
 
-  router.push("/admin/restaurants");
-  router.refresh();
-} catch (error) {
-  console.error("Save restaurant error:", error);
-  toast.error("Failed to save restaurant. Please try again.");
-} finally {
-  setIsSaving(false);
-}
-};
+            router.push("/admin/restaurants");
+            router.refresh();
+        } catch (error) {
+            console.error("Save restaurant error:", error);
+            toast.error("Failed to save restaurant. Please try again.");
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const handleCancel = async () => {
         const newlyUploaded = images.filter(
@@ -310,12 +310,12 @@ export default function RestaurantForm({ initialData = null }) {
             </div>
 
             <div className="card p-6">
-              <TagInput
-    value={cuisine}
-    onChange={setCuisine}
-    label="Cuisine Types"
-    suggestions={CUISINE_SUGGESTIONS}
-  />
+                <TagInput
+                    value={cuisine}
+                    onChange={setCuisine}
+                    label="Cuisine Types"
+                    suggestions={CUISINE_SUGGESTIONS}
+                />
             </div>
 
             <div className="card p-6 space-y-5">
@@ -363,9 +363,9 @@ export default function RestaurantForm({ initialData = null }) {
                         onChange={handleChange}
                         className="w-full sm:w-64 px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
                     >
-                        <option value="active">Active</option>
-                        <option value="draft">Draft</option>
-                        <option value="archived">Archived</option>
+                        <option value="active">Active (visible to public)</option>
+                        <option value="draft">Draft (hidden from public)</option>
+                        <option value="archived">Archived (hidden from public)</option>
                     </select>
                 </div>
             </div>
