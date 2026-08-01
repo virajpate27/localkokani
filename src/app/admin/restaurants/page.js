@@ -5,8 +5,16 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  FiPlus, FiEdit2, FiTrash2, FiLoader, FiCoffee, FiStar,
-  FiArchive, FiRotateCcw, FiCheckSquare, FiSquare,
+  FiPlus,
+  FiEdit2,
+  FiTrash2,
+  FiLoader,
+  FiCoffee,
+  FiStar,
+  FiArchive,
+  FiRotateCcw,
+  FiCheckSquare,
+  FiSquare,
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 import {
@@ -53,13 +61,19 @@ export default function AdminRestaurantsPage() {
     }
   };
 
-  useEffect(() => { loadRestaurants(); }, []);
+  useEffect(() => {
+    loadRestaurants();
+  }, []);
 
   const filteredRestaurants =
-    statusFilter === "all" ? restaurants : restaurants.filter((r) => r.status === statusFilter);
+    statusFilter === "all"
+      ? restaurants
+      : restaurants.filter((r) => r.status === statusFilter);
 
   const toggleSelect = (id) => {
-    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+    );
   };
 
   const toggleSelectAll = () => {
@@ -75,11 +89,13 @@ export default function AdminRestaurantsPage() {
     try {
       await archiveRestaurant(restaurant.id);
       setRestaurants((prev) =>
-        prev.map((r) => (r.id === restaurant.id ? { ...r, status: "archived" } : r))
+        prev.map((r) =>
+          r.id === restaurant.id ? { ...r, status: "archived" } : r,
+        ),
       );
       await triggerRevalidation([
         "/restaurants",
-         "/",
+        "/",
         `/restaurants/${restaurant.slug}`,
         `/destinations/${restaurant.destinationSlug}`,
       ]);
@@ -94,10 +110,13 @@ export default function AdminRestaurantsPage() {
     try {
       await restoreRestaurant(restaurant.id);
       setRestaurants((prev) =>
-        prev.map((r) => (r.id === restaurant.id ? { ...r, status: "active" } : r))
+        prev.map((r) =>
+          r.id === restaurant.id ? { ...r, status: "active" } : r,
+        ),
       );
       await triggerRevalidation([
         "/restaurants",
+        "/",
         `/restaurants/${restaurant.slug}`,
         `/destinations/${restaurant.destinationSlug}`,
       ]);
@@ -118,7 +137,12 @@ export default function AdminRestaurantsPage() {
       for (const img of deleteTarget.images || []) {
         if (img.publicId) await deleteFromCloudinary(img.publicId);
       }
-      await triggerRevalidation(["/restaurants", "/destinations", `/destinations/${deleteTarget.destinationSlug}`]);
+      await triggerRevalidation([
+        "/restaurants",
+        "/", // ⬅️ ADD
+        "/destinations",
+        `/destinations/${deleteTarget.destinationSlug}`,
+      ]);
       toast.success("Restaurant permanently deleted");
       setRestaurants((prev) => prev.filter((r) => r.id !== deleteTarget.id));
     } catch (error) {
@@ -136,9 +160,12 @@ export default function AdminRestaurantsPage() {
     try {
       await Promise.all(selectedIds.map((id) => archiveRestaurant(id)));
       setRestaurants((prev) =>
-        prev.map((r) => (selectedIds.includes(r.id) ? { ...r, status: "archived" } : r))
+        prev.map((r) =>
+          selectedIds.includes(r.id) ? { ...r, status: "archived" } : r,
+        ),
       );
-      await triggerRevalidation(["/restaurants"]);
+      await triggerRevalidation(["/restaurants", "/"]);
+
       toast.success(`${selectedIds.length} restaurants archived`);
       setSelectedIds([]);
     } catch (error) {
@@ -162,7 +189,7 @@ export default function AdminRestaurantsPage() {
           if (img.publicId) await deleteFromCloudinary(img.publicId);
         }
       }
-      await triggerRevalidation(["/restaurants", "/destinations"]);
+      await triggerRevalidation(["/restaurants", "/", "/destinations"]); 
       toast.success(`${targets.length} restaurants permanently deleted`);
       setRestaurants((prev) => prev.filter((r) => !selectedIds.includes(r.id)));
       setSelectedIds([]);
@@ -197,7 +224,10 @@ export default function AdminRestaurantsPage() {
             </button>
           ))}
         </div>
-        <Link href="/admin/restaurants/new" className="btn-primary flex items-center gap-2">
+        <Link
+          href="/admin/restaurants/new"
+          className="btn-primary flex items-center gap-2"
+        >
           <FiPlus /> Add Restaurant
         </Link>
       </div>
@@ -205,7 +235,9 @@ export default function AdminRestaurantsPage() {
       {/* Bulk action bar */}
       {selectedIds.length > 0 && (
         <div className="flex items-center justify-between bg-primary/5 border border-primary/20 rounded-xl px-5 py-3 mb-4">
-          <p className="text-primary text-sm font-medium">{selectedIds.length} selected</p>
+          <p className="text-primary text-sm font-medium">
+            {selectedIds.length} selected
+          </p>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setBulkAction("archive")}
@@ -251,14 +283,19 @@ export default function AdminRestaurantsPage() {
                   <th className="px-5 py-3.5 font-medium">Destination</th>
                   <th className="px-5 py-3.5 font-medium">Price</th>
                   <th className="px-5 py-3.5 font-medium">Status</th>
-                  <th className="px-5 py-3.5 font-medium text-right">Actions</th>
+                  <th className="px-5 py-3.5 font-medium text-right">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredRestaurants.map((restaurant) => (
                   <tr key={restaurant.id} className="hover:bg-gray-50">
                     <td className="px-5 py-3.5">
-                      <button onClick={() => toggleSelect(restaurant.id)} aria-label="Select">
+                      <button
+                        onClick={() => toggleSelect(restaurant.id)}
+                        aria-label="Select"
+                      >
                         {selectedIds.includes(restaurant.id) ? (
                           <FiCheckSquare className="text-primary" />
                         ) : (
@@ -279,11 +316,17 @@ export default function AdminRestaurantsPage() {
                             />
                           )}
                         </div>
-                        <span className="font-medium text-primary">{restaurant.name}</span>
+                        <span className="font-medium text-primary">
+                          {restaurant.name}
+                        </span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-600">{restaurant.destinationName}</td>
-                    <td className="px-5 py-3.5 text-gray-600">{restaurant.priceRange}</td>
+                    <td className="px-5 py-3.5 text-gray-600">
+                      {restaurant.destinationName}
+                    </td>
+                    <td className="px-5 py-3.5 text-gray-600">
+                      {restaurant.priceRange}
+                    </td>
                     <td className="px-5 py-3.5">
                       <span
                         className={`text-xs font-medium px-2.5 py-1 rounded-lg capitalize ${
