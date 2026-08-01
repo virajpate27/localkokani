@@ -79,6 +79,7 @@ export default function AdminRestaurantsPage() {
       );
       await triggerRevalidation([
         "/restaurants",
+         "/",
         `/restaurants/${restaurant.slug}`,
         `/destinations/${restaurant.destinationSlug}`,
       ]);
