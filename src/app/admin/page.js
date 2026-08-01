@@ -2,7 +2,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiMapPin, FiHome, FiMessageSquare } from "react-icons/fi";
+import { FiMapPin, FiHome, FiCoffee, FiMessageSquare } from "react-icons/fi";
+
 import { getDashboardStats, getRecentLeads } from "@/lib/services/dashboardService";
 import StatCard from "@/components/admin/StatCard";
 import RecentLeadsTable from "@/components/admin/RecentLeadsTable";
@@ -78,6 +79,7 @@ export default function AdminDashboardPage() {
           href="/admin/hotels"
           accentColor="primary"
         />
+         <StatCard icon={FiCoffee} label="Total Restaurants" value={stats.restaurants} href="/admin/restaurants" accentColor="accent" />
         <StatCard
           icon={FiMessageSquare}
           label="Total Enquiries"

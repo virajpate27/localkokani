@@ -7,12 +7,14 @@ export async function getDashboardStats() {
   const [destinationsCount, hotelsCount, leadsSnap] = await Promise.all([
     getCountFromServer(collection(db, "destinations")),
     getCountFromServer(collection(db, "hotels")),
+     getCountFromServer(collection(db, "restaurants")),
     getCountFromServer(collection(db, "leads")),
   ]);
 
   return {
     destinations: destinationsCount.data().count,
     hotels: hotelsCount.data().count,
+    restaurants: restaurantsCount.data().count,
     leads: leadsSnap.data().count,
   };
 }

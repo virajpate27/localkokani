@@ -66,17 +66,17 @@ export default function SearchAutosuggest({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
- const handleSelect = (result) => {
-  setIsOpen(false);
-  setQuery("");
-  if (result.type === "hotel") {
-    router.push(`/hotels/${result.slug}`);
-  } else if (result.type === "restaurant") {
-    router.push(`/restaurants/${result.slug}`);
-  } else {
-    router.push(`/destinations/${result.slug}`);
-  }
-};
+  const handleSelect = (result) => {
+    setIsOpen(false);
+    setQuery("");
+    if (result.type === "hotel") {
+      router.push(`/hotels/${result.slug}`);
+    } else if (result.type === "restaurant") {
+      router.push(`/restaurants/${result.slug}`);
+    } else {
+      router.push(`/destinations/${result.slug}`);
+    }
+  };
 
   const goToFullSearch = () => {
     if (!query.trim()) return;
@@ -195,7 +195,7 @@ export default function SearchAutosuggest({
                       {result.subtitle}
                     </p>
                   </div>
-                  {result.type === "hotel" && result.price && (
+                  {(result.type === "hotel" || result.type === "restaurant") && result.price && (
                     <span className="text-primary font-semibold text-sm shrink-0">
                       {formatCurrency(result.price)}
                     </span>

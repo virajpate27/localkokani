@@ -132,21 +132,21 @@ export default function AdminLeadsPage() {
       return;
     }
 
-   const exportData = filteredLeads.map((lead) => ({
-  Name: lead.name,
-  Phone: lead.phone,
-  Email: lead.email || "",
-  Type: lead.entityType,
-  "Hotel/Restaurant": lead.entityName,
-  "Check-in": lead.checkIn || "",
-  "Check-out": lead.checkOut || "",
-  "Reservation Date": lead.date || "",
-  "Reservation Time": lead.time || "",
-  Guests: lead.guests,
-  Message: lead.message || "",
-  Status: lead.status,
-  "Submitted On": formatDate(lead.createdAt),
-}));
+    const exportData = filteredLeads.map((lead) => ({
+      Name: lead.name,
+      Phone: lead.phone,
+      Email: lead.email || "",
+      Type: lead.entityType,
+      "Hotel/Restaurant": lead.entityName,
+      "Check-in": lead.checkIn || "",
+      "Check-out": lead.checkOut || "",
+      "Reservation Date": lead.date || "",
+      "Reservation Time": lead.time || "",
+      Guests: lead.guests,
+      Message: lead.message || "",
+      Status: lead.status,
+      "Submitted On": formatDate(lead.createdAt),
+    }));
 
     exportToCSV(
       exportData,
@@ -220,7 +220,7 @@ export default function AdminLeadsPage() {
               <thead className="bg-gray-50 text-gray-500 text-left">
                 <tr>
                   <th className="px-5 py-3.5 font-medium">Guest</th>
-                  <th className="px-5 py-3.5 font-medium">Hotel</th>
+                  <th className="px-5 py-3.5 font-medium">Hotel/Restaurant</th>
                   <th className="px-5 py-3.5 font-medium">Dates</th>
                   <th className="px-5 py-3.5 font-medium">Status</th>
                   <th className="px-5 py-3.5 font-medium">Received</th>
@@ -259,7 +259,7 @@ export default function AdminLeadsPage() {
                           ? `${lead.date} ${lead.time}`
                           : "—"}
                     </td>
-                    
+
                     <td className="px-5 py-3.5">
                       <span
                         className={`text-xs font-medium px-2.5 py-1 rounded-lg capitalize ${statusStyles[lead.status] || statusStyles.new}`}
