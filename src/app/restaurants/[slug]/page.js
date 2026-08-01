@@ -16,6 +16,7 @@ import { getApprovedReviewsForEntity } from "@/lib/services/reviewService";
 import ReviewsList from "@/components/reviews/ReviewsList";
 import ReviewForm from "@/components/reviews/ReviewForm";
 import WishlistButton from "@/components/ui/WishlistButton";
+import CuisineGrid from "@/components/restaurants/CuisineGrid";
 
 export const revalidate = 1800;
 
@@ -146,14 +147,12 @@ export default async function RestaurantDetailPage({ params }) {
               </p>
             </div>
 
-            {restaurant.cuisine?.length > 0 && (
-              <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
-                  Cuisine
-                </h2>
-                <AmenitiesGrid amenities={restaurant.cuisine} />
-              </div>
-            )}
+           {restaurant.cuisine?.length > 0 && (
+  <div>
+    <h2 className="font-display font-bold text-2xl text-primary mb-4">Cuisine</h2>
+    <CuisineGrid cuisine={restaurant.cuisine} />
+  </div>
+)}
 
             {restaurant.location?.lat && restaurant.location?.lng && (
               <div>

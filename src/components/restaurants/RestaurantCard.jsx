@@ -4,7 +4,8 @@ import Image from "next/image";
 import { FiStar, FiMapPin } from "react-icons/fi";
 import { getOptimizedUrl } from "@/lib/cloudinary";
 import { formatCurrency } from "@/utils/helpers";
-import WishlistButton from "@/components/ui/WishlistButton"; // ⬅️ ADD
+import WishlistButton from "@/components/ui/WishlistButton"; 
+import { getCuisineIcon } from "./CuisineGrid";
 
 export default function RestaurantCard({ restaurant, priority = false }) {
   const imageUrl =
@@ -42,13 +43,20 @@ export default function RestaurantCard({ restaurant, priority = false }) {
           {restaurant.name}
         </h3>
 
-        <div className="flex flex-wrap gap-1.5 mt-3">
-          {(restaurant.cuisine || []).slice(0, 3).map((c) => (
-            <span key={c} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">
-              {c}
-            </span>
-          ))}
-        </div>
+       <div className="flex flex-wrap gap-1.5 mt-3">
+  {(restaurant.cuisine || []).slice(0, 3).map((c) => {
+    const Icon = getCuisineIcon(c);
+    return (
+      <span
+        key={c}
+        className="flex items-center gap-1 text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md"
+      >
+        <Icon className="text-accent-dark text-[11px]" />
+        {c}
+      </span>
+    );
+  })}
+</div>
 
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
           <div>
