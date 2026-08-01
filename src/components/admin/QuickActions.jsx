@@ -1,6 +1,6 @@
 // src/components/admin/QuickActions.jsx
 import Link from "next/link";
-import { FiPlus, FiMapPin, FiHome } from "react-icons/fi";
+import { FiPlus, FiMapPin, FiHome , FiCoffee } from "react-icons/fi";
 
 export default function QuickActions() {
   return (

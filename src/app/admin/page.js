@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiMapPin, FiHome, FiCoffee, FiMessageSquare } from "react-icons/fi";
+import { FiMapPin, FiHome, FiCoffee, FiMessageSquare } from "react-icons/fi"; 
 
 import { getDashboardStats, getRecentLeads } from "@/lib/services/dashboardService";
 import StatCard from "@/components/admin/StatCard";
@@ -64,30 +64,12 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <StatCard
-          icon={FiMapPin}
-          label="Total Destinations"
-          value={stats.destinations}
-          href="/admin/destinations"
-          accentColor="secondary"
-        />
-        <StatCard
-          icon={FiHome}
-          label="Total Hotels"
-          value={stats.hotels}
-          href="/admin/hotels"
-          accentColor="primary"
-        />
-         <StatCard icon={FiCoffee} label="Total Restaurants" value={stats.restaurants} href="/admin/restaurants" accentColor="accent" />
-        <StatCard
-          icon={FiMessageSquare}
-          label="Total Enquiries"
-          value={stats.leads}
-          href="/admin/leads"
-          accentColor="accent"
-        />
-      </div>
+     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <StatCard icon={FiMapPin} label="Total Destinations" value={stats.destinations} href="/admin/destinations" accentColor="secondary" />
+  <StatCard icon={FiHome} label="Total Hotels" value={stats.hotels} href="/admin/hotels" accentColor="primary" />
+  <StatCard icon={FiCoffee} label="Total Restaurants" value={stats.restaurants} href="/admin/restaurants" accentColor="accent" />
+  <StatCard icon={FiMessageSquare} label="Total Enquiries" value={stats.leads} href="/admin/leads" accentColor="secondary" />
+</div>
 
       {/* Recent Activity + Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
