@@ -5,6 +5,7 @@ import { useState } from "react";
 import { FiUser, FiPhone, FiCalendar, FiClock, FiUsers } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { createLead } from "@/lib/services/leadService";
 
 const initialFormState = { name: "", phone: "", date: "", time: "", guests: 2 };
 
@@ -51,8 +52,27 @@ export default function ReservationForm({ restaurant }) {
     const message = encodeURIComponent(lines.join("\n"));
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
+    // Open WhatsApp FIRST (synchronous click, same popup-safe pattern as Day 13)
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     toast.success("Opening WhatsApp to confirm your reservation...");
+
+    // Save the lead in the background — don't block the WhatsApp redirect on this
+    createLead({
+      entityType: "restaurant",
+      entityId: restaurant.id,
+      entitySlug: restaurant.slug,
+      entityName: restaurant.name,
+      name: formData.name.trim(),
+      phone: formData.phone.trim(),
+      date: formData.date,
+      time: formData.time,
+      guests: Number(formData.guests),
+      source: "restaurant_page",
+    }).catch((error) => {
+      console.error("Reservation lead save error:", error);
+      // Non-critical — WhatsApp message already sent regardless
+    });
+
     setFormData(initialFormState);
   };
 
@@ -69,9 +89,8 @@ export default function ReservationForm({ restaurant }) {
             value={formData.name}
             onChange={handleChange}
             placeholder="Full Name"
-            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-              errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
         </div>
         {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
@@ -86,9 +105,8 @@ export default function ReservationForm({ restaurant }) {
             value={formData.phone}
             onChange={handleChange}
             placeholder="Phone Number"
-            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-              errors.phone ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.phone ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
         </div>
         {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
@@ -102,9 +120,8 @@ export default function ReservationForm({ restaurant }) {
             value={formData.date}
             min={today}
             onChange={handleChange}
-            className={`w-full px-3 py-3 rounded-xl border text-sm outline-none transition-colors ${
-              errors.date ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full px-3 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.date ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
         </div>
         <div>
@@ -113,9 +130,8 @@ export default function ReservationForm({ restaurant }) {
             name="time"
             value={formData.time}
             onChange={handleChange}
-            className={`w-full px-3 py-3 rounded-xl border text-sm outline-none transition-colors ${
-              errors.time ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full px-3 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.time ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
         </div>
       </div>

@@ -124,7 +124,11 @@ export default function HotelEnquiryForm({ hotel }) {
     // Save the lead in the background — don't block the WhatsApp redirect on this
     try {
       await createLead({
-        hotelId: hotel.id,
+        entityType: "hotel", // ⬅️ ADD
+        entityId: hotel.id,
+        entitySlug: hotel.slug, // ⬅️ ADD (wasn't captured before either!)
+        entityName: hotel.name,
+        hotelId: hotel.id,       // keep legacy fields too, harmless
         hotelName: hotel.name,
         name: formData.name.trim(),
         phone: formData.phone.trim(),
@@ -185,7 +189,7 @@ export default function HotelEnquiryForm({ hotel }) {
       <form onSubmit={handleReviewClick} className="space-y-4">
         {/* Name */}
         <div>
-          
+
           <div className="relative">
             <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
@@ -194,9 +198,8 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.name}
               onChange={handleChange}
               placeholder="Full Name"
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.name ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
+                }`}
             />
           </div>
           {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
@@ -212,9 +215,8 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number (with country code)"
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.phone ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.phone ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
+                }`}
             />
           </div>
           {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
@@ -230,9 +232,8 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email (optional)"
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.email ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.email ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
+                }`}
             />
           </div>
           {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
@@ -247,9 +248,8 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.checkIn}
               min={today}
               onChange={handleChange}
-              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.checkIn ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.checkIn ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
           </div>
           <div>
@@ -259,9 +259,8 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.checkOut}
               min={formData.checkIn || today}
               onChange={handleChange}
-              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.checkOut ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.checkOut ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
           </div>
         </div>
@@ -279,9 +278,8 @@ export default function HotelEnquiryForm({ hotel }) {
               max={20}
               value={formData.guests}
               onChange={handleChange}
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.guests ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.guests ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
           </div>
           {errors.guests && <p className="text-red-500 text-xs mt-1">{errors.guests}</p>}

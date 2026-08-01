@@ -2,9 +2,22 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { FiLoader, FiSearch, FiDownload, FiMessageSquare, FiTrash2 } from "react-icons/fi";
+import {
+  FiLoader,
+  FiSearch,
+  FiDownload,
+  FiMessageSquare,
+  FiTrash2,
+  FiHome,
+  FiCoffee,
+} from "react-icons/fi";
+
 import toast from "react-hot-toast";
-import { getAllLeads, updateLeadStatus, deleteLead } from "@/lib/services/leadService";
+import {
+  getAllLeads,
+  updateLeadStatus,
+  deleteLead,
+} from "@/lib/services/leadService";
 import { exportToCSV } from "@/utils/csvExport";
 import LeadDetailModal from "@/components/admin/LeadDetailModal";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
@@ -62,9 +75,13 @@ export default function AdminLeadsPage() {
     try {
       await updateLeadStatus(leadId, newStatus);
       setLeads((prev) =>
-        prev.map((lead) => (lead.id === leadId ? { ...lead, status: newStatus } : lead))
+        prev.map((lead) =>
+          lead.id === leadId ? { ...lead, status: newStatus } : lead,
+        ),
       );
-      setSelectedLead((prev) => (prev?.id === leadId ? { ...prev, status: newStatus } : prev));
+      setSelectedLead((prev) =>
+        prev?.id === leadId ? { ...prev, status: newStatus } : prev,
+      );
       toast.success("Status updated");
     } catch (error) {
       console.error("Status update error:", error);
@@ -101,8 +118,8 @@ export default function AdminLeadsPage() {
         (lead) =>
           lead.name?.toLowerCase().includes(q) ||
           lead.phone?.includes(q) ||
-          lead.hotelName?.toLowerCase().includes(q) ||
-          lead.email?.toLowerCase().includes(q)
+          lead.entityName?.toLowerCase().includes(q) ||
+          lead.email?.toLowerCase().includes(q),
       );
     }
 
@@ -115,20 +132,26 @@ export default function AdminLeadsPage() {
       return;
     }
 
-    const exportData = filteredLeads.map((lead) => ({
-      Name: lead.name,
-      Phone: lead.phone,
-      Email: lead.email || "",
-      Hotel: lead.hotelName,
-      "Check-in": lead.checkIn || "",
-      "Check-out": lead.checkOut || "",
-      Guests: lead.guests,
-      Message: lead.message || "",
-      Status: lead.status,
-      "Submitted On": formatDate(lead.createdAt),
-    }));
+   const exportData = filteredLeads.map((lead) => ({
+  Name: lead.name,
+  Phone: lead.phone,
+  Email: lead.email || "",
+  Type: lead.entityType,
+  "Hotel/Restaurant": lead.entityName,
+  "Check-in": lead.checkIn || "",
+  "Check-out": lead.checkOut || "",
+  "Reservation Date": lead.date || "",
+  "Reservation Time": lead.time || "",
+  Guests: lead.guests,
+  Message: lead.message || "",
+  Status: lead.status,
+  "Submitted On": formatDate(lead.createdAt),
+}));
 
-    exportToCSV(exportData, `enquiries-${new Date().toISOString().split("T")[0]}.csv`);
+    exportToCSV(
+      exportData,
+      `enquiries-${new Date().toISOString().split("T")[0]}.csv`,
+    );
     toast.success("CSV exported");
   };
 
@@ -201,7 +224,9 @@ export default function AdminLeadsPage() {
                   <th className="px-5 py-3.5 font-medium">Dates</th>
                   <th className="px-5 py-3.5 font-medium">Status</th>
                   <th className="px-5 py-3.5 font-medium">Received</th>
-                  <th className="px-5 py-3.5 font-medium text-right">Actions</th>
+                  <th className="px-5 py-3.5 font-medium text-right">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -215,10 +240,26 @@ export default function AdminLeadsPage() {
                       <p className="font-medium text-primary">{lead.name}</p>
                       <p className="text-gray-400 text-xs">{lead.phone}</p>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-600">{lead.hotelName}</td>
-                    <td className="px-5 py-3.5 text-gray-500 text-xs">
-                      {lead.checkIn ? `${lead.checkIn} → ${lead.checkOut}` : "—"}
+                    <td className="px-5 py-3.5">
+                      <div className="flex items-center gap-2">
+                        {lead.entityType === "restaurant" ? (
+                          <FiCoffee className="text-secondary shrink-0" />
+                        ) : (
+                          <FiHome className="text-secondary shrink-0" />
+                        )}
+                        <span className="text-gray-600">{lead.entityName}</span>
+                      </div>
                     </td>
+                    <td className="px-5 py-3.5 text-gray-500 text-xs">
+                      {lead.entityType === "hotel"
+                        ? lead.checkIn
+                          ? `${lead.checkIn} → ${lead.checkOut}`
+                          : "—"
+                        : lead.date
+                          ? `${lead.date} ${lead.time}`
+                          : "—"}
+                    </td>
+                    
                     <td className="px-5 py-3.5">
                       <span
                         className={`text-xs font-medium px-2.5 py-1 rounded-lg capitalize ${statusStyles[lead.status] || statusStyles.new}`}

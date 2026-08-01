@@ -1,13 +1,15 @@
 // src/components/admin/LeadDetailModal.jsx
 "use client";
 
-import { FiX, FiPhone, FiMail, FiCalendar, FiUsers, FiMessageSquare, FiHome } from "react-icons/fi";
+import {
+  FiX, FiPhone, FiMail, FiCalendar, FiClock, FiUsers,
+  FiMessageSquare, FiHome, FiCoffee,
+} from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
-import Link from "next/link";
 
 const statusOptions = [
   { value: "new", label: "New", color: "bg-secondary/10 text-secondary" },
-  { value: "contacted", label: "Contacted", color: "bg-accent/10 text-accent" },
+  { value: "contacted", label: "Contacted", color: "bg-accent/10 text-accent-dark" },
   { value: "closed", label: "Closed", color: "bg-gray-100 text-gray-500" },
 ];
 
@@ -25,9 +27,12 @@ function formatDate(isoString) {
 export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
   if (!lead) return null;
 
+  const isRestaurant = lead.entityType === "restaurant";
   const whatsappNumber = lead.phone?.replace(/\D/g, "");
   const whatsappMessage = encodeURIComponent(
-    `Hi ${lead.name}, thanks for your enquiry about ${lead.hotelName}! How can we help?`
+    isRestaurant
+      ? `Hi ${lead.name}, thanks for your reservation request at ${lead.entityName}! Confirming your table now.`
+      : `Hi ${lead.name}, thanks for your enquiry about ${lead.entityName}! How can we help?`
   );
 
   return (
@@ -35,11 +40,12 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
       <div className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl p-6 animate-slide-up max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-5">
           <h3 className="font-display font-bold text-xl text-primary">
-            Enquiry Details
+            {isRestaurant ? "Reservation Details" : "Enquiry Details"}
           </h3>
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200"
+            aria-label="Close"
           >
             <FiX />
           </button>
@@ -63,16 +69,24 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
         </div>
 
         <div className="space-y-4">
+          {/* Entity (hotel or restaurant) */}
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-4">
             <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <FiHome className="text-primary" />
+              {isRestaurant ? (
+                <FiCoffee className="text-primary" />
+              ) : (
+                <FiHome className="text-primary" />
+              )}
             </div>
             <div>
-              <p className="text-gray-400 text-xs">Hotel</p>
-              <p className="font-medium text-primary">{lead.hotelName}</p>
+              <p className="text-gray-400 text-xs">
+                {isRestaurant ? "Restaurant" : "Hotel"}
+              </p>
+              <p className="font-medium text-primary">{lead.entityName}</p>
             </div>
           </div>
 
+          {/* Contact info */}
           <div className="grid grid-cols-2 gap-3">
             <div className="flex items-center gap-2.5">
               <FiPhone className="text-secondary shrink-0" />
@@ -92,25 +106,48 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
             )}
           </div>
 
-          {(lead.checkIn || lead.checkOut) && (
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center gap-2.5">
-                <FiCalendar className="text-secondary shrink-0" />
-                <div>
-                  <p className="text-gray-400 text-xs">Check-in</p>
-                  <p className="font-medium text-primary text-sm">{lead.checkIn || "—"}</p>
+          {/* Dates — different fields for hotel (check-in/out) vs restaurant (date/time) */}
+          {isRestaurant ? (
+            (lead.date || lead.time) && (
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center gap-2.5">
+                  <FiCalendar className="text-secondary shrink-0" />
+                  <div>
+                    <p className="text-gray-400 text-xs">Date</p>
+                    <p className="font-medium text-primary text-sm">{lead.date || "—"}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <FiClock className="text-secondary shrink-0" />
+                  <div>
+                    <p className="text-gray-400 text-xs">Time</p>
+                    <p className="font-medium text-primary text-sm">{lead.time || "—"}</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-2.5">
-                <FiCalendar className="text-secondary shrink-0" />
-                <div>
-                  <p className="text-gray-400 text-xs">Check-out</p>
-                  <p className="font-medium text-primary text-sm">{lead.checkOut || "—"}</p>
+            )
+          ) : (
+            (lead.checkIn || lead.checkOut) && (
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center gap-2.5">
+                  <FiCalendar className="text-secondary shrink-0" />
+                  <div>
+                    <p className="text-gray-400 text-xs">Check-in</p>
+                    <p className="font-medium text-primary text-sm">{lead.checkIn || "—"}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <FiCalendar className="text-secondary shrink-0" />
+                  <div>
+                    <p className="text-gray-400 text-xs">Check-out</p>
+                    <p className="font-medium text-primary text-sm">{lead.checkOut || "—"}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )
           )}
 
+          {/* Guests */}
           <div className="flex items-center gap-2.5">
             <FiUsers className="text-secondary shrink-0" />
             <div>
@@ -119,6 +156,7 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
             </div>
           </div>
 
+          {/* Message (only present on hotel enquiries) */}
           {lead.message && (
             <div className="flex items-start gap-2.5">
               <FiMessageSquare className="text-secondary shrink-0 mt-0.5" />
