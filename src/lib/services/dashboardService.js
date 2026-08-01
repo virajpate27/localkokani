@@ -4,10 +4,10 @@ import { db } from "@/lib/firebase";
 import { getAllLeads } from "./leadService";
 
 export async function getDashboardStats() {
-  const [destinationsCount, hotelsCount, leadsSnap] = await Promise.all([
+  const [destinationsCount, hotelsCount, restaurantsCount, leadsSnap] = await Promise.all([
     getCountFromServer(collection(db, "destinations")),
     getCountFromServer(collection(db, "hotels")),
-     getCountFromServer(collection(db, "restaurants")),
+    getCountFromServer(collection(db, "restaurants")), // ⬅️ ADD
     getCountFromServer(collection(db, "leads")),
   ]);
 
