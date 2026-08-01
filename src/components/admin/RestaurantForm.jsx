@@ -119,6 +119,7 @@ export default function RestaurantForm({ initialData = null }) {
   const pathsToRevalidate = new Set([
     "/restaurants",
     "/",
+    "/destinations", 
     `/restaurants/${payload.slug}`,
     `/destinations/${payload.destinationSlug}`,
   ]);

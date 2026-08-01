@@ -2,17 +2,16 @@
 "use client";
 
 import { FiAlertTriangle, FiLoader } from "react-icons/fi";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export default function ConfirmDialog({
-  isOpen,
-  title,
-  message,
-  confirmLabel = "Confirm",
-  isDangerous = false,
-  isLoading = false,
-  onConfirm,
-  onCancel,
+  isOpen, title, message, confirmLabel = "Confirm",
+  isDangerous = false, isLoading = false, onConfirm, onCancel,
 }) {
+
+    const modalRef = useFocusTrap(isOpen);
+
+    
   if (!isOpen) return null;
 
   return (
