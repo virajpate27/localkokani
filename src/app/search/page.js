@@ -19,15 +19,16 @@ export default async function SearchPage({ searchParams }) {
   const { q } = await searchParams;
   const query = (q || "").trim();
 
-  const { hotels, destinations } = query
+  const { hotels, destinations, restaurants } = query
     ? await searchAllFull(query)
-    : { hotels: [], destinations: [] };
+    : { hotels: [], destinations: [], restaurants: [] };
 
   return (
     <SearchResultsClient
       initialQuery={query}
       initialHotels={hotels}
       initialDestinations={destinations}
+      initialRestaurants={restaurants} 
     />
   );
 }

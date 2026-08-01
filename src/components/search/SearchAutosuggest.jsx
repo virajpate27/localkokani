@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { FiSearch, FiMapPin, FiHome, FiX, FiLoader } from "react-icons/fi";
+import { FiSearch, FiMapPin, FiHome, FiX, FiLoader, FiCoffee } from "react-icons/fi";
 import { useDebounce } from "@/hooks/useDebounce";
 import { formatCurrency } from "@/utils/helpers";
 
@@ -164,9 +164,8 @@ export default function SearchAutosuggest({
                   key={`${result.type}-${result.id}`}
                   onClick={() => handleSelect(result)}
                   onMouseEnter={() => setActiveIndex(index)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
-                    activeIndex === index ? "bg-gray-50" : "hover:bg-gray-50"
-                  }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${activeIndex === index ? "bg-gray-50" : "hover:bg-gray-50"
+                    }`}
                 >
                   <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-gray-100">
                     {result.image && (
@@ -184,7 +183,13 @@ export default function SearchAutosuggest({
                       {result.title}
                     </p>
                     <p className="text-gray-400 text-xs flex items-center gap-1 truncate">
-                      {result.type === "hotel" ? <FiHome /> : <FiMapPin />}
+                      {result.type === "hotel" ? (
+                        <FiHome />
+                      ) : result.type === "restaurant" ? (
+                        <FiCoffee />
+                      ) : (
+                        <FiMapPin />
+                      )}
                       {result.subtitle}
                     </p>
                   </div>

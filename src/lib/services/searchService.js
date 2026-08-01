@@ -1,8 +1,9 @@
 // src/lib/services/searchService.js
 import { getAllHotels } from "./hotelService";
 import { getAllDestinations } from "./destinationService";
+import { getAllRestaurants } from "./restaurantService";
 
-let cachedSearchIndex = null;
+let cachedSearchIndex = null; 
 let cacheTimestamp = null;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
@@ -16,6 +17,7 @@ async function buildSearchIndex() {
   const [hotels, destinations] = await Promise.all([
     getAllHotels(),
     getAllDestinations(),
+    getAllRestaurants(),
   ]);
 
   const hotelEntries = hotels.map((hotel) => ({
@@ -47,7 +49,26 @@ async function buildSearchIndex() {
     searchText: [dest.name, dest.country].join(" ").toLowerCase(),
   }));
 
-  cachedSearchIndex = [...destinationEntries, ...hotelEntries];
+   const restaurantEntries = restaurants.map((restaurant) => ({
+    type: "restaurant",
+    id: restaurant.id,
+    slug: restaurant.slug,
+    title: restaurant.name,
+    subtitle: restaurant.destinationName,
+    image: restaurant.images?.[0]?.url,
+    price: restaurant.costForTwo || null,
+    rating: restaurant.rating,
+    searchText: [
+      restaurant.name,
+      restaurant.destinationName,
+      ...(restaurant.cuisine || []),
+      ...(restaurant.searchKeywords || []),
+    ]
+      .join(" ")
+      .toLowerCase(),
+  }));
+
+  cachedSearchIndex = [...destinationEntries, ...hotelEntries , ...restaurantEntries];
   cacheTimestamp = now;
   return cachedSearchIndex;
 }
@@ -77,7 +98,7 @@ export async function searchAll(rawQuery, limitCount = 8) {
 // Used by the full /search results page (Day 16) — returns everything, unranked cap
 export async function searchAllFull(rawQuery) {
   const query = rawQuery.trim().toLowerCase();
-  if (!query) return { hotels: [], destinations: [] };
+ if (!query) return { hotels: [], destinations: [], restaurants: [] };
 
   const index = await buildSearchIndex();
 
@@ -89,6 +110,7 @@ export async function searchAllFull(rawQuery) {
   return {
     hotels: matched.filter((r) => r.type === "hotel"),
     destinations: matched.filter((r) => r.type === "destination"),
+    restaurants: matched.filter((r) => r.type === "restaurant"),
   };
 }
 
