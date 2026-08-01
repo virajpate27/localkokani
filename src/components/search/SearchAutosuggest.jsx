@@ -66,15 +66,17 @@ export default function SearchAutosuggest({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleSelect = (result) => {
-    setIsOpen(false);
-    setQuery("");
-    if (result.type === "hotel") {
-      router.push(`/hotels/${result.slug}`);
-    } else {
-      router.push(`/destinations/${result.slug}`);
-    }
-  };
+ const handleSelect = (result) => {
+  setIsOpen(false);
+  setQuery("");
+  if (result.type === "hotel") {
+    router.push(`/hotels/${result.slug}`);
+  } else if (result.type === "restaurant") {
+    router.push(`/restaurants/${result.slug}`);
+  } else {
+    router.push(`/destinations/${result.slug}`);
+  }
+};
 
   const goToFullSearch = () => {
     if (!query.trim()) return;
