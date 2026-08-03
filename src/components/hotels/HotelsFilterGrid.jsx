@@ -5,7 +5,6 @@ import { useState, useMemo } from "react";
 import { FiFilter, FiX, FiChevronDown } from "react-icons/fi";
 import HotelCard from "./HotelCard";
 import EmptyState from "@/components/ui/EmptyState";
-const [verifiedOnly, setVerifiedOnly] = useState(false);
 
 const PRICE_RANGES = [
   { label: "Any Price", min: 0, max: Infinity },
@@ -53,7 +52,6 @@ export default function HotelsFilterGrid({ hotels }) {
       const hasAmenities =
         selectedAmenities.length === 0 ||
         selectedAmenities.every((a) => (h.amenities || []).includes(a));
-        const meetsVerified = !verifiedOnly || h.verified === true;
       return inPriceRange && meetsRating && hasAmenities;
     });
 
@@ -77,14 +75,12 @@ export default function HotelsFilterGrid({ hotels }) {
   const activeFilterCount =
     (priceRange.label !== "Any Price" ? 1 : 0) +
     (minRating > 0 ? 1 : 0) +
-    (verifiedOnly ? 1 : 0);
     selectedAmenities.length;
 
   const clearFilters = () => {
     setPriceRange(PRICE_RANGES[0]);
     setMinRating(0);
     setSelectedAmenities([]);
-    setVerifiedOnly(false);
   };
 
   return (
@@ -176,22 +172,6 @@ export default function HotelsFilterGrid({ hotels }) {
               ))}
             </div>
           </div>
-
-
-          <div className="pt-5 border-t border-gray-100">
-  <label className="flex items-center gap-2.5 cursor-pointer">
-    <input
-      type="checkbox"
-      checked={verifiedOnly}
-      onChange={(e) => setVerifiedOnly(e.target.checked)}
-      className="w-4 h-4 accent-secondary rounded"
-    />
-    <span className="text-sm text-gray-700 flex items-center gap-1.5">
-      Verified only <FiCheckCircle className="text-primary text-xs" />
-    </span>
-  </label>
-</div>
-
 
           {/* Amenities */}
           {allAmenities.length > 0 && (
