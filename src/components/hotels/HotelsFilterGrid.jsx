@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { FiFilter, FiX, FiChevronDown } from "react-icons/fi";
+import { FiFilter, FiX, FiChevronDown, FiCheckCircle } from "react-icons/fi";
 import HotelCard from "./HotelCard";
 import EmptyState from "@/components/ui/EmptyState";
 
@@ -27,6 +27,7 @@ export default function HotelsFilterGrid({ hotels }) {
   const [priceRange, setPriceRange] = useState(PRICE_RANGES[0]);
   const [minRating, setMinRating] = useState(0);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [sortBy, setSortBy] = useState("recommended");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
@@ -52,7 +53,8 @@ export default function HotelsFilterGrid({ hotels }) {
       const hasAmenities =
         selectedAmenities.length === 0 ||
         selectedAmenities.every((a) => (h.amenities || []).includes(a));
-      return inPriceRange && meetsRating && hasAmenities;
+      const meetsVerified = !verifiedOnly || h.verified === true;
+      return inPriceRange && meetsRating && hasAmenities && meetsVerified;
     });
 
     switch (sortBy) {
@@ -70,17 +72,19 @@ export default function HotelsFilterGrid({ hotels }) {
     }
 
     return result;
-  }, [hotels, priceRange, minRating, selectedAmenities, sortBy]);
+  }, [hotels, priceRange, minRating, selectedAmenities, verifiedOnly, sortBy]);
 
   const activeFilterCount =
     (priceRange.label !== "Any Price" ? 1 : 0) +
     (minRating > 0 ? 1 : 0) +
-    selectedAmenities.length;
+    selectedAmenities.length +
+    (verifiedOnly ? 1 : 0);
 
   const clearFilters = () => {
     setPriceRange(PRICE_RANGES[0]);
     setMinRating(0);
     setSelectedAmenities([]);
+    setVerifiedOnly(false);
   };
 
   return (
@@ -101,10 +105,11 @@ export default function HotelsFilterGrid({ hotels }) {
 
       {/* Filter Sidebar */}
       <aside
-        className={`${showMobileFilters
+        className={`${
+          showMobileFilters
             ? "fixed inset-0 z-[60] bg-white p-6 overflow-y-auto"
             : "hidden"
-          } lg:block lg:static lg:bg-transparent lg:p-0`}
+        } lg:block lg:static lg:bg-transparent lg:p-0`}
       >
         <div className="flex items-center justify-between lg:hidden mb-6">
           <h3 className="font-display font-bold text-xl text-primary">Filters</h3>
@@ -162,15 +167,31 @@ export default function HotelsFilterGrid({ hotels }) {
                 <button
                   key={r}
                   onClick={() => setMinRating(r)}
-                  className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${minRating === r
+                  className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
+                    minRating === r
                       ? "bg-primary text-white border-primary"
                       : "border-gray-200 text-gray-600 hover:border-primary"
-                    }`}
+                  }`}
                 >
                   {r === 0 ? "Any" : `${r}+ ★`}
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Verified Only */}
+          <div className="pt-5 border-t border-gray-100">
+            <label className="flex items-center gap-2.5 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={verifiedOnly}
+                onChange={(e) => setVerifiedOnly(e.target.checked)}
+                className="w-4 h-4 accent-secondary rounded"
+              />
+              <span className="text-sm text-gray-700 group-hover:text-primary flex items-center gap-1.5">
+                Verified only <FiCheckCircle className="text-primary text-xs" />
+              </span>
+            </label>
           </div>
 
           {/* Amenities */}
