@@ -13,7 +13,7 @@ import {
 } from "@/lib/services/restaurantService";
 import { incrementRestaurantCount, getAllDestinations } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
-import { slugify } from "@/utils/helpers";
+import { slugify, isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 import { triggerRevalidation } from "@/utils/revalidate";
 
 const CUISINE_SUGGESTIONS = [
@@ -74,8 +74,8 @@ export default function RestaurantForm({ initialData = null }) {
             newErrors.costForTwo = "Enter a valid amount";
         }
         if (formData.mapEmbedUrl && !isValidGoogleMapsEmbedUrl(formData.mapEmbedUrl)) {
-  newErrors.mapEmbedUrl = "Please paste a valid Google Maps embed URL";
-}
+            newErrors.mapEmbedUrl = "Please paste a valid Google Maps embed URL";
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -324,28 +324,72 @@ export default function RestaurantForm({ initialData = null }) {
             </div>
 
             <div className="card p-6 space-y-5">
-                <h3 className="font-display font-semibold text-primary">
-                    Map Location <span className="text-gray-400 font-normal text-sm">(optional)</span>
-                </h3>
+                <div>
+                    <h3 className="font-display font-semibold text-primary">
+                        Map Location <span className="text-gray-400 font-normal text-sm">(optional)</span>
+                    </h3>
+                    <p className="text-gray-400 text-xs mt-1">
+                        Recommended: paste a Google Maps embed URL for the most accurate map.
+                        Lat/Lng below is used only as a fallback if no embed URL is provided.
+                    </p>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Google Maps Embed URL
+                    </label>
+                    <textarea
+                        name="mapEmbedUrl"
+                        value={formData.mapEmbedUrl}
+                        onChange={handleChange}
+                        rows={2}
+                        placeholder="https://www.google.com/maps/embed?pb=..."
+                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none font-mono ${errors.mapEmbedUrl ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                            }`}
+                    />
+                    {errors.mapEmbedUrl && <p className="text-red-500 text-xs mt-1">{errors.mapEmbedUrl}</p>}
+                    <details className="mt-2">
+                        <summary className="text-secondary text-xs font-medium cursor-pointer hover:underline">
+                            How do I get this URL?
+                        </summary>
+                        <ol className="list-decimal list-inside text-gray-500 text-xs mt-2 space-y-1 pl-1">
+                            <li>Search for your Restaurant/business on Google Maps</li>
+                            <li>Click <strong>Share</strong> → <strong>Embed a map</strong> tab</li>
+                            <li>Copy just the URL inside <code className="bg-gray-100 px-1 rounded">src="..."</code> from the iframe code shown</li>
+                            <li>Paste that URL here (not the full iframe tag, just the URL)</li>
+                        </ol>
+                    </details>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <input
-                        type="number"
-                        step="any"
-                        name="lat"
-                        value={formData.lat}
-                        onChange={handleChange}
-                        placeholder="Latitude"
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
-                    />
-                    <input
-                        type="number"
-                        step="any"
-                        name="lng"
-                        value={formData.lng}
-                        onChange={handleChange}
-                        placeholder="Longitude"
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
-                    />
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Latitude <span className="text-gray-400 font-normal">(fallback only)</span>
+                        </label>
+                        <input
+                            type="number"
+                            step="any"
+                            name="lat"
+                            value={formData.lat}
+                            onChange={handleChange}
+                            placeholder="e.g. 15.1631"
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Longitude <span className="text-gray-400 font-normal">(fallback only)</span>
+                        </label>
+                        <input
+                            type="number"
+                            step="any"
+                            name="lng"
+                            value={formData.lng}
+                            onChange={handleChange}
+                            placeholder="e.g. 73.9463"
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
+                        />
+                    </div>
                 </div>
             </div>
 
