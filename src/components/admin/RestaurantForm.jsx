@@ -43,6 +43,7 @@ export default function RestaurantForm({ initialData = null }) {
         lng: initialData?.location?.lng || "",
         featured: initialData?.featured ?? false,
         status: initialData?.status || "active",
+        verified: initialData?.verified ?? false,
     });
     const [images, setImages] = useState(initialData?.images || []);
     const [originalImages] = useState(initialData?.images || []);
@@ -113,6 +114,7 @@ export default function RestaurantForm({ initialData = null }) {
                 ...cuisine.map((c) => c.toLowerCase()),
             ],
             mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
+            verified: formData.verified,
             location:
                 formData.lat && formData.lng
                     ? { lat: Number(formData.lat), lng: Number(formData.lng) }
@@ -403,6 +405,21 @@ export default function RestaurantForm({ initialData = null }) {
                         className="w-4 h-4 accent-secondary rounded"
                     />
                     <span className="text-sm text-gray-700">Show on homepage (Featured Restaurant)</span>
+                </label>
+                <label className="flex items-center gap-2.5 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        name="verified"
+                        checked={formData.verified}
+                        onChange={handleChange}
+                        className="w-4 h-4 accent-secondary rounded"
+                    />
+                    <span className="text-sm text-gray-700 flex items-center gap-2">
+                        Premium Verified
+                        <span className="text-xs text-gray-400 font-normal">
+                            (shows a trust badge — use only for restaurants you've personally verified)
+                        </span>
+                    </span>
                 </label>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>

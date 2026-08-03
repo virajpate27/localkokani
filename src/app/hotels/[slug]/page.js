@@ -16,6 +16,7 @@ import ReviewForm from "@/components/reviews/ReviewForm";
 
 import WishlistButton from "@/components/ui/WishlistButton";
 import { isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
+import VerifiedBadge from "@/components/ui/VerifiedBadge";
 
 export const revalidate = 1800;
 
@@ -85,20 +86,17 @@ export default async function HotelDetailPage({ params }) {
             <FiMapPin /> {hotel.destinationName}
           </p>
           <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
-            <div className="flex flex-wrap items-center gap-3">
-              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
-                {hotel.name}
-              </h1>
-              <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
-                <FiStar className="text-accent fill-accent text-sm" />
-                <span className="font-semibold text-primary text-sm">
-                  {hotel.rating}
-                </span>
-                <span className="text-gray-400 text-xs">
-                  ({hotel.reviewCount} reviews)
-                </span>
-              </div>
-            </div>
+           <div className="flex flex-wrap items-center gap-3 mt-2">
+  <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
+    {hotel.name}
+  </h1>
+  {hotel.verified && <VerifiedBadge />}
+  <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
+    <FiStar className="text-accent fill-accent text-sm" />
+    <span className="font-semibold text-primary text-sm">{hotel.rating}</span>
+    <span className="text-gray-400 text-xs">({hotel.reviewCount} reviews)</span>
+  </div>
+</div>
             <WishlistButton
               item={hotel}
               size="text-xl"

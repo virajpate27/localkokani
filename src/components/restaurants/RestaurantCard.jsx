@@ -6,6 +6,7 @@ import { getOptimizedUrl } from "@/lib/cloudinary";
 import { formatCurrency } from "@/utils/helpers";
 import WishlistButton from "@/components/ui/WishlistButton"; 
 import { getCuisineIcon } from "./CuisineGrid";
+import VerifiedBadge from "@/components/ui/VerifiedBadge";
 
 export default function RestaurantCard({ restaurant, priority = false }) {
   const imageUrl =
@@ -18,22 +19,21 @@ export default function RestaurantCard({ restaurant, priority = false }) {
       className="group card overflow-hidden flex flex-col hover:-translate-y-1"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={imageUrl}
-          alt={restaurant.name}
-          fill
-          priority={priority}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          className="object-cover group-hover:scale-110 transition-transform duration-500"
-        />
-        {restaurant.rating > 0 && (
-          <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary shadow-sm">
-            <FiStar className="text-accent fill-accent" />
-            {restaurant.rating}
-          </div>
-        )}
-        <WishlistButton item={restaurant} entityType="restaurant" className="absolute top-3 right-3" /> {/* ⬅️ ADD */}
+  <Image src={imageUrl} alt={restaurant.name} fill priority={priority}
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+    className="object-cover group-hover:scale-110 transition-transform duration-500"
+  />
+  <div className="absolute top-3 left-3 flex items-center gap-1.5">
+    {restaurant.rating > 0 && (
+      <div className="bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary shadow-sm">
+        <FiStar className="text-accent fill-accent" />
+        {restaurant.rating}
       </div>
+    )}
+    {restaurant.verified && <VerifiedBadge showLabel={false} className="!p-2 !rounded-lg" />}
+  </div>
+  <WishlistButton item={restaurant} entityType="restaurant" className="absolute top-3 right-3" />
+</div>
 
       <div className="p-5 flex flex-col flex-1">
         <p className="flex items-center gap-1 text-secondary text-xs font-medium uppercase tracking-wide">

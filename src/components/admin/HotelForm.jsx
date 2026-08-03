@@ -29,11 +29,12 @@ export default function HotelForm({ initialData = null }) {
     price: initialData?.price || "",
     priceRange: initialData?.priceRange || "$$",
     rating: initialData?.rating || "",
-     mapEmbedUrl: initialData?.mapEmbedUrl || "",
-  lat: initialData?.location?.lat || "",
-  lng: initialData?.location?.lng || "",
+    mapEmbedUrl: initialData?.mapEmbedUrl || "",
+    lat: initialData?.location?.lat || "",
+    lng: initialData?.location?.lng || "",
     featured: initialData?.featured ?? false,
     status: initialData?.status || "active",
+    verified: initialData?.verified ?? false,
   });
   const [images, setImages] = useState(initialData?.images || []);
   const [originalImages] = useState(initialData?.images || []);
@@ -74,9 +75,9 @@ export default function HotelForm({ initialData = null }) {
     if (formData.rating && (Number(formData.rating) < 0 || Number(formData.rating) > 5)) {
       newErrors.rating = "Rating must be between 0 and 5";
     }
-     if (formData.mapEmbedUrl && !isValidGoogleMapsEmbedUrl(formData.mapEmbedUrl)) {
-    newErrors.mapEmbedUrl = "Please paste a valid Google Maps embed URL (starts with https://www.google.com/maps/embed)";
-  }
+    if (formData.mapEmbedUrl && !isValidGoogleMapsEmbedUrl(formData.mapEmbedUrl)) {
+      newErrors.mapEmbedUrl = "Please paste a valid Google Maps embed URL (starts with https://www.google.com/maps/embed)";
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -123,10 +124,11 @@ export default function HotelForm({ initialData = null }) {
         ...amenities.map((a) => a.toLowerCase()),
       ],
       mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
-  location:
-    formData.lat && formData.lng
-      ? { lat: Number(formData.lat), lng: Number(formData.lng) }
-      : null,
+      verified: formData.verified,
+      location:
+        formData.lat && formData.lng
+          ? { lat: Number(formData.lat), lng: Number(formData.lng) }
+          : null,
     };
 
     // Collect every public path that needs fresh data after this save,
@@ -217,9 +219,8 @@ export default function HotelForm({ initialData = null }) {
               value={formData.name}
               onChange={handleChange}
               placeholder="e.g. The Leela Goa"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
@@ -231,9 +232,8 @@ export default function HotelForm({ initialData = null }) {
               value={formData.destinationId}
               onChange={handleChange}
               disabled={isLoadingDestinations}
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${
-                errors.destinationId ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${errors.destinationId ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             >
               <option value="">
                 {isLoadingDestinations ? "Loading..." : "Select a destination"}
@@ -263,9 +263,8 @@ export default function HotelForm({ initialData = null }) {
             onChange={handleChange}
             rows={4}
             placeholder="Describe the hotel's highlights, atmosphere, and unique features..."
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${
-              errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
@@ -278,9 +277,8 @@ export default function HotelForm({ initialData = null }) {
             value={formData.address}
             onChange={handleChange}
             placeholder="e.g. Cavelossim Beach, South Goa"
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-              errors.address ? "border-red-300" : "border-gray-200 focus:border-secondary"
-            }`}
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.address ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
           />
           {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
         </div>
@@ -300,9 +298,8 @@ export default function HotelForm({ initialData = null }) {
               value={formData.price}
               onChange={handleChange}
               placeholder="e.g. 4500"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.price ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.price ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
             {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
           </div>
@@ -335,9 +332,8 @@ export default function HotelForm({ initialData = null }) {
               value={formData.rating}
               onChange={handleChange}
               placeholder="e.g. 4.5"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-                errors.rating ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.rating ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
             />
             {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
           </div>
@@ -355,76 +351,75 @@ export default function HotelForm({ initialData = null }) {
       </div>
 
       {/* Location coordinates */}
-     <div className="card p-6 space-y-5">
-  <div>
-    <h3 className="font-display font-semibold text-primary">
-      Map Location <span className="text-gray-400 font-normal text-sm">(optional)</span>
-    </h3>
-    <p className="text-gray-400 text-xs mt-1">
-      Recommended: paste a Google Maps embed URL for the most accurate map.
-      Lat/Lng below is used only as a fallback if no embed URL is provided.
-    </p>
-  </div>
+      <div className="card p-6 space-y-5">
+        <div>
+          <h3 className="font-display font-semibold text-primary">
+            Map Location <span className="text-gray-400 font-normal text-sm">(optional)</span>
+          </h3>
+          <p className="text-gray-400 text-xs mt-1">
+            Recommended: paste a Google Maps embed URL for the most accurate map.
+            Lat/Lng below is used only as a fallback if no embed URL is provided.
+          </p>
+        </div>
 
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">
-      Google Maps Embed URL
-    </label>
-    <textarea
-      name="mapEmbedUrl"
-      value={formData.mapEmbedUrl}
-      onChange={handleChange}
-      rows={2}
-      placeholder="https://www.google.com/maps/embed?pb=..."
-      className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none font-mono ${
-        errors.mapEmbedUrl ? "border-red-300" : "border-gray-200 focus:border-secondary"
-      }`}
-    />
-    {errors.mapEmbedUrl && <p className="text-red-500 text-xs mt-1">{errors.mapEmbedUrl}</p>}
-    <details className="mt-2">
-      <summary className="text-secondary text-xs font-medium cursor-pointer hover:underline">
-        How do I get this URL?
-      </summary>
-      <ol className="list-decimal list-inside text-gray-500 text-xs mt-2 space-y-1 pl-1">
-        <li>Search for your hotel/business on Google Maps</li>
-        <li>Click <strong>Share</strong> → <strong>Embed a map</strong> tab</li>
-        <li>Copy just the URL inside <code className="bg-gray-100 px-1 rounded">src="..."</code> from the iframe code shown</li>
-        <li>Paste that URL here (not the full iframe tag, just the URL)</li>
-      </ol>
-    </details>
-  </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Google Maps Embed URL
+          </label>
+          <textarea
+            name="mapEmbedUrl"
+            value={formData.mapEmbedUrl}
+            onChange={handleChange}
+            rows={2}
+            placeholder="https://www.google.com/maps/embed?pb=..."
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none font-mono ${errors.mapEmbedUrl ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
+          />
+          {errors.mapEmbedUrl && <p className="text-red-500 text-xs mt-1">{errors.mapEmbedUrl}</p>}
+          <details className="mt-2">
+            <summary className="text-secondary text-xs font-medium cursor-pointer hover:underline">
+              How do I get this URL?
+            </summary>
+            <ol className="list-decimal list-inside text-gray-500 text-xs mt-2 space-y-1 pl-1">
+              <li>Search for your hotel/business on Google Maps</li>
+              <li>Click <strong>Share</strong> → <strong>Embed a map</strong> tab</li>
+              <li>Copy just the URL inside <code className="bg-gray-100 px-1 rounded">src="..."</code> from the iframe code shown</li>
+              <li>Paste that URL here (not the full iframe tag, just the URL)</li>
+            </ol>
+          </details>
+        </div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Latitude <span className="text-gray-400 font-normal">(fallback only)</span>
-      </label>
-      <input
-        type="number"
-        step="any"
-        name="lat"
-        value={formData.lat}
-        onChange={handleChange}
-        placeholder="e.g. 15.1631"
-        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
-      />
-    </div>
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Longitude <span className="text-gray-400 font-normal">(fallback only)</span>
-      </label>
-      <input
-        type="number"
-        step="any"
-        name="lng"
-        value={formData.lng}
-        onChange={handleChange}
-        placeholder="e.g. 73.9463"
-        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
-      />
-    </div>
-  </div>
-</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Latitude <span className="text-gray-400 font-normal">(fallback only)</span>
+            </label>
+            <input
+              type="number"
+              step="any"
+              name="lat"
+              value={formData.lat}
+              onChange={handleChange}
+              placeholder="e.g. 15.1631"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Longitude <span className="text-gray-400 font-normal">(fallback only)</span>
+            </label>
+            <input
+              type="number"
+              step="any"
+              name="lng"
+              value={formData.lng}
+              onChange={handleChange}
+              placeholder="e.g. 73.9463"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Status & Visibility */}
       <div className="card p-6 space-y-4">
@@ -438,6 +433,22 @@ export default function HotelForm({ initialData = null }) {
             className="w-4 h-4 accent-secondary rounded"
           />
           <span className="text-sm text-gray-700">Show on homepage (Featured Hotel)</span>
+        </label>
+
+        <label className="flex items-center gap-2.5 cursor-pointer">
+          <input
+            type="checkbox"
+            name="verified"
+            checked={formData.verified}
+            onChange={handleChange}
+            className="w-4 h-4 accent-secondary rounded"
+          />
+          <span className="text-sm text-gray-700 flex items-center gap-2">
+            Premium Verified
+            <span className="text-xs text-gray-400 font-normal">
+              (shows a trust badge — use only for hotels you've personally verified)
+            </span>
+          </span>
         </label>
 
         <div>
