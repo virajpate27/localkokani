@@ -11,7 +11,6 @@ import RoomTypesEditor from "./RoomTypesEditor";
 import { createHotel, updateHotel } from "@/lib/services/hotelService";
 import { incrementHotelCount, getAllDestinations } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
-import { slugify } from "@/utils/helpers";
 import { triggerRevalidation } from "@/utils/revalidate";
 import { slugify, isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 
