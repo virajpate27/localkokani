@@ -136,3 +136,16 @@ export function generateOrganizationSchema() {
     },
   };
 }
+
+export function isValidGoogleMapsEmbedUrl(url) {
+  if (!url || typeof url !== "string") return false;
+  try {
+    const parsed = new URL(url);
+    return (
+      parsed.hostname === "www.google.com" &&
+      parsed.pathname.startsWith("/maps/embed")
+    );
+  } catch {
+    return false;
+  }
+}

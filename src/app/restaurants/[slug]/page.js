@@ -17,7 +17,7 @@ import ReviewsList from "@/components/reviews/ReviewsList";
 import ReviewForm from "@/components/reviews/ReviewForm";
 import WishlistButton from "@/components/ui/WishlistButton";
 import CuisineGrid from "@/components/restaurants/CuisineGrid";
-
+import { isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 export const revalidate = 1800;
 
 export async function generateStaticParams() {
@@ -147,14 +147,17 @@ export default async function RestaurantDetailPage({ params }) {
               </p>
             </div>
 
-           {restaurant.cuisine?.length > 0 && (
-  <div>
-    <h2 className="font-display font-bold text-2xl text-primary mb-4">Cuisine</h2>
-    <CuisineGrid cuisine={restaurant.cuisine} />
-  </div>
-)}
+            {restaurant.cuisine?.length > 0 && (
+              <div>
+                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                  Cuisine
+                </h2>
+                <CuisineGrid cuisine={restaurant.cuisine} />
+              </div>
+            )}
 
-            {restaurant.location?.lat && restaurant.location?.lng && (
+            {(restaurant.mapEmbedUrl ||
+              (restaurant.location?.lat && restaurant.location?.lng)) && (
               <div>
                 <h2 className="font-display font-bold text-2xl text-primary mb-4">
                   Location
@@ -166,7 +169,13 @@ export default async function RestaurantDetailPage({ params }) {
                     height="100%"
                     style={{ border: 0 }}
                     loading="lazy"
-                    src={`https://www.google.com/maps?q=${restaurant.location.lat},${restaurant.location.lng}&z=15&output=embed`}
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={
+                      restaurant.mapEmbedUrl &&
+                      isValidGoogleMapsEmbedUrl(restaurant.mapEmbedUrl)
+                        ? restaurant.mapEmbedUrl
+                        : `https://www.google.com/maps?q=${restaurant.location.lat},${restaurant.location.lng}&z=15&output=embed`
+                    }
                   />
                 </div>
               </div>

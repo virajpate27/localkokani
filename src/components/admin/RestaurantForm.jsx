@@ -38,6 +38,7 @@ export default function RestaurantForm({ initialData = null }) {
         priceRange: initialData?.priceRange || "$$",
         rating: initialData?.rating || "",
         openingHours: initialData?.openingHours || "",
+        mapEmbedUrl: initialData?.mapEmbedUrl || "",
         lat: initialData?.location?.lat || "",
         lng: initialData?.location?.lng || "",
         featured: initialData?.featured ?? false,
@@ -72,6 +73,9 @@ export default function RestaurantForm({ initialData = null }) {
         if (formData.costForTwo && Number(formData.costForTwo) <= 0) {
             newErrors.costForTwo = "Enter a valid amount";
         }
+        if (formData.mapEmbedUrl && !isValidGoogleMapsEmbedUrl(formData.mapEmbedUrl)) {
+  newErrors.mapEmbedUrl = "Please paste a valid Google Maps embed URL";
+}
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -108,6 +112,7 @@ export default function RestaurantForm({ initialData = null }) {
                 selectedDestination?.name?.toLowerCase() || "",
                 ...cuisine.map((c) => c.toLowerCase()),
             ],
+            mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
             location:
                 formData.lat && formData.lng
                     ? { lat: Number(formData.lat), lng: Number(formData.lng) }

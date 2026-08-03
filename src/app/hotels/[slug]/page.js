@@ -15,6 +15,7 @@ import ReviewsList from "@/components/reviews/ReviewsList";
 import ReviewForm from "@/components/reviews/ReviewForm";
 
 import WishlistButton from "@/components/ui/WishlistButton";
+import { isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 
 export const revalidate = 1800;
 
@@ -145,23 +146,28 @@ export default async function HotelDetailPage({ params }) {
             )}
 
             {/* Location */}
-            {hotel.location?.lat && hotel.location?.lng && (
-              <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
-                  Location
-                </h2>
-                <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-gray-100">
-                  <iframe
-                    title={`Map location of ${hotel.name}`}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    src={`https://www.google.com/maps?q=${hotel.location.lat},${hotel.location.lng}&z=14&output=embed`}
-                  />
-                </div>
-              </div>
-            )}
+            {(hotel.mapEmbedUrl || (hotel.location?.lat && hotel.location?.lng)) && (
+  <div>
+    <h2 className="font-display font-bold text-2xl text-primary mb-4">
+      Location
+    </h2>
+    <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-gray-100">
+      <iframe
+        title={`Map location of ${hotel.name}`}
+        width="100%"
+        height="100%"
+        style={{ border: 0 }}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        src={
+          hotel.mapEmbedUrl && isValidGoogleMapsEmbedUrl(hotel.mapEmbedUrl)
+            ? hotel.mapEmbedUrl
+            : `https://www.google.com/maps?q=${hotel.location.lat},${hotel.location.lng}&z=14&output=embed`
+        }
+      />
+    </div>
+  </div>
+)}
 
             {/* NEW: Reviews section */}
             <div>
