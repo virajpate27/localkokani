@@ -1,9 +1,7 @@
 // src/app/restaurants/page.js
 import { getAllRestaurants } from "@/lib/services/restaurantService";
-import RestaurantCard from "@/components/restaurants/RestaurantCard";
+import RestaurantsFilterGrid from "@/components/restaurants/RestaurantsFilterGrid";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import EmptyState from "@/components/ui/EmptyState";
-
 
 export const revalidate = 1800;
 
@@ -31,22 +29,14 @@ export default async function RestaurantsPage() {
             Discover Great Places to Eat
           </h1>
           <p className="text-white/80 mt-4 max-w-xl mx-auto">
-            Handpicked restaurants near your favorite destinations.
+            Filter by cuisine, budget, or rating to find your perfect spot.
           </p>
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50 min-h-[50vh]">
+      <section className="py-12 bg-gray-50 min-h-[60vh]">
         <div className="container-custom">
-          {restaurants.length === 0 ? (
-            <EmptyState title="No restaurants yet" description="Check back soon." />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {restaurants.map((r, i) => (
-                <RestaurantCard key={r.id} restaurant={r} priority={i < 2} />
-              ))}
-            </div>
-          )}
+          <RestaurantsFilterGrid restaurants={restaurants} />
         </div>
       </section>
     </>
