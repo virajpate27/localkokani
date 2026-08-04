@@ -1,11 +1,8 @@
 // src/components/destinations/SponsoredListingsSection.jsx
 import HotelCard from "@/components/hotels/HotelCard";
 import RestaurantCard from "@/components/restaurants/RestaurantCard";
-import SponsoredBadge from "@/components/ui/SponsoredBadge";
 import { FiZap } from "react-icons/fi";
 
-// Interleaves two arrays so the mix feels natural (hotel, restaurant, hotel, restaurant...)
-// rather than showing all hotels first, then all restaurants.
 function interleave(hotels, restaurants) {
   const result = [];
   const maxLength = Math.max(hotels.length, restaurants.length);
@@ -21,7 +18,7 @@ function interleave(hotels, restaurants) {
 export default function SponsoredListingsSection({ sponsoredHotels = [], sponsoredRestaurants = [], destinationName }) {
   const mixedItems = interleave(sponsoredHotels, sponsoredRestaurants);
 
-  if (mixedItems.length === 0) return null; // hide entirely if nothing is sponsored here
+  if (mixedItems.length === 0) return null;
 
   return (
     <section className="py-16 bg-primary/5">
@@ -37,16 +34,13 @@ export default function SponsoredListingsSection({ sponsoredHotels = [], sponsor
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mixedItems.map(({ type, data }) => (
-            <div key={`${type}-${data.id}`} className="relative">
-              <SponsoredBadge />
-              {type === "hotel" ? (
-                <HotelCard hotel={data} />
-              ) : (
-                <RestaurantCard restaurant={data} />
-              )}
-            </div>
-          ))}
+          {mixedItems.map(({ type, data }) =>
+            type === "hotel" ? (
+              <HotelCard key={`hotel-${data.id}`} hotel={data} sponsored />
+            ) : (
+              <RestaurantCard key={`restaurant-${data.id}`} restaurant={data} sponsored />
+            )
+          )}
         </div>
       </div>
     </section>

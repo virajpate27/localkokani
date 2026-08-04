@@ -118,7 +118,7 @@ export async function restoreRestaurant(id) {
   return updateDoc(docRef, { status: "active", updatedAt: serverTimestamp() });
 } 
 
-export async function getSponsoredRestaurantsByDestination(destinationId, limitCount = 6) {
+export async function getSponsoredRestaurantsByDestination(destinationId, limitCount = 8) {
   const snap = await getDocs(
     query(
       collection(db, COLLECTION),
