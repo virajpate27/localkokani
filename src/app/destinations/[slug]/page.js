@@ -1,20 +1,22 @@
 // src/app/destinations/[slug]/page.js
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { FiMapPin, FiHome, FiStar,FiCoffee } from "react-icons/fi";
+import { FiMapPin, FiHome, FiStar, FiCoffee } from "react-icons/fi";
 import {
   getDestinationBySlug,
   getAllDestinations,
 } from "@/lib/services/destinationService";
 import { getHotelsByDestination } from "@/lib/services/hotelService";
-import HotelCard from "@/components/hotels/HotelCard";
+
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import EmptyState from "@/components/ui/EmptyState";
+
 import JsonLd from "@/components/ui/JsonLd";
 import { generateDestinationCollectionSchema } from "@/utils/helpers";
-export const revalidate = 3600;
+export const revalidate = 500;
 import { getRestaurantsByDestination } from "@/lib/services/restaurantService";
-import RestaurantCard from "@/components/restaurants/RestaurantCard";
+
+import HotelsLoadMoreGrid from "@/components/hotels/HotelsLoadMoreGrid";
+import RestaurantsLoadMoreGrid from "@/components/restaurants/RestaurantsLoadMoreGrid";
 
 export async function generateStaticParams() {
   const destinations = await getAllDestinations();
@@ -54,7 +56,7 @@ export default async function DestinationDetailPage({ params }) {
 
   const hotels = await getHotelsByDestination(destination.id);
 
-    const restaurants = await getRestaurantsByDestination(destination.id);
+  const restaurants = await getRestaurantsByDestination(destination.id);
 
   const destinationSchema = generateDestinationCollectionSchema(
     destination,
@@ -97,17 +99,17 @@ export default async function DestinationDetailPage({ params }) {
             </h1>
             <div className="flex gap-1.5">
               <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-              <FiHome className="text-accent" />
-              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
-              available
-            </p>
-             
+                <FiHome className="text-accent" />
+                {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
+                available
+              </p>
 
-             <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-              <FiCoffee className="text-accent" />
-              {restaurants.length} {restaurants.length === 1 ? "restaurant" : "restaurants"}{" "}
-              available
-            </p>
+              <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
+                <FiCoffee className="text-accent" />
+                {restaurants.length}{" "}
+                {restaurants.length === 1 ? "restaurant" : "restaurants"}{" "}
+                available
+              </p>
             </div>
           </div>
         </div>
@@ -124,27 +126,20 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-
       {/* Hotels List — stays exactly the same */}
       <section className="py-16 bg-gray-50 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
             <h2 className="section-title">Hotels in {destination.name}</h2>
-            <span className="text-gray-400 text-sm">Sorted by price (low to high)</span>
+            <span className="text-gray-400 text-sm">
+              Sorted by price (low to high)
+            </span>
           </div>
 
-          {hotels.length === 0 ? (
-            <EmptyState
-              title={`No hotels listed in ${destination.name} yet`}
-              description="Check back soon, or explore other destinations."
-            />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {hotels.map((hotel) => (
-                <HotelCard key={hotel.id} hotel={hotel} />
-              ))}
-            </div>
-          )}
+          <HotelsLoadMoreGrid
+            hotels={hotels}
+            destinationName={destination.name}
+          />
         </div>
       </section>
 
@@ -161,15 +156,10 @@ export default async function DestinationDetailPage({ params }) {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {restaurants.map((restaurant) => (
-                <RestaurantCard key={restaurant.id} restaurant={restaurant} />
-              ))}
-            </div>
+            <RestaurantsLoadMoreGrid restaurants={restaurants} />
           </div>
         </section>
       )}
-
     </>
   );
 }
