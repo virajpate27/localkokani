@@ -10,6 +10,9 @@ import RestaurantsLoadMoreGrid from "@/components/restaurants/RestaurantsLoadMor
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import JsonLd from "@/components/ui/JsonLd";
 import { generateDestinationCollectionSchema } from "@/utils/helpers";
+import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
+import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
+import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
 
 export const revalidate = 3600;
 
@@ -50,6 +53,8 @@ export default async function DestinationDetailPage({ params }) {
 
   const hotels = await getHotelsByDestination(destination.id);
   const restaurants = await getRestaurantsByDestination(destination.id);
+  const sponsoredHotels = await getSponsoredHotelsByDestination(destination.id);
+  const sponsoredRestaurants = await getSponsoredRestaurantsByDestination(destination.id);
 
   const destinationSchema = generateDestinationCollectionSchema(destination, hotels);
 
@@ -102,6 +107,16 @@ export default async function DestinationDetailPage({ params }) {
           </p>
         </div>
       </section>
+
+
+       {/* NEW: Sponsored Mixed Section — right after About, before Hotels */}
+      <SponsoredListingsSection
+        sponsoredHotels={sponsoredHotels}
+        sponsoredRestaurants={sponsoredRestaurants}
+        destinationName={destination.name}
+      />
+
+
 
       {/* Hotels List */}
       <section className="py-16 bg-gray-50 min-h-[40vh]">

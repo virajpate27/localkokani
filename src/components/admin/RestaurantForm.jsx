@@ -44,6 +44,7 @@ export default function RestaurantForm({ initialData = null }) {
         featured: initialData?.featured ?? false,
         status: initialData?.status || "active",
         verified: initialData?.verified ?? false,
+        sponsored: initialData?.sponsored ?? false,
     });
     const [images, setImages] = useState(initialData?.images || []);
     const [originalImages] = useState(initialData?.images || []);
@@ -115,6 +116,8 @@ export default function RestaurantForm({ initialData = null }) {
             ],
             mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
             verified: formData.verified,
+            sponsored: formData.sponsored,
+
             location:
                 formData.lat && formData.lng
                     ? { lat: Number(formData.lat), lng: Number(formData.lng) }
@@ -418,6 +421,21 @@ export default function RestaurantForm({ initialData = null }) {
                         Premium Verified
                         <span className="text-xs text-gray-400 font-normal">
                             (shows a trust badge — use only for restaurants you've personally verified)
+                        </span>
+                    </span>
+                </label>
+                <label className="flex items-center gap-2.5 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        name="sponsored"
+                        checked={formData.sponsored}
+                        onChange={handleChange}
+                        className="w-4 h-4 accent-secondary rounded"
+                    />
+                    <span className="text-sm text-gray-700 flex items-center gap-2">
+                        Sponsored Listing
+                        <span className="text-xs text-gray-400 font-normal">
+                            (featured in the "Recommended" section on its destination page)
                         </span>
                     </span>
                 </label>
