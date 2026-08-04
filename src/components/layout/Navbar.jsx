@@ -131,6 +131,19 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+
+            <li className="pt-2">
+              <div className="px-4">
+                <Link
+                  href="/wishlist"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-600 hover:bg-gray-50"
+                >
+                  <FiHeart className="text-secondary" />
+                  Wishlist {count > 0 && <span className="text-accent font-semibold">({count})</span>}
+                </Link>
+              </div>
+            </li>
             <li className="pt-2">
               <Link
                 href="/destinations"
@@ -141,16 +154,7 @@ export default function Navbar() {
               </Link>
             </li>
           </ul>
-          <div className="px-4">
-            <Link
-              href="/wishlist"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-600 hover:bg-gray-50"
-            >
-              <FiHeart className="text-secondary" />
-              Wishlist {count > 0 && <span className="text-accent font-semibold">({count})</span>}
-            </Link>
-          </div>
+
         </div>
       )}
     </header>

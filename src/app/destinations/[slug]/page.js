@@ -98,7 +98,7 @@ export default async function DestinationDetailPage({ params }) {
       </section>
 
       <section className="py-12 bg-white border-b border-gray-100">
-        <div className="container-custom max-w-3xl">
+        <div className="container-custom ">
           <h2 className="font-display font-bold text-2xl text-primary mb-4">
             About {destination.name}
           </h2>

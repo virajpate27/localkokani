@@ -7,6 +7,7 @@ import { getOptimizedUrl } from "@/lib/cloudinary";
 import WishlistButton from "@/components/ui/WishlistButton";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import SponsoredBadge from "@/components/ui/SponsoredBadge";
+import CustomBadge from "@/components/ui/CustomBadge"; 
 
 export default function HotelCard({ hotel, priority = false, sponsored = false }) {
   const imageUrl = getOptimizedUrl(hotel.images?.[0]?.url, { width: 600 }) || "/placeholder-hotel.jpg";
@@ -34,6 +35,7 @@ export default function HotelCard({ hotel, priority = false, sponsored = false }
         </div>
         <WishlistButton item={hotel} className="absolute top-3 right-3" />
           {sponsored && <SponsoredBadge />}
+          <CustomBadge text={hotel.customBadgeText} color={hotel.customBadgeColor} />
       </div>
 
       <div className="p-5 flex flex-col flex-1">

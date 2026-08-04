@@ -19,6 +19,7 @@ import WishlistButton from "@/components/ui/WishlistButton";
 import CuisineGrid from "@/components/restaurants/CuisineGrid";
 import { isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
+import CustomBadge from "@/components/ui/CustomBadge";
 export const revalidate = 1800;
 
 export async function generateStaticParams() {
@@ -99,18 +100,25 @@ export default async function RestaurantDetailPage({ params }) {
             <FiMapPin /> {restaurant.destinationName}
           </p>
           <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
-           <div className="flex flex-wrap items-center gap-3 mt-2">
-  <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
-    {restaurant.name}
-  </h1>
-  {restaurant.verified && <VerifiedBadge />}
-  {restaurant.rating > 0 && (
-    <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
-      <FiStar className="text-accent fill-accent text-sm" />
-      <span className="font-semibold text-primary text-sm">{restaurant.rating}</span>
-    </div>
-  )}
-</div>
+            <div className="flex flex-wrap items-center gap-3 mt-2">
+              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
+                {restaurant.name}
+              </h1>
+              {restaurant.verified && <VerifiedBadge />}
+              <CustomBadge
+                text={restaurant.customBadgeText}
+                color={restaurant.customBadgeColor}
+                position="inline"
+              />
+              {restaurant.rating > 0 && (
+                <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
+                  <FiStar className="text-accent fill-accent text-sm" />
+                  <span className="font-semibold text-primary text-sm">
+                    {restaurant.rating}
+                  </span>
+                </div>
+              )}
+            </div>
             <WishlistButton
               item={restaurant}
               entityType="restaurant"

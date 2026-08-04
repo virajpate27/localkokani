@@ -13,6 +13,16 @@ import { incrementHotelCount, getAllDestinations } from "@/lib/services/destinat
 import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { triggerRevalidation } from "@/utils/revalidate";
 import { slugify, isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
+import CustomBadge from "@/components/ui/CustomBadge";
+
+const BADGE_COLOR_OPTIONS = [
+  { value: "primary", label: "Primary (Navy)" },
+  { value: "secondary", label: "Secondary (Teal)" },
+  { value: "accent", label: "Accent (Olive)" },
+  { value: "success", label: "Success (Green)" },
+  { value: "warning", label: "Warning (Orange)" },
+  { value: "danger", label: "Danger (Red)" },
+];
 
 export default function HotelForm({ initialData = null }) {
   const router = useRouter();
@@ -36,6 +46,8 @@ export default function HotelForm({ initialData = null }) {
     status: initialData?.status || "active",
     verified: initialData?.verified ?? false,
     sponsored: initialData?.sponsored ?? false,
+    customBadgeText: initialData?.customBadgeText || "",
+    customBadgeColor: initialData?.customBadgeColor || "primary",
   });
   const [images, setImages] = useState(initialData?.images || []);
   const [originalImages] = useState(initialData?.images || []);
@@ -78,6 +90,9 @@ export default function HotelForm({ initialData = null }) {
     }
     if (formData.mapEmbedUrl && !isValidGoogleMapsEmbedUrl(formData.mapEmbedUrl)) {
       newErrors.mapEmbedUrl = "Please paste a valid Google Maps embed URL (starts with https://www.google.com/maps/embed)";
+    }
+    if (formData.customBadgeText.trim().length > 24) {
+      newErrors.customBadgeText = "Keep badge text short (max 24 characters)";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -127,6 +142,8 @@ export default function HotelForm({ initialData = null }) {
       mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
       verified: formData.verified,
       sponsored: formData.sponsored,
+      customBadgeText: formData.customBadgeText.trim() || null,
+      customBadgeColor: formData.customBadgeColor,
       location:
         formData.lat && formData.lng
           ? { lat: Number(formData.lat), lng: Number(formData.lng) }
@@ -482,6 +499,61 @@ export default function HotelForm({ initialData = null }) {
             <option value="archived">Archived (hidden from public)</option>
           </select>
         </div>
+      </div>
+
+      <div className="card p-6 space-y-4">
+        <div>
+          <h3 className="font-display font-semibold text-primary">
+            Custom Badge <span className="text-gray-400 font-normal text-sm">(optional)</span>
+          </h3>
+          <p className="text-gray-400 text-xs mt-1">
+            Shows a small label on the card image and detail page — e.g. "Top Rated", "Most Booked", "Family Friendly".
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Badge Text</label>
+            <input
+              type="text"
+              name="customBadgeText"
+              value={formData.customBadgeText}
+              onChange={handleChange}
+              maxLength={24}
+              placeholder="e.g. Top Rated"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.customBadgeText ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                }`}
+            />
+            {errors.customBadgeText && <p className="text-red-500 text-xs mt-1">{errors.customBadgeText}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Badge Color</label>
+            <select
+              name="customBadgeColor"
+              value={formData.customBadgeColor}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+            >
+              {BADGE_COLOR_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+
+        {/* Live preview */}
+        {formData.customBadgeText.trim() && (
+          <div>
+            <p className="text-xs text-gray-400 mb-2">Preview:</p>
+            <CustomBadge
+              text={formData.customBadgeText}
+              color={formData.customBadgeColor}
+              position="inline"
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex items-center gap-3">

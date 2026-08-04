@@ -8,7 +8,7 @@ import WishlistButton from "@/components/ui/WishlistButton";
 import { getCuisineIcon } from "./CuisineGrid";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import SponsoredBadge from "@/components/ui/SponsoredBadge";
-
+import CustomBadge from "@/components/ui/CustomBadge";
 
 export default function RestaurantCard({ restaurant, priority = false, sponsored = false }) {
   const imageUrl =
@@ -36,6 +36,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
         </div>
         <WishlistButton item={restaurant} entityType="restaurant" className="absolute top-3 right-3" />
         {sponsored && <SponsoredBadge />}
+        <CustomBadge text={restaurant.customBadgeText} color={restaurant.customBadgeColor} /> 
       </div>
 
       <div className="p-5 flex flex-col flex-1">
