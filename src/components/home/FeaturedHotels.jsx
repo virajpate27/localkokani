@@ -29,7 +29,7 @@ export default async function FeaturedHotels() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {hotels.map((hotel, index) => (
-            <HotelCard key={hotel.id} hotel={hotel} priority={index < 2} sponsored />
+            <HotelCard key={hotel.id} hotel={hotel} priority={index < 2}  />
           ))}
         </div>
 
