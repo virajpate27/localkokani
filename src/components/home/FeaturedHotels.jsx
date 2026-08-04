@@ -7,7 +7,7 @@ import { getFeaturedHotels } from "@/lib/services/hotelService";
 export default async function FeaturedHotels() {
   const hotels = await getFeaturedHotels(4);
 
-  if (!hotels.length) return null;
+  if (!hotels.length) return null; 
 
   return (
     <section className="py-20 bg-white">
@@ -29,7 +29,7 @@ export default async function FeaturedHotels() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {hotels.map((hotel, index) => (
-            <HotelCard key={hotel.id} hotel={hotel} priority={index < 2} />
+            <HotelCard key={hotel.id} hotel={hotel} priority={index < 2} sponsored />
           ))}
         </div>
 
