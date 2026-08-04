@@ -1,5 +1,5 @@
 // src/app/destinations/[slug]/page.js
-import Image from "next/image";
+import Image from "next/image"; 
 import { notFound } from "next/navigation";
 import { FiMapPin, FiHome } from "react-icons/fi";
 import { getDestinationBySlug, getAllDestinations } from "@/lib/services/destinationService";

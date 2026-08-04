@@ -116,4 +116,17 @@ export async function archiveRestaurant(id) {
 export async function restoreRestaurant(id) {
   const docRef = doc(db, COLLECTION, id);
   return updateDoc(docRef, { status: "active", updatedAt: serverTimestamp() });
+} 
+
+export async function getSponsoredRestaurantsByDestination(destinationId, limitCount = 6) {
+  const snap = await getDocs(
+    query(
+      collection(db, COLLECTION),
+      where("destinationId", "==", destinationId),
+      where("sponsored", "==", true),
+      where("status", "==", "active"),
+      fbLimit(limitCount)
+    )
+  );
+  return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
