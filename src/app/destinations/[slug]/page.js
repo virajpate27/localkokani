@@ -1,22 +1,17 @@
 // src/app/destinations/[slug]/page.js
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { FiMapPin, FiHome, FiStar, FiCoffee } from "react-icons/fi";
-import {
-  getDestinationBySlug,
-  getAllDestinations,
-} from "@/lib/services/destinationService";
+import { FiMapPin, FiHome } from "react-icons/fi";
+import { getDestinationBySlug, getAllDestinations } from "@/lib/services/destinationService";
 import { getHotelsByDestination } from "@/lib/services/hotelService";
-
-import Breadcrumbs from "@/components/ui/Breadcrumbs";
-
-import JsonLd from "@/components/ui/JsonLd";
-import { generateDestinationCollectionSchema } from "@/utils/helpers";
-export const revalidate = 500;
 import { getRestaurantsByDestination } from "@/lib/services/restaurantService";
-
 import HotelsLoadMoreGrid from "@/components/hotels/HotelsLoadMoreGrid";
 import RestaurantsLoadMoreGrid from "@/components/restaurants/RestaurantsLoadMoreGrid";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import JsonLd from "@/components/ui/JsonLd";
+import { generateDestinationCollectionSchema } from "@/utils/helpers";
+
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const destinations = await getAllDestinations();
@@ -31,23 +26,22 @@ export async function generateMetadata({ params }) {
     return { title: "Destination Not Found | StayFinder" };
   }
 
-  const title =
-    destination.seo?.metaTitle ||
-    `Best Hotels in ${destination.name} | StayFinder`;
-  const description =
-    destination.seo?.metaDescription ||
-    `Explore ${destination.hotelCount || "top"} handpicked hotels in ${destination.name}. ${destination.description?.slice(0, 100)}`;
-
   return {
-    title,
-    description,
+    title: destination.seo?.metaTitle || `Best Hotels in ${destination.name} | StayFinder`,
+    description:
+      destination.seo?.metaDescription ||
+      `Explore ${destination.hotelCount || "top"} handpicked hotels in ${destination.name}. ${destination.description?.slice(0, 100)}`,
     alternates: { canonical: `/destinations/${destination.slug}` },
-    openGraph: { title, description, type: "website" },
-    twitter: { card: "summary_large_image", title, description },
+    openGraph: {
+      title: `Best Hotels in ${destination.name} | StayFinder`,
+      description: destination.description,
+      images: destination.image?.url ? [destination.image.url] : [],
+    },
   };
 }
+
 export default async function DestinationDetailPage({ params }) {
-  const { slug } = await params; // ⬅️ AWAIT added here
+  const { slug } = await params;
   const destination = await getDestinationBySlug(slug);
 
   if (!destination) {
@@ -55,13 +49,9 @@ export default async function DestinationDetailPage({ params }) {
   }
 
   const hotels = await getHotelsByDestination(destination.id);
-
   const restaurants = await getRestaurantsByDestination(destination.id);
 
-  const destinationSchema = generateDestinationCollectionSchema(
-    destination,
-    hotels,
-  );
+  const destinationSchema = generateDestinationCollectionSchema(destination, hotels);
 
   return (
     <>
@@ -71,10 +61,7 @@ export default async function DestinationDetailPage({ params }) {
         <Breadcrumbs
           items={[
             { name: "Destinations", url: "/destinations" },
-            {
-              name: destination.name,
-              url: `/destinations/${destination.slug}`,
-            },
+            { name: destination.name, url: `/destinations/${destination.slug}` },
           ]}
         />
       </div>
@@ -97,20 +84,10 @@ export default async function DestinationDetailPage({ params }) {
             <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
               {destination.name}
             </h1>
-            <div className="flex gap-1.5">
-              <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-                <FiHome className="text-accent" />
-                {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
-                available
-              </p>
-
-              <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-                <FiCoffee className="text-accent" />
-                {restaurants.length}{" "}
-                {restaurants.length === 1 ? "restaurant" : "restaurants"}{" "}
-                available
-              </p>
-            </div>
+            <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
+              <FiHome className="text-accent" />
+              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"} available
+            </p>
           </div>
         </div>
       </section>
@@ -126,34 +103,25 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-      {/* Hotels List — stays exactly the same */}
+      {/* Hotels List */}
       <section className="py-16 bg-gray-50 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
             <h2 className="section-title">Hotels in {destination.name}</h2>
-            <span className="text-gray-400 text-sm">
-              Sorted by price (low to high)
-            </span>
+            <span className="text-gray-400 text-sm">Sorted by price (low to high)</span>
           </div>
 
-          <HotelsLoadMoreGrid
-            hotels={hotels}
-            destinationName={destination.name}
-          />
+          <HotelsLoadMoreGrid hotels={hotels} destinationName={destination.name} />
         </div>
       </section>
 
-      {/* NEW: Restaurants List */}
+      {/* Restaurants List */}
       {restaurants.length > 0 && (
         <section className="py-16 bg-white">
           <div className="container-custom">
             <div className="flex items-center justify-between mb-10">
-              <h2 className="section-title">
-                Restaurants in {destination.name}
-              </h2>
-              <span className="text-gray-400 text-sm">
-                Sorted by rating (highest first)
-              </span>
+              <h2 className="section-title">Restaurants in {destination.name}</h2>
+              <span className="text-gray-400 text-sm">Sorted by rating (highest first)</span>
             </div>
 
             <RestaurantsLoadMoreGrid restaurants={restaurants} />
