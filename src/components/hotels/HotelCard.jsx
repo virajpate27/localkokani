@@ -52,7 +52,7 @@ export default function HotelCard({ hotel, priority = false, sponsored = false }
               key={a}
               className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md"
             >
-               <Icon className="text-accent-dark text-[11px]" />
+              
               {a}
             </span>
             
