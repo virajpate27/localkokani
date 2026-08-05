@@ -47,14 +47,21 @@ export default function HotelCard({ hotel, priority = false, sponsored = false }
         </h3>
 
         <div className="flex flex-wrap gap-1.5 mt-3">
-          {(hotel.amenities || []).slice(0, 3).map((a) => (
+          {(hotel.amenities || []).slice(0, 2).map((a) => (
             <span
               key={a}
               className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md"
             >
               {a}
             </span>
+            
           ))}
+           <span
+            
+              className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md"
+            >
+              more..
+            </span>
         </div>
 
         <div className="flex items-end justify-between mt-4 pt-4 border-t border-gray-100">

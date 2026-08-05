@@ -60,6 +60,12 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
               </span>
             );
           })}
+          <span
+            key="more"
+            className="flex items-center gap-1 text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md"
+          >
+            more..
+          </span>
         </div>
 
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
