@@ -48,7 +48,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
         </h3>
 
         <div className="flex flex-wrap gap-1.5 mt-3">
-          {(restaurant.cuisine || []).slice(0, 3).map((c) => {
+          {(restaurant.cuisine || []).slice(0, 2).map((c) => {
             const Icon = getCuisineIcon(c);
             return (
               <span
