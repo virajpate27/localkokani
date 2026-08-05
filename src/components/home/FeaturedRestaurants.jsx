@@ -1,16 +1,16 @@
 // src/components/home/FeaturedRestaurants.jsx
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
-import RestaurantCard from "@/components/restaurants/RestaurantCard";
 import { getFeaturedRestaurants } from "@/lib/services/restaurantService";
+import FeaturedRestaurantsCarousel from "./FeaturedRestaurantsCarousel";
 
 export default async function FeaturedRestaurants() {
-  const restaurants = await getFeaturedRestaurants(4);
+  const restaurants = await getFeaturedRestaurants(8);
 
-  if (!restaurants.length) return null; // gracefully hide section if empty, same pattern as Day 7
+  if (!restaurants.length) return null;
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gray-50 overflow-hidden">
       <div className="container-custom">
         <div className="flex items-end justify-between mb-10">
           <div>
@@ -26,18 +26,16 @@ export default async function FeaturedRestaurants() {
             View all <FiArrowRight />
           </Link>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {restaurants.map((restaurant, index) => (
-            <RestaurantCard key={restaurant.id} restaurant={restaurant} priority={index < 2} />
-          ))}
-        </div>
+      <div className="container-custom">
+        <FeaturedRestaurantsCarousel restaurants={restaurants} />
+      </div>
 
-        <div className="sm:hidden mt-6 text-center">
-          <Link href="/restaurants" className="btn-primary inline-flex items-center gap-2">
-            View all restaurants <FiArrowRight />
-          </Link>
-        </div>
+      <div className="sm:hidden container-custom mt-6 text-center">
+        <Link href="/restaurants" className="btn-primary inline-flex items-center gap-2">
+          View all restaurants <FiArrowRight />
+        </Link>
       </div>
     </section>
   );

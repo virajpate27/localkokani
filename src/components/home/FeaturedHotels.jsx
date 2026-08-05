@@ -1,16 +1,16 @@
 // src/components/home/FeaturedHotels.jsx
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
-import HotelCard from "@/components/hotels/HotelCard";
 import { getFeaturedHotels } from "@/lib/services/hotelService";
+import FeaturedHotelsCarousel from "./FeaturedHotelsCarousel";
 
 export default async function FeaturedHotels() {
-  const hotels = await getFeaturedHotels(4);
+  const hotels = await getFeaturedHotels(8); // fetch a few more since it's a scrollable carousel now, not a fixed grid
 
-  if (!hotels.length) return null; 
+  if (!hotels.length) return null;
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white overflow-hidden">
       <div className="container-custom">
         <div className="flex items-end justify-between mb-10">
           <div>
@@ -26,18 +26,17 @@ export default async function FeaturedHotels() {
             View all <FiArrowRight />
           </Link>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {hotels.map((hotel, index) => (
-            <HotelCard key={hotel.id} hotel={hotel} priority={index < 2}  />
-          ))}
-        </div>
+      {/* Carousel sits outside container-custom so the "peek" card can extend to the edge on mobile */}
+      <div className="container-custom">
+        <FeaturedHotelsCarousel hotels={hotels} />
+      </div>
 
-        <div className="sm:hidden mt-6 text-center">
-          <Link href="/hotels" className="btn-primary inline-flex items-center gap-2">
-            View all hotels <FiArrowRight />
-          </Link>
-        </div>
+      <div className="sm:hidden container-custom mt-6 text-center">
+        <Link href="/hotels" className="btn-primary inline-flex items-center gap-2">
+          View all hotels <FiArrowRight />
+        </Link>
       </div>
     </section>
   );
