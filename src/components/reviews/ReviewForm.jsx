@@ -96,7 +96,7 @@ export default function ReviewForm({ entityType, entity }) {
             value={guestName}
             onChange={(e) => setGuestName(e.target.value)}
             placeholder="Your name"
-            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white dark:bg-gray-900 ${
+            className={`w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${
               errors.guestName ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
             }`}
           />
@@ -110,7 +110,7 @@ export default function ReviewForm({ entityType, entity }) {
           onChange={(e) => setComment(e.target.value)}
           rows={4}
           placeholder="Tell other travelers about your experience..."
-          className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none bg-white dark:bg-gray-900 ${
+          className={`w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none transition-colors resize-none ${
             errors.comment ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
           }`}
         />

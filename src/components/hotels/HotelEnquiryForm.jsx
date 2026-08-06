@@ -215,7 +215,7 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number (with country code)"
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.phone ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.phone ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -232,7 +232,7 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email (optional)"
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.email ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.email ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -248,7 +248,7 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.checkIn}
               min={today}
               onChange={handleChange}
-              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.checkIn ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+              className={`w-full pl-3 pr-2 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.checkIn ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -259,7 +259,7 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.checkOut}
               min={formData.checkIn || today}
               onChange={handleChange}
-              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.checkOut ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+              className={`w-full pl-3 pr-2 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.checkOut ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -278,7 +278,7 @@ export default function HotelEnquiryForm({ hotel }) {
               max={20}
               value={formData.guests}
               onChange={handleChange}
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.guests ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.guests ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
