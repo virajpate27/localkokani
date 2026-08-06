@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }) {
     <>
       <JsonLd data={articleSchema} />
 
-      <div className="bg-white">
+      <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs
           items={[
             { name: "Blog", url: "/blog" },
@@ -96,11 +96,11 @@ export default async function BlogPostPage({ params }) {
               {post.category}
             </span>
           )}
-          <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary leading-tight">
+          <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary dark:text-white leading-tight">
             {post.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm mt-4">
+          <div className="flex flex-wrap items-center gap-4 dark:dark:text-gray-500 text-sm mt-4">
             <span className="flex items-center gap-1.5">
               <FiCalendar /> {formatDate(post.publishedAt)}
             </span>
@@ -157,7 +157,7 @@ export default async function BlogPostPage({ params }) {
       </article>
 
       {relatedPosts.length > 0 && (
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-gray-50 dark:bg-gray-950">
           <div className="container-custom">
             <h2 className="section-title mb-8">More Guides You'll Like</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

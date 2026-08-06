@@ -114,7 +114,7 @@ export default function AdminReviewsPage() {
               key={tab.value}
               onClick={() => setStatusFilter(tab.value)}
               className={`text-sm font-medium px-4 py-2 rounded-lg transition-colors ${
-                statusFilter === tab.value ? "bg-primary text-white" : "bg-white text-gray-500 hover:bg-gray-100 border border-gray-200"
+                statusFilter === tab.value ? "bg-primary text-white" : "bg-white dark:bg-gray-900 dark:text-gray-500 hover:dark:bg-gray-800 border dark:border-gray-800"
               }`}
             >
               {tab.label}
@@ -131,7 +131,7 @@ export default function AdminReviewsPage() {
               key={tab.value}
               onClick={() => setTypeFilter(tab.value)}
               className={`text-sm font-medium px-3.5 py-2 rounded-lg transition-colors ${
-                typeFilter === tab.value ? "bg-secondary text-white" : "bg-white text-gray-500 hover:bg-gray-100 border border-gray-200"
+                typeFilter === tab.value ? "bg-secondary text-white" : "bg-white dark:bg-gray-900 dark:text-gray-500 hover:dark:bg-gray-800 border dark:border-gray-800"
               }`}
             >
               {tab.label}
@@ -142,12 +142,12 @@ export default function AdminReviewsPage() {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <FiLoader className="animate-spin text-2xl text-primary" />
+          <FiLoader className="animate-spin text-2xl text-primary dark:text-white" />
         </div>
       ) : filteredReviews.length === 0 ? (
         <div className="card p-12 text-center">
           <FiMessageSquare className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400">
+          <p className="dark:dark:text-gray-500">
             {statusFilter === "pending" ? "No reviews awaiting moderation" : "No reviews found"}
           </p>
         </div>
@@ -158,7 +158,7 @@ export default function AdminReviewsPage() {
               <div className="flex items-start justify-between gap-4 flex-wrap">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="font-medium text-primary">{review.guestName}</p>
+                    <p className="font-medium text-primary dark:text-white">{review.guestName}</p>
                     <span className="text-gray-300">·</span>
                     <span className="flex items-center gap-1 text-secondary text-sm font-medium">
                       {review.entityType === "hotel" ? <FiHome className="text-xs" /> : <FiCoffee className="text-xs" />}
@@ -175,8 +175,8 @@ export default function AdminReviewsPage() {
                       <FiStar key={i} className={`text-xs ${i < review.rating ? "text-accent fill-accent" : "text-gray-200"}`} />
                     ))}
                   </div>
-                  <p className="text-gray-600 text-sm mt-2">{review.comment}</p>
-                  <p className="text-gray-400 text-xs mt-2">{formatDate(review.createdAt)}</p>
+                  <p className="dark:text-gray-300 text-sm mt-2">{review.comment}</p>
+                  <p className="dark:dark:text-gray-500 text-xs mt-2">{formatDate(review.createdAt)}</p>
                 </div>
 
                 {!review.approved && (

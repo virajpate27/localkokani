@@ -6,7 +6,12 @@ module.exports = {
     "./src/components/**/*.{js,jsx}",
     "./src/app/**/*.{js,jsx}",
   ],
+   darkMode: "class",
   theme: {
+    screens: {
+      xs: "375px",
+      ...require("tailwindcss/defaultTheme").screens,
+    },
     extend: {
       colors: {
         primary: {

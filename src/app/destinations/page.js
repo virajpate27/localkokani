@@ -25,14 +25,14 @@ export default async function DestinationsPage() {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs items={[{ name: "Destinations", url: "/destinations" }]} />
       </div>
 
       {/* Page Header */}
       <section className="bg-hero-gradient py-16">
         <div className="container-custom text-center">
-          <span className="inline-block bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+          <span className="inline-block bg-white dark:bg-gray-900/10 backdrop-blur-sm text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
             {destinations.length} Destinations
           </span>
           <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
@@ -46,7 +46,7 @@ export default async function DestinationsPage() {
       </section>
 
       {/* Grid */}
-      <section className="py-16 bg-gray-50 min-h-[50vh]">
+      <section className="py-16 bg-gray-50 dark:bg-gray-950 min-h-[50vh]">
         <div className="container-custom">
           {destinations.length === 0 ? (
             <EmptyState
@@ -80,7 +80,7 @@ export default async function DestinationsPage() {
                     </div>
                   </div>
                   <div className="p-5">
-                    <p className="text-gray-500 text-sm line-clamp-2">
+                    <p className="dark:text-gray-500 text-sm line-clamp-2">
                       {dest.description}
                     </p>
                   </div>
@@ -95,7 +95,7 @@ export default async function DestinationsPage() {
                         </span>
                       )}
                     </div>
-                    <span className="text-primary font-medium text-sm group-hover:translate-x-1 transition-transform inline-block">
+                    <span className="text-primary dark:text-white font-medium text-sm group-hover:translate-x-1 transition-transform inline-block">
                       Explore →
                     </span>
                   </div>

@@ -10,7 +10,7 @@ import CtaBanner from "@/components/home/CtaBanner";
 
 // Dynamically import Testimonials since Swiper's JS isn't needed until scrolled into view
 const Testimonials = dynamic(() => import("@/components/home/Testimonials"), {
-  loading: () => <div className="h-96 bg-gray-50" />, // prevents layout shift while chunk loads
+  loading: () => <div className="h-96 bg-gray-50 dark:bg-gray-950" />, // prevents layout shift while chunk loads
 });
 
 

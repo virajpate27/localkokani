@@ -13,12 +13,12 @@ export default function MobileStickyBar({ hotel }) {
   };
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 shadow-2xl px-4 py-3 flex items-center justify-between">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-t dark:border-gray-800 shadow-2xl px-4 py-3 flex items-center justify-between">
       <div>
-        <p className="text-gray-400 text-xs">Starting from</p>
-        <p className="font-display font-bold text-lg text-primary">
+        <p className="dark:dark:text-gray-500 text-xs">Starting from</p>
+        <p className="font-display font-bold text-lg text-primary dark:text-white">
           {formatCurrency(hotel.price)}
-          <span className="text-xs font-normal text-gray-400"> /night</span>
+          <span className="text-xs font-normal dark:dark:text-gray-500"> /night</span>
         </p>
       </div>
       <button

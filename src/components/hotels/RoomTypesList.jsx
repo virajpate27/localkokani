@@ -10,17 +10,17 @@ export default function RoomTypesList({ roomTypes = [] }) {
       {roomTypes.map((room, i) => (
         <div
           key={i}
-          className="flex items-center justify-between border border-gray-100 rounded-xl p-4 hover:border-secondary/40 transition-colors"
+          className="flex items-center justify-between border dark:border-gray-800 rounded-xl p-4 hover:border-secondary/40 transition-colors"
         >
           <div>
-            <p className="font-medium text-primary">{room.name}</p>
-            <p className="flex items-center gap-1.5 text-gray-400 text-sm mt-1">
+            <p className="font-medium text-primary dark:text-white">{room.name}</p>
+            <p className="flex items-center gap-1.5 dark:dark:text-gray-500 text-sm mt-1">
               <FiUsers /> Up to {room.capacity} guests
             </p>
           </div>
-          <p className="font-display font-bold text-primary">
+          <p className="font-display font-bold text-primary dark:text-white">
             {formatCurrency(room.price)}
-            <span className="text-xs font-normal text-gray-400 block text-right">
+            <span className="text-xs font-normal dark:dark:text-gray-500 block text-right">
               /night
             </span>
           </p>

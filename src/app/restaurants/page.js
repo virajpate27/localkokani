@@ -16,13 +16,13 @@ export default async function RestaurantsPage() {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs items={[{ name: "Restaurants", url: "/restaurants" }]} />
       </div>
 
       <section className="bg-hero-gradient py-14">
         <div className="container-custom text-center">
-          <span className="inline-block bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+          <span className="inline-block bg-white dark:bg-gray-900/10 backdrop-blur-sm text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
             {restaurants.length} Restaurants
           </span>
           <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
@@ -34,7 +34,7 @@ export default async function RestaurantsPage() {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50 min-h-[60vh]">
+      <section className="py-12 bg-gray-50 dark:bg-gray-950 min-h-[60vh]">
         <div className="container-custom">
           <RestaurantsFilterGrid restaurants={restaurants} />
         </div>

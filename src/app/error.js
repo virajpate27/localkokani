@@ -12,15 +12,15 @@ export default function GlobalError({ error, reset }) {
   }, [error]);
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-[70vh] flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
       <div className="text-center max-w-md">
         <div className="w-20 h-20 mx-auto rounded-3xl bg-red-50 flex items-center justify-center mb-6">
           <FiAlertTriangle className="text-red-400 text-4xl" />
         </div>
-        <h1 className="font-display font-bold text-2xl text-primary">
+        <h1 className="font-display font-bold text-2xl text-primary dark:text-white">
           Something went wrong
         </h1>
-        <p className="text-gray-500 mt-3">
+        <p className="dark:text-gray-500 mt-3">
           We hit an unexpected error. Please try again, or head back to the
           homepage.
         </p>
@@ -33,7 +33,7 @@ export default function GlobalError({ error, reset }) {
           </button>
           <Link
             href="/"
-            className="bg-white border border-gray-200 text-primary font-medium px-6 py-3 rounded-xl hover:bg-gray-50 transition-colors flex items-center gap-2"
+            className="bg-white dark:bg-gray-900 border dark:border-gray-800 text-primary dark:text-white font-medium px-6 py-3 rounded-xl hover:bg-gray-50 dark:bg-gray-950 transition-colors flex items-center gap-2"
           >
             <FiHome /> Back to Home
           </Link>

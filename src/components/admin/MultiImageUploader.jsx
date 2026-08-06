@@ -74,9 +74,9 @@ export default function MultiImageUploader({
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-sm font-medium dark:text-gray-300 mb-2">
         {label}{" "}
-        <span className="text-gray-400 font-normal">
+        <span className="dark:dark:text-gray-500 font-normal">
           ({value.length}/{maxImages})
         </span>
       </label>
@@ -87,7 +87,7 @@ export default function MultiImageUploader({
           {value.map((img, index) => (
             <div
               key={img.publicId || index}
-              className="relative aspect-square rounded-xl overflow-hidden border border-gray-200 group"
+              className="relative aspect-square rounded-xl overflow-hidden border dark:border-gray-800 group"
             >
               <Image src={img.url} alt={`Photo ${index + 1}`} fill className="object-cover" />
 
@@ -102,7 +102,7 @@ export default function MultiImageUploader({
                   <button
                     type="button"
                     onClick={() => setAsPrimary(index)}
-                    className="w-8 h-8 rounded-full bg-white/90 text-primary flex items-center justify-center hover:bg-white"
+                    className="w-8 h-8 rounded-full bg-white dark:bg-gray-900/90 text-primary dark:text-white flex items-center justify-center hover:bg-white dark:bg-gray-900"
                     title="Set as cover photo"
                     aria-label="Set as cover photo"
                   >
@@ -112,7 +112,7 @@ export default function MultiImageUploader({
                 <button
                   type="button"
                   onClick={() => removeImage(index)}
-                  className="w-8 h-8 rounded-full bg-white/90 text-red-500 flex items-center justify-center hover:bg-white"
+                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-900/90 text-red-500 flex items-center justify-center hover:bg-white dark:bg-gray-900"
                   title="Remove"
                 >
                   <FiX className="text-sm" />
@@ -134,21 +134,21 @@ export default function MultiImageUploader({
           onDragLeave={() => setDragActive(false)}
           onDrop={handleDrop}
           className={`aspect-[16/6] rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
-            dragActive ? "border-secondary bg-secondary/5" : "border-gray-200 hover:border-secondary/50"
+            dragActive ? "border-secondary bg-secondary/5" : "dark:border-gray-800 hover:border-secondary/50"
           }`}
         >
           {isUploading ? (
             <>
               <FiLoader className="animate-spin text-2xl text-secondary mb-2" />
-              <p className="text-gray-400 text-sm">Uploading...</p>
+              <p className="dark:dark:text-gray-500 text-sm">Uploading...</p>
             </>
           ) : (
             <>
               <FiImage className="text-2xl text-gray-300 mb-2" />
-              <p className="text-gray-500 text-sm font-medium flex items-center gap-1.5">
+              <p className="dark:text-gray-500 text-sm font-medium flex items-center gap-1.5">
                 <FiUpload /> Click or drag images here
               </p>
-              <p className="text-gray-400 text-xs mt-1">
+              <p className="dark:dark:text-gray-500 text-xs mt-1">
                 First image becomes the cover photo
               </p>
             </>

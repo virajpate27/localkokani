@@ -11,7 +11,7 @@ import Link from "next/link";
 const statusOptions = [
   { value: "new", label: "New", color: "bg-secondary/10 text-secondary" },
   { value: "contacted", label: "Contacted", color: "bg-accent/10 text-accent-dark" },
-  { value: "closed", label: "Closed", color: "bg-gray-100 text-gray-500" },
+  { value: "closed", label: "Closed", color: "dark:bg-gray-800 dark:text-gray-500" },
 ];
 
 function formatDate(isoString) {
@@ -38,14 +38,14 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl p-6 animate-slide-up max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-900 w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl p-6 animate-slide-up max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="font-display font-bold text-xl text-primary">
+          <h3 className="font-display font-bold text-xl text-primary dark:text-white">
             {isRestaurant ? "Reservation Details" : "Enquiry Details"}
           </h3>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200"
+            className="w-8 h-8 rounded-full dark:bg-gray-800 flex items-center justify-center dark:text-gray-500 hover:bg-gray-200"
             aria-label="Close"
           >
             <FiX />
@@ -61,7 +61,7 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
               className={`flex-1 text-sm font-medium py-2 rounded-lg transition-all ${
                 lead.status === opt.value
                   ? opt.color + " ring-2 ring-offset-1 ring-current"
-                  : "bg-gray-50 text-gray-400 hover:bg-gray-100"
+                  : "bg-gray-50 dark:bg-gray-950 dark:dark:text-gray-500 hover:dark:bg-gray-800"
               }`}
             >
               {opt.label}
@@ -71,19 +71,19 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
 
         <div className="space-y-4">
           {/* Entity (hotel or restaurant) */}
-          <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-4">
+          <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-950 rounded-xl p-4">
             <div className="w-11 h-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
               {isRestaurant ? (
-                <FiCoffee className="text-primary" />
+                <FiCoffee className="text-primary dark:text-white" />
               ) : (
-                <FiHome className="text-primary" />
+                <FiHome className="text-primary dark:text-white" />
               )}
             </div>
             <div>
-              <p className="text-gray-400 text-xs">
+              <p className="dark:dark:text-gray-500 text-xs">
                 {isRestaurant ? "Restaurant" : "Hotel"}
               </p>
-              <p className="font-medium text-primary">{lead.entityName}</p>
+              <p className="font-medium text-primary dark:text-white">{lead.entityName}</p>
             </div>
           </div>
 
@@ -92,16 +92,16 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
             <div className="flex items-center gap-2.5">
               <FiPhone className="text-secondary shrink-0" />
               <div className="min-w-0">
-                <p className="text-gray-400 text-xs">Phone</p>
-                <p className="font-medium text-primary text-sm truncate">{lead.phone}</p>
+                <p className="dark:dark:text-gray-500 text-xs">Phone</p>
+                <p className="font-medium text-primary dark:text-white text-sm truncate">{lead.phone}</p>
               </div>
             </div>
             {lead.email && (
               <div className="flex items-center gap-2.5">
                 <FiMail className="text-secondary shrink-0" />
                 <div className="min-w-0">
-                  <p className="text-gray-400 text-xs">Email</p>
-                  <p className="font-medium text-primary text-sm truncate">{lead.email}</p>
+                  <p className="dark:dark:text-gray-500 text-xs">Email</p>
+                  <p className="font-medium text-primary dark:text-white text-sm truncate">{lead.email}</p>
                 </div>
               </div>
             )}
@@ -114,15 +114,15 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
                 <div className="flex items-center gap-2.5">
                   <FiCalendar className="text-secondary shrink-0" />
                   <div>
-                    <p className="text-gray-400 text-xs">Date</p>
-                    <p className="font-medium text-primary text-sm">{lead.date || "—"}</p>
+                    <p className="dark:dark:text-gray-500 text-xs">Date</p>
+                    <p className="font-medium text-primary dark:text-white text-sm">{lead.date || "—"}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <FiClock className="text-secondary shrink-0" />
                   <div>
-                    <p className="text-gray-400 text-xs">Time</p>
-                    <p className="font-medium text-primary text-sm">{lead.time || "—"}</p>
+                    <p className="dark:dark:text-gray-500 text-xs">Time</p>
+                    <p className="font-medium text-primary dark:text-white text-sm">{lead.time || "—"}</p>
                   </div>
                 </div>
               </div>
@@ -133,15 +133,15 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
                 <div className="flex items-center gap-2.5">
                   <FiCalendar className="text-secondary shrink-0" />
                   <div>
-                    <p className="text-gray-400 text-xs">Check-in</p>
-                    <p className="font-medium text-primary text-sm">{lead.checkIn || "—"}</p>
+                    <p className="dark:dark:text-gray-500 text-xs">Check-in</p>
+                    <p className="font-medium text-primary dark:text-white text-sm">{lead.checkIn || "—"}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <FiCalendar className="text-secondary shrink-0" />
                   <div>
-                    <p className="text-gray-400 text-xs">Check-out</p>
-                    <p className="font-medium text-primary text-sm">{lead.checkOut || "—"}</p>
+                    <p className="dark:dark:text-gray-500 text-xs">Check-out</p>
+                    <p className="font-medium text-primary dark:text-white text-sm">{lead.checkOut || "—"}</p>
                   </div>
                 </div>
               </div>
@@ -152,8 +152,8 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
           <div className="flex items-center gap-2.5">
             <FiUsers className="text-secondary shrink-0" />
             <div>
-              <p className="text-gray-400 text-xs">Guests</p>
-              <p className="font-medium text-primary text-sm">{lead.guests}</p>
+              <p className="dark:dark:text-gray-500 text-xs">Guests</p>
+              <p className="font-medium text-primary dark:text-white text-sm">{lead.guests}</p>
             </div>
           </div>
 
@@ -162,13 +162,13 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
             <div className="flex items-start gap-2.5">
               <FiMessageSquare className="text-secondary shrink-0 mt-0.5" />
               <div>
-                <p className="text-gray-400 text-xs">Message</p>
-                <p className="text-gray-700 text-sm">{lead.message}</p>
+                <p className="dark:dark:text-gray-500 text-xs">Message</p>
+                <p className="dark:text-gray-300 text-sm">{lead.message}</p>
               </div>
             </div>
           )}
 
-          <p className="text-gray-400 text-xs pt-3 border-t border-gray-100">
+          <p className="dark:dark:text-gray-500 text-xs pt-3 border-t dark:border-gray-800">
             Submitted on {formatDate(lead.createdAt)}
           </p>
         </div>

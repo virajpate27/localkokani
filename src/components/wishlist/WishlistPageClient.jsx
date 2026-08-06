@@ -15,7 +15,7 @@ export default function WishlistPageClient() {
     <>
       <section className="bg-hero-gradient py-14">
         <div className="container-custom text-center">
-          <div className="w-14 h-14 mx-auto rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center mb-4">
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-white dark:bg-gray-900/10 backdrop-blur-sm flex items-center justify-center mb-4">
             <FiHeart className="text-accent text-2xl" />
           </div>
           <h1 className="font-display font-extrabold text-3xl md:text-4xl text-white">
@@ -27,7 +27,7 @@ export default function WishlistPageClient() {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50 min-h-[50vh]">
+      <section className="py-12 bg-gray-50 dark:bg-gray-950 min-h-[50vh]">
         <div className="container-custom">
           {!isLoaded ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -53,7 +53,7 @@ export default function WishlistPageClient() {
                 </Link>
                 <Link
                   href="/restaurants"
-                  className="bg-white border border-gray-200 text-primary font-medium px-6 py-3 rounded-xl hover:bg-gray-50 transition-colors flex items-center gap-2"
+                  className="bg-white dark:bg-gray-900 border dark:border-gray-800 text-primary dark:text-white font-medium px-6 py-3 rounded-xl hover:bg-gray-50 dark:bg-gray-950 transition-colors flex items-center gap-2"
                 >
                   Browse Restaurants <FiArrowRight />
                 </Link>
@@ -62,8 +62,8 @@ export default function WishlistPageClient() {
           ) : (
             <>
               <div className="flex items-center justify-between mb-6">
-                <p className="text-gray-500 text-sm">
-                  <span className="font-semibold text-primary">{wishlist.length}</span>{" "}
+                <p className="dark:text-gray-500 text-sm">
+                  <span className="font-semibold text-primary dark:text-white">{wishlist.length}</span>{" "}
                   {wishlist.length === 1 ? "item" : "items"} saved
                 </p>
                 <button
@@ -92,12 +92,12 @@ export default function WishlistPageClient() {
                               className="object-cover group-hover:scale-110 transition-transform duration-500"
                             />
                           )}
-                          <span className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm text-primary text-xs font-medium px-2.5 py-1 rounded-lg flex items-center gap-1">
+                          <span className="absolute top-3 left-3 bg-white dark:bg-gray-900/95 backdrop-blur-sm text-primary dark:text-white text-xs font-medium px-2.5 py-1 rounded-lg flex items-center gap-1">
                             {isRestaurant ? <FiCoffee className="text-secondary" /> : <FiHome className="text-secondary" />}
                             {isRestaurant ? "Restaurant" : "Hotel"}
                           </span>
                           {item.rating > 0 && (
-                            <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary shadow-sm">
+                            <div className="absolute top-3 right-3 bg-white dark:bg-gray-900/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary dark:text-white shadow-sm">
                               <FiStar className="text-accent fill-accent" />
                               {item.rating}
                             </div>
@@ -109,26 +109,26 @@ export default function WishlistPageClient() {
                           {item.destinationName}
                         </p>
                         <Link href={href}>
-                          <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1 hover:text-secondary transition-colors">
+                          <h3 className="font-display font-semibold text-lg text-primary dark:text-white mt-1.5 line-clamp-1 hover:text-secondary transition-colors">
                             {item.name}
                           </h3>
                         </Link>
-                        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                          <p className="font-display font-bold text-primary">
+                        <div className="flex items-center justify-between mt-4 pt-4 border-t dark:border-gray-800">
+                          <p className="font-display font-bold text-primary dark:text-white">
                             {item.price ? (
                               <>
                                 {formatCurrency(item.price)}
-                                <span className="text-xs font-normal text-gray-400">
+                                <span className="text-xs font-normal dark:dark:text-gray-500">
                                   {isRestaurant ? " for two" : " /night"}
                                 </span>
                               </>
                             ) : (
-                              <span className="text-gray-400 text-sm font-normal">Price unavailable</span>
+                              <span className="dark:dark:text-gray-500 text-sm font-normal">Price unavailable</span>
                             )}
                           </p>
                           <button
                             onClick={() => removeFromWishlist(item.id, item.entityType)}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
                             aria-label="Remove from wishlist"
                           >
                             <FiTrash2 className="text-sm" />

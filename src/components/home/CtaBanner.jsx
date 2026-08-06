@@ -33,7 +33,7 @@ export default function CtaBanner() {
               </Link>
               <Link
                 href="/destinations"
-                className="bg-white text-primary font-medium px-6 py-3 rounded-xl hover:bg-white/90 transition-colors flex items-center gap-2"
+                className="bg-white dark:bg-gray-900 text-primary dark:text-white font-medium px-6 py-3 rounded-xl hover:bg-white dark:bg-gray-900/90 transition-colors flex items-center gap-2"
               >
                 Browse Destinations <FiArrowRight />
               </Link>

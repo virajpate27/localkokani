@@ -26,7 +26,7 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gray-50 dark:bg-gray-950">
       <div className="container-custom">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-secondary font-semibold text-sm uppercase tracking-wider">
@@ -44,12 +44,12 @@ export default function WhyChooseUs() {
               className="card p-7 text-center hover:-translate-y-1"
             >
               <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
-                <f.icon className="text-primary text-2xl" />
+                <f.icon className="text-primary dark:text-white text-2xl" />
               </div>
-              <h3 className="font-display font-semibold text-lg text-primary">
+              <h3 className="font-display font-semibold text-lg text-primary dark:text-white">
                 {f.title}
               </h3>
-              <p className="text-gray-500 text-sm mt-2 leading-relaxed">
+              <p className="dark:text-gray-500 text-sm mt-2 leading-relaxed">
                 {f.desc}
               </p>
             </div>

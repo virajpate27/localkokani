@@ -55,7 +55,7 @@ export default function AdminDestinationsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="text-gray-400 text-sm">
+        <p className="dark:dark:text-gray-500 text-sm">
           {destinations.length} destinations total
         </p>
         <Link href="/admin/destinations/new" className="btn-primary flex items-center gap-2">
@@ -65,12 +65,12 @@ export default function AdminDestinationsPage() {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <FiLoader className="animate-spin text-2xl text-primary" />
+          <FiLoader className="animate-spin text-2xl text-primary dark:text-white" />
         </div>
       ) : destinations.length === 0 ? (
         <div className="card p-12 text-center">
           <FiMapPin className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400 mb-4">No destinations yet</p>
+          <p className="dark:dark:text-gray-500 mb-4">No destinations yet</p>
           <Link href="/admin/destinations/new" className="btn-primary inline-flex items-center gap-2">
             <FiPlus /> Add Your First Destination
           </Link>
@@ -79,7 +79,7 @@ export default function AdminDestinationsPage() {
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-500 text-left">
+              <thead className="bg-gray-50 dark:bg-gray-950 dark:text-gray-500 text-left">
                 <tr>
                   <th className="px-5 py-3.5 font-medium">Destination</th>
                   <th className="px-5 py-3.5 font-medium">Country</th>
@@ -90,10 +90,10 @@ export default function AdminDestinationsPage() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {destinations.map((dest) => (
-                  <tr key={dest.id} className="hover:bg-gray-50">
+                  <tr key={dest.id} className="hover:bg-gray-50 dark:bg-gray-950">
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 dark:bg-gray-800">
                           {dest.image?.url && (
                             <Image
                               src={dest.image.url}
@@ -104,32 +104,32 @@ export default function AdminDestinationsPage() {
                             />
                           )}
                         </div>
-                        <span className="font-medium text-primary">{dest.name}</span>
+                        <span className="font-medium text-primary dark:text-white">{dest.name}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-600">{dest.country}</td>
-                    <td className="px-5 py-3.5 text-gray-600">{dest.hotelCount || 0}</td>
+                    <td className="px-5 py-3.5 dark:text-gray-300">{dest.country}</td>
+                    <td className="px-5 py-3.5 dark:text-gray-300">{dest.hotelCount || 0}</td>
                     <td className="px-5 py-3.5">
                       {dest.featured ? (
                         <span className="text-xs font-medium bg-accent/10 text-accent px-2.5 py-1 rounded-lg">
                           Featured
                         </span>
                       ) : (
-                        <span className="text-xs text-gray-400">—</span>
+                        <span className="text-xs dark:dark:text-gray-500">—</span>
                       )}
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/destinations/${dest.id}/edit`}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-secondary/10 hover:text-secondary transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
                           aria-label="Edit"
                         >
                           <FiEdit2 className="text-sm" />
                         </Link>
                         <button
                           onClick={() => setDeleteTarget(dest)}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
                           aria-label="Delete"
                         >
                           <FiTrash2 className="text-sm" />

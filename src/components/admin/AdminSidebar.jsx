@@ -45,7 +45,7 @@ export default function AdminSidebar() {
     <>
       <div className="p-6 border-b border-white/10">
         <Link href="/admin" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-lg bg-white dark:bg-gray-900/10 flex items-center justify-center">
             <FiMapPin className="text-accent" />
           </div>
           <span className="font-display font-bold text-lg text-white">
@@ -66,7 +66,7 @@ export default function AdminSidebar() {
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${isActive ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${isActive ? "bg-white dark:bg-gray-900/10 text-white" : "text-white/60 hover:bg-white dark:bg-gray-900/5 hover:text-white"
                 }`}
             >
               <item.icon className={isActive ? "text-accent" : ""} />
@@ -85,7 +85,7 @@ export default function AdminSidebar() {
         <p className="text-white/40 text-xs px-4 mb-2 truncate">{user?.email}</p>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm text-white/60 hover:bg-white/5 hover:text-white w-full transition-colors"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm text-white/60 hover:bg-white dark:bg-gray-900/5 hover:text-white w-full transition-colors"
         >
           <FiLogOut />
           Log Out
@@ -116,7 +116,7 @@ export default function AdminSidebar() {
           <div className="w-64 bg-primary flex flex-col animate-slide-up">
             <button
               onClick={() => setMobileOpen(false)}
-              className="absolute top-4 right-[-3rem] w-10 h-10 rounded-lg bg-white/10 text-white flex items-center justify-center"
+              className="absolute top-4 right-[-3rem] w-10 h-10 rounded-lg bg-white dark:bg-gray-900/10 text-white flex items-center justify-center"
               aria-label="Close menu"
             >
               <FiX />

@@ -13,7 +13,7 @@ function formatDate(isoString) {
 export default function ReviewsList({ reviews = [] }) {
   if (reviews.length === 0) {
     return (
-      <p className="text-gray-400 text-sm py-6 text-center">
+      <p className="dark:dark:text-gray-500 text-sm py-6 text-center">
         No reviews yet. Be the first to share your experience!
       </p>
     );
@@ -22,15 +22,15 @@ export default function ReviewsList({ reviews = [] }) {
   return (
     <div className="space-y-5">
       {reviews.map((review) => (
-        <div key={review.id} className="border-b border-gray-100 pb-5 last:border-0">
+        <div key={review.id} className="border-b dark:border-gray-800 pb-5 last:border-0">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-              <FiUser className="text-primary text-sm" />
+              <FiUser className="text-primary dark:text-white text-sm" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between flex-wrap gap-1">
-                <p className="font-medium text-primary text-sm">{review.guestName}</p>
-                <span className="text-gray-400 text-xs">{formatDate(review.createdAt)}</span>
+                <p className="font-medium text-primary dark:text-white text-sm">{review.guestName}</p>
+                <span className="dark:dark:text-gray-500 text-xs">{formatDate(review.createdAt)}</span>
               </div>
               <div className="flex gap-0.5 mt-1">
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -42,7 +42,7 @@ export default function ReviewsList({ reviews = [] }) {
                   />
                 ))}
               </div>
-              <p className="text-gray-600 text-sm mt-2 leading-relaxed">
+              <p className="dark:text-gray-300 text-sm mt-2 leading-relaxed">
                 {review.comment}
               </p>
             </div>

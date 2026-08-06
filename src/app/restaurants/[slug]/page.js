@@ -85,7 +85,7 @@ export default async function RestaurantDetailPage({ params }) {
     <>
       <JsonLd data={restaurantSchema} />
 
-      <div className="bg-white">
+      <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs
           items={[
             { name: "Restaurants", url: "/restaurants" },
@@ -101,7 +101,7 @@ export default async function RestaurantDetailPage({ params }) {
           </p>
           <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
             <div className="flex flex-wrap items-center gap-3 mt-2">
-              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
+              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary dark:text-white">
                 {restaurant.name}
               </h1>
               {restaurant.verified && <VerifiedBadge />}
@@ -113,7 +113,7 @@ export default async function RestaurantDetailPage({ params }) {
               {restaurant.rating > 0 && (
                 <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
                   <FiStar className="text-accent fill-accent text-sm" />
-                  <span className="font-semibold text-primary text-sm">
+                  <span className="font-semibold text-primary dark:text-white text-sm">
                     {restaurant.rating}
                   </span>
                 </div>
@@ -123,19 +123,19 @@ export default async function RestaurantDetailPage({ params }) {
               item={restaurant}
               entityType="restaurant"
               size="text-xl"
-              className="!bg-gray-100 shadow-none"
+              className="!dark:bg-gray-800 shadow-none"
             />
           </div>
-          <p className="text-gray-500 mt-1">{restaurant.address}</p>
+          <p className="dark:text-gray-500 mt-1">{restaurant.address}</p>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3">
-            <p className="flex items-center gap-1.5 text-gray-600 text-sm font-medium">
+            <p className="flex items-center gap-1.5 dark:text-gray-300 text-sm font-medium">
               {restaurant.costForTwo
                 ? `${formatCurrency(restaurant.costForTwo)} for two (Approx.)`
                 : restaurant.priceRange}
             </p>
             {restaurant.openingHours && (
-              <p className="flex items-center gap-1.5 text-gray-500 text-sm">
+              <p className="flex items-center gap-1.5 dark:text-gray-500 text-sm">
                 <FiClock className="text-secondary" /> {restaurant.openingHours}
               </p>
             )}
@@ -147,17 +147,17 @@ export default async function RestaurantDetailPage({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 mt-10">
           <div className="space-y-10 order-2 lg:order-1">
             <div>
-              <h2 className="font-display font-bold text-2xl text-primary mb-4">
+              <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 About
               </h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+              <p className="dark:text-gray-300 leading-relaxed whitespace-pre-line">
                 {restaurant.description}
               </p>
             </div>
 
             {restaurant.cuisine?.length > 0 && (
               <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Cuisine
                 </h2>
                 <CuisineGrid cuisine={restaurant.cuisine} />
@@ -167,10 +167,10 @@ export default async function RestaurantDetailPage({ params }) {
             {(restaurant.mapEmbedUrl ||
               (restaurant.location?.lat && restaurant.location?.lng)) && (
               <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Location
                 </h2>
-                <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-gray-100">
+                <div className="rounded-2xl overflow-hidden aspect-[16/9] border dark:border-gray-800">
                   <iframe
                     title={`Map location of ${restaurant.name}`}
                     width="100%"
@@ -191,7 +191,7 @@ export default async function RestaurantDetailPage({ params }) {
 
             {/* NEW: Reviews section */}
             <div>
-              <h2 className="font-display font-bold text-2xl text-primary mb-4">
+              <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 Guest Reviews {reviews.length > 0 && `(${reviews.length})`}
               </h2>
               <div className="space-y-6">
@@ -203,7 +203,7 @@ export default async function RestaurantDetailPage({ params }) {
 
           <div className="order-1 lg:order-2">
             <div className="card p-6 lg:sticky lg:top-24">
-              <h3 className="font-display font-semibold text-primary mb-4">
+              <h3 className="font-display font-semibold text-primary dark:text-white mb-4">
                 Reserve a Table
               </h3>
               <ReservationForm restaurant={restaurant} />

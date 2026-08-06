@@ -32,7 +32,7 @@ const statusFilters = [
 const statusStyles = {
   new: "bg-secondary/10 text-secondary",
   contacted: "bg-accent/10 text-accent",
-  closed: "bg-gray-100 text-gray-500",
+  closed: "dark:bg-gray-800 dark:text-gray-500",
 };
 
 function formatDate(isoString) {
@@ -167,7 +167,7 @@ export default function AdminLeadsPage() {
               className={`shrink-0 text-sm font-medium px-4 py-2 rounded-lg transition-colors ${
                 statusFilter === filter.value
                   ? "bg-primary text-white"
-                  : "bg-white text-gray-500 hover:bg-gray-100 border border-gray-200"
+                  : "bg-white dark:bg-gray-900 dark:text-gray-500 hover:dark:bg-gray-800 border dark:border-gray-800"
               }`}
             >
               {filter.label}
@@ -182,18 +182,18 @@ export default function AdminLeadsPage() {
 
         <div className="flex items-center gap-3">
           <div className="relative">
-            <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+            <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500 text-sm" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search name, phone, hotel..."
-              className="pl-9 pr-4 py-2.5 rounded-lg border border-gray-200 focus:border-secondary text-sm outline-none w-56"
+              className="pl-9 pr-4 py-2.5 rounded-lg border dark:border-gray-800 focus:border-secondary text-sm outline-none w-56"
             />
           </div>
           <button
             onClick={handleExport}
-            className="flex items-center gap-2 bg-white border border-gray-200 text-gray-600 hover:border-secondary hover:text-secondary px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shrink-0"
+            className="flex items-center gap-2 bg-white dark:bg-gray-900 border dark:border-gray-800 dark:text-gray-300 hover:border-secondary hover:text-secondary px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shrink-0"
           >
             <FiDownload /> Export CSV
           </button>
@@ -202,12 +202,12 @@ export default function AdminLeadsPage() {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <FiLoader className="animate-spin text-2xl text-primary" />
+          <FiLoader className="animate-spin text-2xl text-primary dark:text-white" />
         </div>
       ) : filteredLeads.length === 0 ? (
         <div className="card p-12 text-center">
           <FiMessageSquare className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400">
+          <p className="dark:dark:text-gray-500">
             {leads.length === 0
               ? "No enquiries yet"
               : "No enquiries match your filters"}
@@ -217,7 +217,7 @@ export default function AdminLeadsPage() {
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-500 text-left">
+              <thead className="bg-gray-50 dark:bg-gray-950 dark:text-gray-500 text-left">
                 <tr>
                   <th className="px-5 py-3.5 font-medium">Guest</th>
                   <th className="px-5 py-3.5 font-medium">Hotel/Restaurant</th>
@@ -233,12 +233,12 @@ export default function AdminLeadsPage() {
                 {filteredLeads.map((lead) => (
                   <tr
                     key={lead.id}
-                    className="hover:bg-gray-50 cursor-pointer"
+                    className="hover:bg-gray-50 dark:bg-gray-950 cursor-pointer"
                     onClick={() => setSelectedLead(lead)}
                   >
                     <td className="px-5 py-3.5">
-                      <p className="font-medium text-primary">{lead.name}</p>
-                      <p className="text-gray-400 text-xs">{lead.phone}</p>
+                      <p className="font-medium text-primary dark:text-white">{lead.name}</p>
+                      <p className="dark:dark:text-gray-500 text-xs">{lead.phone}</p>
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-2">
@@ -247,10 +247,10 @@ export default function AdminLeadsPage() {
                         ) : (
                           <FiHome className="text-secondary shrink-0" />
                         )}
-                        <span className="text-gray-600">{lead.entityName}</span>
+                        <span className="dark:text-gray-300">{lead.entityName}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-500 text-xs">
+                    <td className="px-5 py-3.5 dark:text-gray-500 text-xs">
                       {lead.entityType === "hotel"
                         ? lead.checkIn
                           ? `${lead.checkIn} → ${lead.checkOut}`
@@ -267,7 +267,7 @@ export default function AdminLeadsPage() {
                         {lead.status}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-400 text-xs">
+                    <td className="px-5 py-3.5 dark:dark:text-gray-500 text-xs">
                       {formatDate(lead.createdAt)}
                     </td>
                     <td className="px-5 py-3.5">
@@ -277,7 +277,7 @@ export default function AdminLeadsPage() {
                             e.stopPropagation();
                             setDeleteTarget(lead);
                           }}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
                           aria-label="Delete"
                         >
                           <FiTrash2 className="text-sm" />

@@ -23,8 +23,8 @@ export default function AdminTopbar() {
     "Admin";
 
   return (
-    <div className="bg-white border-b border-gray-100 px-6 lg:px-8 py-5 sticky top-0 z-20">
-      <h1 className="font-display font-bold text-xl text-primary pl-12 lg:pl-0">
+    <div className="bg-white dark:bg-gray-900 border-b dark:border-gray-800 px-6 lg:px-8 py-5 sticky top-0 z-20">
+      <h1 className="font-display font-bold text-xl text-primary dark:text-white pl-12 lg:pl-0">
         {title}
       </h1>
     </div>

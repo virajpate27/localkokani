@@ -22,11 +22,11 @@ export default function WishlistButton({ item, entityType = "hotel", size = "tex
     <button
       onClick={handleClick}
       aria-label={saved ? "Remove from wishlist" : "Add to wishlist"}
-      className={`w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-sm hover:scale-110 transition-transform ${className}`}
+      className={`w-9 h-9 rounded-full bg-white dark:bg-gray-900/95 backdrop-blur-sm flex items-center justify-center shadow-sm hover:scale-110 transition-transform ${className}`}
     >
       <FiHeart
         className={`${size} transition-colors ${
-          saved ? "text-red-500 fill-red-500" : "text-gray-400"
+          saved ? "text-red-500 fill-red-500" : "dark:dark:text-gray-500"
         }`}
       />
     </button>

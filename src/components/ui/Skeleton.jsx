@@ -16,7 +16,7 @@ export function HotelCardSkeleton() {
           <Skeleton className="h-6 w-16" />
           <Skeleton className="h-6 w-16" />
         </div>
-        <div className="flex justify-between pt-3 border-t border-gray-100">
+        <div className="flex justify-between pt-3 border-t dark:border-gray-800">
           <Skeleton className="h-6 w-20" />
           <Skeleton className="h-4 w-14" />
         </div>

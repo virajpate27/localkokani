@@ -45,12 +45,12 @@ export default function CuisineGrid({ cuisine = [] }) {
         return (
           <div
             key={c}
-            className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3"
+            className="flex items-center gap-3 bg-gray-50 dark:bg-gray-950 rounded-xl px-4 py-3"
           >
             <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
               <Icon className="text-accent-dark" />
             </div>
-            <span className="text-sm text-gray-700">{c}</span>
+            <span className="text-sm dark:text-gray-300">{c}</span>
           </div>
         );
       })}

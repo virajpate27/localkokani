@@ -111,7 +111,7 @@ export default function DestinationForm({ initialData = null }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">
               Destination Name
             </label>
             <input
@@ -120,14 +120,14 @@ export default function DestinationForm({ initialData = null }) {
               value={formData.name}
               onChange={handleChange}
               placeholder="e.g. Goa"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">
               Country
             </label>
             <input
@@ -136,7 +136,7 @@ export default function DestinationForm({ initialData = null }) {
               value={formData.country}
               onChange={handleChange}
               placeholder="e.g. India"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.country ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.country ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
             {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
@@ -144,7 +144,7 @@ export default function DestinationForm({ initialData = null }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">
             Description
           </label>
           <textarea
@@ -153,7 +153,7 @@ export default function DestinationForm({ initialData = null }) {
             onChange={handleChange}
             rows={4}
             placeholder="A short, appealing description of this destination..."
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${errors.description ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
               }`}
           />
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
@@ -167,7 +167,7 @@ export default function DestinationForm({ initialData = null }) {
             onChange={handleChange}
             className="w-4 h-4 accent-secondary rounded"
           />
-          <span className="text-sm text-gray-700">
+          <span className="text-sm dark:text-gray-300">
             Show on homepage (Featured Destination)
           </span>
         </label>
@@ -175,11 +175,11 @@ export default function DestinationForm({ initialData = null }) {
 
       {/* SEO Section */}
       <div className="card p-6 space-y-5">
-        <h3 className="font-display font-semibold text-primary">
-          SEO Settings <span className="text-gray-400 font-normal text-sm">(optional)</span>
+        <h3 className="font-display font-semibold text-primary dark:text-white">
+          SEO Settings <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
         </h3>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">
             Meta Title
           </label>
           <input
@@ -188,11 +188,11 @@ export default function DestinationForm({ initialData = null }) {
             value={formData.metaTitle}
             onChange={handleChange}
             placeholder={`Best Hotels in ${formData.name || "..."} | StayFinder`}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none transition-colors"
+            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none transition-colors"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">
             Meta Description
           </label>
           <textarea
@@ -201,7 +201,7 @@ export default function DestinationForm({ initialData = null }) {
             onChange={handleChange}
             rows={2}
             placeholder="Custom description for search engines (leave blank to auto-generate)"
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none transition-colors resize-none"
+            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none transition-colors resize-none"
           />
         </div>
       </div>
@@ -224,7 +224,7 @@ export default function DestinationForm({ initialData = null }) {
             }
             router.push("/admin/destinations");
           }}
-          className="text-gray-500 font-medium text-sm hover:text-primary"
+          className="dark:text-gray-500 font-medium text-sm hover:text-primary dark:text-white"
         >
           Cancel
         </button>

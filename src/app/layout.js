@@ -10,6 +10,7 @@ import JsonLd from "@/components/ui/JsonLd";
 import { generateOrganizationSchema } from "@/utils/helpers";
 import { WishlistProvider } from "@/context/WishlistContext";
 import Link from "next/link";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,20 +51,43 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
       <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
-      <body className="font-sans bg-gray-50 text-gray-900 antialiased">
+         <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('stayfinder_theme');
+                  if (!theme) {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  }
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="font-sans bg-gray-50 dark:bg-gray-950 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased transition-colors">
         <Link href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
           Skip to main content
         </Link>
         <JsonLd data={generateOrganizationSchema()} />
-        <AuthProvider>
-          <WishlistProvider>
-            <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
-            <Navbar />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-            <Toaster position="top-center" />
-          </WishlistProvider>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <WishlistProvider>
+              <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
+              <Navbar />
+              <main id="main-content" className="min-h-screen">
+                {children}
+              </main>
+              <Footer />
+              <Toaster position="top-center" />
+            </WishlistProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

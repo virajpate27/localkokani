@@ -71,7 +71,7 @@ export default async function HotelDetailPage({ params }) {
     <>
       <JsonLd data={hotelSchema} />
 
-      <div className="bg-white">
+      <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs
           items={[
             { name: "Hotels", url: "/hotels" },
@@ -88,17 +88,17 @@ export default async function HotelDetailPage({ params }) {
           </p>
           <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
             <div className="flex flex-wrap items-center gap-3 mt-2">
-              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
+              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary dark:text-white">
                 {hotel.name}
               </h1>
               {hotel.verified && <VerifiedBadge />}
                <CustomBadge text={hotel.customBadgeText} color={hotel.customBadgeColor} position="inline" />
               <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
                 <FiStar className="text-accent fill-accent text-sm" />
-                <span className="font-semibold text-primary text-sm">
+                <span className="font-semibold text-primary dark:text-white text-sm">
                   {hotel.rating}
                 </span>
-                <span className="text-gray-400 text-xs">
+                <span className="dark:dark:text-gray-500 text-xs">
                   ({hotel.reviewCount} reviews)
                 </span>
               </div>
@@ -106,10 +106,10 @@ export default async function HotelDetailPage({ params }) {
             <WishlistButton
               item={hotel}
               size="text-xl"
-              className="!bg-gray-100 shadow-none"
+              className="!dark:bg-gray-800 shadow-none"
             />
           </div>
-          <p className="text-gray-500 mt-1">{hotel.address}</p>
+          <p className="dark:text-gray-500 mt-1">{hotel.address}</p>
         </div>
 
         {/* Gallery */}
@@ -121,10 +121,10 @@ export default async function HotelDetailPage({ params }) {
           <div className="space-y-10 order-2 lg:order-1">
             {/* Description */}
             <div>
-              <h2 className="font-display font-bold text-2xl text-primary mb-4">
+              <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 About This Hotel
               </h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+              <p className="dark:text-gray-300 leading-relaxed whitespace-pre-line">
                 {hotel.description}
               </p>
             </div>
@@ -132,7 +132,7 @@ export default async function HotelDetailPage({ params }) {
             {/* Amenities */}
             {hotel.amenities?.length > 0 && (
               <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Amenities
                 </h2>
                 <AmenitiesGrid amenities={hotel.amenities} />
@@ -142,7 +142,7 @@ export default async function HotelDetailPage({ params }) {
             {/* Room Types */}
             {hotel.roomTypes?.length > 0 && (
               <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Room Options
                 </h2>
                 <RoomTypesList roomTypes={hotel.roomTypes} />
@@ -153,10 +153,10 @@ export default async function HotelDetailPage({ params }) {
             {(hotel.mapEmbedUrl ||
               (hotel.location?.lat && hotel.location?.lng)) && (
               <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Location
                 </h2>
-                <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-gray-100">
+                <div className="rounded-2xl overflow-hidden aspect-[16/9] border dark:border-gray-800">
                   <iframe
                     title={`Map location of ${hotel.name}`}
                     width="100%"
@@ -177,7 +177,7 @@ export default async function HotelDetailPage({ params }) {
 
             {/* NEW: Reviews section */}
             <div>
-              <h2 className="font-display font-bold text-2xl text-primary mb-4">
+              <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 Guest Reviews {reviews.length > 0 && `(${reviews.length})`}
               </h2>
               <div className="space-y-6">

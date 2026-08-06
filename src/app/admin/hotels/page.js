@@ -19,7 +19,7 @@ import ConfirmDialog from "@/components/admin/ConfirmDialog";
 
 const statusStyles = {
   active: "bg-accent/10 text-accent",
-  draft: "bg-gray-100 text-gray-500",
+  draft: "dark:bg-gray-800 dark:text-gray-500",
   archived: "bg-orange-50 text-orange-500",
 };
 
@@ -179,7 +179,7 @@ export default function AdminHotelsPage() {
               className={`text-sm font-medium px-4 py-2 rounded-lg transition-colors ${
                 statusFilter === tab.value
                   ? "bg-primary text-white"
-                  : "bg-white text-gray-500 hover:bg-gray-100 border border-gray-200"
+                  : "bg-white dark:bg-gray-900 dark:text-gray-500 hover:dark:bg-gray-800 border dark:border-gray-800"
               }`}
             >
               {tab.label}
@@ -194,19 +194,19 @@ export default function AdminHotelsPage() {
       {/* Bulk action bar */}
       {selectedIds.length > 0 && (
         <div className="flex items-center justify-between bg-primary/5 border border-primary/20 rounded-xl px-5 py-3 mb-4">
-          <p className="text-primary text-sm font-medium">
+          <p className="text-primary dark:text-white text-sm font-medium">
             {selectedIds.length} selected
           </p>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setBulkAction("archive")}
-              className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-orange-500 px-3 py-1.5 rounded-lg hover:bg-orange-50 transition-colors"
+              className="flex items-center gap-1.5 text-sm font-medium dark:text-gray-300 hover:text-orange-500 px-3 py-1.5 rounded-lg hover:bg-orange-50 transition-colors"
             >
               <FiArchive /> Archive
             </button>
             <button
               onClick={() => setBulkAction("delete")}
-              className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-red-500 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors"
+              className="flex items-center gap-1.5 text-sm font-medium dark:text-gray-300 hover:text-red-500 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors"
             >
               <FiTrash2 /> Delete Permanently
             </button>
@@ -216,23 +216,23 @@ export default function AdminHotelsPage() {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <FiLoader className="animate-spin text-2xl text-primary" />
+          <FiLoader className="animate-spin text-2xl text-primary dark:text-white" />
         </div>
       ) : filteredHotels.length === 0 ? (
         <div className="card p-12 text-center">
           <FiHome className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400">No hotels in this view</p>
+          <p className="dark:dark:text-gray-500">No hotels in this view</p>
         </div>
       ) : (
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-500 text-left">
+              <thead className="bg-gray-50 dark:bg-gray-950 dark:text-gray-500 text-left">
                 <tr>
                   <th className="px-5 py-3.5 w-10">
                     <button onClick={toggleSelectAll} aria-label="Select all">
                       {selectedIds.length === filteredHotels.length ? (
-                        <FiCheckSquare className="text-primary" />
+                        <FiCheckSquare className="text-primary dark:text-white" />
                       ) : (
                         <FiSquare className="text-gray-300" />
                       )}
@@ -247,11 +247,11 @@ export default function AdminHotelsPage() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredHotels.map((hotel) => (
-                  <tr key={hotel.id} className="hover:bg-gray-50">
+                  <tr key={hotel.id} className="hover:bg-gray-50 dark:bg-gray-950">
                     <td className="px-5 py-3.5">
                       <button onClick={() => toggleSelect(hotel.id)} aria-label="Select">
                         {selectedIds.includes(hotel.id) ? (
-                          <FiCheckSquare className="text-primary" />
+                          <FiCheckSquare className="text-primary dark:text-white" />
                         ) : (
                           <FiSquare className="text-gray-300" />
                         )}
@@ -259,7 +259,7 @@ export default function AdminHotelsPage() {
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 dark:bg-gray-800">
                           {hotel.images?.[0]?.url && (
                             <Image
                               src={hotel.images[0].url}
@@ -270,11 +270,11 @@ export default function AdminHotelsPage() {
                             />
                           )}
                         </div>
-                        <span className="font-medium text-primary">{hotel.name}</span>
+                        <span className="font-medium text-primary dark:text-white">{hotel.name}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-600">{hotel.destinationName}</td>
-                    <td className="px-5 py-3.5 text-gray-600">{formatCurrency(hotel.price)}</td>
+                    <td className="px-5 py-3.5 dark:text-gray-300">{hotel.destinationName}</td>
+                    <td className="px-5 py-3.5 dark:text-gray-300">{formatCurrency(hotel.price)}</td>
                     <td className="px-5 py-3.5">
                       <span
                         className={`text-xs font-medium px-2.5 py-1 rounded-lg capitalize ${statusStyles[hotel.status] || statusStyles.active}`}
@@ -286,7 +286,7 @@ export default function AdminHotelsPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/hotels/${hotel.id}/edit`}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-secondary/10 hover:text-secondary transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
                           aria-label="Edit"
                         >
                           <FiEdit2 className="text-sm" />
@@ -294,7 +294,7 @@ export default function AdminHotelsPage() {
                         {hotel.status === "archived" ? (
                           <button
                             onClick={() => handleRestore(hotel)}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-secondary/10 hover:text-secondary transition-colors"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
                             aria-label="Restore"
                             title="Restore to active"
                           >
@@ -303,7 +303,7 @@ export default function AdminHotelsPage() {
                         ) : (
                           <button
                             onClick={() => handleArchive(hotel)}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-orange-50 hover:text-orange-500 transition-colors"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-orange-50 hover:text-orange-500 transition-colors"
                             aria-label="Archive"
                             title="Archive (hide from public)"
                           >
@@ -312,7 +312,7 @@ export default function AdminHotelsPage() {
                         )}
                         <button
                           onClick={() => setDeleteTarget(hotel)}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
                           aria-label="Delete permanently"
                           title="Delete permanently"
                         >

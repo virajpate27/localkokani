@@ -13,10 +13,10 @@ export default function HotelError({ error, reset }) {
   return (
     <div className="container-custom py-24 text-center">
       <FiAlertTriangle className="text-4xl text-red-400 mx-auto mb-4" />
-      <h2 className="font-display font-semibold text-xl text-primary">
+      <h2 className="font-display font-semibold text-xl text-primary dark:text-white">
         Couldn't load this hotel
       </h2>
-      <p className="text-gray-500 mt-2">
+      <p className="dark:text-gray-500 mt-2">
         Something went wrong fetching this hotel's details.
       </p>
       <div className="flex justify-center gap-3 mt-6">

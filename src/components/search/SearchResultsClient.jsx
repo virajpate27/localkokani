@@ -79,7 +79,7 @@ export default function SearchResultsClient({
           <h1 className="font-display font-bold text-3xl text-white text-center mb-6">
             Search Hotels, Restaurants & Destinations
           </h1>
-          <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-2">
+          <div className="max-w-2xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-2">
             <div className="flex items-center gap-3 px-3 py-2.5">
               <FiSearch className="text-secondary text-xl shrink-0" />
               <input
@@ -89,15 +89,15 @@ export default function SearchResultsClient({
                 placeholder="Search destination, hotel, or restaurant..."
                 aria-label="Search"
                 autoFocus
-                className="w-full outline-none text-gray-700 placeholder:text-gray-400"
+                className="w-full outline-none dark:text-gray-300 placeholder:dark:dark:text-gray-500"
               />
-              {isLoading && <FiLoader className="animate-spin text-gray-400 shrink-0" />}
+              {isLoading && <FiLoader className="animate-spin dark:dark:text-gray-500 shrink-0" />}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50 min-h-[50vh]">
+      <section className="py-12 bg-gray-50 dark:bg-gray-950 min-h-[50vh]">
         <div className="container-custom">
           {!hasSearched ? (
             <EmptyState
@@ -113,16 +113,16 @@ export default function SearchResultsClient({
             />
           ) : (
             <>
-              <p className="text-gray-500 text-sm mb-8">
-                <span className="font-semibold text-primary">{totalResults}</span>{" "}
+              <p className="dark:text-gray-500 text-sm mb-8">
+                <span className="font-semibold text-primary dark:text-white">{totalResults}</span>{" "}
                 {totalResults === 1 ? "result" : "results"} for "
-                <span className="font-medium text-primary">{inputValue}</span>"
+                <span className="font-medium text-primary dark:text-white">{inputValue}</span>"
               </p>
 
               {/* Destinations Section */}
               {destinations.length > 0 && (
                 <div className="mb-12">
-                  <h2 className="font-display font-bold text-xl text-primary mb-5 flex items-center gap-2">
+                  <h2 className="font-display font-bold text-xl text-primary dark:text-white mb-5 flex items-center gap-2">
                     <FiMapPin className="text-secondary" />
                     Destinations ({destinations.length})
                   </h2>
@@ -145,10 +145,10 @@ export default function SearchResultsClient({
                           )}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-display font-semibold text-primary truncate">
+                          <p className="font-display font-semibold text-primary dark:text-white truncate">
                             {dest.title}
                           </p>
-                          <p className="text-gray-400 text-sm truncate">{dest.subtitle}</p>
+                          <p className="dark:dark:text-gray-500 text-sm truncate">{dest.subtitle}</p>
                         </div>
                       </Link>
                     ))}
@@ -159,7 +159,7 @@ export default function SearchResultsClient({
               {/* Hotels Section */}
               {hotels.length > 0 && (
                 <div className="mb-12">
-                  <h2 className="font-display font-bold text-xl text-primary mb-5 flex items-center gap-2">
+                  <h2 className="font-display font-bold text-xl text-primary dark:text-white mb-5 flex items-center gap-2">
                     <FiHome className="text-secondary" />
                     Hotels ({hotels.length})
                   </h2>
@@ -181,7 +181,7 @@ export default function SearchResultsClient({
                             />
                           )}
                           {hotel.rating > 0 && (
-                            <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary shadow-sm">
+                            <div className="absolute top-3 left-3 bg-white dark:bg-gray-900/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary dark:text-white shadow-sm">
                               <FiStar className="text-accent fill-accent" />
                               {hotel.rating}
                             </div>
@@ -191,13 +191,13 @@ export default function SearchResultsClient({
                           <p className="text-secondary text-xs font-medium uppercase tracking-wide">
                             {hotel.subtitle}
                           </p>
-                          <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+                          <h3 className="font-display font-semibold text-lg text-primary dark:text-white mt-1.5 line-clamp-1">
                             {hotel.title}
                           </h3>
                           {hotel.price && (
-                            <p className="font-display font-bold text-primary mt-3 pt-3 border-t border-gray-100">
+                            <p className="font-display font-bold text-primary dark:text-white mt-3 pt-3 border-t dark:border-gray-800">
                               {formatCurrency(hotel.price)}
-                              <span className="text-xs font-normal text-gray-400"> /night</span>
+                              <span className="text-xs font-normal dark:dark:text-gray-500"> /night</span>
                             </p>
                           )}
                         </div>
@@ -210,7 +210,7 @@ export default function SearchResultsClient({
               {/* NEW: Restaurants Section */}
               {restaurants.length > 0 && (
                 <div>
-                  <h2 className="font-display font-bold text-xl text-primary mb-5 flex items-center gap-2">
+                  <h2 className="font-display font-bold text-xl text-primary dark:text-white mb-5 flex items-center gap-2">
                     <FiCoffee className="text-secondary" />
                     Restaurants ({restaurants.length})
                   </h2>
@@ -232,7 +232,7 @@ export default function SearchResultsClient({
                             />
                           )}
                           {restaurant.rating > 0 && (
-                            <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary shadow-sm">
+                            <div className="absolute top-3 left-3 bg-white dark:bg-gray-900/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary dark:text-white shadow-sm">
                               <FiStar className="text-accent fill-accent" />
                               {restaurant.rating}
                             </div>
@@ -242,13 +242,13 @@ export default function SearchResultsClient({
                           <p className="text-secondary text-xs font-medium uppercase tracking-wide">
                             {restaurant.subtitle}
                           </p>
-                          <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+                          <h3 className="font-display font-semibold text-lg text-primary dark:text-white mt-1.5 line-clamp-1">
                             {restaurant.title}
                           </h3>
                           {restaurant.price && (
-                            <p className="font-display font-bold text-primary mt-3 pt-3 border-t border-gray-100">
+                            <p className="font-display font-bold text-primary dark:text-white mt-3 pt-3 border-t dark:border-gray-800">
                               {formatCurrency(restaurant.price)}
-                              <span className="text-xs font-normal text-gray-400"> for two</span>
+                              <span className="text-xs font-normal dark:dark:text-gray-500"> for two</span>
                             </p>
                           )}
                         </div>

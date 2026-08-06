@@ -167,10 +167,10 @@ export default function HotelEnquiryForm({ hotel }) {
         <div className="w-16 h-16 mx-auto rounded-full bg-accent/10 flex items-center justify-center mb-4">
           <FiCheckCircle className="text-accent text-3xl" />
         </div>
-        <h3 className="font-display font-semibold text-lg text-primary">
+        <h3 className="font-display font-semibold text-lg text-primary dark:text-white">
           Enquiry Sent!
         </h3>
-        <p className="text-gray-500 text-sm mt-2">
+        <p className="dark:text-gray-500 text-sm mt-2">
           We've opened WhatsApp for you — send the message and our team will
           respond shortly.
         </p>
@@ -191,14 +191,14 @@ export default function HotelEnquiryForm({ hotel }) {
         <div>
 
           <div className="relative">
-            <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               placeholder="Full Name"
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.name ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -208,14 +208,14 @@ export default function HotelEnquiryForm({ hotel }) {
         {/* Phone */}
         <div>
           <div className="relative">
-            <FiPhone className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FiPhone className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
             <input
               type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number (with country code)"
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.phone ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.phone ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -225,14 +225,14 @@ export default function HotelEnquiryForm({ hotel }) {
         {/* Email */}
         <div>
           <div className="relative">
-            <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="Email (optional)"
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.email ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-secondary"
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.email ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -248,7 +248,7 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.checkIn}
               min={today}
               onChange={handleChange}
-              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.checkIn ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.checkIn ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -259,7 +259,7 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.checkOut}
               min={formData.checkIn || today}
               onChange={handleChange}
-              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.checkOut ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full pl-3 pr-2 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.checkOut ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -270,7 +270,7 @@ export default function HotelEnquiryForm({ hotel }) {
         {/* Guests */}
         <div>
           <div className="relative">
-            <FiUsers className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FiUsers className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
             <input
               type="number"
               name="guests"
@@ -278,7 +278,7 @@ export default function HotelEnquiryForm({ hotel }) {
               max={20}
               value={formData.guests}
               onChange={handleChange}
-              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.guests ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.guests ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
@@ -287,14 +287,14 @@ export default function HotelEnquiryForm({ hotel }) {
 
         {/* Message */}
         <div className="relative">
-          <FiMessageSquare className="absolute left-3.5 top-3.5 text-gray-400" />
+          <FiMessageSquare className="absolute left-3.5 top-3.5 dark:dark:text-gray-500" />
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
             placeholder="Any special requests? (optional)"
             rows={3}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none transition-colors resize-none"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none transition-colors resize-none"
           />
         </div>
 
@@ -306,7 +306,7 @@ export default function HotelEnquiryForm({ hotel }) {
           Review & Send on WhatsApp
         </button>
 
-        <p className="text-center text-xs text-gray-400">
+        <p className="text-center text-xs dark:dark:text-gray-500">
           We'll never share your details. Your enquiry goes straight to our team.
         </p>
       </form>
@@ -322,8 +322,8 @@ export default function HotelEnquiryForm({ hotel }) {
 
       {/* Popup-blocked fallback */}
       {fallbackUrl && (
-        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-[110] bg-white border border-gray-200 shadow-2xl rounded-xl p-4">
-          <p className="text-sm text-gray-700 mb-3">
+        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-[110] bg-white dark:bg-gray-900 border dark:border-gray-800 shadow-2xl rounded-xl p-4">
+          <p className="text-sm dark:text-gray-300 mb-3">
             Your browser blocked the WhatsApp popup. Tap below to continue:
           </p>
           <Link

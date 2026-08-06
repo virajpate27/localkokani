@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 
 export default function Testimonials() {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gray-50 dark:bg-gray-950">
       <div className="container-custom">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-secondary font-semibold text-sm uppercase tracking-wider">
@@ -41,18 +41,18 @@ export default function Testimonials() {
                     <FiStar key={i} className="fill-accent" />
                   ))}
                 </div>
-                <p className="text-gray-600 leading-relaxed flex-1">
+                <p className="dark:text-gray-300 leading-relaxed flex-1">
                   "{t.text}"
                 </p>
-                <div className="flex items-center gap-3 mt-6 pt-5 border-t border-gray-100">
+                <div className="flex items-center gap-3 mt-6 pt-5 border-t dark:border-gray-800">
                   <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0">
                     <Image src={t.avatar} alt={t.name} fill className="object-cover" />
                   </div>
                   <div>
-                    <p className="font-semibold text-primary text-sm">
+                    <p className="font-semibold text-primary dark:text-white text-sm">
                       {t.name}
                     </p>
-                    <p className="text-gray-400 text-xs">{t.location}</p>
+                    <p className="dark:dark:text-gray-500 text-xs">{t.location}</p>
                   </div>
                 </div>
               </div>

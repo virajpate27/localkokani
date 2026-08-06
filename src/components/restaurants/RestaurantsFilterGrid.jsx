@@ -95,7 +95,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
       {/* Mobile filter toggle */}
       <button
         onClick={() => setShowMobileFilters(true)}
-        className="lg:hidden flex items-center justify-center gap-2 border border-gray-200 bg-white rounded-xl py-3 font-medium text-primary"
+        className="lg:hidden flex items-center justify-center gap-2 border dark:border-gray-800 bg-white dark:bg-gray-900 rounded-xl py-3 font-medium text-primary dark:text-white"
       >
         <FiFilter />
         Filters
@@ -110,20 +110,20 @@ export default function RestaurantsFilterGrid({ restaurants }) {
       <aside
         className={`${
           showMobileFilters
-            ? "fixed inset-0 z-[60] bg-white p-6 overflow-y-auto"
+            ? "fixed inset-0 z-[60] bg-white dark:bg-gray-900 p-6 overflow-y-auto"
             : "hidden"
         } lg:block lg:static lg:bg-transparent lg:p-0`}
       >
         <div className="flex items-center justify-between lg:hidden mb-6">
-          <h3 className="font-display font-bold text-xl text-primary">Filters</h3>
+          <h3 className="font-display font-bold text-xl text-primary dark:text-white">Filters</h3>
           <button onClick={() => setShowMobileFilters(false)}>
-            <FiX className="text-2xl text-gray-400" />
+            <FiX className="text-2xl dark:dark:text-gray-500" />
           </button>
         </div>
 
         <div className="card p-5 space-y-6 lg:sticky lg:top-24">
           <div className="flex items-center justify-between">
-            <h3 className="font-display font-semibold text-primary">Filters</h3>
+            <h3 className="font-display font-semibold text-primary dark:text-white">Filters</h3>
             {activeFilterCount > 0 && (
               <button
                 onClick={clearFilters}
@@ -136,7 +136,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
 
           {/* Cost for Two Range */}
           <div>
-            <p className="font-medium text-sm text-gray-700 mb-3">
+            <p className="font-medium text-sm dark:text-gray-300 mb-3">
               Cost for Two
             </p>
             <div className="space-y-2">
@@ -152,7 +152,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
                     onChange={() => setCostRange(range)}
                     className="accent-secondary w-4 h-4"
                   />
-                  <span className="text-sm text-gray-600 group-hover:text-primary">
+                  <span className="text-sm dark:text-gray-300 group-hover:text-primary dark:text-white">
                     {range.label}
                   </span>
                 </label>
@@ -161,8 +161,8 @@ export default function RestaurantsFilterGrid({ restaurants }) {
           </div>
 
           {/* Rating */}
-          <div className="pt-5 border-t border-gray-100">
-            <p className="font-medium text-sm text-gray-700 mb-3">
+          <div className="pt-5 border-t dark:border-gray-800">
+            <p className="font-medium text-sm dark:text-gray-300 mb-3">
               Minimum Rating
             </p>
             <div className="flex flex-wrap gap-2">
@@ -173,7 +173,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
                   className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                     minRating === r
                       ? "bg-primary text-white border-primary"
-                      : "border-gray-200 text-gray-600 hover:border-primary"
+                      : "dark:border-gray-800 dark:text-gray-300 hover:border-primary"
                   }`}
                 >
                   {r === 0 ? "Any" : `${r}+ ★`}
@@ -183,7 +183,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
           </div>
 
           {/* Verified Only */}
-          <div className="pt-5 border-t border-gray-100">
+          <div className="pt-5 border-t dark:border-gray-800">
             <label className="flex items-center gap-2.5 cursor-pointer group">
               <input
                 type="checkbox"
@@ -191,16 +191,16 @@ export default function RestaurantsFilterGrid({ restaurants }) {
                 onChange={(e) => setVerifiedOnly(e.target.checked)}
                 className="w-4 h-4 accent-secondary rounded"
               />
-              <span className="text-sm text-gray-700 group-hover:text-primary flex items-center gap-1.5">
-                Verified only <FiCheckCircle className="text-primary text-xs" />
+              <span className="text-sm dark:text-gray-300 group-hover:text-primary dark:text-white flex items-center gap-1.5">
+                Verified only <FiCheckCircle className="text-primary dark:text-white text-xs" />
               </span>
             </label>
           </div>
 
           {/* Cuisine */}
           {allCuisines.length > 0 && (
-            <div className="pt-5 border-t border-gray-100">
-              <p className="font-medium text-sm text-gray-700 mb-3">
+            <div className="pt-5 border-t dark:border-gray-800">
+              <p className="font-medium text-sm dark:text-gray-300 mb-3">
                 Cuisine
               </p>
               <div className="space-y-2">
@@ -215,7 +215,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
                       onChange={() => toggleCuisine(cuisine)}
                       className="accent-secondary w-4 h-4 rounded"
                     />
-                    <span className="text-sm text-gray-600 group-hover:text-primary">
+                    <span className="text-sm dark:text-gray-300 group-hover:text-primary dark:text-white">
                       {cuisine}
                     </span>
                   </label>
@@ -238,8 +238,8 @@ export default function RestaurantsFilterGrid({ restaurants }) {
       <div>
         {/* Sort bar */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-gray-500 text-sm">
-            <span className="font-semibold text-primary">
+          <p className="dark:text-gray-500 text-sm">
+            <span className="font-semibold text-primary dark:text-white">
               {filteredRestaurants.length}
             </span>{" "}
             restaurants found
@@ -248,7 +248,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none bg-white border border-gray-200 rounded-lg pl-4 pr-9 py-2 text-sm text-gray-700 focus:outline-none focus:border-secondary cursor-pointer"
+              className="appearance-none bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-lg pl-4 pr-9 py-2 text-sm dark:text-gray-300 focus:outline-none focus:border-secondary cursor-pointer"
             >
               {SORT_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -256,7 +256,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
                 </option>
               ))}
             </select>
-            <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm" />
+            <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 dark:dark:text-gray-500 pointer-events-none text-sm" />
           </div>
         </div>
 

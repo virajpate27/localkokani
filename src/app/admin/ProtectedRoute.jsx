@@ -18,10 +18,10 @@ export default function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="text-center">
-          <FiLoader className="animate-spin text-3xl text-primary mx-auto mb-3" />
-          <p className="text-gray-400 text-sm">Checking authentication...</p>
+          <FiLoader className="animate-spin text-3xl text-primary dark:text-white mx-auto mb-3" />
+          <p className="dark:dark:text-gray-500 text-sm">Checking authentication...</p>
         </div>
       </div>
     );

@@ -120,10 +120,10 @@ export default function SearchAutosuggest({
         className={
           isHero
             ? "flex items-center gap-3 flex-1 px-4 py-3"
-            : "flex items-center gap-2 bg-gray-100 rounded-xl px-4 py-2.5"
+            : "flex items-center gap-2 dark:bg-gray-800 rounded-xl px-4 py-2.5"
         }
       >
-        <FiSearch className={isHero ? "text-secondary text-xl shrink-0" : "text-gray-400 shrink-0"} />
+        <FiSearch className={isHero ? "text-secondary text-xl shrink-0" : "dark:dark:text-gray-500 shrink-0"} />
         <input
           type="text"
           value={query}
@@ -135,9 +135,9 @@ export default function SearchAutosuggest({
           onFocus={() => query.trim() && setIsOpen(true)}
           placeholder={placeholder}
           aria-label="Search destination or hotel"
-          className="w-full outline-none bg-transparent text-gray-700 placeholder:text-gray-400 text-sm"
+          className="w-full outline-none bg-transparent dark:text-gray-300 placeholder:dark:dark:text-gray-500 text-sm"
         />
-        {isLoading && <FiLoader className="animate-spin text-gray-400 shrink-0" />}
+        {isLoading && <FiLoader className="animate-spin dark:dark:text-gray-500 shrink-0" />}
         {query && !isLoading && (
           <button
             onClick={() => {
@@ -147,16 +147,16 @@ export default function SearchAutosuggest({
             }}
             aria-label="Clear search"
           >
-            <FiX className="text-gray-400 hover:text-gray-600 shrink-0" />
+            <FiX className="dark:dark:text-gray-500 hover:dark:text-gray-300 shrink-0" />
           </button>
         )}
       </div>
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 max-h-[400px] overflow-y-auto z-50">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border dark:border-gray-800 max-h-[400px] overflow-y-auto z-50">
           {results.length === 0 && !isLoading ? (
-            <div className="p-6 text-center text-gray-400 text-sm">
+            <div className="p-6 text-center dark:dark:text-gray-500 text-sm">
               No results for "{query}"
             </div>
           ) : (
@@ -166,10 +166,10 @@ export default function SearchAutosuggest({
                   key={`${result.type}-${result.id}`}
                   onClick={() => handleSelect(result)}
                   onMouseEnter={() => setActiveIndex(index)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${activeIndex === index ? "bg-gray-50" : "hover:bg-gray-50"
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${activeIndex === index ? "bg-gray-50 dark:bg-gray-950" : "hover:bg-gray-50 dark:bg-gray-950"
                     }`}
                 >
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                  <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 dark:bg-gray-800">
                     {result.image && (
                       <Image
                         src={result.image}
@@ -181,10 +181,10 @@ export default function SearchAutosuggest({
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-primary text-sm truncate">
+                    <p className="font-medium text-primary dark:text-white text-sm truncate">
                       {result.title}
                     </p>
-                    <p className="text-gray-400 text-xs flex items-center gap-1 truncate">
+                    <p className="dark:dark:text-gray-500 text-xs flex items-center gap-1 truncate">
                       {result.type === "hotel" ? (
                         <FiHome />
                       ) : result.type === "restaurant" ? (
@@ -196,7 +196,7 @@ export default function SearchAutosuggest({
                     </p>
                   </div>
                   {(result.type === "hotel" || result.type === "restaurant") && result.price && (
-                    <span className="text-primary font-semibold text-sm shrink-0">
+                    <span className="text-primary dark:text-white font-semibold text-sm shrink-0">
                       {formatCurrency(result.price)}
                     </span>
                   )}
@@ -204,7 +204,7 @@ export default function SearchAutosuggest({
               ))}
               <button
                 onClick={goToFullSearch}
-                className="w-full text-center py-3 text-secondary font-medium text-sm border-t border-gray-100 hover:bg-gray-50"
+                className="w-full text-center py-3 text-secondary font-medium text-sm border-t dark:border-gray-800 hover:bg-gray-50 dark:bg-gray-950"
               >
                 See all results for "{query}"
               </button>

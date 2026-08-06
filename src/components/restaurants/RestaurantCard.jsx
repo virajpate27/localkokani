@@ -27,7 +27,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
         />
         <div className="absolute top-3 left-3 flex items-center gap-1.5">
           {restaurant.rating > 0 && (
-            <div className="bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary shadow-sm">
+            <div className="bg-white dark:bg-gray-900/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary dark:text-white shadow-sm">
               <FiStar className="text-accent fill-accent" />
               {restaurant.rating}
             </div>
@@ -43,7 +43,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
         <p className="flex items-center gap-1 text-secondary text-xs font-medium uppercase tracking-wide">
           <FiMapPin /> {restaurant.destinationName}
         </p>
-        <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+        <h3 className="font-display font-semibold text-lg text-primary dark:text-white mt-1.5 line-clamp-1">
           {restaurant.name}
         </h3>
 
@@ -53,37 +53,32 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
             return (
               <span
                 key={c}
-                className="flex items-center gap-1 text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md"
+                className="flex items-center gap-1 text-xs dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-md"
               >
                 <Icon className="text-accent-dark text-[11px]" />
                 {c}
               </span>
             );
           })}
-          <span
-            key="more"
-            className="flex items-center gap-1 text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md"
-          >
-            more..
-          </span>
+         
         </div>
 
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+        <div className="flex items-center justify-between mt-4 pt-4 border-t dark:border-gray-800">
           <div>
             {restaurant.costForTwo ? (
               <>
-                <p className="font-display font-bold text-primary text-sm">
+                <p className="font-display font-bold text-primary dark:text-white text-sm">
                   {formatCurrency(restaurant.costForTwo)}
-                  <span className="text-xs font-normal text-gray-400"> for two</span>
+                  <span className="text-xs font-normal dark:dark:text-gray-500"> for two</span>
                 </p>
-                <p className="text-gray-400 text-xs">{restaurant.priceRange}</p>
+                <p className="dark:dark:text-gray-500 text-xs">{restaurant.priceRange}</p>
               </>
             ) : (
-              <p className="text-primary font-semibold text-sm">{restaurant.priceRange}</p>
+              <p className="text-primary dark:text-white font-semibold text-sm">{restaurant.priceRange}</p>
             )}
           </div>
           {restaurant.openingHours && (
-            <span className="text-gray-400 text-xs truncate max-w-[120px] text-right">
+            <span className="dark:dark:text-gray-500 text-xs truncate max-w-[120px] text-right">
               {restaurant.openingHours}
             </span>
           )}

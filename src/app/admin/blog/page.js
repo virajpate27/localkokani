@@ -50,7 +50,7 @@ export default function AdminBlogPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="text-gray-400 text-sm">{posts.length} posts total</p>
+        <p className="dark:dark:text-gray-500 text-sm">{posts.length} posts total</p>
         <Link href="/admin/blog/new" className="btn-primary flex items-center gap-2">
           <FiPlus /> New Post
         </Link>
@@ -58,12 +58,12 @@ export default function AdminBlogPage() {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
-          <FiLoader className="animate-spin text-2xl text-primary" />
+          <FiLoader className="animate-spin text-2xl text-primary dark:text-white" />
         </div>
       ) : posts.length === 0 ? (
         <div className="card p-12 text-center">
           <FiFileText className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="text-gray-400 mb-4">No posts yet</p>
+          <p className="dark:dark:text-gray-500 mb-4">No posts yet</p>
           <Link href="/admin/blog/new" className="btn-primary inline-flex items-center gap-2">
             <FiPlus /> Write Your First Post
           </Link>
@@ -72,7 +72,7 @@ export default function AdminBlogPage() {
         <div className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-gray-500 text-left">
+              <thead className="bg-gray-50 dark:bg-gray-950 dark:text-gray-500 text-left">
                 <tr>
                   <th className="px-5 py-3.5 font-medium">Post</th>
                   <th className="px-5 py-3.5 font-medium">Category</th>
@@ -82,29 +82,29 @@ export default function AdminBlogPage() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {posts.map((post) => (
-                  <tr key={post.id} className="hover:bg-gray-50">
+                  <tr key={post.id} className="hover:bg-gray-50 dark:bg-gray-950">
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 dark:bg-gray-800">
                           {post.coverImage?.url && (
                             <Image src={post.coverImage.url} alt={post.title} fill sizes="48px" className="object-cover" />
                           )}
                         </div>
-                        <span className="font-medium text-primary line-clamp-1">{post.title}</span>
+                        <span className="font-medium text-primary dark:text-white line-clamp-1">{post.title}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-600">{post.category}</td>
+                    <td className="px-5 py-3.5 dark:text-gray-300">{post.category}</td>
                     <td className="px-5 py-3.5">
-                      <span className={`text-xs font-medium px-2.5 py-1 rounded-lg ${post.published ? "bg-accent/10 text-accent" : "bg-gray-100 text-gray-500"}`}>
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-lg ${post.published ? "bg-accent/10 text-accent" : "dark:bg-gray-800 dark:text-gray-500"}`}>
                         {post.published ? "Published" : "Draft"}
                       </span>
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/admin/blog/${post.id}/edit`} className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-secondary/10 hover:text-secondary transition-colors">
+                        <Link href={`/admin/blog/${post.id}/edit`} className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors">
                           <FiEdit2 className="text-sm" />
                         </Link>
-                        <button onClick={() => setDeleteTarget(post)} className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors">
+                        <button onClick={() => setDeleteTarget(post)} className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors">
                           <FiTrash2 className="text-sm" />
                         </button>
                       </div>

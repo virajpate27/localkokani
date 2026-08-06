@@ -38,7 +38,7 @@ export default function RestaurantsLoadMoreGrid({ restaurants }) {
           <button
             onClick={handleLoadMore}
             disabled={isLoadingMore}
-            className="inline-flex items-center gap-2 bg-white border border-gray-200 text-primary font-medium px-6 py-3 rounded-xl hover:border-secondary hover:text-secondary transition-colors disabled:opacity-60"
+            className="inline-flex items-center gap-2 bg-white dark:bg-gray-900 border dark:border-gray-800 text-primary dark:text-white font-medium px-6 py-3 rounded-xl hover:border-secondary hover:text-secondary transition-colors disabled:opacity-60"
           >
             {isLoadingMore ? (
               <>
@@ -47,7 +47,7 @@ export default function RestaurantsLoadMoreGrid({ restaurants }) {
             ) : (
               <>
                 Load More Restaurants
-                <span className="text-gray-400 font-normal">
+                <span className="dark:dark:text-gray-500 font-normal">
                   ({Math.min(remainingCount, PAGE_SIZE)} more)
                 </span>
                 <FiChevronDown />

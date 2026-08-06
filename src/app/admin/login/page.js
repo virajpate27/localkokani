@@ -62,7 +62,7 @@ export default function AdminLoginPage() {
       <div className="relative z-10 w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-white dark:bg-gray-900/10 backdrop-blur-sm flex items-center justify-center">
               <FiMapPin className="text-accent text-2xl" />
             </div>
             <span className="font-display font-bold text-2xl text-white">
@@ -71,11 +71,11 @@ export default function AdminLoginPage() {
           </Link>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <h1 className="font-display font-bold text-2xl text-primary text-center">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8">
+          <h1 className="font-display font-bold text-2xl text-primary dark:text-white text-center">
             Admin Login
           </h1>
-          <p className="text-gray-400 text-sm text-center mt-2 mb-8">
+          <p className="dark:dark:text-gray-500 text-sm text-center mt-2 mb-8">
             Sign in to manage destinations, hotels, and enquiries
           </p>
 
@@ -88,33 +88,33 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <div className="relative">
-                <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email address"
                   autoComplete="username"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none transition-colors"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none transition-colors"
                 />
               </div>
             </div>
 
             <div>
               <div className="relative">
-                <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   autoComplete="current-password"
-                  className="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none transition-colors"
+                  className="w-full pl-10 pr-10 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500 hover:dark:text-gray-300"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}

@@ -22,7 +22,7 @@ export default async function BlogListingPage() {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs items={[{ name: "Blog", url: "/blog" }]} />
       </div>
 
@@ -38,7 +38,7 @@ export default async function BlogListingPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50 min-h-[50vh]">
+      <section className="py-16 bg-gray-50 dark:bg-gray-950 min-h-[50vh]">
         <div className="container-custom">
           {posts.length === 0 ? (
             <EmptyState

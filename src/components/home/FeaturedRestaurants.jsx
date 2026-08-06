@@ -10,7 +10,7 @@ export default async function FeaturedRestaurants() {
   if (!restaurants.length) return null;
 
   return (
-    <section className="py-20 bg-gray-50 overflow-hidden">
+    <section className="py-20 bg-gray-50 dark:bg-gray-950 overflow-hidden">
       <div className="container-custom">
         <div className="flex items-end justify-between mb-10">
           <div>
@@ -21,7 +21,7 @@ export default async function FeaturedRestaurants() {
           </div>
           <Link
             href="/restaurants"
-            className="hidden sm:flex items-center gap-2 text-primary font-medium hover:text-secondary transition-colors"
+            className="hidden sm:flex items-center gap-2 text-primary dark:text-white font-medium hover:text-secondary transition-colors"
           >
             View all <FiArrowRight />
           </Link>

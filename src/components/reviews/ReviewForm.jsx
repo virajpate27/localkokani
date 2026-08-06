@@ -60,8 +60,8 @@ export default function ReviewForm({ entityType, entity }) {
     return (
       <div className="bg-accent/5 border border-accent/20 rounded-xl p-6 text-center">
         <FiCheckCircle className="text-accent text-3xl mx-auto mb-3" />
-        <p className="font-medium text-primary">Thank you for your review!</p>
-        <p className="text-gray-500 text-sm mt-1">
+        <p className="font-medium text-primary dark:text-white">Thank you for your review!</p>
+        <p className="dark:text-gray-500 text-sm mt-1">
           It will appear here once our team reviews it.
         </p>
         <button
@@ -75,13 +75,13 @@ export default function ReviewForm({ entityType, entity }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-gray-50 rounded-xl p-6 space-y-4">
-      <h3 className="font-display font-semibold text-primary">
+    <form onSubmit={handleSubmit} className="bg-gray-50 dark:bg-gray-950 rounded-xl p-6 space-y-4">
+      <h3 className="font-display font-semibold text-primary dark:text-white">
         Share Your Experience
       </h3>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Your Rating</label>
+        <label className="block text-sm font-medium dark:text-gray-300 mb-2">Your Rating</label>
         <StarRatingInput value={rating} onChange={setRating} />
         {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
       </div>
@@ -89,15 +89,15 @@ export default function ReviewForm({ entityType, entity }) {
       <div>
         <label htmlFor="review-guest-name" className="sr-only">Your name</label>
         <div className="relative">
-          <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+          <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
           <input
             id="review-guest-name"
             type="text"
             value={guestName}
             onChange={(e) => setGuestName(e.target.value)}
             placeholder="Your name"
-            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${
-              errors.guestName ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white dark:bg-gray-900 ${
+              errors.guestName ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
             }`}
           />
         </div>
@@ -110,8 +110,8 @@ export default function ReviewForm({ entityType, entity }) {
           onChange={(e) => setComment(e.target.value)}
           rows={4}
           placeholder="Tell other travelers about your experience..."
-          className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none bg-white ${
-            errors.comment ? "border-red-300" : "border-gray-200 focus:border-secondary"
+          className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none bg-white dark:bg-gray-900 ${
+            errors.comment ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
           }`}
         />
         {errors.comment && <p className="text-red-500 text-xs mt-1">{errors.comment}</p>}
@@ -125,7 +125,7 @@ export default function ReviewForm({ entityType, entity }) {
         <FiSend className="text-sm" />
         {isSubmitting ? "Submitting..." : "Submit Review"}
       </button>
-      <p className="text-gray-400 text-xs">
+      <p className="dark:dark:text-gray-500 text-xs">
         Reviews are moderated and typically appear within 24 hours.
       </p>
     </form>

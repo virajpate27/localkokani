@@ -11,7 +11,7 @@ export default async function FeaturedDestinations() {
   if (!destinations.length) return null; // gracefully hide section if empty
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white dark:bg-gray-900">
       <div className="container-custom">
         <div className="flex items-end justify-between mb-10">
           <div>
@@ -22,7 +22,7 @@ export default async function FeaturedDestinations() {
           </div>
           <Link
             href="/destinations"
-            className="hidden sm:flex items-center gap-2 text-primary font-medium hover:text-secondary transition-colors"
+            className="hidden sm:flex items-center gap-2 text-primary dark:text-white font-medium hover:text-secondary transition-colors"
           >
             View all <FiArrowRight />
           </Link>

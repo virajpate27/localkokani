@@ -55,10 +55,10 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-display font-bold text-2xl text-primary capitalize">
+        <h2 className="font-display font-bold text-2xl text-primary dark:text-white capitalize">
           Welcome back, {firstName} 👋
         </h2>
-        <p className="text-gray-400 text-sm mt-1">
+        <p className="dark:dark:text-gray-500 text-sm mt-1">
           Here's what's happening with your listings today.
         </p>
       </div>

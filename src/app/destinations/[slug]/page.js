@@ -62,7 +62,7 @@ export default async function DestinationDetailPage({ params }) {
     <>
       <JsonLd data={destinationSchema} />
 
-      <div className="bg-white">
+      <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs
           items={[
             { name: "Destinations", url: "/destinations" },
@@ -97,12 +97,12 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-      <section className="py-12 bg-white border-b border-gray-100">
+      <section className="py-12 bg-white dark:bg-gray-900 border-b dark:border-gray-800">
         <div className="container-custom ">
-          <h2 className="font-display font-bold text-2xl text-primary mb-4">
+          <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
             About {destination.name}
           </h2>
-          <p className="text-gray-600 leading-relaxed">
+          <p className="dark:text-gray-300 leading-relaxed">
             {destination.description}
           </p>
         </div>
@@ -119,11 +119,11 @@ export default async function DestinationDetailPage({ params }) {
 
 
       {/* Hotels List */}
-      <section className="py-16 bg-gray-50 min-h-[40vh]">
+      <section className="py-16 bg-gray-50 dark:bg-gray-950 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
             <h2 className="section-title">Hotels in {destination.name}</h2>
-            <span className="text-gray-400 text-sm">Sorted by price (low to high)</span>
+            <span className="dark:dark:text-gray-500 text-sm">Sorted by price (low to high)</span>
           </div>
 
           <HotelsLoadMoreGrid hotels={hotels} destinationName={destination.name} />
@@ -132,11 +132,11 @@ export default async function DestinationDetailPage({ params }) {
 
       {/* Restaurants List */}
       {restaurants.length > 0 && (
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-white dark:bg-gray-900">
           <div className="container-custom">
             <div className="flex items-center justify-between mb-10">
               <h2 className="section-title">Restaurants in {destination.name}</h2>
-              <span className="text-gray-400 text-sm">Sorted by rating (highest first)</span>
+              <span className="dark:dark:text-gray-500 text-sm">Sorted by rating (highest first)</span>
             </div>
 
             <RestaurantsLoadMoreGrid restaurants={restaurants} />

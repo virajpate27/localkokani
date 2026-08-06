@@ -34,10 +34,10 @@ export default function CardCarousel({ items, renderItem, navPrefix }) {
         </Swiper>
       </div>
 
-      <button className={`${prevClass} hidden sm:flex absolute top-1/2 -left-4 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white shadow-lg items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors disabled:opacity-0 disabled:pointer-events-none`} aria-label="Previous">
+      <button className={`${prevClass} hidden sm:flex absolute top-1/2 -left-4 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white dark:bg-gray-900 shadow-lg items-center justify-center text-primary dark:text-white hover:bg-primary hover:text-white transition-colors disabled:opacity-0 disabled:pointer-events-none`} aria-label="Previous">
         <FiChevronLeft className="text-lg" />
       </button>
-      <button className={`${nextClass} hidden sm:flex absolute top-1/2 -right-4 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white shadow-lg items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors disabled:opacity-0 disabled:pointer-events-none`} aria-label="Next">
+      <button className={`${nextClass} hidden sm:flex absolute top-1/2 -right-4 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white dark:bg-gray-900 shadow-lg items-center justify-center text-primary dark:text-white hover:bg-primary hover:text-white transition-colors disabled:opacity-0 disabled:pointer-events-none`} aria-label="Next">
         <FiChevronRight className="text-lg" />
       </button>
     </div>

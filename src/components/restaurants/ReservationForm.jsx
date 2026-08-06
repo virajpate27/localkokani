@@ -82,14 +82,14 @@ export default function ReservationForm({ restaurant }) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <div className="relative">
-          <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+          <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="Full Name"
-            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
               }`}
           />
         </div>
@@ -98,14 +98,14 @@ export default function ReservationForm({ restaurant }) {
 
       <div>
         <div className="relative">
-          <FiPhone className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+          <FiPhone className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
           <input
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handleChange}
             placeholder="Phone Number"
-            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.phone ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.phone ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
               }`}
           />
         </div>
@@ -120,7 +120,7 @@ export default function ReservationForm({ restaurant }) {
             value={formData.date}
             min={today}
             onChange={handleChange}
-            className={`w-full px-3 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.date ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full px-3 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.date ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
               }`}
           />
         </div>
@@ -130,7 +130,7 @@ export default function ReservationForm({ restaurant }) {
             name="time"
             value={formData.time}
             onChange={handleChange}
-            className={`w-full px-3 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.time ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full px-3 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.time ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
               }`}
           />
         </div>
@@ -140,7 +140,7 @@ export default function ReservationForm({ restaurant }) {
 
       <div>
         <div className="relative">
-          <FiUsers className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+          <FiUsers className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
           <input
             type="number"
             name="guests"
@@ -148,7 +148,7 @@ export default function ReservationForm({ restaurant }) {
             max={20}
             value={formData.guests}
             onChange={handleChange}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
           />
         </div>
       </div>

@@ -231,27 +231,27 @@ export default function HotelForm({ initialData = null }) {
       <div className="card p-6 space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Hotel Name</label>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">Hotel Name</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               placeholder="e.g. The Leela Goa"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
             {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Destination</label>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">Destination</label>
             <select
               name="destinationId"
               value={formData.destinationId}
               onChange={handleChange}
               disabled={isLoadingDestinations}
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${errors.destinationId ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white dark:bg-gray-900 ${errors.destinationId ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             >
               <option value="">
@@ -275,28 +275,28 @@ export default function HotelForm({ initialData = null }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">Description</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
             rows={4}
             placeholder="Describe the hotel's highlights, atmosphere, and unique features..."
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${errors.description ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${errors.description ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
               }`}
           />
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Full Address</label>
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">Full Address</label>
           <input
             type="text"
             name="address"
             value={formData.address}
             onChange={handleChange}
             placeholder="e.g. Cavelossim Beach, South Goa"
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.address ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.address ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
               }`}
           />
           {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
@@ -305,10 +305,10 @@ export default function HotelForm({ initialData = null }) {
 
       {/* Pricing & Rating */}
       <div className="card p-6 space-y-5">
-        <h3 className="font-display font-semibold text-primary">Pricing & Rating</h3>
+        <h3 className="font-display font-semibold text-primary dark:text-white">Pricing & Rating</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">
               Starting Price (₹/night)
             </label>
             <input
@@ -317,19 +317,19 @@ export default function HotelForm({ initialData = null }) {
               value={formData.price}
               onChange={handleChange}
               placeholder="e.g. 4500"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.price ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.price ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
             {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">Price Range</label>
             <select
               name="priceRange"
               value={formData.priceRange}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+              className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
             >
               <option value="$">$ (Budget)</option>
               <option value="$$">$$ (Mid-range)</option>
@@ -339,7 +339,7 @@ export default function HotelForm({ initialData = null }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">
               Rating (0-5, optional)
             </label>
             <input
@@ -351,7 +351,7 @@ export default function HotelForm({ initialData = null }) {
               value={formData.rating}
               onChange={handleChange}
               placeholder="e.g. 4.5"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.rating ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.rating ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
             {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
@@ -372,17 +372,17 @@ export default function HotelForm({ initialData = null }) {
       {/* Location coordinates */}
       <div className="card p-6 space-y-5">
         <div>
-          <h3 className="font-display font-semibold text-primary">
-            Map Location <span className="text-gray-400 font-normal text-sm">(optional)</span>
+          <h3 className="font-display font-semibold text-primary dark:text-white">
+            Map Location <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
           </h3>
-          <p className="text-gray-400 text-xs mt-1">
+          <p className="dark:dark:text-gray-500 text-xs mt-1">
             Recommended: paste a Google Maps embed URL for the most accurate map.
             Lat/Lng below is used only as a fallback if no embed URL is provided.
           </p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">
             Google Maps Embed URL
           </label>
           <textarea
@@ -391,7 +391,7 @@ export default function HotelForm({ initialData = null }) {
             onChange={handleChange}
             rows={2}
             placeholder="https://www.google.com/maps/embed?pb=..."
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none font-mono ${errors.mapEmbedUrl ? "border-red-300" : "border-gray-200 focus:border-secondary"
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none font-mono ${errors.mapEmbedUrl ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
               }`}
           />
           {errors.mapEmbedUrl && <p className="text-red-500 text-xs mt-1">{errors.mapEmbedUrl}</p>}
@@ -399,10 +399,10 @@ export default function HotelForm({ initialData = null }) {
             <summary className="text-secondary text-xs font-medium cursor-pointer hover:underline">
               How do I get this URL?
             </summary>
-            <ol className="list-decimal list-inside text-gray-500 text-xs mt-2 space-y-1 pl-1">
+            <ol className="list-decimal list-inside dark:text-gray-500 text-xs mt-2 space-y-1 pl-1">
               <li>Search for your hotel/business on Google Maps</li>
               <li>Click <strong>Share</strong> → <strong>Embed a map</strong> tab</li>
-              <li>Copy just the URL inside <code className="bg-gray-100 px-1 rounded">src="..."</code> from the iframe code shown</li>
+              <li>Copy just the URL inside <code className="dark:bg-gray-800 px-1 rounded">src="..."</code> from the iframe code shown</li>
               <li>Paste that URL here (not the full iframe tag, just the URL)</li>
             </ol>
           </details>
@@ -410,8 +410,8 @@ export default function HotelForm({ initialData = null }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Latitude <span className="text-gray-400 font-normal">(fallback only)</span>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">
+              Latitude <span className="dark:dark:text-gray-500 font-normal">(fallback only)</span>
             </label>
             <input
               type="number"
@@ -420,12 +420,12 @@ export default function HotelForm({ initialData = null }) {
               value={formData.lat}
               onChange={handleChange}
               placeholder="e.g. 15.1631"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
+              className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Longitude <span className="text-gray-400 font-normal">(fallback only)</span>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">
+              Longitude <span className="dark:dark:text-gray-500 font-normal">(fallback only)</span>
             </label>
             <input
               type="number"
@@ -434,7 +434,7 @@ export default function HotelForm({ initialData = null }) {
               value={formData.lng}
               onChange={handleChange}
               placeholder="e.g. 73.9463"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
+              className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
             />
           </div>
         </div>
@@ -442,7 +442,7 @@ export default function HotelForm({ initialData = null }) {
 
       {/* Status & Visibility */}
       <div className="card p-6 space-y-4">
-        <h3 className="font-display font-semibold text-primary">Visibility</h3>
+        <h3 className="font-display font-semibold text-primary dark:text-white">Visibility</h3>
         <label className="flex items-center gap-2.5 cursor-pointer">
           <input
             type="checkbox"
@@ -451,7 +451,7 @@ export default function HotelForm({ initialData = null }) {
             onChange={handleChange}
             className="w-4 h-4 accent-secondary rounded"
           />
-          <span className="text-sm text-gray-700">Show on homepage (Featured Hotel)</span>
+          <span className="text-sm dark:text-gray-300">Show on homepage (Featured Hotel)</span>
         </label>
 
         <label className="flex items-center gap-2.5 cursor-pointer">
@@ -462,9 +462,9 @@ export default function HotelForm({ initialData = null }) {
             onChange={handleChange}
             className="w-4 h-4 accent-secondary rounded"
           />
-          <span className="text-sm text-gray-700 flex items-center gap-2">
+          <span className="text-sm dark:text-gray-300 flex items-center gap-2">
             Premium Verified
-            <span className="text-xs text-gray-400 font-normal">
+            <span className="text-xs dark:dark:text-gray-500 font-normal">
               (shows a trust badge — use only for hotels you've personally verified)
             </span>
           </span>
@@ -478,21 +478,21 @@ export default function HotelForm({ initialData = null }) {
             onChange={handleChange}
             className="w-4 h-4 accent-secondary rounded"
           />
-          <span className="text-sm text-gray-700 flex items-center gap-2">
+          <span className="text-sm dark:text-gray-300 flex items-center gap-2">
             Sponsored Listing
-            <span className="text-xs text-gray-400 font-normal">
+            <span className="text-xs dark:dark:text-gray-500 font-normal">
               (featured in the "Recommended" section on its destination page)
             </span>
           </span>
         </label>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">Status</label>
           <select
             name="status"
             value={formData.status}
             onChange={handleChange}
-            className="w-full sm:w-64 px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+            className="w-full sm:w-64 px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
           >
             <option value="active">Active (visible to public)</option>
             <option value="draft">Draft (hidden from public)</option>
@@ -503,17 +503,17 @@ export default function HotelForm({ initialData = null }) {
 
       <div className="card p-6 space-y-4">
         <div>
-          <h3 className="font-display font-semibold text-primary">
-            Custom Badge <span className="text-gray-400 font-normal text-sm">(optional)</span>
+          <h3 className="font-display font-semibold text-primary dark:text-white">
+            Custom Badge <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
           </h3>
-          <p className="text-gray-400 text-xs mt-1">
+          <p className="dark:dark:text-gray-500 text-xs mt-1">
             Shows a small label on the card image and detail page — e.g. "Top Rated", "Most Booked", "Family Friendly".
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Badge Text</label>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">Badge Text</label>
             <input
               type="text"
               name="customBadgeText"
@@ -521,19 +521,19 @@ export default function HotelForm({ initialData = null }) {
               onChange={handleChange}
               maxLength={24}
               placeholder="e.g. Top Rated"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.customBadgeText ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.customBadgeText ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
             {errors.customBadgeText && <p className="text-red-500 text-xs mt-1">{errors.customBadgeText}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Badge Color</label>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">Badge Color</label>
             <select
               name="customBadgeColor"
               value={formData.customBadgeColor}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+              className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
             >
               {BADGE_COLOR_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -546,7 +546,7 @@ export default function HotelForm({ initialData = null }) {
         {/* Live preview */}
         {formData.customBadgeText.trim() && (
           <div>
-            <p className="text-xs text-gray-400 mb-2">Preview:</p>
+            <p className="text-xs dark:dark:text-gray-500 mb-2">Preview:</p>
             <CustomBadge
               text={formData.customBadgeText}
               color={formData.customBadgeColor}
@@ -568,7 +568,7 @@ export default function HotelForm({ initialData = null }) {
         <button
           type="button"
           onClick={handleCancel}
-          className="text-gray-500 font-medium text-sm hover:text-primary"
+          className="dark:text-gray-500 font-medium text-sm hover:text-primary dark:text-white"
         >
           Cancel
         </button>

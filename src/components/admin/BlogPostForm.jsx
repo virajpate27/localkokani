@@ -140,7 +140,7 @@ export default function BlogPostForm({ initialData = null }) {
         {errors.coverImage && <p className="text-red-500 text-xs">{errors.coverImage}</p>}
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">Title</label>
           <input
             type="text"
             name="title"
@@ -148,15 +148,15 @@ export default function BlogPostForm({ initialData = null }) {
             onChange={handleChange}
             placeholder="e.g. Best Time to Visit Goa: A Season-by-Season Guide"
             className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-              errors.title ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              errors.title ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
             }`}
           />
           {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Excerpt <span className="text-gray-400 font-normal">(shown in listings)</span>
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">
+            Excerpt <span className="dark:dark:text-gray-500 font-normal">(shown in listings)</span>
           </label>
           <textarea
             name="excerpt"
@@ -165,7 +165,7 @@ export default function BlogPostForm({ initialData = null }) {
             rows={2}
             placeholder="A short, compelling summary of this article..."
             className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none ${
-              errors.excerpt ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              errors.excerpt ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
             }`}
           />
           {errors.excerpt && <p className="text-red-500 text-xs mt-1">{errors.excerpt}</p>}
@@ -173,12 +173,12 @@ export default function BlogPostForm({ initialData = null }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">Category</label>
             <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+              className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>{cat}</option>
@@ -187,14 +187,14 @@ export default function BlogPostForm({ initialData = null }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Related Destination <span className="text-gray-400 font-normal">(optional)</span>
+            <label className="block text-sm font-medium dark:text-gray-300 mb-2">
+              Related Destination <span className="dark:dark:text-gray-500 font-normal">(optional)</span>
             </label>
             <select
               name="destinationId"
               value={formData.destinationId}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+              className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
             >
               <option value="">None</option>
               {destinations.map((dest) => (
@@ -208,8 +208,8 @@ export default function BlogPostForm({ initialData = null }) {
       {/* Content Editor */}
       <div className="card p-6">
         <div className="flex items-center justify-between mb-3">
-          <label className="block text-sm font-medium text-gray-700">
-            Content <span className="text-gray-400 font-normal">(Markdown supported)</span>
+          <label className="block text-sm font-medium dark:text-gray-300">
+            Content <span className="dark:dark:text-gray-500 font-normal">(Markdown supported)</span>
           </label>
           <button
             type="button"
@@ -228,11 +228,11 @@ export default function BlogPostForm({ initialData = null }) {
             rows={20}
             placeholder={`## Introduction\n\nStart writing your article here using Markdown...\n\n- Use lists\n- **Bold text**\n- [Links](https://example.com)`}
             className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none font-mono ${
-              errors.content ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              errors.content ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
             }`}
           />
           {showPreview && (
-            <div className="border border-gray-100 rounded-xl p-5 overflow-y-auto max-h-[600px] bg-gray-50">
+            <div className="border dark:border-gray-800 rounded-xl p-5 overflow-y-auto max-h-[600px] bg-gray-50 dark:bg-gray-950">
               <MarkdownContent content={formData.content || "*Nothing to preview yet*"} />
             </div>
           )}
@@ -242,28 +242,28 @@ export default function BlogPostForm({ initialData = null }) {
 
       {/* SEO */}
       <div className="card p-6 space-y-5">
-        <h3 className="font-display font-semibold text-primary">
-          SEO Settings <span className="text-gray-400 font-normal text-sm">(optional)</span>
+        <h3 className="font-display font-semibold text-primary dark:text-white">
+          SEO Settings <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
         </h3>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">Meta Title</label>
           <input
             type="text"
             name="metaTitle"
             value={formData.metaTitle}
             onChange={handleChange}
             placeholder={formData.title ? `${formData.title} | StayFinder Blog` : ""}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none"
+            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+          <label className="block text-sm font-medium dark:text-gray-300 mb-2">Meta Description</label>
           <textarea
             name="metaDescription"
             value={formData.metaDescription}
             onChange={handleChange}
             rows={2}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none resize-none"
+            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none resize-none"
           />
         </div>
       </div>
@@ -278,7 +278,7 @@ export default function BlogPostForm({ initialData = null }) {
             onChange={handleChange}
             className="w-4 h-4 accent-secondary rounded"
           />
-          <span className="text-sm text-gray-700">
+          <span className="text-sm dark:text-gray-300">
             Publish immediately (uncheck to save as draft)
           </span>
         </label>
@@ -296,7 +296,7 @@ export default function BlogPostForm({ initialData = null }) {
         <button
           type="button"
           onClick={() => router.push("/admin/blog")}
-          className="text-gray-500 font-medium text-sm hover:text-primary"
+          className="dark:text-gray-500 font-medium text-sm hover:text-primary dark:text-white"
         >
           Cancel
         </button>

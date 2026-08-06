@@ -24,8 +24,8 @@ export default function SponsoredListingsSection({ sponsoredHotels = [], sponsor
     <section className="py-16 bg-primary/5">
       <div className="container-custom">
         <div className="flex items-center gap-2 mb-2">
-          <FiZap className="text-primary" />
-          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+          <FiZap className="text-primary dark:text-white" />
+          <span className="text-primary dark:text-white font-semibold text-sm uppercase tracking-wider">
             Promoted
           </span>
         </div>

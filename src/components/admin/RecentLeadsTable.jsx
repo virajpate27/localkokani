@@ -5,7 +5,7 @@ import { FiArrowRight, FiClock } from "react-icons/fi";
 const statusStyles = {
   new: "bg-secondary/10 text-secondary",
   contacted: "bg-accent/10 text-accent",
-  closed: "bg-gray-100 text-gray-500",
+  closed: "dark:bg-gray-800 dark:text-gray-500",
 };
 
 function formatRelativeTime(isoString) {
@@ -27,15 +27,15 @@ export default function RecentLeadsTable({ leads = [] }) {
   if (leads.length === 0) {
     return (
       <div className="card p-10 text-center">
-        <p className="text-gray-400">No enquiries yet</p>
+        <p className="dark:dark:text-gray-500">No enquiries yet</p>
       </div>
     );
   }
 
   return (
     <div className="card overflow-hidden">
-      <div className="flex items-center justify-between p-5 border-b border-gray-100">
-        <h3 className="font-display font-semibold text-primary">
+      <div className="flex items-center justify-between p-5 border-b dark:border-gray-800">
+        <h3 className="font-display font-semibold text-primary dark:text-white">
           Recent Enquiries
         </h3>
         <Link
@@ -53,13 +53,13 @@ export default function RecentLeadsTable({ leads = [] }) {
             className="p-5 flex items-center justify-between gap-4"
           >
             <div className="min-w-0">
-              <p className="font-medium text-primary truncate">{lead.name}</p>
-              <p className="text-gray-400 text-sm truncate">
+              <p className="font-medium text-primary dark:text-white truncate">{lead.name}</p>
+              <p className="dark:dark:text-gray-500 text-sm truncate">
                 {lead.hotelName} · {lead.phone}
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0">
-              <span className="flex items-center gap-1 text-gray-400 text-xs">
+              <span className="flex items-center gap-1 dark:dark:text-gray-500 text-xs">
                 <FiClock /> {formatRelativeTime(lead.createdAt)}
               </span>
               <span

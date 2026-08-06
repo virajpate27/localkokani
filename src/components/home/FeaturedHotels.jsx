@@ -10,7 +10,7 @@ export default async function FeaturedHotels() {
   if (!hotels.length) return null;
 
   return (
-    <section className="py-20 bg-white overflow-hidden">
+    <section className="py-20 bg-white dark:bg-gray-900 overflow-hidden">
       <div className="container-custom">
         <div className="flex items-end justify-between mb-10">
           <div>
@@ -21,7 +21,7 @@ export default async function FeaturedHotels() {
           </div>
           <Link
             href="/hotels"
-            className="hidden sm:flex items-center gap-2 text-primary font-medium hover:text-secondary transition-colors"
+            className="hidden sm:flex items-center gap-2 text-primary dark:text-white font-medium hover:text-secondary transition-colors"
           >
             View all <FiArrowRight />
           </Link>

@@ -13,10 +13,10 @@ export default function AdminError({ error, reset }) {
     <div className="flex items-center justify-center py-24">
       <div className="text-center">
         <FiAlertTriangle className="text-4xl text-red-400 mx-auto mb-4" />
-        <h2 className="font-display font-semibold text-xl text-primary">
+        <h2 className="font-display font-semibold text-xl text-primary dark:text-white">
           Admin panel error
         </h2>
-        <p className="text-gray-500 mt-2 text-sm">
+        <p className="dark:text-gray-500 mt-2 text-sm">
           Something went wrong loading this section.
         </p>
         <button

@@ -52,12 +52,12 @@ export default function ImageUploader({
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-sm font-medium dark:text-gray-300 mb-2">
         {label}
       </label>
 
       {value?.url ? (
-        <div className="relative rounded-xl overflow-hidden aspect-[16/9] border border-gray-200">
+        <div className="relative rounded-xl overflow-hidden aspect-[16/9] border dark:border-gray-800">
           <Image src={value.url} alt="Uploaded" fill className="object-cover" />
           <button
             type="button"
@@ -80,21 +80,21 @@ export default function ImageUploader({
           className={`aspect-[16/9] rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-colors ${
             dragActive
               ? "border-secondary bg-secondary/5"
-              : "border-gray-200 hover:border-secondary/50"
+              : "dark:border-gray-800 hover:border-secondary/50"
           }`}
         >
           {isUploading ? (
             <>
               <FiLoader className="animate-spin text-2xl text-secondary mb-2" />
-              <p className="text-gray-400 text-sm">Uploading...</p>
+              <p className="dark:dark:text-gray-500 text-sm">Uploading...</p>
             </>
           ) : (
             <>
               <FiImage className="text-3xl text-gray-300 mb-2" />
-              <p className="text-gray-500 text-sm font-medium flex items-center gap-1.5">
+              <p className="dark:text-gray-500 text-sm font-medium flex items-center gap-1.5">
                 <FiUpload /> Click or drag an image here
               </p>
-              <p className="text-gray-400 text-xs mt-1">PNG, JPG up to 5MB</p>
+              <p className="dark:dark:text-gray-500 text-xs mt-1">PNG, JPG up to 5MB</p>
             </>
           )}
         </div>

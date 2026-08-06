@@ -25,10 +25,10 @@ export default function Footer() {
       <div className="container-custom py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900/10 flex items-center justify-center">
               <FiMapPin className="text-accent text-xl" />
             </div>
-           <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
+           <span className="font-display font-bold text-xl sm:text-2xl text-primary dark:text-white whitespace-nowrap">
   Stay<span className="text-accent-dark">Finder</span>
 </span>
           </div>
@@ -40,14 +40,14 @@ export default function Footer() {
             <a
               href="#"
               aria-label="Instagram"
-              className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors"
+              className="w-9 h-9 rounded-full bg-white dark:bg-gray-900/10 flex items-center justify-center hover:bg-accent transition-colors"
             >
               <FiInstagram />
             </a>
             <a
               href="#"
               aria-label="Facebook"
-              className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors"
+              className="w-9 h-9 rounded-full bg-white dark:bg-gray-900/10 flex items-center justify-center hover:bg-accent transition-colors"
             >
               <FiFacebook />
             </a>
