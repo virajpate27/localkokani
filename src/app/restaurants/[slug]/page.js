@@ -21,6 +21,7 @@ import { isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import CustomBadge from "@/components/ui/CustomBadge";
 export const revalidate = 1800;
+import ShareButton from "@/components/ui/ShareButton";
 
 export async function generateStaticParams() {
   const restaurants = await getAllRestaurants();
@@ -100,8 +101,8 @@ export default async function RestaurantDetailPage({ params }) {
             <FiMapPin /> {restaurant.destinationName}
           </p>
           <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
-            <div className="flex flex-wrap items-center gap-3 mt-2">
-              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary dark:text-white">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
                 {restaurant.name}
               </h1>
               {restaurant.verified && <VerifiedBadge />}
@@ -113,18 +114,27 @@ export default async function RestaurantDetailPage({ params }) {
               {restaurant.rating > 0 && (
                 <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
                   <FiStar className="text-accent fill-accent text-sm" />
-                  <span className="font-semibold text-primary dark:text-white text-sm">
+                  <span className="font-semibold text-primary text-sm">
                     {restaurant.rating}
                   </span>
                 </div>
               )}
             </div>
-            <WishlistButton
-              item={restaurant}
-              entityType="restaurant"
-              size="text-xl"
-              className="!dark:bg-gray-800 shadow-none"
-            />
+
+            <div className="flex items-center gap-2">
+              <ShareButton
+                title={restaurant.name}
+                text={`Check out ${restaurant.name} in ${restaurant.destinationName} on StayFinder`}
+                url={`${process.env.NEXT_PUBLIC_SITE_URL}/restaurants/${restaurant.slug}`}
+                variant="button"
+              />
+              <WishlistButton
+                item={restaurant}
+                entityType="restaurant"
+                size="text-xl"
+                className="!bg-gray-100 shadow-none"
+              />
+            </div>
           </div>
           <p className="dark:text-gray-500 mt-1">{restaurant.address}</p>
 

@@ -1,8 +1,11 @@
 // src/app/destinations/[slug]/page.js
-import Image from "next/image"; 
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FiMapPin, FiHome } from "react-icons/fi";
-import { getDestinationBySlug, getAllDestinations } from "@/lib/services/destinationService";
+import {
+  getDestinationBySlug,
+  getAllDestinations,
+} from "@/lib/services/destinationService";
 import { getHotelsByDestination } from "@/lib/services/hotelService";
 import { getRestaurantsByDestination } from "@/lib/services/restaurantService";
 import HotelsLoadMoreGrid from "@/components/hotels/HotelsLoadMoreGrid";
@@ -13,6 +16,7 @@ import { generateDestinationCollectionSchema } from "@/utils/helpers";
 import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
 import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
 import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
+import ShareButton from "@/components/ui/ShareButton";
 
 export const revalidate = 3600;
 
@@ -30,7 +34,9 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: destination.seo?.metaTitle || `Best Hotels in ${destination.name} | StayFinder`,
+    title:
+      destination.seo?.metaTitle ||
+      `Best Hotels in ${destination.name} | StayFinder`,
     description:
       destination.seo?.metaDescription ||
       `Explore ${destination.hotelCount || "top"} handpicked hotels in ${destination.name}. ${destination.description?.slice(0, 100)}`,
@@ -54,9 +60,14 @@ export default async function DestinationDetailPage({ params }) {
   const hotels = await getHotelsByDestination(destination.id);
   const restaurants = await getRestaurantsByDestination(destination.id);
   const sponsoredHotels = await getSponsoredHotelsByDestination(destination.id);
-  const sponsoredRestaurants = await getSponsoredRestaurantsByDestination(destination.id);
+  const sponsoredRestaurants = await getSponsoredRestaurantsByDestination(
+    destination.id,
+  );
 
-  const destinationSchema = generateDestinationCollectionSchema(destination, hotels);
+  const destinationSchema = generateDestinationCollectionSchema(
+    destination,
+    hotels,
+  );
 
   return (
     <>
@@ -66,7 +77,10 @@ export default async function DestinationDetailPage({ params }) {
         <Breadcrumbs
           items={[
             { name: "Destinations", url: "/destinations" },
-            { name: destination.name, url: `/destinations/${destination.slug}` },
+            {
+              name: destination.name,
+              url: `/destinations/${destination.slug}`,
+            },
           ]}
         />
       </div>
@@ -82,17 +96,27 @@ export default async function DestinationDetailPage({ params }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 pb-10">
-          <div className="container-custom">
-            <p className="flex items-center gap-1.5 text-white/80 text-sm font-medium mb-2">
-              <FiMapPin /> {destination.country}
-            </p>
-            <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
-              {destination.name}
-            </h1>
-            <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
-              <FiHome className="text-accent" />
-              {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"} available
-            </p>
+          <div className="container-custom flex items-end justify-between">
+            <div>
+              <p className="flex items-center gap-1.5 text-white/80 text-sm font-medium mb-2">
+                <FiMapPin /> {destination.country}
+              </p>
+              <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
+                {destination.name}
+              </h1>
+              <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
+                <FiHome className="text-accent" />
+                {hotels.length} {hotels.length === 1 ? "hotel" : "hotels"}{" "}
+                available
+              </p>
+            </div>
+            <ShareButton
+              title={destination.name}
+              text={`Explore hotels and restaurants in ${destination.name} on StayFinder`}
+              url={`${process.env.NEXT_PUBLIC_SITE_URL}/destinations/${destination.slug}`}
+              variant="icon"
+              // Note: on a dark hero background, the icon-variant white bg still shows clearly since it has its own white/95 background regardless of what's behind it
+            />
           </div>
         </div>
       </section>
@@ -108,25 +132,27 @@ export default async function DestinationDetailPage({ params }) {
         </div>
       </section>
 
-
-       {/* NEW: Sponsored Mixed Section — right after About, before Hotels */}
+      {/* NEW: Sponsored Mixed Section — right after About, before Hotels */}
       <SponsoredListingsSection
         sponsoredHotels={sponsoredHotels}
         sponsoredRestaurants={sponsoredRestaurants}
         destinationName={destination.name}
       />
 
-
-
       {/* Hotels List */}
       <section className="py-16 bg-gray-50 dark:bg-gray-950 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
             <h2 className="section-title">Hotels in {destination.name}</h2>
-            <span className="dark:dark:text-gray-500 text-sm">Sorted by price (low to high)</span>
+            <span className="dark:dark:text-gray-500 text-sm">
+              Sorted by price (low to high)
+            </span>
           </div>
 
-          <HotelsLoadMoreGrid hotels={hotels} destinationName={destination.name} />
+          <HotelsLoadMoreGrid
+            hotels={hotels}
+            destinationName={destination.name}
+          />
         </div>
       </section>
 
@@ -135,8 +161,12 @@ export default async function DestinationDetailPage({ params }) {
         <section className="py-16 bg-white dark:bg-gray-900">
           <div className="container-custom">
             <div className="flex items-center justify-between mb-10">
-              <h2 className="section-title">Restaurants in {destination.name}</h2>
-              <span className="dark:dark:text-gray-500 text-sm">Sorted by rating (highest first)</span>
+              <h2 className="section-title">
+                Restaurants in {destination.name}
+              </h2>
+              <span className="dark:dark:text-gray-500 text-sm">
+                Sorted by rating (highest first)
+              </span>
             </div>
 
             <RestaurantsLoadMoreGrid restaurants={restaurants} />

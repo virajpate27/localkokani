@@ -125,7 +125,7 @@ export default function Navbar() {
         ))}
 
             <li className="pt-2">
-              <div className="px-4">
+              <div >
                 <Link
                   href="/wishlist"
                   onClick={() => setIsOpen(false)}
