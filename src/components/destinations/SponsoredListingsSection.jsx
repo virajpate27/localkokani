@@ -15,8 +15,23 @@ function interleave(hotels, restaurants) {
   return result;
 }
 
-export default function SponsoredListingsSection({ sponsoredHotels = [], sponsoredRestaurants = [], destinationName }) {
-  const mixedItems = interleave(sponsoredHotels, sponsoredRestaurants);
+export default function SponsoredListingsSection({
+  sponsoredHotels = [],
+  sponsoredRestaurants = [],
+  destinationName,
+  title, // ⬅️ ADD — allows overriding "Recommended in {destination}" per page context
+  excludeHotelId,     // ⬅️ ADD — so a hotel detail page doesn't show itself in its own sponsored section
+  excludeRestaurantId, // ⬅️ ADD — same for restaurant detail page
+}) {
+  const filteredHotels = excludeHotelId
+    ? sponsoredHotels.filter((h) => h.id !== excludeHotelId)
+    : sponsoredHotels;
+
+  const filteredRestaurants = excludeRestaurantId
+    ? sponsoredRestaurants.filter((r) => r.id !== excludeRestaurantId)
+    : sponsoredRestaurants;
+
+  const mixedItems = interleave(filteredHotels, filteredRestaurants);
 
   if (mixedItems.length === 0) return null;
 
@@ -24,16 +39,16 @@ export default function SponsoredListingsSection({ sponsoredHotels = [], sponsor
     <section className="py-16 bg-primary/5">
       <div className="container-custom">
         <div className="flex items-center gap-2 mb-2">
-          <FiZap className="text-primary dark:text-white" />
-          <span className="text-primary dark:text-white font-semibold text-sm uppercase tracking-wider">
+          <FiZap className="text-primary" />
+          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
             Promoted
           </span>
         </div>
         <h2 className="section-title mb-10">
-          Recommended in {destinationName}
+          {title || `Recommended in ${destinationName}`}
         </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {mixedItems.map(({ type, data }) =>
             type === "hotel" ? (
               <HotelCard key={`hotel-${data.id}`} hotel={data} sponsored />

@@ -23,6 +23,10 @@ import CustomBadge from "@/components/ui/CustomBadge";
 export const revalidate = 1800;
 import ShareButton from "@/components/ui/ShareButton";
 import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
+import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
+import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
+import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
+
 
 export async function generateStaticParams() {
   const restaurants = await getAllRestaurants();
@@ -58,6 +62,9 @@ export default async function RestaurantDetailPage({ params }) {
     "restaurant",
     restaurant.id,
   );
+
+  const sponsoredHotels = await getSponsoredHotelsByDestination(restaurant.destinationId);
+  const sponsoredRestaurants = await getSponsoredRestaurantsByDestination(restaurant.destinationId);
 
   const restaurantSchema = {
     "@context": "https://schema.org",
@@ -140,8 +147,12 @@ export default async function RestaurantDetailPage({ params }) {
           <p className="dark:text-gray-500 mt-1">{restaurant.address}</p>
 
           <div className="mt-3">
-    <AvailabilityBadge status={restaurant.availabilityStatus} message={restaurant.availabilityMessage} size="lg" />
-  </div>
+            <AvailabilityBadge
+              status={restaurant.availabilityStatus}
+              message={restaurant.availabilityMessage}
+              size="lg"
+            />
+          </div>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3">
             <p className="flex items-center gap-1.5 dark:text-gray-300 text-sm font-medium">
@@ -216,30 +227,51 @@ export default async function RestaurantDetailPage({ params }) {
             </div>
           </div>
 
-         <div className="order-1 lg:order-2">
-  <div className="card p-6 lg:sticky lg:top-24">
-    {restaurant.availabilityStatus === "soldout" ? (
-      <div className="text-center py-6">
-        <AvailabilityBadge status="soldout" message={restaurant.availabilityMessage} size="lg" />
-        <p className="text-gray-500 text-sm mt-4">
-          This restaurant isn't taking reservations right now. Check back later, or explore other spots in {restaurant.destinationName}.
-        </p>
-      </div>
-    ) : (
-      <>
-        <h3 className="font-display font-semibold text-primary mb-4">Reserve a Table</h3>
-        {restaurant.availabilityStatus === "limited" && (
-          <div className="mb-4">
-            <AvailabilityBadge status="limited" message={restaurant.availabilityMessage} size="lg" />
+          <div className="order-1 lg:order-2">
+            <div className="card p-6 lg:sticky lg:top-24">
+              {restaurant.availabilityStatus === "soldout" ? (
+                <div className="text-center py-6">
+                  <AvailabilityBadge
+                    status="soldout"
+                    message={restaurant.availabilityMessage}
+                    size="lg"
+                  />
+                  <p className="text-gray-500 text-sm mt-4">
+                    This restaurant isn't taking reservations right now. Check
+                    back later, or explore other spots in{" "}
+                    {restaurant.destinationName}.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <h3 className="font-display font-semibold text-primary mb-4">
+                    Reserve a Table
+                  </h3>
+                  {restaurant.availabilityStatus === "limited" && (
+                    <div className="mb-4">
+                      <AvailabilityBadge
+                        status="limited"
+                        message={restaurant.availabilityMessage}
+                        size="lg"
+                      />
+                    </div>
+                  )}
+                  <ReservationForm restaurant={restaurant} />
+                </>
+              )}
+            </div>
           </div>
-        )}
-        <ReservationForm restaurant={restaurant} />
-      </>
-    )}
-  </div>
-</div>
         </div>
       </div>
+
+      {/* NEW */}
+      <SponsoredListingsSection
+        sponsoredHotels={sponsoredHotels}
+        sponsoredRestaurants={sponsoredRestaurants}
+        destinationName={restaurant.destinationName}
+        title={`You Might Also Like in ${restaurant.destinationName}`}
+        excludeRestaurantId={restaurant.id}
+      />
     </>
   );
 }

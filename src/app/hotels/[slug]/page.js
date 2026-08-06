@@ -20,6 +20,9 @@ import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import CustomBadge from "@/components/ui/CustomBadge";
 import ShareButton from "@/components/ui/ShareButton";
 import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
+import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
+import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
+import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
 
 export const revalidate = 1800;
 
@@ -67,6 +70,15 @@ export default async function HotelDetailPage({ params }) {
   }
 
   const reviews = await getApprovedReviewsForEntity("hotel", hotel.id);
+
+  // NEW: fetch sponsored listings for this hotel's destination
+  const sponsoredHotels = await getSponsoredHotelsByDestination(
+    hotel.destinationId,
+  );
+  const sponsoredRestaurants = await getSponsoredRestaurantsByDestination(
+    hotel.destinationId,
+  );
+
   const hotelSchema = generateHotelSchema(hotel);
 
   return (
@@ -126,9 +138,13 @@ export default async function HotelDetailPage({ params }) {
           </div>
           <p className="dark:text-gray-500 mt-1">{hotel.address}</p>
 
-           <div className="mt-3">
-    <AvailabilityBadge status={hotel.availabilityStatus} message={hotel.availabilityMessage} size="lg" />
-  </div>
+          <div className="mt-3">
+            <AvailabilityBadge
+              status={hotel.availabilityStatus}
+              message={hotel.availabilityMessage}
+              size="lg"
+            />
+          </div>
         </div>
 
         {/* Gallery */}
@@ -212,6 +228,15 @@ export default async function HotelDetailPage({ params }) {
           </div>
         </div>
       </div>
+         
+       {/* NEW: Sponsored section at the very bottom, after the main container */}
+      <SponsoredListingsSection
+        sponsoredHotels={sponsoredHotels}
+        sponsoredRestaurants={sponsoredRestaurants}
+        destinationName={hotel.destinationName}
+        title={`You Might Also Like in ${hotel.destinationName}`}
+        excludeHotelId={hotel.id}
+      />
 
       <MobileStickyBar hotel={hotel} />
     </>
