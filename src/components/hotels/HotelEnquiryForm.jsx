@@ -198,7 +198,7 @@ export default function HotelEnquiryForm({ hotel }) {
               value={formData.name}
               onChange={handleChange}
               placeholder="Full Name"
-              className={`w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.name ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
+              className={`w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.name ? "border-red-300 focus:border-red-400" : "dark:border-gray-800 focus:border-secondary"
                 }`}
             />
           </div>
