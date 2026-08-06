@@ -126,8 +126,8 @@ export function generateOrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "StayFinder",
-    url: "https://yourdomain.com",
-    logo: "https://yourdomain.com/logo.png",
+    url: "https://localkokani.vercel.app",
+    logo: "https://localkokani.vercel.app/logo.png",
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
