@@ -90,7 +90,7 @@ export default async function BlogPostPage({ params }) {
       </div>
 
       <article className="py-10">
-        <div className="container-custom max-w-3xl">
+        <div className="container-custom max-w-5xl">
           {post.category && (
             <span className="inline-block text-secondary font-semibold text-sm uppercase tracking-wide mb-3">
               {post.category}

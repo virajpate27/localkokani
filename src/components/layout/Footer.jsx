@@ -40,14 +40,14 @@ export default function Footer() {
             <a
               href="#"
               aria-label="Instagram"
-              className="w-9 h-9 rounded-full bg-white dark:bg-gray-900/10 flex items-center justify-center hover:bg-accent transition-colors"
+              className="w-9 h-9 rounded-full bg-white text-secondary  dark:bg-gray-900/10  dark:text-white/90 flex items-center justify-center hover:bg-accent transition-colors"
             >
               <FiInstagram />
             </a>
             <a
               href="#"
               aria-label="Facebook"
-              className="w-9 h-9 rounded-full bg-white dark:bg-gray-900/10 flex items-center justify-center hover:bg-accent transition-colors"
+              className="w-9 h-9 rounded-full bg-white text-secondary  dark:bg-gray-900/10  dark:text-white/90 flex items-center justify-center hover:bg-accent transition-colors"
             >
               <FiFacebook />
             </a>

@@ -294,7 +294,7 @@ export default function HotelEnquiryForm({ hotel }) {
             onChange={handleChange}
             placeholder="Any special requests? (optional)"
             rows={3}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none transition-colors resize-none"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none resize-none"
           />
         </div>
 

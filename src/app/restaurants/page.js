@@ -22,7 +22,7 @@ export default async function RestaurantsPage() {
 
       <section className="bg-hero-gradient py-14">
         <div className="container-custom text-center">
-          <span className="inline-block bg-white dark:bg-gray-900/10 backdrop-blur-sm text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+          <span className="inline-block bg-white test-secondary dark:bg-gray-900/10 backdrop-blur-sm dark:text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
             {restaurants.length} Restaurants
           </span>
           <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
