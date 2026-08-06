@@ -9,6 +9,7 @@ import { getCuisineIcon } from "./CuisineGrid";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import SponsoredBadge from "@/components/ui/SponsoredBadge";
 import CustomBadge from "@/components/ui/CustomBadge";
+import AvailabilityBadge from "@/components/ui/AvailabilityBadge"; 
 
 export default function RestaurantCard({ restaurant, priority = false, sponsored = false }) {
   const imageUrl =
@@ -40,12 +41,12 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
       </div>
 
       <div className="p-5 flex flex-col flex-1">
-        <p className="flex items-center gap-1 text-secondary text-xs font-medium uppercase tracking-wide">
-          <FiMapPin /> {restaurant.destinationName}
-        </p>
-        <h3 className="font-display font-semibold text-lg text-primary dark:text-white mt-1.5 line-clamp-1">
-          {restaurant.name}
-        </h3>
+         <p className="flex items-center gap-1 text-secondary text-xs font-medium uppercase tracking-wide">
+    <FiMapPin /> {restaurant.destinationName}
+  </p>
+  <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+    {restaurant.name}
+  </h3>
 
         <div className="flex flex-wrap gap-1.5 mt-3">
           {(restaurant.cuisine || []).slice(0, 2).map((c) => {
@@ -62,6 +63,11 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
           })}
          
         </div>
+
+         <AvailabilityBadge
+    status={restaurant.availabilityStatus}
+    message={restaurant.availabilityMessage}
+  />
 
         <div className="flex items-center justify-between mt-4 pt-4 border-t dark:border-gray-800">
           <div>

@@ -14,6 +14,7 @@ import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { triggerRevalidation } from "@/utils/revalidate";
 import { slugify, isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 import CustomBadge from "@/components/ui/CustomBadge";
+import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 
 const BADGE_COLOR_OPTIONS = [
   { value: "primary", label: "Primary (Navy)" },
@@ -23,6 +24,14 @@ const BADGE_COLOR_OPTIONS = [
   { value: "warning", label: "Warning (Orange)" },
   { value: "danger", label: "Danger (Red)" },
 ];
+
+
+const AVAILABILITY_OPTIONS = [
+  { value: "available", label: "Available" },
+  { value: "limited", label: "Limited Availability" },
+  { value: "soldout", label: "Sold Out" },
+];
+
 
 export default function HotelForm({ initialData = null }) {
   const router = useRouter();
@@ -48,6 +57,8 @@ export default function HotelForm({ initialData = null }) {
     sponsored: initialData?.sponsored ?? false,
     customBadgeText: initialData?.customBadgeText || "",
     customBadgeColor: initialData?.customBadgeColor || "primary",
+     availabilityStatus: initialData?.availabilityStatus || "available",
+  availabilityMessage: initialData?.availabilityMessage || "",
   });
   const [images, setImages] = useState(initialData?.images || []);
   const [originalImages] = useState(initialData?.images || []);
@@ -94,6 +105,9 @@ export default function HotelForm({ initialData = null }) {
     if (formData.customBadgeText.trim().length > 24) {
       newErrors.customBadgeText = "Keep badge text short (max 24 characters)";
     }
+    if (formData.availabilityMessage.trim().length > 40) {
+  newErrors.availabilityMessage = "Keep the message short (max 40 characters)";
+}
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -144,6 +158,8 @@ export default function HotelForm({ initialData = null }) {
       sponsored: formData.sponsored,
       customBadgeText: formData.customBadgeText.trim() || null,
       customBadgeColor: formData.customBadgeColor,
+      availabilityStatus: formData.availabilityStatus,
+  availabilityMessage: formData.availabilityMessage.trim() || null,
       location:
         formData.lat && formData.lng
           ? { lat: Number(formData.lat), lng: Number(formData.lng) }
@@ -555,6 +571,62 @@ export default function HotelForm({ initialData = null }) {
           </div>
         )}
       </div>
+
+      <div className="card p-6 space-y-4">
+  <div>
+    <h3 className="font-display font-semibold text-primary">Availability</h3>
+    <p className="text-gray-400 text-xs mt-1">
+      Manually set this hotel's availability status. Useful for creating urgency or marking a property as temporarily unavailable.
+    </p>
+  </div>
+
+  <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr] gap-4">
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+      <select
+        name="availabilityStatus"
+        value={formData.availabilityStatus}
+        onChange={handleChange}
+        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+      >
+        {AVAILABILITY_OPTIONS.map((opt) => (
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
+        ))}
+      </select>
+    </div>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Custom Message <span className="text-gray-400 font-normal">(optional)</span>
+      </label>
+      <input
+        type="text"
+        name="availabilityMessage"
+        value={formData.availabilityMessage}
+        onChange={handleChange}
+        maxLength={40}
+        placeholder="e.g. Only 2 rooms left!"
+        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+          errors.availabilityMessage ? "border-red-300" : "border-gray-200 focus:border-secondary"
+        }`}
+      />
+      {errors.availabilityMessage && <p className="text-red-500 text-xs mt-1">{errors.availabilityMessage}</p>}
+    </div>
+  </div>
+
+  {/* Live preview */}
+  <div>
+    <p className="text-xs text-gray-400 mb-2">Preview:</p>
+    <AvailabilityBadge
+      status={formData.availabilityStatus}
+      message={formData.availabilityMessage}
+      size="lg"
+    />
+    {formData.availabilityStatus === "available" && !formData.availabilityMessage.trim() && (
+      <p className="text-gray-400 text-xs mt-1">No badge shown (default "Available" state is hidden by design)</p>
+    )}
+  </div>
+</div>
 
       <div className="flex items-center gap-3">
         <button

@@ -16,14 +16,21 @@ import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { slugify, isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 import { triggerRevalidation } from "@/utils/revalidate";
 import CustomBadge from "@/components/ui/CustomBadge";
+import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 
 const BADGE_COLOR_OPTIONS = [
-  { value: "primary", label: "Primary (Navy)" },
-  { value: "secondary", label: "Secondary (Teal)" },
-  { value: "accent", label: "Accent (Olive)" },
-  { value: "success", label: "Success (Green)" },
-  { value: "warning", label: "Warning (Orange)" },
-  { value: "danger", label: "Danger (Red)" },
+    { value: "primary", label: "Primary (Navy)" },
+    { value: "secondary", label: "Secondary (Teal)" },
+    { value: "accent", label: "Accent (Olive)" },
+    { value: "success", label: "Success (Green)" },
+    { value: "warning", label: "Warning (Orange)" },
+    { value: "danger", label: "Danger (Red)" },
+];
+
+const AVAILABILITY_OPTIONS = [
+  { value: "available", label: "Available" },
+  { value: "limited", label: "Limited Tables" },
+  { value: "soldout", label: "Fully Booked" },
 ];
 
 const CUISINE_SUGGESTIONS = [
@@ -55,8 +62,10 @@ export default function RestaurantForm({ initialData = null }) {
         status: initialData?.status || "active",
         verified: initialData?.verified ?? false,
         sponsored: initialData?.sponsored ?? false,
+        availabilityStatus: initialData?.availabilityStatus || "available",
+        availabilityMessage: initialData?.availabilityMessage || "",
         customBadgeText: initialData?.customBadgeText || "",
-customBadgeColor: initialData?.customBadgeColor || "primary",
+        customBadgeColor: initialData?.customBadgeColor || "primary",
     });
     const [images, setImages] = useState(initialData?.images || []);
     const [originalImages] = useState(initialData?.images || []);
@@ -91,8 +100,11 @@ customBadgeColor: initialData?.customBadgeColor || "primary",
             newErrors.mapEmbedUrl = "Please paste a valid Google Maps embed URL";
         }
         if (formData.customBadgeText.trim().length > 24) {
-    newErrors.customBadgeText = "Keep badge text short (max 24 characters)";
-  }
+            newErrors.customBadgeText = "Keep badge text short (max 24 characters)";
+        }
+        if (formData.availabilityMessage.trim().length > 40) {
+  newErrors.availabilityMessage = "Keep the message short (max 40 characters)";
+}
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -133,7 +145,9 @@ customBadgeColor: initialData?.customBadgeColor || "primary",
             verified: formData.verified,
             sponsored: formData.sponsored,
             customBadgeText: formData.customBadgeText.trim() || null,
-  customBadgeColor: formData.customBadgeColor,
+            customBadgeColor: formData.customBadgeColor,
+             availabilityStatus: formData.availabilityStatus,
+  availabilityMessage: formData.availabilityMessage.trim() || null,
             location:
                 formData.lat && formData.lng
                     ? { lat: Number(formData.lat), lng: Number(formData.lng) }
@@ -471,58 +485,113 @@ customBadgeColor: initialData?.customBadgeColor || "primary",
             </div>
 
             <div className="card p-6 space-y-4">
+                <div>
+                    <h3 className="font-display font-semibold text-primary dark:text-white">
+                        Custom Badge <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
+                    </h3>
+                    <p className="dark:dark:text-gray-500 text-xs mt-1">
+                        Shows a small label on the card image and detail page — e.g. "Top Rated", "Most Booked", "Family Friendly".
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-4">
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">Badge Text</label>
+                        <input
+                            type="text"
+                            name="customBadgeText"
+                            value={formData.customBadgeText}
+                            onChange={handleChange}
+                            maxLength={24}
+                            placeholder="e.g. Top Rated"
+                            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.customBadgeText ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+                                }`}
+                        />
+                        {errors.customBadgeText && <p className="text-red-500 text-xs mt-1">{errors.customBadgeText}</p>}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">Badge Color</label>
+                        <select
+                            name="customBadgeColor"
+                            value={formData.customBadgeColor}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
+                        >
+                            {BADGE_COLOR_OPTIONS.map((opt) => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                {/* Live preview */}
+                {formData.customBadgeText.trim() && (
+                    <div>
+                        <p className="text-xs dark:dark:text-gray-500 mb-2">Preview:</p>
+                        <CustomBadge
+                            text={formData.customBadgeText}
+                            color={formData.customBadgeColor}
+                            position="inline"
+                        />
+                    </div>
+                )}
+            </div>
+
+            <div className="card p-6 space-y-4">
   <div>
-    <h3 className="font-display font-semibold text-primary dark:text-white">
-      Custom Badge <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
-    </h3>
-    <p className="dark:dark:text-gray-500 text-xs mt-1">
-      Shows a small label on the card image and detail page — e.g. "Top Rated", "Most Booked", "Family Friendly".
+    <h3 className="font-display font-semibold text-primary">Availability</h3>
+    <p className="text-gray-400 text-xs mt-1">
+      Manually set this hotel's availability status. Useful for creating urgency or marking a property as temporarily unavailable.
     </p>
   </div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-4">
+  <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr] gap-4">
     <div>
-      <label className="block text-sm font-medium dark:text-gray-300 mb-2">Badge Text</label>
-      <input
-        type="text"
-        name="customBadgeText"
-        value={formData.customBadgeText}
-        onChange={handleChange}
-        maxLength={24}
-        placeholder="e.g. Top Rated"
-        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-          errors.customBadgeText ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-        }`}
-      />
-      {errors.customBadgeText && <p className="text-red-500 text-xs mt-1">{errors.customBadgeText}</p>}
-    </div>
-
-    <div>
-      <label className="block text-sm font-medium dark:text-gray-300 mb-2">Badge Color</label>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
       <select
-        name="customBadgeColor"
-        value={formData.customBadgeColor}
+        name="availabilityStatus"
+        value={formData.availabilityStatus}
         onChange={handleChange}
-        className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
+        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
       >
-        {BADGE_COLOR_OPTIONS.map((opt) => (
+        {AVAILABILITY_OPTIONS.map((opt) => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>
         ))}
       </select>
     </div>
+
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Custom Message <span className="text-gray-400 font-normal">(optional)</span>
+      </label>
+      <input
+        type="text"
+        name="availabilityMessage"
+        value={formData.availabilityMessage}
+        onChange={handleChange}
+        maxLength={40}
+        placeholder="e.g. Only 2 rooms left!"
+        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+          errors.availabilityMessage ? "border-red-300" : "border-gray-200 focus:border-secondary"
+        }`}
+      />
+      {errors.availabilityMessage && <p className="text-red-500 text-xs mt-1">{errors.availabilityMessage}</p>}
+    </div>
   </div>
 
   {/* Live preview */}
-  {formData.customBadgeText.trim() && (
-    <div>
-      <p className="text-xs dark:dark:text-gray-500 mb-2">Preview:</p>
-      <CustomBadge
-        text={formData.customBadgeText}
-        color={formData.customBadgeColor}
-        position="inline"
-      />
-    </div>
-  )}
+  <div>
+    <p className="text-xs text-gray-400 mb-2">Preview:</p>
+    <AvailabilityBadge
+      status={formData.availabilityStatus}
+      message={formData.availabilityMessage}
+      size="lg"
+    />
+    {formData.availabilityStatus === "available" && !formData.availabilityMessage.trim() && (
+      <p className="text-gray-400 text-xs mt-1">No badge shown (default "Available" state is hidden by design)</p>
+    )}
+  </div>
 </div>
 
             <div className="flex items-center gap-3">

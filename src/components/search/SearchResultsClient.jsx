@@ -89,9 +89,9 @@ export default function SearchResultsClient({
                 placeholder="Search destination, hotel, or restaurant..."
                 aria-label="Search"
                 autoFocus
-                className="w-full outline-none dark:text-gray-300 placeholder:dark:dark:text-gray-500"
+                className="w-full outline-none dark:text-gray-300  dark:bg-gray-900 placeholder:dark:text-gray-500"
               />
-              {isLoading && <FiLoader className="animate-spin dark:dark:text-gray-500 shrink-0" />}
+              {isLoading && <FiLoader className="animate-spin dark:text-gray-500 shrink-0" />}
             </div>
           </div>
         </div>

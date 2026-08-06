@@ -19,6 +19,7 @@ import { isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import CustomBadge from "@/components/ui/CustomBadge";
 import ShareButton from "@/components/ui/ShareButton";
+import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 
 export const revalidate = 1800;
 
@@ -87,31 +88,47 @@ export default async function HotelDetailPage({ params }) {
           <p className="flex items-center gap-1.5 text-secondary font-medium text-sm uppercase tracking-wide">
             <FiMapPin /> {hotel.destinationName}
           </p>
-         <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
-  <div className="flex flex-wrap items-center gap-3">
-    <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
-      {hotel.name}
-    </h1>
-    {hotel.verified && <VerifiedBadge />}
-    <CustomBadge text={hotel.customBadgeText} color={hotel.customBadgeColor} position="inline" />
-    <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
-      <FiStar className="text-accent fill-accent text-sm" />
-      <span className="font-semibold text-primary text-sm">{hotel.rating}</span>
-      <span className="text-gray-400 text-xs">({hotel.reviewCount} reviews)</span>
-    </div>
-  </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary dark:text-white">
+                {hotel.name}
+              </h1>
+              {hotel.verified && <VerifiedBadge />}
+              <CustomBadge
+                text={hotel.customBadgeText}
+                color={hotel.customBadgeColor}
+                position="inline"
+              />
+              <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
+                <FiStar className="text-accent fill-accent text-sm" />
+                <span className="font-semibold text-primary text-sm">
+                  {hotel.rating}
+                </span>
+                <span className="text-gray-400 text-xs">
+                  ({hotel.reviewCount} reviews)
+                </span>
+              </div>
+            </div>
 
-  <div className="flex items-center gap-2">
-    <ShareButton
-      title={hotel.name}
-      text={`Check out ${hotel.name} in ${hotel.destinationName} on StayFinder`}
-      url={`https://localkokani.vercel.app/hotels/${hotel.slug}`}
-      variant="button"
-    />
-    <WishlistButton item={hotel} size="text-xl" className="!bg-gray-100 shadow-none" />
-  </div>
-</div>
+            <div className="flex items-center gap-2">
+              <ShareButton
+                title={hotel.name}
+                text={`Check out ${hotel.name} in ${hotel.destinationName} on StayFinder`}
+                url={`https://localkokani.vercel.app/hotels/${hotel.slug}`}
+                variant="button"
+              />
+              <WishlistButton
+                item={hotel}
+                size="text-xl"
+                className="!bg-gray-100 shadow-none"
+              />
+            </div>
+          </div>
           <p className="dark:text-gray-500 mt-1">{hotel.address}</p>
+
+           <div className="mt-3">
+    <AvailabilityBadge status={hotel.availabilityStatus} message={hotel.availabilityMessage} size="lg" />
+  </div>
         </div>
 
         {/* Gallery */}

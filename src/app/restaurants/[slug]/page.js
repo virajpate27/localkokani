@@ -22,6 +22,7 @@ import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import CustomBadge from "@/components/ui/CustomBadge";
 export const revalidate = 1800;
 import ShareButton from "@/components/ui/ShareButton";
+import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 
 export async function generateStaticParams() {
   const restaurants = await getAllRestaurants();
@@ -102,7 +103,7 @@ export default async function RestaurantDetailPage({ params }) {
           </p>
           <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
             <div className="flex flex-wrap items-center gap-3">
-              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary">
+              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary dark:text-white">
                 {restaurant.name}
               </h1>
               {restaurant.verified && <VerifiedBadge />}
@@ -137,6 +138,10 @@ export default async function RestaurantDetailPage({ params }) {
             </div>
           </div>
           <p className="dark:text-gray-500 mt-1">{restaurant.address}</p>
+
+          <div className="mt-3">
+    <AvailabilityBadge status={restaurant.availabilityStatus} message={restaurant.availabilityMessage} size="lg" />
+  </div>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3">
             <p className="flex items-center gap-1.5 dark:text-gray-300 text-sm font-medium">
@@ -211,14 +216,28 @@ export default async function RestaurantDetailPage({ params }) {
             </div>
           </div>
 
-          <div className="order-1 lg:order-2">
-            <div className="card p-6 lg:sticky lg:top-24">
-              <h3 className="font-display font-semibold text-primary dark:text-white mb-4">
-                Reserve a Table
-              </h3>
-              <ReservationForm restaurant={restaurant} />
-            </div>
+         <div className="order-1 lg:order-2">
+  <div className="card p-6 lg:sticky lg:top-24">
+    {restaurant.availabilityStatus === "soldout" ? (
+      <div className="text-center py-6">
+        <AvailabilityBadge status="soldout" message={restaurant.availabilityMessage} size="lg" />
+        <p className="text-gray-500 text-sm mt-4">
+          This restaurant isn't taking reservations right now. Check back later, or explore other spots in {restaurant.destinationName}.
+        </p>
+      </div>
+    ) : (
+      <>
+        <h3 className="font-display font-semibold text-primary mb-4">Reserve a Table</h3>
+        {restaurant.availabilityStatus === "limited" && (
+          <div className="mb-4">
+            <AvailabilityBadge status="limited" message={restaurant.availabilityMessage} size="lg" />
           </div>
+        )}
+        <ReservationForm restaurant={restaurant} />
+      </>
+    )}
+  </div>
+</div>
         </div>
       </div>
     </>
