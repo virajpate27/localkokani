@@ -66,7 +66,7 @@ export default function AdminSidebar() {
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${isActive ? "bg-white dark:bg-gray-900/10 text-white" : "text-white/60 hover:bg-white dark:bg-gray-900/5 hover:text-white"
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${isActive ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
                 }`}
             >
               <item.icon className={isActive ? "text-accent" : ""} />
