@@ -302,7 +302,11 @@ export default function AdminHotelsPage() {
                         </span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-gray-600 text-xs">
+                   
+                    <td className="px-5 py-3.5 dark:text-gray-300">
+                      {hotel.destinationName}
+                    </td>
+                     <td className="px-5 py-3.5 text-gray-600 text-xs">
                       {hotel.whatsappNumber ? (
                         <span className="text-secondary font-medium">
                           Custom
@@ -310,9 +314,6 @@ export default function AdminHotelsPage() {
                       ) : (
                         <span className="text-gray-400">Default</span>
                       )}
-                    </td>
-                    <td className="px-5 py-3.5 dark:text-gray-300">
-                      {hotel.destinationName}
                     </td>
                     <td className="px-5 py-3.5 dark:text-gray-300">
                       {formatCurrency(hotel.price)}

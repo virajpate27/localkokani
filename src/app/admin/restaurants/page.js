@@ -189,7 +189,7 @@ export default function AdminRestaurantsPage() {
           if (img.publicId) await deleteFromCloudinary(img.publicId);
         }
       }
-      await triggerRevalidation(["/restaurants", "/", "/destinations"]); 
+      await triggerRevalidation(["/restaurants", "/", "/destinations"]);
       toast.success(`${targets.length} restaurants permanently deleted`);
       setRestaurants((prev) => prev.filter((r) => !selectedIds.includes(r.id)));
       setSelectedIds([]);
@@ -281,6 +281,7 @@ export default function AdminRestaurantsPage() {
                   </th>
                   <th className="px-5 py-3.5 font-medium">Restaurant</th>
                   <th className="px-5 py-3.5 font-medium">Destination</th>
+                  <th className="px-5 py-3.5 font-medium">WhatsApp</th>
                   <th className="px-5 py-3.5 font-medium">Price</th>
                   <th className="px-5 py-3.5 font-medium">Status</th>
                   <th className="px-5 py-3.5 font-medium text-right">
@@ -290,7 +291,10 @@ export default function AdminRestaurantsPage() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredRestaurants.map((restaurant) => (
-                  <tr key={restaurant.id} className="hover:bg-gray-50 dark:bg-gray-950">
+                  <tr
+                    key={restaurant.id}
+                    className="hover:bg-gray-50 dark:bg-gray-950"
+                  >
                     <td className="px-5 py-3.5">
                       <button
                         onClick={() => toggleSelect(restaurant.id)}
@@ -323,6 +327,15 @@ export default function AdminRestaurantsPage() {
                     </td>
                     <td className="px-5 py-3.5 dark:text-gray-300">
                       {restaurant.destinationName}
+                    </td>
+                    <td className="px-5 py-3.5 text-gray-600 text-xs">
+                      {restaurant.whatsappNumber ? (
+                        <span className="text-secondary font-medium">
+                          Custom
+                        </span>
+                      ) : (
+                        <span className="text-gray-400">Default</span>
+                      )}
                     </td>
                     <td className="px-5 py-3.5 dark:text-gray-300">
                       {restaurant.priceRange}
