@@ -104,14 +104,18 @@ export async function recalculateEntityRating(entityType, entityId) {
   const reviews = snap.docs.map((d) => d.data());
   const reviewCount = reviews.length;
 
-  if (reviewCount === 0) return; // don't wipe an admin-set manual rating
-
-  const avgRating = reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviewCount;
-  const roundedRating = Math.round(avgRating * 10) / 10;
+  const updates = reviewCount === 0
+    ? { rating: 0, reviewCount: 0 } // reset cleanly when the last review is deleted
+    : {
+        rating: Math.round(
+          (reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviewCount) * 10
+        ) / 10,
+        reviewCount,
+      };
 
   if (entityType === "hotel") {
-    await updateHotel(entityId, { rating: roundedRating, reviewCount });
+    await updateHotel(entityId, updates);
   } else if (entityType === "restaurant") {
-    await updateRestaurant(entityId, { rating: roundedRating, reviewCount });
+    await updateRestaurant(entityId, updates);
   }
 }
