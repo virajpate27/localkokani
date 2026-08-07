@@ -12,7 +12,7 @@ const initialFormState = { name: "", phone: "", date: "", time: "", guests: 2 };
 export default function ReservationForm({ restaurant }) {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+ const whatsappNumber = restaurant.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
   const handleChange = (e) => {
     const { name, value } = e.target;

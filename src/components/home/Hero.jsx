@@ -23,7 +23,7 @@ export default function Hero() {
       <div className="absolute bottom-0 -left-20 w-72 h-72 bg-secondary/30 rounded-full blur-3xl" />
 
       <div className="container-custom relative z-10 py-24 text-center">
-        <span className="inline-block bg-white dark:bg-gray-900/10 backdrop-blur-sm text-secondary dark:text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-fade-in">
+        <span className="inline-block bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-fade-in">
           ✨ Trusted by 10,000+ happy travelers
         </span>
 

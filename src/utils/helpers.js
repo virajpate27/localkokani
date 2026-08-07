@@ -149,3 +149,9 @@ export function isValidGoogleMapsEmbedUrl(url) {
     return false;
   }
 }
+
+export function isValidWhatsAppNumber(number) {
+  if (!number) return true; // empty is fine — it's optional, falls back to global default
+  // Expects digits only, country code included, 10-15 digits (covers most international formats)
+  return /^\d{10,15}$/.test(number.trim());
+}

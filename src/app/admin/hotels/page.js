@@ -5,12 +5,23 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  FiPlus, FiEdit2, FiTrash2, FiLoader, FiHome, FiStar,
-  FiArchive, FiRotateCcw, FiCheckSquare, FiSquare
+  FiPlus,
+  FiEdit2,
+  FiTrash2,
+  FiLoader,
+  FiHome,
+  FiStar,
+  FiArchive,
+  FiRotateCcw,
+  FiCheckSquare,
+  FiSquare,
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 import {
-  getAllHotelsAdmin, deleteHotel, archiveHotel, restoreHotel,
+  getAllHotelsAdmin,
+  deleteHotel,
+  archiveHotel,
+  restoreHotel,
 } from "@/lib/services/hotelService";
 import { incrementHotelCount } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
@@ -57,11 +68,13 @@ export default function AdminHotelsPage() {
   }, []);
 
   const filteredHotels =
-    statusFilter === "all" ? hotels : hotels.filter((h) => h.status === statusFilter);
+    statusFilter === "all"
+      ? hotels
+      : hotels.filter((h) => h.status === statusFilter);
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
     );
   };
 
@@ -78,7 +91,7 @@ export default function AdminHotelsPage() {
     try {
       await archiveHotel(hotel.id);
       setHotels((prev) =>
-        prev.map((h) => (h.id === hotel.id ? { ...h, status: "archived" } : h))
+        prev.map((h) => (h.id === hotel.id ? { ...h, status: "archived" } : h)),
       );
       toast.success(`${hotel.name} archived — hidden from public site`);
     } catch (error) {
@@ -91,7 +104,7 @@ export default function AdminHotelsPage() {
     try {
       await restoreHotel(hotel.id);
       setHotels((prev) =>
-        prev.map((h) => (h.id === hotel.id ? { ...h, status: "active" } : h))
+        prev.map((h) => (h.id === hotel.id ? { ...h, status: "active" } : h)),
       );
       toast.success(`${hotel.name} restored — now visible to public`);
     } catch (error) {
@@ -127,7 +140,9 @@ export default function AdminHotelsPage() {
     try {
       await Promise.all(selectedIds.map((id) => archiveHotel(id)));
       setHotels((prev) =>
-        prev.map((h) => (selectedIds.includes(h.id) ? { ...h, status: "archived" } : h))
+        prev.map((h) =>
+          selectedIds.includes(h.id) ? { ...h, status: "archived" } : h,
+        ),
       );
       toast.success(`${selectedIds.length} hotels archived`);
       setSelectedIds([]);
@@ -186,7 +201,10 @@ export default function AdminHotelsPage() {
             </button>
           ))}
         </div>
-        <Link href="/admin/hotels/new" className="btn-primary flex items-center gap-2">
+        <Link
+          href="/admin/hotels/new"
+          className="btn-primary flex items-center gap-2"
+        >
           <FiPlus /> Add Hotel
         </Link>
       </div>
@@ -240,16 +258,25 @@ export default function AdminHotelsPage() {
                   </th>
                   <th className="px-5 py-3.5 font-medium">Hotel</th>
                   <th className="px-5 py-3.5 font-medium">Destination</th>
+                  <th className="px-5 py-3.5 font-medium">WhatsApp</th>
                   <th className="px-5 py-3.5 font-medium">Price</th>
                   <th className="px-5 py-3.5 font-medium">Status</th>
-                  <th className="px-5 py-3.5 font-medium text-right">Actions</th>
+                  <th className="px-5 py-3.5 font-medium text-right">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {filteredHotels.map((hotel) => (
-                  <tr key={hotel.id} className="hover:bg-gray-50 dark:bg-gray-950">
+                  <tr
+                    key={hotel.id}
+                    className="hover:bg-gray-50 dark:bg-gray-950"
+                  >
                     <td className="px-5 py-3.5">
-                      <button onClick={() => toggleSelect(hotel.id)} aria-label="Select">
+                      <button
+                        onClick={() => toggleSelect(hotel.id)}
+                        aria-label="Select"
+                      >
                         {selectedIds.includes(hotel.id) ? (
                           <FiCheckSquare className="text-primary dark:text-white" />
                         ) : (
@@ -270,11 +297,26 @@ export default function AdminHotelsPage() {
                             />
                           )}
                         </div>
-                        <span className="font-medium text-primary dark:text-white">{hotel.name}</span>
+                        <span className="font-medium text-primary dark:text-white">
+                          {hotel.name}
+                        </span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 dark:text-gray-300">{hotel.destinationName}</td>
-                    <td className="px-5 py-3.5 dark:text-gray-300">{formatCurrency(hotel.price)}</td>
+                    <td className="px-5 py-3.5 text-gray-600 text-xs">
+                      {hotel.whatsappNumber ? (
+                        <span className="text-secondary font-medium">
+                          Custom
+                        </span>
+                      ) : (
+                        <span className="text-gray-400">Default</span>
+                      )}
+                    </td>
+                    <td className="px-5 py-3.5 dark:text-gray-300">
+                      {hotel.destinationName}
+                    </td>
+                    <td className="px-5 py-3.5 dark:text-gray-300">
+                      {formatCurrency(hotel.price)}
+                    </td>
                     <td className="px-5 py-3.5">
                       <span
                         className={`text-xs font-medium px-2.5 py-1 rounded-lg capitalize ${statusStyles[hotel.status] || statusStyles.active}`}

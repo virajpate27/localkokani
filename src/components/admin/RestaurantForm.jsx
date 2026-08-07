@@ -13,7 +13,7 @@ import {
 } from "@/lib/services/restaurantService";
 import { incrementRestaurantCount, getAllDestinations } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
-import { slugify, isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
+import { slugify, isValidGoogleMapsEmbedUrl, isValidWhatsAppNumber } from "@/utils/helpers";
 import { triggerRevalidation } from "@/utils/revalidate";
 import CustomBadge from "@/components/ui/CustomBadge";
 import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
@@ -28,9 +28,9 @@ const BADGE_COLOR_OPTIONS = [
 ];
 
 const AVAILABILITY_OPTIONS = [
-  { value: "available", label: "Available" },
-  { value: "limited", label: "Limited Tables" },
-  { value: "soldout", label: "Fully Booked" },
+    { value: "available", label: "Available" },
+    { value: "limited", label: "Limited Tables" },
+    { value: "soldout", label: "Fully Booked" },
 ];
 
 const CUISINE_SUGGESTIONS = [
@@ -66,6 +66,7 @@ export default function RestaurantForm({ initialData = null }) {
         availabilityMessage: initialData?.availabilityMessage || "",
         customBadgeText: initialData?.customBadgeText || "",
         customBadgeColor: initialData?.customBadgeColor || "primary",
+        whatsappNumber: initialData?.whatsappNumber || "",
     });
     const [images, setImages] = useState(initialData?.images || []);
     const [originalImages] = useState(initialData?.images || []);
@@ -103,8 +104,12 @@ export default function RestaurantForm({ initialData = null }) {
             newErrors.customBadgeText = "Keep badge text short (max 24 characters)";
         }
         if (formData.availabilityMessage.trim().length > 40) {
-  newErrors.availabilityMessage = "Keep the message short (max 40 characters)";
-}
+            newErrors.availabilityMessage = "Keep the message short (max 40 characters)";
+        }
+        if (formData.whatsappNumber && !isValidWhatsAppNumber(formData.whatsappNumber)) {
+            newErrors.whatsappNumber = "Enter digits only, with country code (e.g. 919876543210)";
+        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -146,8 +151,9 @@ export default function RestaurantForm({ initialData = null }) {
             sponsored: formData.sponsored,
             customBadgeText: formData.customBadgeText.trim() || null,
             customBadgeColor: formData.customBadgeColor,
-             availabilityStatus: formData.availabilityStatus,
-  availabilityMessage: formData.availabilityMessage.trim() || null,
+            availabilityStatus: formData.availabilityStatus,
+            availabilityMessage: formData.availabilityMessage.trim() || null,
+            whatsappNumber: formData.whatsappNumber.trim().replace(/\D/g, "") || null,
             location:
                 formData.lat && formData.lng
                     ? { lat: Number(formData.lat), lng: Number(formData.lng) }
@@ -286,6 +292,25 @@ export default function RestaurantForm({ initialData = null }) {
                             }`}
                     />
                     {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        WhatsApp Number <span className="text-gray-400 font-normal">(optional — uses site default if blank)</span>
+                    </label>
+                    <input
+                        type="tel"
+                        name="whatsappNumber"
+                        value={formData.whatsappNumber}
+                        onChange={handleChange}
+                        placeholder="e.g. 919876543210 (with country code, no + or spaces)"
+                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.whatsappNumber ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                            }`}
+                    />
+                    {errors.whatsappNumber && <p className="text-red-500 text-xs mt-1">{errors.whatsappNumber}</p>}
+                    <p className="text-gray-400 text-xs mt-1">
+                        Enquiries for this Restaurant will be sent to this number instead of the site's default WhatsApp contact.
+                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -539,60 +564,59 @@ export default function RestaurantForm({ initialData = null }) {
             </div>
 
             <div className="card p-6 space-y-4">
-  <div>
-    <h3 className="font-display font-semibold text-primary">Availability</h3>
-    <p className="text-gray-400 text-xs mt-1">
-      Manually set this hotel's availability status. Useful for creating urgency or marking a property as temporarily unavailable.
-    </p>
-  </div>
+                <div>
+                    <h3 className="font-display font-semibold text-primary">Availability</h3>
+                    <p className="text-gray-400 text-xs mt-1">
+                        Manually set this hotel's availability status. Useful for creating urgency or marking a property as temporarily unavailable.
+                    </p>
+                </div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr] gap-4">
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-      <select
-        name="availabilityStatus"
-        value={formData.availabilityStatus}
-        onChange={handleChange}
-        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
-      >
-        {AVAILABILITY_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>{opt.label}</option>
-        ))}
-      </select>
-    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr] gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <select
+                            name="availabilityStatus"
+                            value={formData.availabilityStatus}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+                        >
+                            {AVAILABILITY_OPTIONS.map((opt) => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                        </select>
+                    </div>
 
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Custom Message <span className="text-gray-400 font-normal">(optional)</span>
-      </label>
-      <input
-        type="text"
-        name="availabilityMessage"
-        value={formData.availabilityMessage}
-        onChange={handleChange}
-        maxLength={40}
-        placeholder="e.g. Only 2 rooms left!"
-        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-          errors.availabilityMessage ? "border-red-300" : "border-gray-200 focus:border-secondary"
-        }`}
-      />
-      {errors.availabilityMessage && <p className="text-red-500 text-xs mt-1">{errors.availabilityMessage}</p>}
-    </div>
-  </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Custom Message <span className="text-gray-400 font-normal">(optional)</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="availabilityMessage"
+                            value={formData.availabilityMessage}
+                            onChange={handleChange}
+                            maxLength={40}
+                            placeholder="e.g. Only 2 rooms left!"
+                            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.availabilityMessage ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                                }`}
+                        />
+                        {errors.availabilityMessage && <p className="text-red-500 text-xs mt-1">{errors.availabilityMessage}</p>}
+                    </div>
+                </div>
 
-  {/* Live preview */}
-  <div>
-    <p className="text-xs text-gray-400 mb-2">Preview:</p>
-    <AvailabilityBadge
-      status={formData.availabilityStatus}
-      message={formData.availabilityMessage}
-      size="lg"
-    />
-    {formData.availabilityStatus === "available" && !formData.availabilityMessage.trim() && (
-      <p className="text-gray-400 text-xs mt-1">No badge shown (default "Available" state is hidden by design)</p>
-    )}
-  </div>
-</div>
+                {/* Live preview */}
+                <div>
+                    <p className="text-xs text-gray-400 mb-2">Preview:</p>
+                    <AvailabilityBadge
+                        status={formData.availabilityStatus}
+                        message={formData.availabilityMessage}
+                        size="lg"
+                    />
+                    {formData.availabilityStatus === "available" && !formData.availabilityMessage.trim() && (
+                        <p className="text-gray-400 text-xs mt-1">No badge shown (default "Available" state is hidden by design)</p>
+                    )}
+                </div>
+            </div>
 
             <div className="flex items-center gap-3">
                 <button type="submit" disabled={isSaving} className="btn-primary flex items-center gap-2 disabled:opacity-60">

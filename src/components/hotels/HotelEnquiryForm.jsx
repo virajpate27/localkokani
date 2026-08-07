@@ -27,7 +27,7 @@ export default function HotelEnquiryForm({ hotel }) {
   const [submitted, setSubmitted] = useState(false);
   const [fallbackUrl, setFallbackUrl] = useState(null);
 
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
