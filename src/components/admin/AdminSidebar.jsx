@@ -4,12 +4,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee  } from "react-icons/fi";
+import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee , FiUsers } from "react-icons/fi";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { getNewLeadsCount } from "@/lib/services/dashboardService";
-
+ 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: FiGrid },
   { label: "Destinations", href: "/admin/destinations", icon: FiMapPin },
