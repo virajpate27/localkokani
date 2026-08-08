@@ -18,6 +18,7 @@ const navItems = [
   { label: "Blog", href: "/admin/blog", icon: FiFileText },
   { label: "Reviews", href: "/admin/reviews", icon: FiStar },
   { label: "Leads", href: "/admin/leads", icon: FiMessageSquare },
+  { label: "Partner Applications", href: "/admin/partner-applications", icon: FiUsers }
 ];
 
 export default function AdminSidebar() {
