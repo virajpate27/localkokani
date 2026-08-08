@@ -3,11 +3,42 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { FiLoader, FiCheck, FiX, FiExternalLink } from "react-icons/fi";
+import {
+  FiLoader, FiCheck, FiX, FiExternalLink, FiCheckCircle, FiXCircle,
+} from "react-icons/fi";
 import toast from "react-hot-toast";
 import {
   getPartnerApplicationById, approvePartnerApplication, rejectPartnerApplication,
 } from "@/lib/services/partnerService";
+
+function formatDate(isoString) {
+  if (!isoString) return "—";
+  return new Date(isoString).toLocaleString("en-IN", {
+    day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
+  });
+}
+
+function InfoRow({ label, value }) {
+  return (
+    <div className="grid grid-cols-2 gap-3 py-2 border-b border-gray-50 last:border-0">
+      <p className="text-gray-400 text-sm">{label}</p>
+      <p className="text-gray-700 text-sm font-medium text-right sm:text-left">{value || "—"}</p>
+    </div>
+  );
+}
+
+function AcceptanceRow({ label, accepted }) {
+  return (
+    <div className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+      <p className="text-gray-600 text-sm">{label}</p>
+      {accepted ? (
+        <FiCheckCircle className="text-accent-dark shrink-0" />
+      ) : (
+        <FiXCircle className="text-red-400 shrink-0" />
+      )}
+    </div>
+  );
+}
 
 export default function PartnerApplicationDetailPage() {
   const { id } = useParams();
@@ -18,7 +49,10 @@ export default function PartnerApplicationDetailPage() {
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
-    getPartnerApplicationById(id).then(setApp).finally(() => setIsLoading(false));
+    getPartnerApplicationById(id).then((data) => {
+      setApp(data);
+      setNotes(data?.reviewNotes || "");
+    }).finally(() => setIsLoading(false));
   }, [id]);
 
   const handleApprove = async () => {
@@ -50,54 +84,165 @@ export default function PartnerApplicationDetailPage() {
   if (isLoading) return <div className="flex justify-center py-20"><FiLoader className="animate-spin text-2xl text-primary" /></div>;
   if (!app) return <div className="card p-10 text-center text-gray-400">Application not found.</div>;
 
+  const isHotel = app.property?.type === "hotel";
+
   return (
-    <div className="max-w-3xl space-y-6">
+    <div className="max-w-3xl space-y-6 pb-10">
+      {/* Header / IDs */}
+      <div className="card p-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p className="text-gray-400 text-xs">Registration ID</p>
+          <p className="font-mono font-medium text-primary">{app.registrationId}</p>
+          {app.partnerId && (
+            <>
+              <p className="text-gray-400 text-xs mt-3">Partner ID</p>
+              <p className="font-mono font-medium text-accent-dark">{app.partnerId}</p>
+            </>
+          )}
+        </div>
+        <span className={`text-xs font-medium px-3 py-1.5 rounded-lg capitalize ${
+          app.status === "approved" ? "bg-accent/10 text-accent-dark" :
+          app.status === "rejected" ? "bg-red-50 text-red-500" : "bg-secondary/10 text-secondary"
+        }`}>
+          {app.status}
+        </span>
+      </div>
+
+      {/* Owner Details */}
       <div className="card p-6">
-        <p className="text-gray-400 text-xs">Registration ID</p>
-        <p className="font-mono font-medium text-primary">{app.registrationId}</p>
-        {app.partnerId && (
+        <h3 className="font-display font-semibold text-primary mb-3">Owner Details</h3>
+        <InfoRow label="Full Name" value={app.owner?.fullName} />
+        <InfoRow label="Mobile" value={app.owner?.mobile} />
+        <InfoRow label="WhatsApp" value={app.owner?.whatsapp} />
+        <InfoRow label="Email" value={app.owner?.email} />
+        <InfoRow label="Alternate Contact" value={app.owner?.altContact} />
+      </div>
+
+      {/* Property Details */}
+      <div className="card p-6">
+        <h3 className="font-display font-semibold text-primary mb-3">Property Details</h3>
+        <InfoRow label="Property Name" value={app.property?.name} />
+        <InfoRow label="Property Type" value={app.property?.type} />
+        <InfoRow label="Description" value={app.property?.description} />
+        {isHotel ? (
           <>
-            <p className="text-gray-400 text-xs mt-3">Partner ID</p>
-            <p className="font-mono font-medium text-accent-dark">{app.partnerId}</p>
+            <InfoRow label="Total Rooms" value={app.property?.totalRooms} />
+            <InfoRow label="Max Guest Capacity" value={app.property?.maxGuestCapacity} />
+          </>
+        ) : (
+          <>
+            <InfoRow label="Seating Capacity" value={app.property?.seatingCapacity} />
+            <InfoRow label="Cuisine Types" value={app.property?.cuisineTypes} />
           </>
         )}
       </div>
 
-      <div className="card p-6 space-y-2">
-        <h3 className="font-display font-semibold text-primary">Owner</h3>
-        <p className="text-sm text-gray-600">{app.owner?.fullName} · {app.owner?.mobile} · {app.owner?.email}</p>
+      {/* Location */}
+      <div className="card p-6">
+        <h3 className="font-display font-semibold text-primary mb-3">Location</h3>
+        <InfoRow label="Address" value={app.location?.address} />
+        <InfoRow label="Village / Town / City" value={app.location?.village} />
+        <InfoRow label="Taluka" value={app.location?.taluka} />
+        <InfoRow label="District" value={app.location?.district} />
+        <InfoRow label="State" value={app.location?.state} />
+        <InfoRow label="PIN Code" value={app.location?.pincode} />
+        <InfoRow label="Nearby Attractions" value={app.location?.nearbyAttractions} />
+        {app.location?.googleBusinessLink && (
+          <div className="flex items-center justify-between py-2">
+            <p className="text-gray-400 text-sm">Google Business Link</p>
+            <a href={app.location.googleBusinessLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-secondary text-sm font-medium hover:underline">
+              Open <FiExternalLink className="text-xs" />
+            </a>
+          </div>
+        )}
       </div>
 
-      <div className="card p-6 space-y-2">
-        <h3 className="font-display font-semibold text-primary">Property</h3>
-        <p className="text-sm text-gray-600 capitalize">{app.property?.type}: {app.property?.name}</p>
-        <p className="text-sm text-gray-500">{app.property?.description}</p>
-        <p className="text-sm text-gray-500">
-          {app.location?.address}, {app.location?.village}, {app.location?.district}, {app.location?.state} - {app.location?.pincode}
-        </p>
-      </div>
+      {/* Room Types — hotel only */}
+      {isHotel && app.roomTypes?.length > 0 && (
+        <div className="card p-6">
+          <h3 className="font-display font-semibold text-primary mb-3">Room Types ({app.roomTypes.length})</h3>
+          <div className="space-y-3">
+            {app.roomTypes.map((room, i) => (
+              <div key={i} className="bg-gray-50 rounded-xl p-4 text-sm">
+                <p className="font-medium text-primary">{room.name}</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2 text-gray-500">
+                  <span>Rooms: {room.numberOfRooms}</span>
+                  <span>Guests: {room.guestsPerRoom}</span>
+                  <span>₹{room.startingPrice}/night</span>
+                  <span>Weekend: ₹{room.weekendPrice || "—"}</span>
+                </div>
+                {room.amenities && <p className="text-gray-400 mt-2">{room.amenities}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-      <div className="card p-6 space-y-2">
-        <h3 className="font-display font-semibold text-primary">Photos & Verification</h3>
+      {/* Photos & Verification Documents */}
+      <div className="card p-6">
+        <h3 className="font-display font-semibold text-primary mb-3">Photos & Verification</h3>
         {app.photosLink && (
-          <a href={app.photosLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline">
-            <FiExternalLink /> View Photos (Google Drive)
+          <a href={app.photosLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5">
+            <FiExternalLink /> View Property Photos (Google Drive)
           </a>
         )}
         {app.verification?.idProof?.url && (
-          <a href={app.verification.idProof.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline">
+          <a href={app.verification.idProof.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5">
             <FiExternalLink /> View ID Proof
           </a>
         )}
         {app.verification?.ownershipProof?.url && (
-          <a href={app.verification.ownershipProof.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline">
+          <a href={app.verification.ownershipProof.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5">
             <FiExternalLink /> View Ownership Proof
           </a>
         )}
+        <div className="mt-2">
+          <AcceptanceRow label="Declaration: Documents are genuine / authorized" accepted={app.verification?.declarationAccepted} />
+        </div>
       </div>
 
+      {/* Policies */}
+      <div className="card p-6">
+        <h3 className="font-display font-semibold text-primary mb-3">Policies & Guest Information</h3>
+        <InfoRow label="Check-in Time" value={app.policies?.checkInTime} />
+        <InfoRow label="Check-out Time" value={app.policies?.checkOutTime} />
+        <InfoRow label="Cancellation Policy" value={app.policies?.cancellationPolicy} />
+        <InfoRow label="Child Policy" value={app.policies?.childPolicy} />
+        <InfoRow label="Pet Policy" value={app.policies?.petPolicy} />
+        <InfoRow label="ID Required at Check-in" value={app.policies?.idRequired} />
+        <InfoRow label="Couples Allowed" value={app.policies?.couplesAllowed} />
+      </div>
+
+      {/* Plan */}
+      <div className="card p-6">
+        <h3 className="font-display font-semibold text-primary mb-3">Selected Plan</h3>
+        <InfoRow label="Plan" value={app.plan} />
+      </div>
+
+      {/* Legal Acceptance */}
+      <div className="card p-6">
+        <h3 className="font-display font-semibold text-primary mb-3">Legal Acceptance</h3>
+        <AcceptanceRow label="Owner or authorized representative" accepted={app.acceptance?.isOwnerOrAuthorized} />
+        <AcceptanceRow label="Information is accurate" accepted={app.acceptance?.infoAccurate} />
+        <AcceptanceRow label="Agreed to Partner Agreement" accepted={app.acceptance?.agreedPartnerAgreement} />
+        <AcceptanceRow label="Agreed to Terms for Hotel Owners" accepted={app.acceptance?.agreedTerms} />
+        <AcceptanceRow label="Read Privacy Policy" accepted={app.acceptance?.readPrivacyPolicy} />
+        <AcceptanceRow label="Agreed to commission/subscription fee" accepted={app.acceptance?.agreedCommission} />
+        <InfoRow label="Agreement Version" value={app.agreementVersion} />
+        <InfoRow label="Terms Version" value={app.termsVersion} />
+      </div>
+
+      {/* Submission Metadata */}
+      <div className="card p-6">
+        <h3 className="font-display font-semibold text-primary mb-3">Submission Record</h3>
+        <InfoRow label="Submitted On" value={formatDate(app.submittedAt)} />
+        <InfoRow label="IP Address" value={app.ipAddress} />
+      </div>
+
+      {/* Review Action */}
       {app.status === "pending" && (
         <div className="card p-6 space-y-4">
+          <h3 className="font-display font-semibold text-primary">Review Decision</h3>
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
@@ -113,6 +258,14 @@ export default function PartnerApplicationDetailPage() {
               <FiX /> Reject
             </button>
           </div>
+        </div>
+      )}
+
+      {app.status !== "pending" && app.reviewNotes && (
+        <div className="card p-6">
+          <h3 className="font-display font-semibold text-primary mb-2">Review Notes</h3>
+          <p className="text-gray-600 text-sm">{app.reviewNotes}</p>
+          <p className="text-gray-400 text-xs mt-2">Reviewed on {formatDate(app.reviewedAt)}</p>
         </div>
       )}
     </div>
