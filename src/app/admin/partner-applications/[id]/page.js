@@ -4,17 +4,28 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
-  FiLoader, FiCheck, FiX, FiExternalLink, FiCheckCircle, FiXCircle,
+  FiLoader,
+  FiCheck,
+  FiX,
+  FiExternalLink,
+  FiCheckCircle,
+  FiXCircle,
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 import {
-  getPartnerApplicationById, approvePartnerApplication, rejectPartnerApplication,
+  getPartnerApplicationById,
+  approvePartnerApplication,
+  rejectPartnerApplication,
 } from "@/lib/services/partnerService";
 
 function formatDate(isoString) {
   if (!isoString) return "—";
   return new Date(isoString).toLocaleString("en-IN", {
-    day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
 
@@ -22,7 +33,9 @@ function InfoRow({ label, value }) {
   return (
     <div className="grid grid-cols-2 gap-3 py-2 border-b border-gray-50 last:border-0">
       <p className="text-gray-400 text-sm">{label}</p>
-      <p className="text-gray-700 text-sm font-medium text-right sm:text-left">{value || "—"}</p>
+      <p className="text-gray-700 text-sm font-medium text-right sm:text-left">
+        {value || "—"}
+      </p>
     </div>
   );
 }
@@ -49,10 +62,12 @@ export default function PartnerApplicationDetailPage() {
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
-    getPartnerApplicationById(id).then((data) => {
-      setApp(data);
-      setNotes(data?.reviewNotes || "");
-    }).finally(() => setIsLoading(false));
+    getPartnerApplicationById(id)
+      .then((data) => {
+        setApp(data);
+        setNotes(data?.reviewNotes || "");
+      })
+      .finally(() => setIsLoading(false));
   }, [id]);
 
   const handleApprove = async () => {
@@ -81,8 +96,18 @@ export default function PartnerApplicationDetailPage() {
     }
   };
 
-  if (isLoading) return <div className="flex justify-center py-20"><FiLoader className="animate-spin text-2xl text-primary" /></div>;
-  if (!app) return <div className="card p-10 text-center text-gray-400">Application not found.</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center py-20">
+        <FiLoader className="animate-spin text-2xl text-primary" />
+      </div>
+    );
+  if (!app)
+    return (
+      <div className="card p-10 text-center text-gray-400">
+        Application not found.
+      </div>
+    );
 
   const isHotel = app.property?.type === "hotel";
 
@@ -92,25 +117,36 @@ export default function PartnerApplicationDetailPage() {
       <div className="card p-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-gray-400 text-xs">Registration ID</p>
-          <p className="font-mono font-medium text-primary">{app.registrationId}</p>
+          <p className="font-mono font-medium text-primary">
+            {app.registrationId}
+          </p>
           {app.partnerId && (
             <>
               <p className="text-gray-400 text-xs mt-3">Partner ID</p>
-              <p className="font-mono font-medium text-accent-dark">{app.partnerId}</p>
+              <p className="font-mono font-medium text-accent-dark">
+                {app.partnerId}
+              </p>
             </>
           )}
         </div>
-        <span className={`text-xs font-medium px-3 py-1.5 rounded-lg capitalize ${
-          app.status === "approved" ? "bg-accent/10 text-accent-dark" :
-          app.status === "rejected" ? "bg-red-50 text-red-500" : "bg-secondary/10 text-secondary"
-        }`}>
+        <span
+          className={`text-xs font-medium px-3 py-1.5 rounded-lg capitalize ${
+            app.status === "approved"
+              ? "bg-accent/10 text-accent-dark"
+              : app.status === "rejected"
+                ? "bg-red-50 text-red-500"
+                : "bg-secondary/10 text-secondary"
+          }`}
+        >
           {app.status}
         </span>
       </div>
 
       {/* Owner Details */}
       <div className="card p-6">
-        <h3 className="font-display font-semibold text-primary mb-3">Owner Details</h3>
+        <h3 className="font-display font-semibold text-primary mb-3">
+          Owner Details
+        </h3>
         <InfoRow label="Full Name" value={app.owner?.fullName} />
         <InfoRow label="Mobile" value={app.owner?.mobile} />
         <InfoRow label="WhatsApp" value={app.owner?.whatsapp} />
@@ -120,18 +156,26 @@ export default function PartnerApplicationDetailPage() {
 
       {/* Property Details */}
       <div className="card p-6">
-        <h3 className="font-display font-semibold text-primary mb-3">Property Details</h3>
+        <h3 className="font-display font-semibold text-primary mb-3">
+          Property Details
+        </h3>
         <InfoRow label="Property Name" value={app.property?.name} />
         <InfoRow label="Property Type" value={app.property?.type} />
         <InfoRow label="Description" value={app.property?.description} />
         {isHotel ? (
           <>
             <InfoRow label="Total Rooms" value={app.property?.totalRooms} />
-            <InfoRow label="Max Guest Capacity" value={app.property?.maxGuestCapacity} />
+            <InfoRow
+              label="Max Guest Capacity"
+              value={app.property?.maxGuestCapacity}
+            />
           </>
         ) : (
           <>
-            <InfoRow label="Seating Capacity" value={app.property?.seatingCapacity} />
+            <InfoRow
+              label="Seating Capacity"
+              value={app.property?.seatingCapacity}
+            />
             <InfoRow label="Cuisine Types" value={app.property?.cuisineTypes} />
           </>
         )}
@@ -139,18 +183,28 @@ export default function PartnerApplicationDetailPage() {
 
       {/* Location */}
       <div className="card p-6">
-        <h3 className="font-display font-semibold text-primary mb-3">Location</h3>
+        <h3 className="font-display font-semibold text-primary mb-3">
+          Location
+        </h3>
         <InfoRow label="Address" value={app.location?.address} />
         <InfoRow label="Village / Town / City" value={app.location?.village} />
         <InfoRow label="Taluka" value={app.location?.taluka} />
         <InfoRow label="District" value={app.location?.district} />
         <InfoRow label="State" value={app.location?.state} />
         <InfoRow label="PIN Code" value={app.location?.pincode} />
-        <InfoRow label="Nearby Attractions" value={app.location?.nearbyAttractions} />
+        <InfoRow
+          label="Nearby Attractions"
+          value={app.location?.nearbyAttractions}
+        />
         {app.location?.googleBusinessLink && (
           <div className="flex items-center justify-between py-2">
             <p className="text-gray-400 text-sm">Google Business Link</p>
-            <a href={app.location.googleBusinessLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-secondary text-sm font-medium hover:underline">
+            <a
+              href={app.location.googleBusinessLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-secondary text-sm font-medium hover:underline"
+            >
               Open <FiExternalLink className="text-xs" />
             </a>
           </div>
@@ -160,7 +214,9 @@ export default function PartnerApplicationDetailPage() {
       {/* Room Types — hotel only */}
       {isHotel && app.roomTypes?.length > 0 && (
         <div className="card p-6">
-          <h3 className="font-display font-semibold text-primary mb-3">Room Types ({app.roomTypes.length})</h3>
+          <h3 className="font-display font-semibold text-primary mb-3">
+            Room Types ({app.roomTypes.length})
+          </h3>
           <div className="space-y-3">
             {app.roomTypes.map((room, i) => (
               <div key={i} className="bg-gray-50 rounded-xl p-4 text-sm">
@@ -171,7 +227,9 @@ export default function PartnerApplicationDetailPage() {
                   <span>₹{room.startingPrice}/night</span>
                   <span>Weekend: ₹{room.weekendPrice || "—"}</span>
                 </div>
-                {room.amenities && <p className="text-gray-400 mt-2">{room.amenities}</p>}
+                {room.amenities && (
+                  <p className="text-gray-400 mt-2">{room.amenities}</p>
+                )}
               </div>
             ))}
           </div>
@@ -180,61 +238,135 @@ export default function PartnerApplicationDetailPage() {
 
       {/* Photos & Verification Documents */}
       <div className="card p-6">
-        <h3 className="font-display font-semibold text-primary mb-3">Photos & Verification</h3>
+        <h3 className="font-display font-semibold text-primary mb-3">
+          Photos & Verification
+        </h3>
         {app.photosLink && (
-          <a href={app.photosLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5">
+          <a
+            href={app.photosLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5"
+          >
             <FiExternalLink /> View Property Photos (Google Drive)
           </a>
         )}
         {app.verification?.idProof?.url && (
-          <a href={app.verification.idProof.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5">
+          <a
+            href={app.verification.idProof.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5"
+          >
             <FiExternalLink /> View ID Proof
           </a>
         )}
         {app.verification?.ownershipProof?.url && (
-          <a href={app.verification.ownershipProof.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5">
+          <a
+            href={app.verification.ownershipProof.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-secondary text-sm font-medium hover:underline py-1.5"
+          >
             <FiExternalLink /> View Ownership Proof
           </a>
         )}
         <div className="mt-2">
-          <AcceptanceRow label="Declaration: Documents are genuine / authorized" accepted={app.verification?.declarationAccepted} />
+          <AcceptanceRow
+            label="Declaration: Documents are genuine / authorized"
+            accepted={app.verification?.declarationAccepted}
+          />
         </div>
       </div>
 
       {/* Policies */}
       <div className="card p-6">
-        <h3 className="font-display font-semibold text-primary mb-3">Policies & Guest Information</h3>
-        <InfoRow label="Check-in Time" value={app.policies?.checkInTime} />
-        <InfoRow label="Check-out Time" value={app.policies?.checkOutTime} />
-        <InfoRow label="Cancellation Policy" value={app.policies?.cancellationPolicy} />
-        <InfoRow label="Child Policy" value={app.policies?.childPolicy} />
+        <h3 className="font-display font-semibold text-primary mb-3">
+          {isHotel
+            ? "Policies & Guest Information"
+            : "Operating Hours & Guest Information"}
+        </h3>
+        <InfoRow
+          label={isHotel ? "Check-in Time" : "Opening Time"}
+          value={app.policies?.checkInTime}
+        />
+        <InfoRow
+          label={isHotel ? "Check-out Time" : "Closing Time"}
+          value={app.policies?.checkOutTime}
+        />
+        <InfoRow
+          label={
+            isHotel
+              ? "Cancellation Policy"
+              : "Reservation / Cancellation Policy"
+          }
+          value={app.policies?.cancellationPolicy}
+        />
+        <InfoRow
+          label={isHotel ? "Child Policy" : "Dress Code / Child Policy"}
+          value={app.policies?.childPolicy}
+        />
         <InfoRow label="Pet Policy" value={app.policies?.petPolicy} />
-        <InfoRow label="ID Required at Check-in" value={app.policies?.idRequired} />
-        <InfoRow label="Couples Allowed" value={app.policies?.couplesAllowed} />
+        {isHotel && (
+          <>
+            <InfoRow
+              label="ID Required at Check-in"
+              value={app.policies?.idRequired}
+            />
+            <InfoRow
+              label="Couples Allowed"
+              value={app.policies?.couplesAllowed}
+            />
+          </>
+        )}
       </div>
 
       {/* Plan */}
       <div className="card p-6">
-        <h3 className="font-display font-semibold text-primary mb-3">Selected Plan</h3>
+        <h3 className="font-display font-semibold text-primary mb-3">
+          Selected Plan
+        </h3>
         <InfoRow label="Plan" value={app.plan} />
       </div>
 
       {/* Legal Acceptance */}
       <div className="card p-6">
-        <h3 className="font-display font-semibold text-primary mb-3">Legal Acceptance</h3>
-        <AcceptanceRow label="Owner or authorized representative" accepted={app.acceptance?.isOwnerOrAuthorized} />
-        <AcceptanceRow label="Information is accurate" accepted={app.acceptance?.infoAccurate} />
-        <AcceptanceRow label="Agreed to Partner Agreement" accepted={app.acceptance?.agreedPartnerAgreement} />
-        <AcceptanceRow label="Agreed to Terms for Hotel Owners" accepted={app.acceptance?.agreedTerms} />
-        <AcceptanceRow label="Read Privacy Policy" accepted={app.acceptance?.readPrivacyPolicy} />
-        <AcceptanceRow label="Agreed to commission/subscription fee" accepted={app.acceptance?.agreedCommission} />
+        <h3 className="font-display font-semibold text-primary mb-3">
+          Legal Acceptance
+        </h3>
+        <AcceptanceRow
+          label="Owner or authorized representative"
+          accepted={app.acceptance?.isOwnerOrAuthorized}
+        />
+        <AcceptanceRow
+          label="Information is accurate"
+          accepted={app.acceptance?.infoAccurate}
+        />
+        <AcceptanceRow
+          label="Agreed to Partner Agreement"
+          accepted={app.acceptance?.agreedPartnerAgreement}
+        />
+        <AcceptanceRow
+          label="Agreed to Terms for Hotel Owners"
+          accepted={app.acceptance?.agreedTerms}
+        />
+        <AcceptanceRow
+          label="Read Privacy Policy"
+          accepted={app.acceptance?.readPrivacyPolicy}
+        />
+        <AcceptanceRow
+          label="Agreed to commission/subscription fee"
+          accepted={app.acceptance?.agreedCommission}
+        />
         <InfoRow label="Agreement Version" value={app.agreementVersion} />
         <InfoRow label="Terms Version" value={app.termsVersion} />
       </div>
 
       {/* Submission Metadata */}
       <div className="card p-6">
-        <h3 className="font-display font-semibold text-primary mb-3">Submission Record</h3>
+        <h3 className="font-display font-semibold text-primary mb-3">
+          Submission Record
+        </h3>
         <InfoRow label="Submitted On" value={formatDate(app.submittedAt)} />
         <InfoRow label="IP Address" value={app.ipAddress} />
       </div>
@@ -242,7 +374,9 @@ export default function PartnerApplicationDetailPage() {
       {/* Review Action */}
       {app.status === "pending" && (
         <div className="card p-6 space-y-4">
-          <h3 className="font-display font-semibold text-primary">Review Decision</h3>
+          <h3 className="font-display font-semibold text-primary">
+            Review Decision
+          </h3>
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
@@ -251,10 +385,18 @@ export default function PartnerApplicationDetailPage() {
             className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none resize-none"
           />
           <div className="flex gap-3">
-            <button onClick={handleApprove} disabled={isProcessing} className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-medium py-3 rounded-xl disabled:opacity-60">
+            <button
+              onClick={handleApprove}
+              disabled={isProcessing}
+              className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-medium py-3 rounded-xl disabled:opacity-60"
+            >
               <FiCheck /> Approve
             </button>
-            <button onClick={handleReject} disabled={isProcessing} className="flex-1 flex items-center justify-center gap-2 bg-red-500 text-white font-medium py-3 rounded-xl disabled:opacity-60">
+            <button
+              onClick={handleReject}
+              disabled={isProcessing}
+              className="flex-1 flex items-center justify-center gap-2 bg-red-500 text-white font-medium py-3 rounded-xl disabled:opacity-60"
+            >
               <FiX /> Reject
             </button>
           </div>
@@ -263,9 +405,13 @@ export default function PartnerApplicationDetailPage() {
 
       {app.status !== "pending" && app.reviewNotes && (
         <div className="card p-6">
-          <h3 className="font-display font-semibold text-primary mb-2">Review Notes</h3>
+          <h3 className="font-display font-semibold text-primary mb-2">
+            Review Notes
+          </h3>
           <p className="text-gray-600 text-sm">{app.reviewNotes}</p>
-          <p className="text-gray-400 text-xs mt-2">Reviewed on {formatDate(app.reviewedAt)}</p>
+          <p className="text-gray-400 text-xs mt-2">
+            Reviewed on {formatDate(app.reviewedAt)}
+          </p>
         </div>
       )}
     </div>

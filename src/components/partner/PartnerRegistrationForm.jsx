@@ -216,7 +216,7 @@ export default function PartnerRegistrationForm() {
             <h2 className="font-display font-bold text-xl text-primary">Owner Details</h2>
             <div>
               <label className={labelClass}>Full Name *</label>
-              <input name="ownerFullName" value={formData.ownerFullName} onChange={handleChange} className={errors.ownerFullName ? errorInputClass : inputClass} />
+              <input name="ownerFullName" value={formData.ownerFullName} onChange={handleChange} placeholder="e.g. Rajesh Patil"  className={errors.ownerFullName ? errorInputClass : inputClass} />
               {errors.ownerFullName && <p className="text-red-500 text-xs mt-1">{errors.ownerFullName}</p>}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -233,7 +233,7 @@ export default function PartnerRegistrationForm() {
             </div>
             <div>
               <label className={labelClass}>Email Address *</label>
-              <input type="email" name="ownerEmail" value={formData.ownerEmail} onChange={handleChange} className={errors.ownerEmail ? errorInputClass : inputClass} />
+              <input type="email" name="ownerEmail" value={formData.ownerEmail} onChange={handleChange} placeholder="e.g. rajesh@example.com" className={errors.ownerEmail ? errorInputClass : inputClass} />
               {errors.ownerEmail && <p className="text-red-500 text-xs mt-1">{errors.ownerEmail}</p>}
             </div>
             <div>
@@ -249,7 +249,7 @@ export default function PartnerRegistrationForm() {
             <h2 className="font-display font-bold text-xl text-primary">Property Details</h2>
             <div>
               <label className={labelClass}>Property Name *</label>
-              <input name="propertyName" value={formData.propertyName} onChange={handleChange} className={errors.propertyName ? errorInputClass : inputClass} />
+              <input name="propertyName" value={formData.propertyName} onChange={handleChange} placeholder="e.g. Sunrise Beach Resort" className={errors.propertyName ? errorInputClass : inputClass} />
               {errors.propertyName && <p className="text-red-500 text-xs mt-1">{errors.propertyName}</p>}
             </div>
             <div>
@@ -271,7 +271,7 @@ export default function PartnerRegistrationForm() {
             </div>
             <div>
               <label className={labelClass}>Property Description *</label>
-              <textarea name="propertyDescription" value={formData.propertyDescription} onChange={handleChange} rows={4} className={errors.propertyDescription ? errorInputClass : inputClass} />
+              <textarea name="propertyDescription" value={formData.propertyDescription} onChange={handleChange}  placeholder="Describe your property's highlights, atmosphere, and what makes it special..." rows={4} className={errors.propertyDescription ? errorInputClass : inputClass} />
               {errors.propertyDescription && <p className="text-red-500 text-xs mt-1">{errors.propertyDescription}</p>}
             </div>
 
@@ -279,12 +279,12 @@ export default function PartnerRegistrationForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label className={labelClass}>Total Number of Rooms *</label>
-                  <input type="number" name="totalRooms" value={formData.totalRooms} onChange={handleChange} className={errors.totalRooms ? errorInputClass : inputClass} />
+                  <input type="number" name="totalRooms" value={formData.totalRooms} onChange={handleChange} placeholder="e.g. 12" className={errors.totalRooms ? errorInputClass : inputClass} />
                   {errors.totalRooms && <p className="text-red-500 text-xs mt-1">{errors.totalRooms}</p>}
                 </div>
                 <div>
                   <label className={labelClass}>Maximum Guest Capacity *</label>
-                  <input type="number" name="maxGuestCapacity" value={formData.maxGuestCapacity} onChange={handleChange} className={errors.maxGuestCapacity ? errorInputClass : inputClass} />
+                  <input type="number" name="maxGuestCapacity" value={formData.maxGuestCapacity} onChange={handleChange} placeholder="e.g. 40" className={errors.maxGuestCapacity ? errorInputClass : inputClass} />
                   {errors.maxGuestCapacity && <p className="text-red-500 text-xs mt-1">{errors.maxGuestCapacity}</p>}
                 </div>
               </div>
@@ -292,7 +292,7 @@ export default function PartnerRegistrationForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label className={labelClass}>Seating Capacity</label>
-                  <input type="number" name="seatingCapacity" value={formData.seatingCapacity} onChange={handleChange} className={inputClass} />
+                  <input type="number" name="seatingCapacity" value={formData.seatingCapacity} onChange={handleChange} placeholder="e.g. 60" className={inputClass} />
                 </div>
                 <div>
                   <label className={labelClass}>Cuisine Types</label>
@@ -309,33 +309,33 @@ export default function PartnerRegistrationForm() {
             <h2 className="font-display font-bold text-xl text-primary">Property Location</h2>
             <div>
               <label className={labelClass}>Address *</label>
-              <textarea name="address" value={formData.address} onChange={handleChange} rows={2} className={errors.address ? errorInputClass : inputClass} />
+              <textarea name="address" value={formData.address} onChange={handleChange} rows={2} placeholder="Street address, landmark, etc." className={errors.address ? errorInputClass : inputClass} />
               {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
                 <label className={labelClass}>Village / Town / City *</label>
-                <input name="village" value={formData.village} onChange={handleChange} className={errors.village ? errorInputClass : inputClass} />
+                <input name="village" value={formData.village} onChange={handleChange} placeholder="e.g. Diveagar"  className={errors.village ? errorInputClass : inputClass} />
                 {errors.village && <p className="text-red-500 text-xs mt-1">{errors.village}</p>}
               </div>
               <div>
                 <label className={labelClass}>Taluka *</label>
-                <input name="taluka" value={formData.taluka} onChange={handleChange} className={errors.taluka ? errorInputClass : inputClass} />
+                <input name="taluka" value={formData.taluka} onChange={handleChange}  placeholder="e.g. Shrivardhan" className={errors.taluka ? errorInputClass : inputClass} />
                 {errors.taluka && <p className="text-red-500 text-xs mt-1">{errors.taluka}</p>}
               </div>
               <div>
                 <label className={labelClass}>District *</label>
-                <input name="district" value={formData.district} onChange={handleChange} className={errors.district ? errorInputClass : inputClass} />
+                <input name="district" value={formData.district} onChange={handleChange} placeholder="e.g. Raigad" className={errors.district ? errorInputClass : inputClass} />
                 {errors.district && <p className="text-red-500 text-xs mt-1">{errors.district}</p>}
               </div>
               <div>
                 <label className={labelClass}>State *</label>
-                <input name="state" value={formData.state} onChange={handleChange} className={errors.state ? errorInputClass : inputClass} />
+                <input name="state" value={formData.state} onChange={handleChange} placeholder="e.g. Maharashtra" className={errors.state ? errorInputClass : inputClass} />
                 {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
               </div>
               <div>
                 <label className={labelClass}>PIN Code *</label>
-                <input name="pincode" value={formData.pincode} onChange={handleChange} maxLength={6} className={errors.pincode ? errorInputClass : inputClass} />
+                <input name="pincode" value={formData.pincode} onChange={handleChange} maxLength={6} placeholder="e.g. 402404" className={errors.pincode ? errorInputClass : inputClass} />
                 {errors.pincode && <p className="text-red-500 text-xs mt-1">{errors.pincode}</p>}
               </div>
               <div>
@@ -345,7 +345,7 @@ export default function PartnerRegistrationForm() {
             </div>
             <div>
               <label className={labelClass}>Nearby Attractions</label>
-              <input name="nearbyAttractions" value={formData.nearbyAttractions} onChange={handleChange} className={inputClass} />
+              <input name="nearbyAttractions" value={formData.nearbyAttractions} placeholder="e.g. Local markets, beaches, etc." onChange={handleChange} className={inputClass} />
             </div>
           </div>
         )}
@@ -389,52 +389,98 @@ export default function PartnerRegistrationForm() {
         )}
 
         {/* STEP 6 — Policies */}
-        {step === 6 && (
-          <div className="space-y-5">
-            <h2 className="font-display font-bold text-xl text-primary">Policies & Guest Information</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className={labelClass}>Check-in Time *</label>
-                <input type="time" name="checkInTime" value={formData.checkInTime} onChange={handleChange} className={inputClass} />
-              </div>
-              <div>
-                <label className={labelClass}>Check-out Time *</label>
-                <input type="time" name="checkOutTime" value={formData.checkOutTime} onChange={handleChange} className={inputClass} />
-              </div>
-            </div>
-            <div>
-              <label className={labelClass}>Cancellation Policy *</label>
-              <textarea name="cancellationPolicy" value={formData.cancellationPolicy} onChange={handleChange} rows={3} placeholder="Describe your cancellation terms..." className={errors.cancellationPolicy ? errorInputClass : inputClass} />
-              {errors.cancellationPolicy && <p className="text-red-500 text-xs mt-1">{errors.cancellationPolicy}</p>}
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className={labelClass}>Child Policy</label>
-                <input name="childPolicy" value={formData.childPolicy} onChange={handleChange} className={inputClass} />
-              </div>
-              <div>
-                <label className={labelClass}>Pet Policy</label>
-                <input name="petPolicy" value={formData.petPolicy} onChange={handleChange} className={inputClass} />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div>
-                <label className={labelClass}>ID Required at Check-in?</label>
-                <select name="idRequired" value={formData.idRequired} onChange={handleChange} className={inputClass + " bg-white"}>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
-              </div>
-              <div>
-                <label className={labelClass}>Couples Allowed?</label>
-                <select name="couplesAllowed" value={formData.couplesAllowed} onChange={handleChange} className={inputClass + " bg-white"}>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
-              </div>
-            </div>
+       {step === 6 && (
+  <div className="space-y-5">
+    <h2 className="font-display font-bold text-xl text-primary">
+      {isHotel ? "Policies & Guest Information" : "Operating Hours & Guest Information"}
+    </h2>
+
+    {isHotel ? (
+      <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label className={labelClass}>Check-in Time *</label>
+            <input type="time" name="checkInTime" value={formData.checkInTime} onChange={handleChange} className={inputClass} />
           </div>
-        )}
+          <div>
+            <label className={labelClass}>Check-out Time *</label>
+            <input type="time" name="checkOutTime" value={formData.checkOutTime} onChange={handleChange} className={inputClass} />
+          </div>
+        </div>
+        <div>
+          <label className={labelClass}>Cancellation Policy *</label>
+          <textarea name="cancellationPolicy" value={formData.cancellationPolicy} onChange={handleChange} rows={3} placeholder="e.g. Free cancellation up to 24 hours before check-in" className={errors.cancellationPolicy ? errorInputClass : inputClass} />
+          {errors.cancellationPolicy && <p className="text-red-500 text-xs mt-1">{errors.cancellationPolicy}</p>}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label className={labelClass}>Child Policy</label>
+            <input name="childPolicy" value={formData.childPolicy} onChange={handleChange} placeholder="e.g. Children under 5 stay free" className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>Pet Policy</label>
+            <input name="petPolicy" value={formData.petPolicy} onChange={handleChange} placeholder="e.g. Pets not allowed" className={inputClass} />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label className={labelClass}>ID Required at Check-in?</label>
+            <select name="idRequired" value={formData.idRequired} onChange={handleChange} className={inputClass + " bg-white"}>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass}>Couples Allowed?</label>
+            <select name="couplesAllowed" value={formData.couplesAllowed} onChange={handleChange} className={inputClass + " bg-white"}>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label className={labelClass}>Opening Time *</label>
+            <input type="time" name="checkInTime" value={formData.checkInTime} onChange={handleChange} className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>Closing Time *</label>
+            <input type="time" name="checkOutTime" value={formData.checkOutTime} onChange={handleChange} className={inputClass} />
+          </div>
+        </div>
+        <div>
+          <label className={labelClass}>Reservation / Cancellation Policy *</label>
+          <textarea
+            name="cancellationPolicy"
+            value={formData.cancellationPolicy}
+            onChange={handleChange}
+            rows={3}
+            placeholder="e.g. Table held for 15 minutes past reservation time; cancellations accepted up to 2 hours before"
+            className={errors.cancellationPolicy ? errorInputClass : inputClass}
+          />
+          {errors.cancellationPolicy && <p className="text-red-500 text-xs mt-1">{errors.cancellationPolicy}</p>}
+        </div>
+        <div>
+          <label className={labelClass}>Dress Code / Child Policy</label>
+          <input
+            name="childPolicy"
+            value={formData.childPolicy}
+            onChange={handleChange}
+            placeholder="e.g. Smart casual dress code; kids menu available"
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label className={labelClass}>Pet Policy</label>
+          <input name="petPolicy" value={formData.petPolicy} onChange={handleChange} placeholder="e.g. Pets allowed in outdoor seating only" className={inputClass} />
+        </div>
+      </>
+    )}
+  </div>
+)}
 
         {/* STEP 7 — Plan */}
         {step === 7 && (

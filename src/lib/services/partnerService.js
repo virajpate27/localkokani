@@ -1,6 +1,6 @@
 // src/lib/services/partnerService.js
 import {
-  collection, doc, getDocs, getDoc, addDoc, updateDoc,
+  collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc,
   query, orderBy, where, serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -76,4 +76,16 @@ export async function rejectPartnerApplication(id, reviewNotes = "") {
     reviewedAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
+}
+
+export async function getPendingPartnerApplicationsCount() {
+  const snap = await getDocs(
+    query(collection(db, COLLECTION), where("status", "==", "pending"))
+  );
+  return snap.size;
+}
+
+export async function deletePartnerApplication(id) {
+  const docRef = doc(db, COLLECTION, id);
+  return deleteDoc(docRef);
 }
