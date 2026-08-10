@@ -49,6 +49,7 @@ export default function AdminHotelsPage() {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [bulkAction, setBulkAction] = useState(null); // "archive" | "delete" | null
+  const [showUnassignedOnly, setShowUnassignedOnly] = useState(false);
 
   const loadHotels = async () => {
     setIsLoading(true);
@@ -67,10 +68,11 @@ export default function AdminHotelsPage() {
     loadHotels();
   }, []);
 
-  const filteredHotels =
+  const filteredHotels = (
     statusFilter === "all"
       ? hotels
-      : hotels.filter((h) => h.status === statusFilter);
+      : hotels.filter((h) => h.status === statusFilter)
+  ).filter((h) => !showUnassignedOnly || !h.ownerId);
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
@@ -201,6 +203,16 @@ export default function AdminHotelsPage() {
             </button>
           ))}
         </div>
+        <button
+          onClick={() => setShowUnassignedOnly((prev) => !prev)}
+          className={`text-sm font-medium px-4 py-2 rounded-lg transition-colors ${
+            showUnassignedOnly
+              ? "bg-orange-500 text-white"
+              : "bg-white text-gray-500 hover:bg-gray-100 border border-gray-200"
+          }`}
+        >
+          Unassigned Only
+        </button>
         <Link
           href="/admin/hotels/new"
           className="btn-primary flex items-center gap-2"
@@ -257,6 +269,7 @@ export default function AdminHotelsPage() {
                     </button>
                   </th>
                   <th className="px-5 py-3.5 font-medium">Hotel</th>
+                  <th className="px-5 py-3.5 font-medium">Owner</th>
                   <th className="px-5 py-3.5 font-medium">Destination</th>
                   <th className="px-5 py-3.5 font-medium">WhatsApp</th>
                   <th className="px-5 py-3.5 font-medium">Price</th>
@@ -284,6 +297,22 @@ export default function AdminHotelsPage() {
                         )}
                       </button>
                     </td>
+
+                    <td className="px-5 py-3.5">
+                      {hotel.ownerId ? (
+                        <Link
+                          href={`/admin/owners/${hotel.ownerId}`}
+                          className="text-secondary text-sm font-medium hover:underline"
+                        >
+                          {hotel.ownerName}
+                        </Link>
+                      ) : (
+                        <span className="text-gray-300 text-sm">
+                          Unassigned
+                        </span>
+                      )}
+                    </td>
+
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
                         <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 dark:bg-gray-800">
@@ -302,11 +331,11 @@ export default function AdminHotelsPage() {
                         </span>
                       </div>
                     </td>
-                   
+
                     <td className="px-5 py-3.5 dark:text-gray-300">
                       {hotel.destinationName}
                     </td>
-                     <td className="px-5 py-3.5 text-gray-600 text-xs">
+                    <td className="px-5 py-3.5 text-gray-600 text-xs">
                       {hotel.whatsappNumber ? (
                         <span className="text-secondary font-medium">
                           Custom

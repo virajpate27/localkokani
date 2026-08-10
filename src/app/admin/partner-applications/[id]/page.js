@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   FiLoader,
   FiCheck,
@@ -10,6 +11,7 @@ import {
   FiExternalLink,
   FiCheckCircle,
   FiXCircle,
+  FiPlus,
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 import {
@@ -141,6 +143,33 @@ export default function PartnerApplicationDetailPage() {
           {app.status}
         </span>
       </div>
+
+      {app.status === "approved" && (
+        <div className="card p-6 bg-accent/5 border border-accent/20">
+          <h3 className="font-display font-semibold text-primary mb-2">
+            Ready to Go Live
+          </h3>
+          <p className="text-gray-500 text-sm mb-4">
+            This application is approved. Create the actual {app.property?.type}{" "}
+            listing, pre-filled with the owner's submitted details.
+          </p>
+          <Link
+            href={`/admin/${app.property?.type === "hotel" ? "hotels" : "restaurants"}/new?${new URLSearchParams(
+              {
+                ownerId: app.ownerId || "",
+                ownerName: app.owner?.fullName || "",
+                prefillName: app.property?.name || "",
+                prefillDescription: app.property?.description || "",
+                prefillAddress: app.location?.address || "",
+              },
+            ).toString()}`}
+            className="btn-primary inline-flex items-center gap-2"
+          >
+            <FiPlus /> Create{" "}
+            {app.property?.type === "hotel" ? "Hotel" : "Restaurant"} Listing
+          </Link>
+        </div>
+      )}
 
       {/* Owner Details */}
       <div className="card p-6">

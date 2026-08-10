@@ -49,6 +49,7 @@ export default function AdminRestaurantsPage() {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [bulkAction, setBulkAction] = useState(null); // "archive" | "delete" | null
+  const [showUnassignedOnly, setShowUnassignedOnly] = useState(false);
 
   const loadRestaurants = async () => {
     setIsLoading(true);
@@ -65,10 +66,11 @@ export default function AdminRestaurantsPage() {
     loadRestaurants();
   }, []);
 
-  const filteredRestaurants =
+  const filteredRestaurants = (
     statusFilter === "all"
       ? restaurants
-      : restaurants.filter((r) => r.status === statusFilter);
+      : restaurants.filter((r) => r.status === statusFilter)
+  ).filter((r) => !showUnassignedOnly || !r.ownerId);
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
@@ -224,6 +226,18 @@ export default function AdminRestaurantsPage() {
             </button>
           ))}
         </div>
+
+        <button
+          onClick={() => setShowUnassignedOnly((prev) => !prev)}
+          className={`text-sm font-medium px-4 py-2 rounded-lg transition-colors ${
+            showUnassignedOnly
+              ? "bg-orange-500 text-white"
+              : "bg-white text-gray-500 hover:bg-gray-100 border border-gray-200"
+          }`}
+        >
+          Unassigned Only
+        </button>
+
         <Link
           href="/admin/restaurants/new"
           className="btn-primary flex items-center gap-2"
@@ -280,6 +294,7 @@ export default function AdminRestaurantsPage() {
                     </button>
                   </th>
                   <th className="px-5 py-3.5 font-medium">Restaurant</th>
+                  <th className="px-5 py-3.5 font-medium">Owner</th>
                   <th className="px-5 py-3.5 font-medium">Destination</th>
                   <th className="px-5 py-3.5 font-medium">WhatsApp</th>
                   <th className="px-5 py-3.5 font-medium">Price</th>
@@ -306,6 +321,20 @@ export default function AdminRestaurantsPage() {
                           <FiSquare className="text-gray-300" />
                         )}
                       </button>
+                    </td>
+                    <td className="px-5 py-3.5">
+                      {restaurant.ownerId ? (
+                        <Link
+                          href={`/admin/owners/${restaurant.ownerId}`}
+                          className="text-secondary text-sm font-medium hover:underline"
+                        >
+                          {restaurant.ownerName}
+                        </Link>
+                      ) : (
+                        <span className="text-gray-300 text-sm">
+                          Unassigned
+                        </span>
+                      )}
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">

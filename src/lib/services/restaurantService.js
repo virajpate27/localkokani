@@ -130,3 +130,10 @@ export async function getSponsoredRestaurantsByDestination(destinationId, limitC
   );
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
+
+export async function getRestaurantsByOwner(ownerId) {
+  const snap = await getDocs(
+    query(collection(db, COLLECTION), where("ownerId", "==", ownerId), orderBy("createdAt", "desc"))
+  );
+  return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+}

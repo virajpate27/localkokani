@@ -17,6 +17,10 @@ import { slugify, isValidGoogleMapsEmbedUrl, isValidWhatsAppNumber } from "@/uti
 import { triggerRevalidation } from "@/utils/revalidate";
 import CustomBadge from "@/components/ui/CustomBadge";
 import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
+import { useSearchParams } from "next/navigation"; 
+import OwnerSelector from "./OwnerSelector";
+
+
 
 const BADGE_COLOR_OPTIONS = [
     { value: "primary", label: "Primary (Navy)" },
@@ -41,16 +45,25 @@ const CUISINE_SUGGESTIONS = [
 
 export default function RestaurantForm({ initialData = null }) {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const isEditMode = !!initialData;
+
+    // Read prefill params only when creating new (not editing)
+  const prefillOwnerId = !isEditMode ? searchParams.get("ownerId") : null;
+  const prefillOwnerName = !isEditMode ? searchParams.get("ownerName") : null;
+  const prefillName = !isEditMode ? searchParams.get("prefillName") : null;
+  const prefillDescription = !isEditMode ? searchParams.get("prefillDescription") : null;
+  const prefillAddress = !isEditMode ? searchParams.get("prefillAddress") : null;
 
     const [destinations, setDestinations] = useState([]);
     const [isLoadingDestinations, setIsLoadingDestinations] = useState(true);
 
     const [formData, setFormData] = useState({
-        name: initialData?.name || "",
+        name: initialData?.name || prefillName || "",
         destinationId: initialData?.destinationId || "",
-        description: initialData?.description || "",
-        address: initialData?.address || "",
+        description: initialData?.description || prefillDescription || "",
+        address: initialData?.address || prefillAddress || "",
+        
         costForTwo: initialData?.costForTwo || "",
         priceRange: initialData?.priceRange || "$$",
         rating: initialData?.rating || "",
@@ -68,6 +81,8 @@ export default function RestaurantForm({ initialData = null }) {
         customBadgeColor: initialData?.customBadgeColor || "primary",
         whatsappNumber: initialData?.whatsappNumber || "",
         partnerPlan: initialData?.partnerPlan || "basic",
+       ownerId: initialData?.ownerId || (prefillOwnerId || null),
+      ownerName: initialData?.ownerName || (prefillOwnerName || null),
     });
     const [images, setImages] = useState(initialData?.images || []);
     const [originalImages] = useState(initialData?.images || []);
@@ -161,6 +176,8 @@ export default function RestaurantForm({ initialData = null }) {
                     ? { lat: Number(formData.lat), lng: Number(formData.lng) }
                     : null,
             partnerPlan: formData.partnerPlan,
+            ownerId: formData.ownerId,
+  ownerName: formData.ownerName,
         };
 
         // Collect every public path that needs fresh data after this save,
@@ -235,6 +252,20 @@ export default function RestaurantForm({ initialData = null }) {
                 <MultiImageUploader value={images} onChange={setImages} folder="restaurants" />
                 {errors.images && <p className="text-red-500 text-xs mt-2">{errors.images}</p>}
             </div>
+
+            <div className="card p-6">
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Assigned Owner <span className="text-gray-400 font-normal">(optional)</span>
+  </label>
+  <p className="text-gray-400 text-xs mb-3">
+    Link this listing to a registered partner account. The owner will be able to see this listing on their dashboard.
+  </p>
+  <OwnerSelector
+    value={formData.ownerId}
+    valueName={formData.ownerName}
+    onChange={(ownerId, ownerName) => setFormData((prev) => ({ ...prev, ownerId, ownerName }))}
+  />
+</div>
 
             <div className="card p-6 space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

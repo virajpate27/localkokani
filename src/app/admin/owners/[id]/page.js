@@ -5,11 +5,21 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  FiLoader, FiMail, FiPhone, FiCalendar, FiHome, FiCoffee, FiArrowLeft, FiExternalLink,
+  FiLoader,
+  FiMail,
+  FiPhone,
+  FiCalendar,
+  FiHome,
+  FiCoffee,
+  FiArrowLeft,
+  FiExternalLink,
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { getOwnerById } from "@/lib/services/ownerService";
 import { getApplicationsByOwner } from "@/lib/services/partnerService";
+import { getHotelsByOwner } from "@/lib/services/hotelService";
+import { getRestaurantsByOwner } from "@/lib/services/restaurantService";
+import Image from "next/image";
 
 const statusStyles = {
   pending: "bg-secondary/10 text-secondary",
@@ -20,7 +30,11 @@ const statusStyles = {
 function formatDate(isoString) {
   if (!isoString) return "—";
   return new Date(isoString).toLocaleString("en-IN", {
-    day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
 
@@ -29,21 +43,28 @@ export default function AdminOwnerDetailPage() {
   const router = useRouter();
   const [owner, setOwner] = useState(null);
   const [applications, setApplications] = useState([]);
+  const [managedHotels, setManagedHotels] = useState([]); // ⬅️ ADD
+  const [managedRestaurants, setManagedRestaurants] = useState([]); // ⬅️ ADD
   const [isLoading, setIsLoading] = useState(true);
   const [notFoundState, setNotFoundState] = useState(false);
 
   useEffect(() => {
     async function load() {
       try {
-        const [ownerData, appsData] = await Promise.all([
-          getOwnerById(id),
-          getApplicationsByOwner(id),
-        ]);
+        const [ownerData, appsData, hotelsData, restaurantsData] =
+          await Promise.all([
+            getOwnerById(id),
+            getApplicationsByOwner(id),
+            getHotelsByOwner(id), // ⬅️ ADD
+            getRestaurantsByOwner(id), // ⬅️ ADD
+          ]);
         if (!ownerData) {
           setNotFoundState(true);
         } else {
           setOwner(ownerData);
           setApplications(appsData);
+          setManagedHotels(hotelsData); // ⬅️ ADD
+          setManagedRestaurants(restaurantsData); // ⬅️ ADD
         }
       } catch {
         setNotFoundState(true);
@@ -55,14 +76,21 @@ export default function AdminOwnerDetailPage() {
   }, [id]);
 
   if (isLoading) {
-    return <div className="flex justify-center py-20"><FiLoader className="animate-spin text-2xl text-primary" /></div>;
+    return (
+      <div className="flex justify-center py-20">
+        <FiLoader className="animate-spin text-2xl text-primary" />
+      </div>
+    );
   }
 
   if (notFoundState) {
     return (
       <div className="card p-10 text-center">
         <p className="text-gray-400 mb-4">Owner not found.</p>
-        <button onClick={() => router.push("/admin/owners")} className="text-secondary font-medium hover:underline">
+        <button
+          onClick={() => router.push("/admin/owners")}
+          className="text-secondary font-medium hover:underline"
+        >
           Back to Owners
         </button>
       </div>
@@ -70,18 +98,26 @@ export default function AdminOwnerDetailPage() {
   }
 
   const whatsappNumber = owner.whatsapp?.replace(/\D/g, "");
+  const totalManagedListings = managedHotels.length + managedRestaurants.length;
 
   return (
     <div className="max-w-4xl space-y-6">
-      <Link href="/admin/owners" className="flex items-center gap-2 text-gray-500 text-sm font-medium hover:text-primary w-fit">
+      <Link
+        href="/admin/owners"
+        className="flex items-center gap-2 text-gray-500 text-sm font-medium hover:text-primary w-fit"
+      >
         <FiArrowLeft /> Back to Owners
       </Link>
+
+
 
       {/* Owner Profile Card */}
       <div className="card p-6">
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
-            <h1 className="font-display font-bold text-2xl text-primary">{owner.fullName}</h1>
+            <h1 className="font-display font-bold text-2xl text-primary">
+              {owner.fullName}
+            </h1>
             <p className="text-gray-400 text-sm mt-1 flex items-center gap-1.5">
               <FiCalendar /> Joined {formatDate(owner.createdAt)}
             </p>
@@ -117,21 +153,81 @@ export default function AdminOwnerDetailPage() {
             <FaWhatsapp className="text-secondary shrink-0" />
             <div>
               <p className="text-gray-400 text-xs">WhatsApp</p>
-              <p className="font-medium text-primary text-sm">{owner.whatsapp}</p>
+              <p className="font-medium text-primary text-sm">
+                {owner.whatsapp}
+              </p>
             </div>
           </div>
         </div>
       </div>
 
+       {/* NEW: Managed Listings Section */}
+      <div>
+        <h2 className="font-display font-semibold text-lg text-primary mb-4">
+          Managed Listings ({totalManagedListings})
+        </h2>
+
+        {totalManagedListings === 0 ? (
+          <div className="card p-10 text-center">
+            <p className="text-gray-400">No live listings are currently assigned to this owner.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {managedHotels.map((hotel) => (
+              <Link
+                key={hotel.id}
+                href={`/admin/hotels/${hotel.id}/edit`}
+                className="card p-4 flex items-center gap-3 hover:-translate-y-0.5 transition-transform"
+              >
+                <div className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                  {hotel.images?.[0]?.url && (
+                    <Image src={hotel.images[0].url} alt={hotel.name} fill sizes="56px" className="object-cover" />
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="flex items-center gap-1.5 text-secondary text-xs font-medium uppercase">
+                    <FiHome className="text-[10px]" /> Hotel
+                  </p>
+                  <p className="font-medium text-primary text-sm truncate">{hotel.name}</p>
+                  <p className="text-gray-400 text-xs">{hotel.destinationName}</p>
+                </div>
+              </Link>
+            ))}
+            {managedRestaurants.map((restaurant) => (
+              <Link
+                key={restaurant.id}
+                href={`/admin/restaurants/${restaurant.id}/edit`}
+                className="card p-4 flex items-center gap-3 hover:-translate-y-0.5 transition-transform"
+              >
+                <div className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                  {restaurant.images?.[0]?.url && (
+                    <Image src={restaurant.images[0].url} alt={restaurant.name} fill sizes="56px" className="object-cover" />
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="flex items-center gap-1.5 text-secondary text-xs font-medium uppercase">
+                    <FiCoffee className="text-[10px]" /> Restaurant
+                  </p>
+                  <p className="font-medium text-primary text-sm truncate">{restaurant.name}</p>
+                  <p className="text-gray-400 text-xs">{restaurant.destinationName}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Applications List */}
       <div>
         <h2 className="font-display font-semibold text-lg text-primary mb-4">
-          Properties Submitted ({applications.length})
+         Properties Submitted ({applications.length})
         </h2>
 
         {applications.length === 0 ? (
           <div className="card p-10 text-center">
-            <p className="text-gray-400">This owner hasn't submitted any properties yet.</p>
+            <p className="text-gray-400">
+              This owner hasn't submitted any properties yet.
+            </p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -143,17 +239,26 @@ export default function AdminOwnerDetailPage() {
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    {app.property?.type === "hotel" ? <FiHome className="text-primary" /> : <FiCoffee className="text-primary" />}
+                    {app.property?.type === "hotel" ? (
+                      <FiHome className="text-primary" />
+                    ) : (
+                      <FiCoffee className="text-primary" />
+                    )}
                   </div>
                   <div className="min-w-0">
-                    <p className="font-medium text-primary truncate">{app.property?.name}</p>
+                    <p className="font-medium text-primary truncate">
+                      {app.property?.name}
+                    </p>
                     <p className="text-gray-400 text-xs">
-                      {app.registrationId} · {app.plan} plan · Submitted {formatDate(app.submittedAt)}
+                      {app.registrationId} · {app.plan} plan · Submitted{" "}
+                      {formatDate(app.submittedAt)}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
-                  <span className={`text-xs font-medium px-2.5 py-1 rounded-lg capitalize ${statusStyles[app.status]}`}>
+                  <span
+                    className={`text-xs font-medium px-2.5 py-1 rounded-lg capitalize ${statusStyles[app.status]}`}
+                  >
                     {app.status}
                   </span>
                   <FiExternalLink className="text-gray-300" />

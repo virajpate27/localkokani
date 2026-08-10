@@ -1,13 +1,16 @@
 // src/app/admin/hotels/new/page.js
+import { Suspense } from "react";
 import HotelForm from "@/components/admin/HotelForm";
 
 export default function NewHotelPage() {
   return (
     <div>
-      <p className="dark:dark:text-gray-500 text-sm mb-6">
+      <p className="text-gray-400 text-sm mb-6">
         Fill in the details below to list a new hotel.
       </p>
-      <HotelForm />
+      <Suspense fallback={<div className="text-gray-400">Loading form...</div>}>
+        <HotelForm />
+      </Suspense>
     </div>
   );
 }
