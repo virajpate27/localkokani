@@ -1,21 +1,28 @@
 // src/app/owner/login/page.js
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiMail, FiLock, FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useOwnerAuth } from "@/context/OwnerAuthContext";
 
 export default function OwnerLoginPage() {
   const router = useRouter();
-  const { login } = useOwnerAuth();
+  const { owner, loading, login } = useOwnerAuth(); // ⬅️ pull owner + loading too
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // NEW: redirect away if already logged in as an owner
+  useEffect(() => {
+    if (!loading && owner) {
+      router.replace("/owner/dashboard");
+    }
+  }, [loading, owner, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +39,16 @@ export default function OwnerLoginPage() {
       setIsSubmitting(false);
     }
   };
+
+  // NEW: while auth state is resolving, or once we know they're logged in and about to redirect,
+  // show a loader instead of flashing the login form
+  if (loading || owner) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <FiLoader className="animate-spin text-3xl text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">

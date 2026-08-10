@@ -1,22 +1,29 @@
 // src/app/owner/signup/page.js
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FiUser, FiMail, FiPhone, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiUser, FiMail, FiPhone, FiLock, FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useOwnerAuth } from "@/context/OwnerAuthContext";
 
 export default function OwnerSignupPage() {
   const router = useRouter();
-  const { signup } = useOwnerAuth();
+  const { owner, loading, signup } = useOwnerAuth(); // ⬅️ pull owner + loading too
   const [formData, setFormData] = useState({
     fullName: "", email: "", mobile: "", whatsapp: "", password: "", confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // NEW: redirect away if already logged in as an owner
+  useEffect(() => {
+    if (!loading && owner) {
+      router.replace("/owner/dashboard");
+    }
+  }, [loading, owner, router]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -61,6 +68,16 @@ export default function OwnerSignupPage() {
       setIsSubmitting(false);
     }
   };
+
+  // NEW: while auth state is resolving, or once we know they're logged in and about to redirect,
+  // show a loader instead of flashing the signup form
+  if (loading || owner) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <FiLoader className="animate-spin text-3xl text-primary" />
+      </div>
+    );
+  }
 
   const inputClass = "w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none transition-colors";
   const errorClass = "w-full pl-10 pr-4 py-3 rounded-xl border border-red-300 text-sm outline-none transition-colors";
