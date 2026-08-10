@@ -60,6 +60,7 @@ export default function HotelForm({ initialData = null }) {
     availabilityStatus: initialData?.availabilityStatus || "available",
     availabilityMessage: initialData?.availabilityMessage || "",
     whatsappNumber: initialData?.whatsappNumber || "",
+    partnerPlan: initialData?.partnerPlan || "basic",
   });
   const [images, setImages] = useState(initialData?.images || []);
   const [originalImages] = useState(initialData?.images || []);
@@ -169,6 +170,7 @@ export default function HotelForm({ initialData = null }) {
         formData.lat && formData.lng
           ? { lat: Number(formData.lat), lng: Number(formData.lng) }
           : null,
+      partnerPlan: formData.partnerPlan,
     };
 
     // Collect every public path that needs fresh data after this save,
@@ -324,23 +326,51 @@ export default function HotelForm({ initialData = null }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            WhatsApp Number <span className="text-gray-400 font-normal">(optional — uses site default if blank)</span>
-          </label>
-          <input
-            type="tel"
-            name="whatsappNumber"
-            value={formData.whatsappNumber}
-            onChange={handleChange}
-            placeholder="e.g. 919876543210 (with country code, no + or spaces)"
-            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.whatsappNumber ? "border-red-300" : "border-gray-200 focus:border-secondary"
-              }`}
-          />
-          {errors.whatsappNumber && <p className="text-red-500 text-xs mt-1">{errors.whatsappNumber}</p>}
-          <p className="text-gray-400 text-xs mt-1">
-            Enquiries for this hotel will be sent to this number instead of the site's default WhatsApp contact.
-          </p>
-        </div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">Partner Plan</label>
+  <div className="flex gap-3">
+    {["basic", "premium"].map((plan) => (
+      <button
+        key={plan}
+        type="button"
+        onClick={() => setFormData((prev) => ({ ...prev, partnerPlan: plan }))}
+        className={`flex-1 py-2.5 rounded-lg border text-sm font-medium capitalize transition-colors ${
+          formData.partnerPlan === plan ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-600 hover:border-primary"
+        }`}
+      >
+        {plan}
+      </button>
+    ))}
+  </div>
+</div>
+
+       <div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    WhatsApp Number <span className="text-gray-400 font-normal">(optional — uses site default if blank)</span>
+  </label>
+  <input
+    type="tel"
+    name="whatsappNumber"
+    value={formData.whatsappNumber}
+    onChange={handleChange}
+    placeholder={formData.partnerPlan === "basic" ? "Leave blank — Basic plan uses site default" : "Owner's WhatsApp number (e.g. 919876543210)"}
+    className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
+      errors.whatsappNumber ? "border-red-300" : "border-gray-200 focus:border-secondary"
+    }`}
+  />
+  {errors.whatsappNumber && <p className="text-red-500 text-xs mt-1">{errors.whatsappNumber}</p>}
+
+  {/* Business-rule guardrails — warn on mismatches, don't hard-block (admin may have valid reasons) */}
+  {formData.partnerPlan === "basic" && formData.whatsappNumber.trim() && (
+    <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
+      ⚠️ This is a Basic plan listing but has a custom WhatsApp number set — enquiries will bypass your commission tracking. Confirm this is intentional.
+    </p>
+  )}
+  {formData.partnerPlan === "premium" && !formData.whatsappNumber.trim() && (
+    <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
+      ⚠️ This is a Premium plan listing but no custom WhatsApp number is set — enquiries will currently go to your site's default number instead of the owner's.
+    </p>
+  )}
+</div>
 
       </div>
 
