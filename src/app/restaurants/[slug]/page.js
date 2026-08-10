@@ -27,7 +27,6 @@ import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
 import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
 import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
 
-
 export async function generateStaticParams() {
   const restaurants = await getAllRestaurants();
   return restaurants.map((r) => ({ slug: r.slug }));
@@ -63,8 +62,12 @@ export default async function RestaurantDetailPage({ params }) {
     restaurant.id,
   );
 
-  const sponsoredHotels = await getSponsoredHotelsByDestination(restaurant.destinationId);
-  const sponsoredRestaurants = await getSponsoredRestaurantsByDestination(restaurant.destinationId);
+  const sponsoredHotels = await getSponsoredHotelsByDestination(
+    restaurant.destinationId,
+  );
+  const sponsoredRestaurants = await getSponsoredRestaurantsByDestination(
+    restaurant.destinationId,
+  );
 
   const restaurantSchema = {
     "@context": "https://schema.org",
@@ -190,30 +193,31 @@ export default async function RestaurantDetailPage({ params }) {
               </div>
             )}
 
-            {(restaurant.mapEmbedUrl ||
-              (restaurant.location?.lat && restaurant.location?.lng)) && (
-              <div>
-                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
-                  Location
-                </h2>
-                <div className="rounded-2xl overflow-hidden aspect-[16/9] border dark:border-gray-800">
-                  <iframe
-                    title={`Map location of ${restaurant.name}`}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    src={
-                      restaurant.mapEmbedUrl &&
-                      isValidGoogleMapsEmbedUrl(restaurant.mapEmbedUrl)
-                        ? restaurant.mapEmbedUrl
-                        : `https://www.google.com/maps?q=${restaurant.location.lat},${restaurant.location.lng}&z=15&output=embed`
-                    }
-                  />
+            {restaurant.partnerPlan === "premium" &&
+              (restaurant.mapEmbedUrl ||
+                (restaurant.location?.lat && restaurant.location?.lng)) && (
+                <div>
+                  <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
+                    Location
+                  </h2>
+                  <div className="rounded-2xl overflow-hidden aspect-[16/9] border dark:border-gray-800">
+                    <iframe
+                      title={`Map location of ${restaurant.name}`}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      src={
+                        restaurant.mapEmbedUrl &&
+                        isValidGoogleMapsEmbedUrl(restaurant.mapEmbedUrl)
+                          ? restaurant.mapEmbedUrl
+                          : `https://www.google.com/maps?q=${restaurant.location.lat},${restaurant.location.lng}&z=15&output=embed`
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* NEW: Reviews section */}
             <div>

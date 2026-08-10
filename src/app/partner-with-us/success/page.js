@@ -23,7 +23,7 @@ export default async function PartnerSuccessPage({ searchParams }) {
             Reference ID: <span className="font-mono font-medium text-primary">{ref}</span>
           </p>
         )}
-        <Link href="/" className="btn-primary inline-block mt-8">Back to Homepage</Link>
+        <Link href="/owner/dashboard" className="btn-primary inline-block mt-8">Back to Dashboard</Link>
       </div>
     </div>
   );
