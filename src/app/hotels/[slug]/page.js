@@ -185,30 +185,31 @@ export default async function HotelDetailPage({ params }) {
             )}
 
             {/* Location */}
-            {(hotel.mapEmbedUrl ||
-              (hotel.location?.lat && hotel.location?.lng)) && (
-              <div>
-                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
-                  Location
-                </h2>
-                <div className="rounded-2xl overflow-hidden aspect-[16/9] border dark:border-gray-800">
-                  <iframe
-                    title={`Map location of ${hotel.name}`}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    src={
-                      hotel.mapEmbedUrl &&
-                      isValidGoogleMapsEmbedUrl(hotel.mapEmbedUrl)
-                        ? hotel.mapEmbedUrl
-                        : `https://www.google.com/maps?q=${hotel.location.lat},${hotel.location.lng}&z=14&output=embed`
-                    }
-                  />
+            {hotel.partnerPlan === "premium" &&
+              (hotel.mapEmbedUrl ||
+                (hotel.location?.lat && hotel.location?.lng)) && (
+                <div>
+                  <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
+                    Location
+                  </h2>
+                  <div className="rounded-2xl overflow-hidden aspect-[16/9] border dark:border-gray-800">
+                    <iframe
+                      title={`Map location of ${hotel.name}`}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      src={
+                        hotel.mapEmbedUrl &&
+                        isValidGoogleMapsEmbedUrl(hotel.mapEmbedUrl)
+                          ? hotel.mapEmbedUrl
+                          : `https://www.google.com/maps?q=${hotel.location.lat},${hotel.location.lng}&z=14&output=embed`
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* NEW: Reviews section */}
             <div>
@@ -228,8 +229,8 @@ export default async function HotelDetailPage({ params }) {
           </div>
         </div>
       </div>
-         
-       {/* NEW: Sponsored section at the very bottom, after the main container */}
+
+      {/* NEW: Sponsored section at the very bottom, after the main container */}
       <SponsoredListingsSection
         sponsoredHotels={sponsoredHotels}
         sponsoredRestaurants={sponsoredRestaurants}
