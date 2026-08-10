@@ -69,6 +69,9 @@ export default function HotelForm({ initialData = null }) {
   const [errors, setErrors] = useState({});
   const [isSaving, setIsSaving] = useState(false);
 
+  const isPremium = formData.partnerPlan === "premium";
+
+
   useEffect(() => {
     async function loadDestinations() {
       try {
@@ -525,21 +528,22 @@ export default function HotelForm({ initialData = null }) {
           <span className="text-sm dark:text-gray-300">Show on homepage (Featured Hotel)</span>
         </label>
 
-        <label className="flex items-center gap-2.5 cursor-pointer">
-          <input
-            type="checkbox"
-            name="verified"
-            checked={formData.verified}
-            onChange={handleChange}
-            className="w-4 h-4 accent-secondary rounded"
-          />
-          <span className="text-sm dark:text-gray-300 flex items-center gap-2">
-            Premium Verified
-            <span className="text-xs dark:dark:text-gray-500 font-normal">
-              (shows a trust badge — use only for hotels you've personally verified)
-            </span>
-          </span>
-        </label>
+       <label className={`flex items-center gap-2.5 ${isPremium ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
+  <input
+    type="checkbox"
+    name="verified"
+    checked={formData.verified}
+    disabled={!isPremium}
+    onChange={handleChange}
+    className="w-4 h-4 accent-secondary rounded"
+  />
+  <span className="text-sm text-gray-700 flex items-center gap-2">
+    Premium Verified
+    <span className="text-xs text-gray-400 font-normal">
+      {isPremium ? "(shows a trust badge)" : "(Premium plan only)"}
+    </span>
+  </span>
+</label>
 
         <label className="flex items-center gap-2.5 cursor-pointer">
           <input
