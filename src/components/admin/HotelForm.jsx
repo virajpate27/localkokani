@@ -329,51 +329,49 @@ export default function HotelForm({ initialData = null }) {
         </div>
 
         <div>
-  <label className="block text-sm font-medium text-gray-700 mb-2">Partner Plan</label>
-  <div className="flex gap-3">
-    {["basic", "premium"].map((plan) => (
-      <button
-        key={plan}
-        type="button"
-        onClick={() => setFormData((prev) => ({ ...prev, partnerPlan: plan }))}
-        className={`flex-1 py-2.5 rounded-lg border text-sm font-medium capitalize transition-colors ${
-          formData.partnerPlan === plan ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-600 hover:border-primary"
-        }`}
-      >
-        {plan}
-      </button>
-    ))}
-  </div>
-</div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Partner Plan</label>
+          <div className="flex gap-3">
+            {["basic", "premium"].map((plan) => (
+              <button
+                key={plan}
+                type="button"
+                onClick={() => setFormData((prev) => ({ ...prev, partnerPlan: plan }))}
+                className={`flex-1 py-2.5 rounded-lg border text-sm font-medium capitalize transition-colors ${formData.partnerPlan === plan ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-600 hover:border-primary"
+                  }`}
+              >
+                {plan}
+              </button>
+            ))}
+          </div>
+        </div>
 
-       <div>
-  <label className="block text-sm font-medium text-gray-700 mb-2">
-    WhatsApp Number <span className="text-gray-400 font-normal">(optional — uses site default if blank)</span>
-  </label>
-  <input
-    type="tel"
-    name="whatsappNumber"
-    value={formData.whatsappNumber}
-    onChange={handleChange}
-    placeholder={formData.partnerPlan === "basic" ? "Leave blank — Basic plan uses site default" : "Owner's WhatsApp number (e.g. 919876543210)"}
-    className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-      errors.whatsappNumber ? "border-red-300" : "border-gray-200 focus:border-secondary"
-    }`}
-  />
-  {errors.whatsappNumber && <p className="text-red-500 text-xs mt-1">{errors.whatsappNumber}</p>}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            WhatsApp Number <span className="text-gray-400 font-normal">(optional — uses site default if blank)</span>
+          </label>
+          <input
+            type="tel"
+            name="whatsappNumber"
+            value={formData.whatsappNumber}
+            onChange={handleChange}
+            placeholder={formData.partnerPlan === "basic" ? "Leave blank — Basic plan uses site default" : "Owner's WhatsApp number (e.g. 919876543210)"}
+            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.whatsappNumber ? "border-red-300" : "border-gray-200 focus:border-secondary"
+              }`}
+          />
+          {errors.whatsappNumber && <p className="text-red-500 text-xs mt-1">{errors.whatsappNumber}</p>}
 
-  {/* Business-rule guardrails — warn on mismatches, don't hard-block (admin may have valid reasons) */}
-  {formData.partnerPlan === "basic" && formData.whatsappNumber.trim() && (
-    <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
-      ⚠️ This is a Basic plan listing but has a custom WhatsApp number set — enquiries will bypass your commission tracking. Confirm this is intentional.
-    </p>
-  )}
-  {formData.partnerPlan === "premium" && !formData.whatsappNumber.trim() && (
-    <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
-      ⚠️ This is a Premium plan listing but no custom WhatsApp number is set — enquiries will currently go to your site's default number instead of the owner's.
-    </p>
-  )}
-</div>
+          {/* Business-rule guardrails — warn on mismatches, don't hard-block (admin may have valid reasons) */}
+          {formData.partnerPlan === "basic" && formData.whatsappNumber.trim() && (
+            <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
+              ⚠️ This is a Basic plan listing but has a custom WhatsApp number set — enquiries will bypass your commission tracking. Confirm this is intentional.
+            </p>
+          )}
+          {formData.partnerPlan === "premium" && !formData.whatsappNumber.trim() && (
+            <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
+              ⚠️ This is a Premium plan listing but no custom WhatsApp number is set — enquiries will currently go to your site's default number instead of the owner's.
+            </p>
+          )}
+        </div>
 
       </div>
 
@@ -528,22 +526,22 @@ export default function HotelForm({ initialData = null }) {
           <span className="text-sm dark:text-gray-300">Show on homepage (Featured Hotel)</span>
         </label>
 
-       <label className={`flex items-center gap-2.5 ${isPremium ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
-  <input
-    type="checkbox"
-    name="verified"
-    checked={formData.verified}
-    disabled={!isPremium}
-    onChange={handleChange}
-    className="w-4 h-4 accent-secondary rounded"
-  />
-  <span className="text-sm text-gray-700 flex items-center gap-2">
-    Premium Verified
-    <span className="text-xs text-gray-400 font-normal">
-      {isPremium ? "(shows a trust badge)" : "(Premium plan only)"}
-    </span>
-  </span>
-</label>
+        <label className={`flex items-center gap-2.5 ${isPremium ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
+          <input
+            type="checkbox"
+            name="verified"
+            checked={formData.verified}
+            disabled={!isPremium}
+            onChange={handleChange}
+            className="w-4 h-4 accent-secondary rounded"
+          />
+          <span className="text-sm text-gray-700 flex items-center gap-2">
+            Premium Verified
+            <span className="text-xs text-gray-400 font-normal">
+              {isPremium ? "(shows a trust badge)" : "(Premium plan only)"}
+            </span>
+          </span>
+        </label>
 
         <label className="flex items-center gap-2.5 cursor-pointer">
           <input
@@ -578,37 +576,41 @@ export default function HotelForm({ initialData = null }) {
 
       <div className="card p-6 space-y-4">
         <div>
-          <h3 className="font-display font-semibold text-primary dark:text-white">
-            Custom Badge <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
+          <h3 className="font-display font-semibold text-primary">
+            Custom Badge{" "}
+            <span className="text-gray-400 font-normal text-sm">
+              {isPremium ? "(optional)" : "(Premium plan only)"}
+            </span>
           </h3>
-          <p className="dark:dark:text-gray-500 text-xs mt-1">
+          <p className="text-gray-400 text-xs mt-1">
             Shows a small label on the card image and detail page — e.g. "Top Rated", "Most Booked", "Family Friendly".
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-4">
+        <div className={`grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-4 ${!isPremium ? "opacity-50 pointer-events-none" : ""}`}>
           <div>
-            <label className="block text-sm font-medium dark:text-gray-300 mb-2">Badge Text</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Badge Text</label>
             <input
               type="text"
               name="customBadgeText"
               value={formData.customBadgeText}
               onChange={handleChange}
+              disabled={!isPremium}
               maxLength={24}
               placeholder="e.g. Top Rated"
-              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.customBadgeText ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+              className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.customBadgeText ? "border-red-300" : "border-gray-200 focus:border-secondary"
                 }`}
             />
             {errors.customBadgeText && <p className="text-red-500 text-xs mt-1">{errors.customBadgeText}</p>}
           </div>
-
           <div>
-            <label className="block text-sm font-medium dark:text-gray-300 mb-2">Badge Color</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Badge Color</label>
             <select
               name="customBadgeColor"
               value={formData.customBadgeColor}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
+              disabled={!isPremium}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
             >
               {BADGE_COLOR_OPTIONS.map((opt) => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -617,16 +619,10 @@ export default function HotelForm({ initialData = null }) {
           </div>
         </div>
 
-
-        {/* Live preview */}
-        {formData.customBadgeText.trim() && (
+        {formData.customBadgeText.trim() && isPremium && (
           <div>
-            <p className="text-xs dark:dark:text-gray-500 mb-2">Preview:</p>
-            <CustomBadge
-              text={formData.customBadgeText}
-              color={formData.customBadgeColor}
-              position="inline"
-            />
+            <p className="text-xs text-gray-400 mb-2">Preview:</p>
+            <CustomBadge text={formData.customBadgeText} color={formData.customBadgeColor} position="inline" />
           </div>
         )}
       </div>
