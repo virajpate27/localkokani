@@ -11,6 +11,7 @@ const pageTitles = {
   "/admin/blog": "Blog",
   "/admin/reviews": "Reviews",
   "/admin/leads": "Leads & Enquiries",
+  "/admin/owners": "Owners",
 };
 
 export default function AdminTopbar() {
