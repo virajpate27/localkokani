@@ -298,21 +298,7 @@ export default function AdminHotelsPage() {
                       </button>
                     </td>
 
-                    <td className="px-5 py-3.5">
-                      {hotel.ownerId ? (
-                        <Link
-                          href={`/admin/owners/${hotel.ownerId}`}
-                          className="text-secondary text-sm font-medium hover:underline"
-                        >
-                          {hotel.ownerName}
-                        </Link>
-                      ) : (
-                        <span className="text-gray-300 text-sm">
-                          Unassigned
-                        </span>
-                      )}
-                    </td>
-
+                   
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
                         <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 dark:bg-gray-800">
@@ -331,6 +317,22 @@ export default function AdminHotelsPage() {
                         </span>
                       </div>
                     </td>
+
+                     <td className="px-5 py-3.5">
+                      {hotel.ownerId ? (
+                        <Link
+                          href={`/admin/owners/${hotel.ownerId}`}
+                          className="text-secondary text-sm font-medium hover:underline"
+                        >
+                          {hotel.ownerName}
+                        </Link>
+                      ) : (
+                        <span className="text-gray-300 text-sm">
+                          Unassigned
+                        </span>
+                      )}
+                    </td> 
+
 
                     <td className="px-5 py-3.5 dark:text-gray-300">
                       {hotel.destinationName}
