@@ -17,13 +17,17 @@ export default function PartnerLandingPage() {
         <p className="text-white/80 mt-4">
           Join our platform and connect with travelers looking for their next stay or meal.
         </p>
-        <div className="bg-white rounded-2xl p-6 mt-10 text-left">
-          {["Free basic listing to get started", "Direct WhatsApp enquiries — no middleman", "Featured & Sponsored placement on Premium"].map((item) => (
-            <p key={item} className="flex items-center gap-2.5 text-gray-600 text-sm py-2">
-              <FiCheckCircle className="text-accent-dark shrink-0" /> {item}
-            </p>
-          ))}
-        </div>
+       <div className="bg-white rounded-2xl p-6 mt-10 text-left">
+  {[
+    "Free basic listing to get started",
+    "Premium unlocks direct WhatsApp enquiries to your own number",
+    "Verified & custom badges available on Premium",
+  ].map((item) => (
+    <p key={item} className="flex items-center gap-2.5 text-gray-600 text-sm py-2">
+      <FiCheckCircle className="text-accent-dark shrink-0" /> {item}
+    </p>
+  ))}
+</div>
         <Link href="/partner-with-us/register" className="btn-accent inline-flex items-center gap-2 mt-8">
           Register Your Property <FiArrowRight />
         </Link>

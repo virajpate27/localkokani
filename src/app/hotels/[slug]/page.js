@@ -185,7 +185,7 @@ export default async function HotelDetailPage({ params }) {
             )}
 
             {/* Location */}
-            {(hotel.mapEmbedUrl ||
+            {hotel.partnerPlan === "premium" && (hotel.mapEmbedUrl ||
               (hotel.location?.lat && hotel.location?.lng)) && (
               <div>
                 <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">

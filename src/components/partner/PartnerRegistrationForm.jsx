@@ -166,10 +166,10 @@ export default function PartnerRegistrationForm() {
         },
         roomTypes: isHotel
           ? formData.roomTypes.map((r) => ({
-              name: r.name.trim(), numberOfRooms: Number(r.numberOfRooms) || 0,
-              guestsPerRoom: Number(r.guestsPerRoom) || 0, startingPrice: Number(r.startingPrice) || 0,
-              weekendPrice: Number(r.weekendPrice) || 0, amenities: r.amenities.trim(),
-            }))
+            name: r.name.trim(), numberOfRooms: Number(r.numberOfRooms) || 0,
+            guestsPerRoom: Number(r.guestsPerRoom) || 0, startingPrice: Number(r.startingPrice) || 0,
+            weekendPrice: Number(r.weekendPrice) || 0, amenities: r.amenities.trim(),
+          }))
           : [],
         photosLink: formData.photosLink.trim(),
         policies: {
@@ -216,7 +216,7 @@ export default function PartnerRegistrationForm() {
             <h2 className="font-display font-bold text-xl text-primary">Owner Details</h2>
             <div>
               <label className={labelClass}>Full Name *</label>
-              <input name="ownerFullName" value={formData.ownerFullName} onChange={handleChange} placeholder="e.g. Rajesh Patil"  className={errors.ownerFullName ? errorInputClass : inputClass} />
+              <input name="ownerFullName" value={formData.ownerFullName} onChange={handleChange} placeholder="e.g. Rajesh Patil" className={errors.ownerFullName ? errorInputClass : inputClass} />
               {errors.ownerFullName && <p className="text-red-500 text-xs mt-1">{errors.ownerFullName}</p>}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -260,9 +260,8 @@ export default function PartnerRegistrationForm() {
                     key={type}
                     type="button"
                     onClick={() => setFormData((prev) => ({ ...prev, propertyType: type }))}
-                    className={`flex-1 py-3 rounded-xl border text-sm font-medium capitalize transition-colors ${
-                      formData.propertyType === type ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-600 hover:border-primary"
-                    }`}
+                    className={`flex-1 py-3 rounded-xl border text-sm font-medium capitalize transition-colors ${formData.propertyType === type ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-600 hover:border-primary"
+                      }`}
                   >
                     {type}
                   </button>
@@ -271,7 +270,7 @@ export default function PartnerRegistrationForm() {
             </div>
             <div>
               <label className={labelClass}>Property Description *</label>
-              <textarea name="propertyDescription" value={formData.propertyDescription} onChange={handleChange}  placeholder="Describe your property's highlights, atmosphere, and what makes it special..." rows={4} className={errors.propertyDescription ? errorInputClass : inputClass} />
+              <textarea name="propertyDescription" value={formData.propertyDescription} onChange={handleChange} placeholder="Describe your property's highlights, atmosphere, and what makes it special..." rows={4} className={errors.propertyDescription ? errorInputClass : inputClass} />
               {errors.propertyDescription && <p className="text-red-500 text-xs mt-1">{errors.propertyDescription}</p>}
             </div>
 
@@ -315,12 +314,12 @@ export default function PartnerRegistrationForm() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
                 <label className={labelClass}>Village / Town / City *</label>
-                <input name="village" value={formData.village} onChange={handleChange} placeholder="e.g. Diveagar"  className={errors.village ? errorInputClass : inputClass} />
+                <input name="village" value={formData.village} onChange={handleChange} placeholder="e.g. Diveagar" className={errors.village ? errorInputClass : inputClass} />
                 {errors.village && <p className="text-red-500 text-xs mt-1">{errors.village}</p>}
               </div>
               <div>
                 <label className={labelClass}>Taluka *</label>
-                <input name="taluka" value={formData.taluka} onChange={handleChange}  placeholder="e.g. Shrivardhan" className={errors.taluka ? errorInputClass : inputClass} />
+                <input name="taluka" value={formData.taluka} onChange={handleChange} placeholder="e.g. Shrivardhan" className={errors.taluka ? errorInputClass : inputClass} />
                 {errors.taluka && <p className="text-red-500 text-xs mt-1">{errors.taluka}</p>}
               </div>
               <div>
@@ -389,98 +388,98 @@ export default function PartnerRegistrationForm() {
         )}
 
         {/* STEP 6 — Policies */}
-       {step === 6 && (
-  <div className="space-y-5">
-    <h2 className="font-display font-bold text-xl text-primary">
-      {isHotel ? "Policies & Guest Information" : "Operating Hours & Guest Information"}
-    </h2>
+        {step === 6 && (
+          <div className="space-y-5">
+            <h2 className="font-display font-bold text-xl text-primary">
+              {isHotel ? "Policies & Guest Information" : "Operating Hours & Guest Information"}
+            </h2>
 
-    {isHotel ? (
-      <>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div>
-            <label className={labelClass}>Check-in Time *</label>
-            <input type="time" name="checkInTime" value={formData.checkInTime} onChange={handleChange} className={inputClass} />
+            {isHotel ? (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className={labelClass}>Check-in Time *</label>
+                    <input type="time" name="checkInTime" value={formData.checkInTime} onChange={handleChange} className={inputClass} />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Check-out Time *</label>
+                    <input type="time" name="checkOutTime" value={formData.checkOutTime} onChange={handleChange} className={inputClass} />
+                  </div>
+                </div>
+                <div>
+                  <label className={labelClass}>Cancellation Policy *</label>
+                  <textarea name="cancellationPolicy" value={formData.cancellationPolicy} onChange={handleChange} rows={3} placeholder="e.g. Free cancellation up to 24 hours before check-in" className={errors.cancellationPolicy ? errorInputClass : inputClass} />
+                  {errors.cancellationPolicy && <p className="text-red-500 text-xs mt-1">{errors.cancellationPolicy}</p>}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className={labelClass}>Child Policy</label>
+                    <input name="childPolicy" value={formData.childPolicy} onChange={handleChange} placeholder="e.g. Children under 5 stay free" className={inputClass} />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Pet Policy</label>
+                    <input name="petPolicy" value={formData.petPolicy} onChange={handleChange} placeholder="e.g. Pets not allowed" className={inputClass} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className={labelClass}>ID Required at Check-in?</label>
+                    <select name="idRequired" value={formData.idRequired} onChange={handleChange} className={inputClass + " bg-white"}>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Couples Allowed?</label>
+                    <select name="couplesAllowed" value={formData.couplesAllowed} onChange={handleChange} className={inputClass + " bg-white"}>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className={labelClass}>Opening Time *</label>
+                    <input type="time" name="checkInTime" value={formData.checkInTime} onChange={handleChange} className={inputClass} />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Closing Time *</label>
+                    <input type="time" name="checkOutTime" value={formData.checkOutTime} onChange={handleChange} className={inputClass} />
+                  </div>
+                </div>
+                <div>
+                  <label className={labelClass}>Reservation / Cancellation Policy *</label>
+                  <textarea
+                    name="cancellationPolicy"
+                    value={formData.cancellationPolicy}
+                    onChange={handleChange}
+                    rows={3}
+                    placeholder="e.g. Table held for 15 minutes past reservation time; cancellations accepted up to 2 hours before"
+                    className={errors.cancellationPolicy ? errorInputClass : inputClass}
+                  />
+                  {errors.cancellationPolicy && <p className="text-red-500 text-xs mt-1">{errors.cancellationPolicy}</p>}
+                </div>
+                <div>
+                  <label className={labelClass}>Dress Code / Child Policy</label>
+                  <input
+                    name="childPolicy"
+                    value={formData.childPolicy}
+                    onChange={handleChange}
+                    placeholder="e.g. Smart casual dress code; kids menu available"
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Pet Policy</label>
+                  <input name="petPolicy" value={formData.petPolicy} onChange={handleChange} placeholder="e.g. Pets allowed in outdoor seating only" className={inputClass} />
+                </div>
+              </>
+            )}
           </div>
-          <div>
-            <label className={labelClass}>Check-out Time *</label>
-            <input type="time" name="checkOutTime" value={formData.checkOutTime} onChange={handleChange} className={inputClass} />
-          </div>
-        </div>
-        <div>
-          <label className={labelClass}>Cancellation Policy *</label>
-          <textarea name="cancellationPolicy" value={formData.cancellationPolicy} onChange={handleChange} rows={3} placeholder="e.g. Free cancellation up to 24 hours before check-in" className={errors.cancellationPolicy ? errorInputClass : inputClass} />
-          {errors.cancellationPolicy && <p className="text-red-500 text-xs mt-1">{errors.cancellationPolicy}</p>}
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div>
-            <label className={labelClass}>Child Policy</label>
-            <input name="childPolicy" value={formData.childPolicy} onChange={handleChange} placeholder="e.g. Children under 5 stay free" className={inputClass} />
-          </div>
-          <div>
-            <label className={labelClass}>Pet Policy</label>
-            <input name="petPolicy" value={formData.petPolicy} onChange={handleChange} placeholder="e.g. Pets not allowed" className={inputClass} />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div>
-            <label className={labelClass}>ID Required at Check-in?</label>
-            <select name="idRequired" value={formData.idRequired} onChange={handleChange} className={inputClass + " bg-white"}>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-          </div>
-          <div>
-            <label className={labelClass}>Couples Allowed?</label>
-            <select name="couplesAllowed" value={formData.couplesAllowed} onChange={handleChange} className={inputClass + " bg-white"}>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-          </div>
-        </div>
-      </>
-    ) : (
-      <>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div>
-            <label className={labelClass}>Opening Time *</label>
-            <input type="time" name="checkInTime" value={formData.checkInTime} onChange={handleChange} className={inputClass} />
-          </div>
-          <div>
-            <label className={labelClass}>Closing Time *</label>
-            <input type="time" name="checkOutTime" value={formData.checkOutTime} onChange={handleChange} className={inputClass} />
-          </div>
-        </div>
-        <div>
-          <label className={labelClass}>Reservation / Cancellation Policy *</label>
-          <textarea
-            name="cancellationPolicy"
-            value={formData.cancellationPolicy}
-            onChange={handleChange}
-            rows={3}
-            placeholder="e.g. Table held for 15 minutes past reservation time; cancellations accepted up to 2 hours before"
-            className={errors.cancellationPolicy ? errorInputClass : inputClass}
-          />
-          {errors.cancellationPolicy && <p className="text-red-500 text-xs mt-1">{errors.cancellationPolicy}</p>}
-        </div>
-        <div>
-          <label className={labelClass}>Dress Code / Child Policy</label>
-          <input
-            name="childPolicy"
-            value={formData.childPolicy}
-            onChange={handleChange}
-            placeholder="e.g. Smart casual dress code; kids menu available"
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label className={labelClass}>Pet Policy</label>
-          <input name="petPolicy" value={formData.petPolicy} onChange={handleChange} placeholder="e.g. Pets allowed in outdoor seating only" className={inputClass} />
-        </div>
-      </>
-    )}
-  </div>
-)}
+        )}
 
         {/* STEP 7 — Plan */}
         {step === 7 && (
@@ -490,30 +489,31 @@ export default function PartnerRegistrationForm() {
               <button
                 type="button"
                 onClick={() => setFormData((prev) => ({ ...prev, plan: "basic" }))}
-                className={`text-left p-5 rounded-xl border-2 transition-colors ${
-                  formData.plan === "basic" ? "border-primary bg-primary/5" : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`text-left p-5 rounded-xl border-2 transition-colors ${formData.plan === "basic" ? "border-primary bg-primary/5" : "border-gray-200 hover:border-gray-300"
+                  }`}
               >
                 <p className="font-display font-bold text-lg text-primary">Basic Listing</p>
                 <p className="text-2xl font-bold text-primary mt-1">Free</p>
                 <ul className="text-gray-500 text-sm mt-3 space-y-1">
                   <li>• Standard listing page</li>
-                  <li>• WhatsApp enquiries</li>
                   <li>• Basic visibility</li>
+                  <li>• Enquiries routed through StayFinder's WhatsApp</li>
+                  <li className="text-gray-400 text-xs pt-1">Commission applies per confirmed booking</li>
                 </ul>
               </button>
               <button
                 type="button"
                 onClick={() => setFormData((prev) => ({ ...prev, plan: "premium" }))}
-                className={`text-left p-5 rounded-xl border-2 transition-colors ${
-                  formData.plan === "premium" ? "border-accent bg-accent/5" : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`text-left p-5 rounded-xl border-2 transition-colors ${formData.plan === "premium" ? "border-accent bg-accent/5" : "border-gray-200 hover:border-gray-300"
+                  }`}
               >
                 <p className="font-display font-bold text-lg text-primary">Premium Plan</p>
                 <p className="text-2xl font-bold text-primary mt-1">Contact us</p>
                 <ul className="text-gray-500 text-sm mt-3 space-y-1">
                   <li>• Verified badge</li>
-                  <li>• Featured & sponsored placement</li>
+                  <li>• Custom badge</li>
+                  <li>• Direct WhatsApp enquiries to your number</li>
+                  <li>• Google Maps location on your listing</li>
                   <li>• Priority support</li>
                 </ul>
               </button>
