@@ -19,10 +19,11 @@ function generatePartnerId() {
   return `PTR-${ts}`;
 }
 
-export async function createPartnerApplication(data) {
+export async function createPartnerApplication(data, ownerId) {
   const registrationId = generateRegistrationId();
   const docRef = await addDoc(collection(db, COLLECTION), {
     ...data,
+    ownerId,
     registrationId,
     partnerId: null,
     status: "pending",
@@ -88,4 +89,11 @@ export async function getPendingPartnerApplicationsCount() {
 export async function deletePartnerApplication(id) {
   const docRef = doc(db, COLLECTION, id);
   return deleteDoc(docRef);
+}
+
+export async function getApplicationsByOwner(ownerId) {
+  const snap = await getDocs(
+    query(collection(db, COLLECTION), where("ownerId", "==", ownerId), orderBy("createdAt", "desc"))
+  );
+  return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }

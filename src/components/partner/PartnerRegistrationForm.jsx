@@ -11,6 +11,8 @@ import PartnerProgressBar from "./PartnerProgressBar";
 import PartnerRoomTypesEditor from "./PartnerRoomTypesEditor";
 import ImageUploader from "@/components/admin/ImageUploader";
 import { createPartnerApplication } from "@/lib/services/partnerService";
+import { useOwnerAuth } from "@/context/OwnerAuthContext";
+
 
 const initialFormData = {
   ownerFullName: "", ownerMobile: "", ownerWhatsapp: "", ownerEmail: "", ownerAltContact: "",
@@ -33,15 +35,25 @@ const inputClass = "w-full px-4 py-3 rounded-xl border border-gray-200 focus:bor
 const errorInputClass = "w-full px-4 py-3 rounded-xl border border-red-300 text-sm outline-none transition-colors";
 const labelClass = "block text-sm font-medium text-gray-700 mb-2";
 
+
 export default function PartnerRegistrationForm() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState(initialFormData);
+  const { owner, ownerProfile } = useOwnerAuth();
+  const [formData, setFormData] = useState({
+    ownerFullName: ownerProfile?.fullName || "",
+    ownerMobile: ownerProfile?.mobile || "",
+    ownerWhatsapp: ownerProfile?.whatsapp || "",
+    ownerEmail: ownerProfile?.email || "",
+    ownerAltContact: "",
+    ...initialFormData,
+  });
   const [idProof, setIdProof] = useState(null);
   const [ownershipProof, setOwnershipProof] = useState(null);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
+
 
   const isHotel = formData.propertyType === "hotel";
   const hiddenSteps = isHotel ? [] : [4]; // restaurants skip the "Accommodation" step
@@ -195,7 +207,7 @@ export default function PartnerRegistrationForm() {
         ipAddress,
       };
 
-      const { registrationId } = await createPartnerApplication(payload);
+      const { registrationId } = await createPartnerApplication(payload, owner.uid);
       router.push(`/partner-with-us/success?ref=${registrationId}`);
     } catch (error) {
       console.error("Partner registration error:", error);

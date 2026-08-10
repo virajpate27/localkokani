@@ -11,6 +11,7 @@ import { generateOrganizationSchema } from "@/utils/helpers";
 import { WishlistProvider } from "@/context/WishlistContext";
 import Link from "next/link";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { OwnerAuthProvider } from "@/context/OwnerAuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -77,6 +78,7 @@ export default function RootLayout({ children }) {
         <JsonLd data={generateOrganizationSchema()} />
         <ThemeProvider>
           <AuthProvider>
+             <OwnerAuthProvider>
             <WishlistProvider>
               <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
               <Navbar />
@@ -86,6 +88,7 @@ export default function RootLayout({ children }) {
               <Footer />
               <Toaster position="top-center" />
             </WishlistProvider>
+            </OwnerAuthProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>
