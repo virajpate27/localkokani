@@ -160,7 +160,7 @@ export default function HotelForm({ initialData = null }) {
         ...amenities.map((a) => a.toLowerCase()),
       ],
       mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
-      partnerPlan: formData.partnerPlan,
+      
       verified: formData.verified,
       sponsored: formData.sponsored,
       customBadgeText: formData.customBadgeText.trim() || null,
@@ -172,6 +172,7 @@ export default function HotelForm({ initialData = null }) {
         formData.lat && formData.lng
           ? { lat: Number(formData.lat), lng: Number(formData.lng) }
           : null,
+      partnerPlan: formData.partnerPlan,
     };
 
     // Collect every public path that needs fresh data after this save,
