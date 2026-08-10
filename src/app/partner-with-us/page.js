@@ -7,7 +7,7 @@ export const metadata = {
   title: "Partner With Us | StayFinder",
   description:
     "List your hotel or restaurant on StayFinder and reach more guests.",
-};
+}; 
 
 export default function OldRegisterRedirect() {
   redirect("/owner/signup");
