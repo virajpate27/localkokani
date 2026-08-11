@@ -148,3 +148,10 @@ export async function getHotelsByOwner(ownerId) {
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
 
+export async function setPromotionFlags(hotelId, flagField, untilField, value, untilDate) {
+  const updates = { [flagField]: value, [untilField]: untilDate };
+  if (value) {
+    updates[`${flagField}PromotedAt`] = serverTimestamp(); // e.g. "featuredPromotedAt" or "sponsoredPromotedAt"
+  }
+  return updateHotel(hotelId, updates);
+}
