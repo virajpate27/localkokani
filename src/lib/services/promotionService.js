@@ -1,0 +1,153 @@
+// src/lib/services/promotionService.js
+import {
+  collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc,
+  query, where, orderBy, setDoc, serverTimestamp,
+} from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { serializeDoc, serializeDocs } from "@/utils/helpers";
+import { updateHotel } from "./hotelService";
+import { updateRestaurant } from "./restaurantService";
+
+export const DURATIONS = [
+  { key: "week1", label: "1 Week", days: 7 },
+  { key: "week2", label: "2 Weeks", days: 14 },
+  { key: "week3", label: "3 Weeks", days: 21 },
+  { key: "month1", label: "1 Month", days: 30 },
+];
+
+const PRICING_COLLECTION = "promotionPricing";
+const REQUESTS_COLLECTION = "promotionRequests";
+
+const DEFAULT_PRICING = {
+  sponsored: { week1: 1500, week2: 2700, week3: 3900, month1: 4500 },
+  featured: { week1: 1000, week2: 1700, week3: 2500, month1: 3000 },
+};
+
+// ─────────────────────────────────────────────
+// PRICING
+// ─────────────────────────────────────────────
+
+export async function getPromotionPricing() {
+  const docRef = doc(db, PRICING_COLLECTION, "config");
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return DEFAULT_PRICING;
+  return docSnap.data();
+}
+
+export async function updatePromotionPricing(pricing) {
+  const docRef = doc(db, PRICING_COLLECTION, "config");
+  return setDoc(docRef, { ...pricing, updatedAt: serverTimestamp() }, { merge: true });
+}
+
+function addDays(dateString, days) {
+  const date = new Date(dateString);
+  date.setDate(date.getDate() + days);
+  return date.toISOString().split("T")[0];
+}
+
+function todayString() {
+  return new Date().toISOString().split("T")[0];
+}
+
+// ─────────────────────────────────────────────
+// REQUESTS
+// ─────────────────────────────────────────────
+
+export async function createPromotionRequest(data) {
+  const durationConfig = DURATIONS.find((d) => d.key === data.duration);
+  const endDate = addDays(data.startDate, durationConfig.days);
+
+  return addDoc(collection(db, REQUESTS_COLLECTION), {
+    ...data,
+    durationLabel: durationConfig.label,
+    durationDays: durationConfig.days,
+    endDate,
+    status: "pending_payment",
+    adminNotes: "",
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    approvedAt: null,
+  });
+}
+
+export async function getAllPromotionRequestsAdmin() {
+  const snap = await getDocs(query(collection(db, REQUESTS_COLLECTION), orderBy("createdAt", "desc")));
+  return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+}
+
+export async function getPromotionRequestsByOwner(ownerId) {
+  const snap = await getDocs(
+    query(collection(db, REQUESTS_COLLECTION), where("ownerId", "==", ownerId), orderBy("createdAt", "desc"))
+  );
+  return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+}
+
+// Approve — confirms payment received, activates the promotion on the actual listing
+export async function approvePromotionRequest(requestId, request, adminNotes = "") {
+  const docRef = doc(db, REQUESTS_COLLECTION, requestId);
+  await updateDoc(docRef, {
+    status: "active",
+    adminNotes,
+    approvedAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+
+  const untilField = request.promotionType === "featured" ? "featuredUntil" : "sponsoredUntil";
+  const flagField = request.promotionType; // "featured" | "sponsored"
+
+  const updateFn = request.entityType === "hotel" ? updateHotel : updateRestaurant;
+  await updateFn(request.entityId, {
+    [flagField]: true,
+    [untilField]: request.endDate,
+  });
+}
+
+export async function rejectPromotionRequest(requestId, adminNotes = "") {
+  const docRef = doc(db, REQUESTS_COLLECTION, requestId);
+  return updateDoc(docRef, {
+    status: "rejected",
+    adminNotes,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+// Owner-initiated — only allowed while still pending payment/approval
+export async function cancelPromotionRequest(requestId) {
+  const docRef = doc(db, REQUESTS_COLLECTION, requestId);
+  return updateDoc(docRef, { status: "cancelled", updatedAt: serverTimestamp() });
+}
+
+// Manually end an active promotion early (admin override)
+export async function endPromotionEarly(requestId, request) {
+  const docRef = doc(db, REQUESTS_COLLECTION, requestId);
+  await updateDoc(docRef, { status: "completed", updatedAt: serverTimestamp() });
+
+  const untilField = request.promotionType === "featured" ? "featuredUntil" : "sponsoredUntil";
+  const flagField = request.promotionType;
+  const updateFn = request.entityType === "hotel" ? updateHotel : updateRestaurant;
+  await updateFn(request.entityId, { [flagField]: false, [untilField]: null });
+}
+
+// Lazy expiry — call this whenever the admin promotions page loads.
+// Finds "active" requests whose endDate has passed and turns off the flag on the listing.
+export async function expireOutdatedPromotions() {
+  const snap = await getDocs(query(collection(db, REQUESTS_COLLECTION), where("status", "==", "active")));
+  const today = todayString();
+  const expired = snap.docs
+    .map((d) => ({ id: d.id, ...d.data() }))
+    .filter((r) => r.endDate < today);
+
+  for (const request of expired) {
+    const untilField = request.promotionType === "featured" ? "featuredUntil" : "sponsoredUntil";
+    const flagField = request.promotionType;
+    const updateFn = request.entityType === "hotel" ? updateHotel : updateRestaurant;
+
+    await updateFn(request.entityId, { [flagField]: false, [untilField]: null });
+    await updateDoc(doc(db, REQUESTS_COLLECTION, request.id), {
+      status: "completed",
+      updatedAt: serverTimestamp(),
+    });
+  }
+
+  return expired.length;
+}

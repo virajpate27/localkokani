@@ -3,7 +3,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FiPlus, FiLoader, FiLogOut, FiHome, FiCoffee } from "react-icons/fi";
+import {
+  FiPlus,
+  FiLoader,
+  FiLogOut,
+  FiHome,
+  FiCoffee,
+  FiZap,
+} from "react-icons/fi";
 import toast from "react-hot-toast";
 import OwnerProtectedRoute from "@/components/owner/OwnerProtectedRoute";
 import { useOwnerAuth } from "@/context/OwnerAuthContext";
@@ -123,6 +130,25 @@ function DashboardContent() {
             </div>
           </div>
         )}
+
+        <div className="card p-5 mb-6 bg-primary/5 border border-primary/20 flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center">
+              <FiZap className="text-primary" />
+            </div>
+            <div>
+              <p className="font-medium text-primary text-sm">
+                Want more visibility?
+              </p>
+              <p className="text-gray-400 text-xs">
+                Promote your listing to Featured or Sponsored placement
+              </p>
+            </div>
+          </div>
+          <Link href="/owner/promote" className="btn-primary text-sm">
+            Promote Now
+          </Link>
+        </div>
 
         {isLoading ? (
           <div className="flex justify-center py-20">

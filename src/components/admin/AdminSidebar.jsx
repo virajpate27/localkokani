@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee , FiUsers , FiUserCheck } from "react-icons/fi";
+import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee , FiUsers , FiUserCheck, FiZap  } from "react-icons/fi";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -21,6 +21,7 @@ const navItems = [
   { label: "Leads", href: "/admin/leads", icon: FiMessageSquare },
   { label: "Partner Applications", href: "/admin/partner-applications", icon: FiUsers },
   { label: "Owners", href: "/admin/owners", icon: FiUserCheck },
+  { label: "Feature & Sponsor", href: "/admin/promotions", icon: FiZap },
 ];
 
 export default function AdminSidebar() {
