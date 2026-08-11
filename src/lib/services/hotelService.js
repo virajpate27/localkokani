@@ -35,7 +35,7 @@ export async function getAllHotels() {
 }
 
 // Featured hotels only — used on homepage
-export async function getFeaturedHotels(limitCount = 8) {
+export async function getFeaturedHotels(limitCount = 4) {
   const snap = await getDocs(
     query(
       collection(db, COLLECTION),
@@ -148,10 +148,4 @@ export async function getHotelsByOwner(ownerId) {
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
 
-export async function setPromotionFlags(hotelId, flagField, untilField, value, untilDate) {
-  const updates = { [flagField]: value, [untilField]: untilDate };
-  if (value) {
-    updates[`${flagField}PromotedAt`] = serverTimestamp(); // e.g. "featuredPromotedAt" or "sponsoredPromotedAt"
-  }
-  return updateHotel(hotelId, updates);
-}
+

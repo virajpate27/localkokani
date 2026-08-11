@@ -65,10 +65,10 @@ export default function HotelForm({ initialData = null }) {
     mapEmbedUrl: initialData?.mapEmbedUrl || "",
     lat: initialData?.location?.lat || "",
     lng: initialData?.location?.lng || "",
-
+    featured: initialData?.featured ?? false,
     status: initialData?.status || "active",
     verified: initialData?.verified ?? false,
-
+    sponsored: initialData?.sponsored ?? false,
     customBadgeText: initialData?.customBadgeText || "",
     customBadgeColor: initialData?.customBadgeColor || "primary",
     availabilityStatus: initialData?.availabilityStatus || "available",
@@ -77,8 +77,7 @@ export default function HotelForm({ initialData = null }) {
     partnerPlan: initialData?.partnerPlan || "basic",
     ownerId: initialData?.ownerId || (prefillOwnerId || null),
     ownerName: initialData?.ownerName || (prefillOwnerName || null),
-    featured: formData.featured,
-    sponsored: formData.sponsored,
+  
   });
 
   useEffect(() => {
@@ -196,7 +195,7 @@ export default function HotelForm({ initialData = null }) {
       images,
       amenities,
       roomTypes: cleanedRoomTypes,
-      featured: formData.featured,
+    
       status: formData.status,
       searchKeywords: [
         formData.name.toLowerCase(),
@@ -206,7 +205,7 @@ export default function HotelForm({ initialData = null }) {
       ],
       mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
       verified: formData.verified,
-      sponsored: formData.sponsored,
+     
       customBadgeText: formData.customBadgeText.trim() || null,
       customBadgeColor: formData.customBadgeColor,
       availabilityStatus: formData.availabilityStatus,
@@ -219,12 +218,10 @@ export default function HotelForm({ initialData = null }) {
       partnerPlan: formData.partnerPlan,
       ownerId: formData.ownerId,
       ownerName: formData.ownerName,
-
+      featured: formData.featured,
+      sponsored: formData.sponsored,
 
     };
-
-
-
 
     if (formData.featured && !initialData?.featured) {
       payload.featuredPromotedAt = serverTimestamp(); // newly featured — stamp it now

@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { FiSave, FiLoader } from "react-icons/fi"; 
+import { FiSave, FiLoader } from "react-icons/fi";
 import MultiImageUploader from "./MultiImageUploader";
 import TagInput from "./TagInput";
 import {
@@ -73,10 +73,10 @@ export default function RestaurantForm({ initialData = null }) {
         mapEmbedUrl: initialData?.mapEmbedUrl || "",
         lat: initialData?.location?.lat || "",
         lng: initialData?.location?.lng || "",
-
+        featured: initialData?.featured ?? false,
         status: initialData?.status || "active",
         verified: initialData?.verified ?? false,
-
+        sponsored: initialData?.sponsored ?? false,
         availabilityStatus: initialData?.availabilityStatus || "available",
         availabilityMessage: initialData?.availabilityMessage || "",
         customBadgeText: initialData?.customBadgeText || "",
@@ -85,8 +85,7 @@ export default function RestaurantForm({ initialData = null }) {
         partnerPlan: initialData?.partnerPlan || "basic",
         ownerId: initialData?.ownerId || (prefillOwnerId || null),
         ownerName: initialData?.ownerName || (prefillOwnerName || null),
-        featured: formData.featured,
-        sponsored: formData.sponsored,
+
 
     });
 
@@ -185,7 +184,7 @@ export default function RestaurantForm({ initialData = null }) {
             openingHours: formData.openingHours.trim(),
             images,
             cuisine,
-            featured: formData.featured,
+
             status: formData.status,
             searchKeywords: [
                 formData.name.toLowerCase(),
@@ -195,7 +194,7 @@ export default function RestaurantForm({ initialData = null }) {
             ],
             mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
             verified: formData.verified,
-            sponsored: formData.sponsored,
+
             customBadgeText: formData.customBadgeText.trim() || null,
             customBadgeColor: formData.customBadgeColor,
             availabilityStatus: formData.availabilityStatus,
@@ -208,6 +207,8 @@ export default function RestaurantForm({ initialData = null }) {
             partnerPlan: formData.partnerPlan,
             ownerId: formData.ownerId,
             ownerName: formData.ownerName,
+            featured: formData.featured,
+            sponsored: formData.sponsored,
         };
 
 
