@@ -16,6 +16,7 @@ import { formatCurrency } from "@/utils/helpers";
 
 const statusConfig = {
   pending_payment: { label: "Awaiting Approval", color: "bg-secondary/10 text-secondary", icon: FiClock },
+  scheduled: { label: "Scheduled", color: "bg-blue-50 text-blue-500", icon: FiCalendar }, // ⬅️ ADD (FiCalendar already imported)
   active: { label: "Live", color: "bg-accent/10 text-accent-dark", icon: FiCheckCircle },
   completed: { label: "Completed", color: "bg-gray-100 text-gray-500", icon: FiCheckCircle },
   rejected: { label: "Rejected", color: "bg-red-50 text-red-500", icon: FiXCircle },

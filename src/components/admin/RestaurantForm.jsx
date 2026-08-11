@@ -20,6 +20,7 @@ import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 import { useSearchParams } from "next/navigation";
 import OwnerSelector from "./OwnerSelector";
 import Link from "next/link";
+import { getAllPromotionRequestsAdmin } from "@/lib/services/promotionService";
 
 
 const BADGE_COLOR_OPTIONS = [
@@ -84,8 +85,6 @@ export default function RestaurantForm({ initialData = null }) {
         ownerId: initialData?.ownerId || (prefillOwnerId || null),
         ownerName: initialData?.ownerName || (prefillOwnerName || null),
     });
-    const hasActiveFeaturedPromotion = initialData?.featuredUntil && new Date(initialData.featuredUntil) >= new Date();
-    const hasActiveSponsoredPromotion = initialData?.sponsoredUntil && new Date(initialData.sponsoredUntil) >= new Date();
 
     const [images, setImages] = useState(initialData?.images || []);
     const [originalImages] = useState(initialData?.images || []);
@@ -93,6 +92,25 @@ export default function RestaurantForm({ initialData = null }) {
     const [errors, setErrors] = useState({});
     const [isSaving, setIsSaving] = useState(false);
     const isPremium = formData.partnerPlan === "premium";
+
+    const [lockedPromotionTypes, setLockedPromotionTypes] = useState({ featured: false, sponsored: false });
+
+    useEffect(() => {
+        if (!initialData?.id) return;
+        getAllPromotionRequestsAdmin().then((allRequests) => {
+            const relevant = allRequests.filter(
+                (r) => r.entityId === initialData.id && ["scheduled", "active"].includes(r.status)
+            );
+            setLockedPromotionTypes({
+                featured: relevant.some((r) => r.promotionType === "featured"),
+                sponsored: relevant.some((r) => r.promotionType === "sponsored"),
+            });
+        });
+    }, [initialData?.id]);
+
+    const hasActiveFeaturedPromotion = lockedPromotionTypes.featured;
+    const hasActiveSponsoredPromotion = lockedPromotionTypes.sponsored;
+
 
     function formatShortDate(isoString) {
         if (!isoString) return "";

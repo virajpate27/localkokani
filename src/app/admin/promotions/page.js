@@ -12,15 +12,18 @@ import {
 import { triggerRevalidation } from "@/utils/revalidate";
 import { formatCurrency } from "@/utils/helpers";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
+import { activateScheduledPromotions } from "@/lib/services/promotionService";
 
 const tabs = [
   { value: "pending_payment", label: "Pending" },
+  { value: "scheduled", label: "Scheduled" },
   { value: "active", label: "Active" },
   { value: "all", label: "All" },
 ];
 
 const statusStyles = {
   pending_payment: "bg-secondary/10 text-secondary",
+  scheduled: "bg-blue-50 text-blue-500",
   active: "bg-accent/10 text-accent-dark",
   completed: "bg-gray-100 text-gray-500",
   rejected: "bg-red-50 text-red-500",
@@ -38,20 +41,36 @@ export default function AdminPromotionsPage() {
   const [endEarlyTarget, setEndEarlyTarget] = useState(null);
   const [notes, setNotes] = useState("");
 
-  const loadData = async () => {
-    setIsLoading(true);
-    const expiredCount = await expireOutdatedPromotions(); // lazy expiry runs every time this page loads
-    if (expiredCount > 0) {
-      toast(`${expiredCount} promotion(s) expired and were removed automatically`, { icon: "⏱️" });
+const loadData = async () => {
+  setIsLoading(true);
+
+  const expiredCount = await expireOutdatedPromotions();
+  if (expiredCount > 0) {
+    toast(`${expiredCount} promotion(s) expired and were removed automatically`, { icon: "⏱️" });
+  }
+
+  // NEW: activate any promotions whose scheduled start date has now arrived
+  const activated = await activateScheduledPromotions();
+  if (activated.length > 0) {
+    toast(`${activated.length} scheduled promotion(s) went live automatically`, { icon: "🚀" });
+    // Revalidate affected pages since their status just changed
+    for (const request of activated) {
+      await triggerRevalidation([
+        "/", "/destinations", `/${request.entityType}s`,
+        `/${request.entityType}s/${request.entitySlug}`,
+        `/destinations/${request.destinationSlug}`,
+      ]);
     }
-    const [pricingData, requestsData] = await Promise.all([
-      getPromotionPricing(),
-      getAllPromotionRequestsAdmin(),
-    ]);
-    setPricing(pricingData);
-    setRequests(requestsData);
-    setIsLoading(false);
-  };
+  }
+
+  const [pricingData, requestsData] = await Promise.all([
+    getPromotionPricing(),
+    getAllPromotionRequestsAdmin(),
+  ]);
+  setPricing(pricingData);
+  setRequests(requestsData);
+  setIsLoading(false);
+};
 
   useEffect(() => { loadData(); }, []);
 
@@ -75,23 +94,27 @@ export default function AdminPromotionsPage() {
   };
 
   const handleApprove = async (request) => {
-    setProcessingId(request.id);
-    try {
-      await approvePromotionRequest(request.id, request);
-      setRequests((prev) => prev.map((r) => (r.id === request.id ? { ...r, status: "active" } : r)));
-      await triggerRevalidation([
-        "/", "/destinations", `/${request.entityType}s`,
-        `/${request.entityType}s/${request.entitySlug}`,
-        `/destinations/${request.destinationSlug}`,
-      ]);
-      toast.success(`${request.entityName} is now ${request.promotionType}`);
-    } catch (error) {
-      console.error("Approve promotion error:", error);
-      toast.error("Failed to approve");
-    } finally {
-      setProcessingId(null);
-    }
-  };
+  setProcessingId(request.id);
+  try {
+    await approvePromotionRequest(request.id, request);
+    setRequests((prev) => prev.map((r) => (r.id === request.id ? { ...r, status: "active" } : r)));
+
+    await triggerRevalidation([
+      "/",
+      "/destinations",
+      `/${request.entityType}s`,
+      `/${request.entityType}s/${request.entitySlug}`,
+      `/destinations/${request.destinationSlug}`,
+    ]);
+
+    toast.success(`${request.entityName} is now ${request.promotionType}`);
+  } catch (error) {
+    console.error("Approve promotion error:", error);
+    toast.error("Failed to approve");
+  } finally {
+    setProcessingId(null);
+  }
+};
 
   const handleRejectConfirm = async () => {
     if (!rejectTarget) return;
@@ -222,14 +245,14 @@ export default function AdminPromotionsPage() {
                       </button>
                     </>
                   )}
-                  {req.status === "active" && (
-                    <button
-                      onClick={() => setEndEarlyTarget(req)}
-                      className="flex items-center gap-1.5 bg-orange-50 text-orange-500 hover:bg-orange-500 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
-                    >
-                      <FiClock /> End Early
-                    </button>
-                  )}
+                 {(req.status === "active" || req.status === "scheduled") && (
+  <button
+    onClick={() => setEndEarlyTarget(req)}
+    className="flex items-center gap-1.5 bg-orange-50 text-orange-500 hover:bg-orange-500 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+  >
+    <FiClock /> {req.status === "scheduled" ? "Cancel Scheduled" : "End Early"}
+  </button>
+)}
                 </div>
               </div>
             ))}

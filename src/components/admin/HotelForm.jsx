@@ -17,6 +17,7 @@ import CustomBadge from "@/components/ui/CustomBadge";
 import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 import OwnerSelector from "./OwnerSelector";
 import Link from "next/link";
+import { getAllPromotionRequestsAdmin } from "@/lib/services/promotionService";
 
 const BADGE_COLOR_OPTIONS = [
   { value: "primary", label: "Primary (Navy)" },
@@ -47,6 +48,7 @@ export default function HotelForm({ initialData = null }) {
   const prefillDescription = !isEditMode ? searchParams.get("prefillDescription") : null;
   const prefillAddress = !isEditMode ? searchParams.get("prefillAddress") : null;
 
+  const [lockedPromotionTypes, setLockedPromotionTypes] = useState({ featured: false, sponsored: false });
 
   const [destinations, setDestinations] = useState([]);
   const [isLoadingDestinations, setIsLoadingDestinations] = useState(true);
@@ -76,8 +78,20 @@ export default function HotelForm({ initialData = null }) {
     ownerName: initialData?.ownerName || (prefillOwnerName || null),
   });
 
-  const hasActiveFeaturedPromotion = initialData?.featuredUntil && new Date(initialData.featuredUntil) >= new Date();
-  const hasActiveSponsoredPromotion = initialData?.sponsoredUntil && new Date(initialData.sponsoredUntil) >= new Date();
+  useEffect(() => {
+    if (!initialData?.id) return;
+    getAllPromotionRequestsAdmin().then((allRequests) => {
+      const relevant = allRequests.filter(
+        (r) => r.entityId === initialData.id && ["scheduled", "active"].includes(r.status)
+      );
+      setLockedPromotionTypes({
+        featured: relevant.some((r) => r.promotionType === "featured"),
+        sponsored: relevant.some((r) => r.promotionType === "sponsored"),
+      });
+    });
+  }, [initialData?.id]);
+
+  
 
   const [images, setImages] = useState(initialData?.images || []);
   const [originalImages] = useState(initialData?.images || []);
@@ -93,6 +107,9 @@ export default function HotelForm({ initialData = null }) {
     return new Date(isoString).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   }
 
+  const hasActiveFeaturedPromotion = lockedPromotionTypes.featured;
+  const hasActiveSponsoredPromotion = lockedPromotionTypes.sponsored;
+
   useEffect(() => {
     async function loadDestinations() {
       try {
@@ -107,6 +124,8 @@ export default function HotelForm({ initialData = null }) {
     }
     loadDestinations();
   }, []);
+
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -570,23 +589,23 @@ export default function HotelForm({ initialData = null }) {
           </p>
         )}
 
-       <label className={`flex items-center gap-2.5 ${hasActiveSponsoredPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
-  <input
-    type="checkbox"
-    name="sponsored"
-    checked={formData.sponsored}
-    disabled={hasActiveSponsoredPromotion}
-    onChange={handleChange}
-    className="w-4 h-4 accent-secondary rounded"
-  />
-  <span className="text-sm text-gray-700">Sponsored Listing</span>
-</label>
-{hasActiveSponsoredPromotion && (
-  <p className="text-secondary text-xs -mt-1 pl-6">
-    🔒 Controlled by an active paid promotion until {formatShortDate(initialData.sponsoredUntil)}.{" "}
-    <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
-  </p>
-)}
+        <label className={`flex items-center gap-2.5 ${hasActiveSponsoredPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
+          <input
+            type="checkbox"
+            name="sponsored"
+            checked={formData.sponsored}
+            disabled={hasActiveSponsoredPromotion}
+            onChange={handleChange}
+            className="w-4 h-4 accent-secondary rounded"
+          />
+          <span className="text-sm text-gray-700">Sponsored Listing</span>
+        </label>
+        {hasActiveSponsoredPromotion && (
+          <p className="text-secondary text-xs -mt-1 pl-6">
+            🔒 Controlled by an active paid promotion until {formatShortDate(initialData.sponsoredUntil)}.{" "}
+            <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
+          </p>
+        )}
 
         <div>
           <label className="block text-sm font-medium dark:text-gray-300 mb-2">Status</label>
