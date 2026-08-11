@@ -18,6 +18,7 @@ import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 import OwnerSelector from "./OwnerSelector";
 import Link from "next/link";
 import { getAllPromotionRequestsAdmin } from "@/lib/services/promotionService";
+import { serverTimestamp } from "firebase/firestore";
 
 const BADGE_COLOR_OPTIONS = [
   { value: "primary", label: "Primary (Navy)" },
@@ -64,10 +65,10 @@ export default function HotelForm({ initialData = null }) {
     mapEmbedUrl: initialData?.mapEmbedUrl || "",
     lat: initialData?.location?.lat || "",
     lng: initialData?.location?.lng || "",
-    featured: initialData?.featured ?? false,
+
     status: initialData?.status || "active",
     verified: initialData?.verified ?? false,
-    sponsored: initialData?.sponsored ?? false,
+
     customBadgeText: initialData?.customBadgeText || "",
     customBadgeColor: initialData?.customBadgeColor || "primary",
     availabilityStatus: initialData?.availabilityStatus || "available",
@@ -76,6 +77,8 @@ export default function HotelForm({ initialData = null }) {
     partnerPlan: initialData?.partnerPlan || "basic",
     ownerId: initialData?.ownerId || (prefillOwnerId || null),
     ownerName: initialData?.ownerName || (prefillOwnerName || null),
+    featured: formData.featured,
+    sponsored: formData.sponsored,
   });
 
   useEffect(() => {
@@ -91,7 +94,7 @@ export default function HotelForm({ initialData = null }) {
     });
   }, [initialData?.id]);
 
-  
+
 
   const [images, setImages] = useState(initialData?.images || []);
   const [originalImages] = useState(initialData?.images || []);
@@ -216,7 +219,20 @@ export default function HotelForm({ initialData = null }) {
       partnerPlan: formData.partnerPlan,
       ownerId: formData.ownerId,
       ownerName: formData.ownerName,
+
+
     };
+
+
+
+
+    if (formData.featured && !initialData?.featured) {
+      payload.featuredPromotedAt = serverTimestamp(); // newly featured — stamp it now
+    }
+    if (formData.sponsored && !initialData?.sponsored) {
+      payload.sponsoredPromotedAt = serverTimestamp(); // newly sponsored — stamp it now
+    }
+
 
     // Collect every public path that needs fresh data after this save,
     // including old slug/destination paths in case of a rename or move.

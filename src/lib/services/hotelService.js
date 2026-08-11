@@ -35,12 +35,13 @@ export async function getAllHotels() {
 }
 
 // Featured hotels only — used on homepage
-export async function getFeaturedHotels(limitCount = 4) {
+export async function getFeaturedHotels(limitCount = 8) {
   const snap = await getDocs(
     query(
       collection(db, COLLECTION),
       where("featured", "==", true),
       where("status", "==", "active"),
+      orderBy("featuredPromotedAt", "desc"), // ⬅️ ADD — newest promotion first
       fbLimit(limitCount)
     )
   );
@@ -126,13 +127,14 @@ export async function restoreHotel(id) {
   return updateDoc(docRef, { status: "active", updatedAt: serverTimestamp() });
 }
 
-export async function getSponsoredHotelsByDestination(destinationId, limitCount = 8) {
+export async function getSponsoredHotelsByDestination(destinationId, limitCount = 6) {
   const snap = await getDocs(
     query(
       collection(db, COLLECTION),
       where("destinationId", "==", destinationId),
       where("sponsored", "==", true),
       where("status", "==", "active"),
+      orderBy("sponsoredPromotedAt", "desc"), // ⬅️ ADD
       fbLimit(limitCount)
     )
   );
@@ -145,3 +147,4 @@ export async function getHotelsByOwner(ownerId) {
   );
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
+

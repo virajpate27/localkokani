@@ -21,6 +21,7 @@ import { useSearchParams } from "next/navigation";
 import OwnerSelector from "./OwnerSelector";
 import Link from "next/link";
 import { getAllPromotionRequestsAdmin } from "@/lib/services/promotionService";
+import { serverTimestamp } from "firebase/firestore";
 
 
 const BADGE_COLOR_OPTIONS = [
@@ -72,10 +73,10 @@ export default function RestaurantForm({ initialData = null }) {
         mapEmbedUrl: initialData?.mapEmbedUrl || "",
         lat: initialData?.location?.lat || "",
         lng: initialData?.location?.lng || "",
-        featured: initialData?.featured ?? false,
+
         status: initialData?.status || "active",
         verified: initialData?.verified ?? false,
-        sponsored: initialData?.sponsored ?? false,
+
         availabilityStatus: initialData?.availabilityStatus || "available",
         availabilityMessage: initialData?.availabilityMessage || "",
         customBadgeText: initialData?.customBadgeText || "",
@@ -84,6 +85,9 @@ export default function RestaurantForm({ initialData = null }) {
         partnerPlan: initialData?.partnerPlan || "basic",
         ownerId: initialData?.ownerId || (prefillOwnerId || null),
         ownerName: initialData?.ownerName || (prefillOwnerName || null),
+        featured: formData.featured,
+        sponsored: formData.sponsored,
+
     });
 
     const [images, setImages] = useState(initialData?.images || []);
@@ -205,6 +209,14 @@ export default function RestaurantForm({ initialData = null }) {
             ownerId: formData.ownerId,
             ownerName: formData.ownerName,
         };
+
+
+        if (formData.featured && !initialData?.featured) {
+            payload.featuredPromotedAt = serverTimestamp(); // newly featured — stamp it now
+        }
+        if (formData.sponsored && !initialData?.sponsored) {
+            payload.sponsoredPromotedAt = serverTimestamp(); // newly sponsored — stamp it now
+        }
 
         // Collect every public path that needs fresh data after this save,
         // including old slug/destination paths in case of a rename or move.

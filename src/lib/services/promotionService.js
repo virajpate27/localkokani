@@ -86,9 +86,6 @@ export async function getPromotionRequestsByOwner(ownerId) {
 export async function approvePromotionRequest(requestId, request, adminNotes = "") {
   const docRef = doc(db, REQUESTS_COLLECTION, requestId);
   const today = todayString();
-
-  // If the start date is today or already in the past, activate immediately.
-  // Otherwise, mark as "scheduled" — the flag gets flipped later by activateScheduledPromotions().
   const isStartingNow = request.startDate <= today;
 
   await updateDoc(docRef, {
@@ -100,9 +97,14 @@ export async function approvePromotionRequest(requestId, request, adminNotes = "
 
   if (isStartingNow) {
     const untilField = request.promotionType === "featured" ? "featuredUntil" : "sponsoredUntil";
+    const promotedAtField = request.promotionType === "featured" ? "featuredPromotedAt" : "sponsoredPromotedAt"; // ⬅️ ADD
     const flagField = request.promotionType;
     const updateFn = request.entityType === "hotel" ? updateHotel : updateRestaurant;
-    await updateFn(request.entityId, { [flagField]: true, [untilField]: request.endDate });
+    await updateFn(request.entityId, {
+      [flagField]: true,
+      [untilField]: request.endDate,
+      [promotedAtField]: serverTimestamp(), // ⬅️ ADD
+    });
   }
 
   return isStartingNow ? "active" : "scheduled";
@@ -111,20 +113,23 @@ export async function approvePromotionRequest(requestId, request, adminNotes = "
 export async function activateScheduledPromotions() {
   const snap = await getDocs(query(collection(db, REQUESTS_COLLECTION), where("status", "==", "scheduled")));
   const today = todayString();
-  const dueToStart = snap.docs
-    .map((d) => ({ id: d.id, ...d.data() }))
-    .filter((r) => r.startDate <= today);
+  const dueToStart = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((r) => r.startDate <= today);
 
   for (const request of dueToStart) {
     const untilField = request.promotionType === "featured" ? "featuredUntil" : "sponsoredUntil";
+    const promotedAtField = request.promotionType === "featured" ? "featuredPromotedAt" : "sponsoredPromotedAt"; // ⬅️ ADD
     const flagField = request.promotionType;
     const updateFn = request.entityType === "hotel" ? updateHotel : updateRestaurant;
 
-    await updateFn(request.entityId, { [flagField]: true, [untilField]: request.endDate });
+    await updateFn(request.entityId, {
+      [flagField]: true,
+      [untilField]: request.endDate,
+      [promotedAtField]: serverTimestamp(), // ⬅️ ADD
+    });
     await updateDoc(doc(db, REQUESTS_COLLECTION, request.id), { status: "active", updatedAt: serverTimestamp() });
   }
 
-  return dueToStart.map((r) => ({ ...r, entityType: r.entityType, destinationSlug: r.destinationSlug })); // return for revalidation
+  return dueToStart;
 }
 
 export async function rejectPromotionRequest(requestId, adminNotes = "") {

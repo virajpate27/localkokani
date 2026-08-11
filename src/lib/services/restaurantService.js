@@ -33,16 +33,17 @@ export async function getAllRestaurants() {
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
 
-export async function getFeaturedRestaurants(limitCount = 4) {
+export async function getFeaturedRestaurants(limitCount = 8) {
   const snap = await getDocs(
     query(
       collection(db, COLLECTION),
       where("featured", "==", true),
       where("status", "==", "active"),
+       orderBy("featuredPromotedAt", "desc"),
       fbLimit(limitCount)
     )
   );
-  return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+ return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
 
 export async function getRestaurantsByDestination(destinationId) {
@@ -125,6 +126,7 @@ export async function getSponsoredRestaurantsByDestination(destinationId, limitC
       where("destinationId", "==", destinationId),
       where("sponsored", "==", true),
       where("status", "==", "active"),
+       orderBy("sponsoredPromotedAt", "desc"),
       fbLimit(limitCount)
     )
   );
@@ -137,3 +139,4 @@ export async function getRestaurantsByOwner(ownerId) {
   );
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
+
