@@ -16,6 +16,7 @@ import { slugify, isValidGoogleMapsEmbedUrl, isValidWhatsAppNumber } from "@/uti
 import CustomBadge from "@/components/ui/CustomBadge";
 import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 import OwnerSelector from "./OwnerSelector";
+import Link from "next/link";
 
 const BADGE_COLOR_OPTIONS = [
   { value: "primary", label: "Primary (Navy)" },
@@ -51,7 +52,7 @@ export default function HotelForm({ initialData = null }) {
   const [isLoadingDestinations, setIsLoadingDestinations] = useState(true);
 
   const [formData, setFormData] = useState({
-   name: initialData?.name || prefillName || "",
+    name: initialData?.name || prefillName || "",
     destinationId: initialData?.destinationId || "",
     description: initialData?.description || prefillDescription || "",
     address: initialData?.address || prefillAddress || "",
@@ -74,6 +75,10 @@ export default function HotelForm({ initialData = null }) {
     ownerId: initialData?.ownerId || (prefillOwnerId || null),
     ownerName: initialData?.ownerName || (prefillOwnerName || null),
   });
+
+  const hasActiveFeaturedPromotion = initialData?.featuredUntil && new Date(initialData.featuredUntil) >= new Date();
+  const hasActiveSponsoredPromotion = initialData?.sponsoredUntil && new Date(initialData.sponsoredUntil) >= new Date();
+
   const [images, setImages] = useState(initialData?.images || []);
   const [originalImages] = useState(initialData?.images || []);
   const [amenities, setAmenities] = useState(initialData?.amenities || []);
@@ -83,6 +88,10 @@ export default function HotelForm({ initialData = null }) {
 
   const isPremium = formData.partnerPlan === "premium";
 
+  function formatShortDate(isoString) {
+    if (!isoString) return "";
+    return new Date(isoString).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  }
 
   useEffect(() => {
     async function loadDestinations() {
@@ -543,49 +552,41 @@ export default function HotelForm({ initialData = null }) {
       {/* Status & Visibility */}
       <div className="card p-6 space-y-4">
         <h3 className="font-display font-semibold text-primary dark:text-white">Visibility</h3>
-        <label className="flex items-center gap-2.5 cursor-pointer">
+        <label className={`flex items-center gap-2.5 ${hasActiveFeaturedPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
           <input
             type="checkbox"
             name="featured"
             checked={formData.featured}
+            disabled={hasActiveFeaturedPromotion}
             onChange={handleChange}
             className="w-4 h-4 accent-secondary rounded"
           />
-          <span className="text-sm dark:text-gray-300">Show on homepage (Featured Hotel)</span>
+          <span className="text-sm text-gray-700">Show on homepage (Featured Hotel)</span>
         </label>
+        {hasActiveFeaturedPromotion && (
+          <p className="text-secondary text-xs -mt-1 pl-6">
+            🔒 Controlled by an active paid promotion until {formatShortDate(initialData.featuredUntil)}.{" "}
+            <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
+          </p>
+        )}
 
-        <label className={`flex items-center gap-2.5 ${isPremium ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
-          <input
-            type="checkbox"
-            name="verified"
-            checked={formData.verified}
-            disabled={!isPremium}
-            onChange={handleChange}
-            className="w-4 h-4 accent-secondary rounded"
-          />
-          <span className="text-sm text-gray-700 flex items-center gap-2">
-            Premium Verified
-            <span className="text-xs text-gray-400 font-normal">
-              {isPremium ? "(shows a trust badge)" : "(Premium plan only)"}
-            </span>
-          </span>
-        </label>
-
-        <label className="flex items-center gap-2.5 cursor-pointer">
-          <input
-            type="checkbox"
-            name="sponsored"
-            checked={formData.sponsored}
-            onChange={handleChange}
-            className="w-4 h-4 accent-secondary rounded"
-          />
-          <span className="text-sm dark:text-gray-300 flex items-center gap-2">
-            Sponsored Listing
-            <span className="text-xs dark:dark:text-gray-500 font-normal">
-              (featured in the "Recommended" section on its destination page)
-            </span>
-          </span>
-        </label>
+       <label className={`flex items-center gap-2.5 ${hasActiveSponsoredPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
+  <input
+    type="checkbox"
+    name="sponsored"
+    checked={formData.sponsored}
+    disabled={hasActiveSponsoredPromotion}
+    onChange={handleChange}
+    className="w-4 h-4 accent-secondary rounded"
+  />
+  <span className="text-sm text-gray-700">Sponsored Listing</span>
+</label>
+{hasActiveSponsoredPromotion && (
+  <p className="text-secondary text-xs -mt-1 pl-6">
+    🔒 Controlled by an active paid promotion until {formatShortDate(initialData.sponsoredUntil)}.{" "}
+    <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
+  </p>
+)}
 
         <div>
           <label className="block text-sm font-medium dark:text-gray-300 mb-2">Status</label>

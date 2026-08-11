@@ -17,9 +17,9 @@ import { slugify, isValidGoogleMapsEmbedUrl, isValidWhatsAppNumber } from "@/uti
 import { triggerRevalidation } from "@/utils/revalidate";
 import CustomBadge from "@/components/ui/CustomBadge";
 import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
-import { useSearchParams } from "next/navigation"; 
+import { useSearchParams } from "next/navigation";
 import OwnerSelector from "./OwnerSelector";
-
+import Link from "next/link";
 
 
 const BADGE_COLOR_OPTIONS = [
@@ -49,11 +49,11 @@ export default function RestaurantForm({ initialData = null }) {
     const isEditMode = !!initialData;
 
     // Read prefill params only when creating new (not editing)
-  const prefillOwnerId = !isEditMode ? searchParams.get("ownerId") : null;
-  const prefillOwnerName = !isEditMode ? searchParams.get("ownerName") : null;
-  const prefillName = !isEditMode ? searchParams.get("prefillName") : null;
-  const prefillDescription = !isEditMode ? searchParams.get("prefillDescription") : null;
-  const prefillAddress = !isEditMode ? searchParams.get("prefillAddress") : null;
+    const prefillOwnerId = !isEditMode ? searchParams.get("ownerId") : null;
+    const prefillOwnerName = !isEditMode ? searchParams.get("ownerName") : null;
+    const prefillName = !isEditMode ? searchParams.get("prefillName") : null;
+    const prefillDescription = !isEditMode ? searchParams.get("prefillDescription") : null;
+    const prefillAddress = !isEditMode ? searchParams.get("prefillAddress") : null;
 
     const [destinations, setDestinations] = useState([]);
     const [isLoadingDestinations, setIsLoadingDestinations] = useState(true);
@@ -63,7 +63,7 @@ export default function RestaurantForm({ initialData = null }) {
         destinationId: initialData?.destinationId || "",
         description: initialData?.description || prefillDescription || "",
         address: initialData?.address || prefillAddress || "",
-        
+
         costForTwo: initialData?.costForTwo || "",
         priceRange: initialData?.priceRange || "$$",
         rating: initialData?.rating || "",
@@ -81,15 +81,23 @@ export default function RestaurantForm({ initialData = null }) {
         customBadgeColor: initialData?.customBadgeColor || "primary",
         whatsappNumber: initialData?.whatsappNumber || "",
         partnerPlan: initialData?.partnerPlan || "basic",
-       ownerId: initialData?.ownerId || (prefillOwnerId || null),
-      ownerName: initialData?.ownerName || (prefillOwnerName || null),
+        ownerId: initialData?.ownerId || (prefillOwnerId || null),
+        ownerName: initialData?.ownerName || (prefillOwnerName || null),
     });
+    const hasActiveFeaturedPromotion = initialData?.featuredUntil && new Date(initialData.featuredUntil) >= new Date();
+    const hasActiveSponsoredPromotion = initialData?.sponsoredUntil && new Date(initialData.sponsoredUntil) >= new Date();
+
     const [images, setImages] = useState(initialData?.images || []);
     const [originalImages] = useState(initialData?.images || []);
     const [cuisine, setCuisine] = useState(initialData?.cuisine || []);
     const [errors, setErrors] = useState({});
     const [isSaving, setIsSaving] = useState(false);
     const isPremium = formData.partnerPlan === "premium";
+
+    function formatShortDate(isoString) {
+        if (!isoString) return "";
+        return new Date(isoString).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+    }
 
     useEffect(() => {
         getAllDestinations()
@@ -177,7 +185,7 @@ export default function RestaurantForm({ initialData = null }) {
                     : null,
             partnerPlan: formData.partnerPlan,
             ownerId: formData.ownerId,
-  ownerName: formData.ownerName,
+            ownerName: formData.ownerName,
         };
 
         // Collect every public path that needs fresh data after this save,
@@ -254,18 +262,18 @@ export default function RestaurantForm({ initialData = null }) {
             </div>
 
             <div className="card p-6">
-  <label className="block text-sm font-medium text-gray-700 mb-2">
-    Assigned Owner <span className="text-gray-400 font-normal">(optional)</span>
-  </label>
-  <p className="text-gray-400 text-xs mb-3">
-    Link this listing to a registered partner account. The owner will be able to see this listing on their dashboard.
-  </p>
-  <OwnerSelector
-    value={formData.ownerId}
-    valueName={formData.ownerName}
-    onChange={(ownerId, ownerName) => setFormData((prev) => ({ ...prev, ownerId, ownerName }))}
-  />
-</div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Assigned Owner <span className="text-gray-400 font-normal">(optional)</span>
+                </label>
+                <p className="text-gray-400 text-xs mb-3">
+                    Link this listing to a registered partner account. The owner will be able to see this listing on their dashboard.
+                </p>
+                <OwnerSelector
+                    value={formData.ownerId}
+                    valueName={formData.ownerName}
+                    onChange={(ownerId, ownerName) => setFormData((prev) => ({ ...prev, ownerId, ownerName }))}
+                />
+            </div>
 
             <div className="card p-6 space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -513,16 +521,23 @@ export default function RestaurantForm({ initialData = null }) {
             </div>
 
             <div className="card p-6 space-y-4">
-                <label className="flex items-center gap-2.5 cursor-pointer">
+                <label className={`flex items-center gap-2.5 ${hasActiveFeaturedPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
                     <input
                         type="checkbox"
                         name="featured"
                         checked={formData.featured}
+                        disabled={hasActiveFeaturedPromotion}
                         onChange={handleChange}
                         className="w-4 h-4 accent-secondary rounded"
                     />
-                    <span className="text-sm dark:text-gray-300">Show on homepage (Featured Restaurant)</span>
+                    <span className="text-sm text-gray-700">Show on homepage (Featured Restaurant)</span>
                 </label>
+                {hasActiveFeaturedPromotion && (
+                    <p className="text-secondary text-xs -mt-1 pl-6">
+                        🔒 Controlled by an active paid promotion until {formatShortDate(initialData.featuredUntil)}.{" "}
+                        <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
+                    </p>
+                )}
                 <label className={`flex items-center gap-2.5 ${isPremium ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
                     <input
                         type="checkbox"
@@ -539,21 +554,23 @@ export default function RestaurantForm({ initialData = null }) {
                         </span>
                     </span>
                 </label>
-                <label className="flex items-center gap-2.5 cursor-pointer">
+                <label className={`flex items-center gap-2.5 ${hasActiveSponsoredPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
                     <input
                         type="checkbox"
                         name="sponsored"
                         checked={formData.sponsored}
+                        disabled={hasActiveSponsoredPromotion}
                         onChange={handleChange}
                         className="w-4 h-4 accent-secondary rounded"
                     />
-                    <span className="text-sm dark:text-gray-300 flex items-center gap-2">
-                        Sponsored Listing
-                        <span className="text-xs dark:dark:text-gray-500 font-normal">
-                            (featured in the "Recommended" section on its destination page)
-                        </span>
-                    </span>
+                    <span className="text-sm text-gray-700">Sponsored Listing</span>
                 </label>
+                {hasActiveSponsoredPromotion && (
+                    <p className="text-secondary text-xs -mt-1 pl-6">
+                        🔒 Controlled by an active paid promotion until {formatShortDate(initialData.sponsoredUntil)}.{" "}
+                        <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
+                    </p>
+                )}
                 <div>
                     <label className="block text-sm font-medium dark:text-gray-300 mb-2">Status</label>
                     <select
