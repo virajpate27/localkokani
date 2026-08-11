@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { FiSave, FiLoader } from "react-icons/fi";
+import { FiSave, FiLoader } from "react-icons/fi"; 
 import MultiImageUploader from "./MultiImageUploader";
 import TagInput from "./TagInput";
 import {
