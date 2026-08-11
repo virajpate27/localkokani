@@ -35,7 +35,7 @@ export async function getAllHotels() {
 }
 
 // Featured hotels only — used on homepage
-export async function getFeaturedHotels(limitCount = 4) {
+export async function getFeaturedHotels(limitCount = 8) {
   const snap = await getDocs(
     query(
       collection(db, COLLECTION),
@@ -127,7 +127,7 @@ export async function restoreHotel(id) {
   return updateDoc(docRef, { status: "active", updatedAt: serverTimestamp() });
 }
 
-export async function getSponsoredHotelsByDestination(destinationId, limitCount = 6) {
+export async function getSponsoredHotelsByDestination(destinationId, limitCount = 8) {
   const snap = await getDocs(
     query(
       collection(db, COLLECTION),

@@ -98,7 +98,6 @@ const loadData = async () => {
   try {
     await approvePromotionRequest(request.id, request);
     setRequests((prev) => prev.map((r) => (r.id === request.id ? { ...r, status: "active" } : r)));
-
     await triggerRevalidation([
       "/",
       "/destinations",

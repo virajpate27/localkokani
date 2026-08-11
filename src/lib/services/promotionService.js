@@ -84,6 +84,20 @@ export async function getPromotionRequestsByOwner(ownerId) {
 
 // Approve — confirms payment received, activates the promotion on the actual listing
 export async function approvePromotionRequest(requestId, request, adminNotes = "") {
+  // Safety check: don't allow approving a second concurrent promotion for the same listing+type
+  const conflictSnap = await getDocs(
+    query(
+      collection(db, REQUESTS_COLLECTION),
+      where("entityId", "==", request.entityId),
+      where("promotionType", "==", request.promotionType),
+      where("status", "in", ["scheduled", "active"])
+    )
+  );
+  const hasConflict = conflictSnap.docs.some((d) => d.id !== requestId);
+  if (hasConflict) {
+    throw new Error("This listing already has an active or scheduled promotion of this type.");
+  }
+
   const docRef = doc(db, REQUESTS_COLLECTION, requestId);
   const today = todayString();
   const isStartingNow = request.startDate <= today;
@@ -97,13 +111,13 @@ export async function approvePromotionRequest(requestId, request, adminNotes = "
 
   if (isStartingNow) {
     const untilField = request.promotionType === "featured" ? "featuredUntil" : "sponsoredUntil";
-    const promotedAtField = request.promotionType === "featured" ? "featuredPromotedAt" : "sponsoredPromotedAt"; // ⬅️ ADD
+    const promotedAtField = request.promotionType === "featured" ? "featuredPromotedAt" : "sponsoredPromotedAt";
     const flagField = request.promotionType;
     const updateFn = request.entityType === "hotel" ? updateHotel : updateRestaurant;
     await updateFn(request.entityId, {
       [flagField]: true,
       [untilField]: request.endDate,
-      [promotedAtField]: serverTimestamp(), // ⬅️ ADD
+      [promotedAtField]: serverTimestamp(),
     });
   }
 
@@ -180,4 +194,16 @@ export async function expireOutdatedPromotions() {
   }
 
   return expired.length;
+}
+
+export async function hasActiveOrScheduledPromotion(entityId, promotionType) {
+  const snap = await getDocs(
+    query(
+      collection(db, REQUESTS_COLLECTION),
+      where("entityId", "==", entityId),
+      where("promotionType", "==", promotionType),
+      where("status", "in", ["pending_payment", "scheduled", "active"])
+    )
+  );
+  return !snap.empty;
 }
