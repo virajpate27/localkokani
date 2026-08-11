@@ -197,13 +197,16 @@ export async function expireOutdatedPromotions() {
 }
 
 export async function hasActiveOrScheduledPromotion(entityId, promotionType) {
-  const snap = await getDocs(
-    query(
-      collection(db, REQUESTS_COLLECTION),
-      where("entityId", "==", entityId),
-      where("promotionType", "==", promotionType),
-      where("status", "in", ["pending_payment", "scheduled", "active"])
-    )
-  );
-  return !snap.empty;
+  try {
+    const res = await fetch("/api/promotions/check-conflict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ entityId, promotionType }),
+    });
+    const data = await res.json();
+    return data.hasConflict || false;
+  } catch (error) {
+    console.error("Conflict check failed:", error);
+    return false; // fail-open on the pre-check — the admin-side safety net (Part B) still catches real conflicts on approval
+  }
 }
