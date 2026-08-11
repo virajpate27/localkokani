@@ -1,21 +1,35 @@
 // src/app/admin/login/page.js
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { FiMail, FiLock, FiMapPin, FiEye, FiEyeOff } from "react-icons/fi";
+import {
+  FiMail,
+  FiLock,
+  FiMapPin,
+  FiEye,
+  FiEyeOff,
+  FiLoader,
+} from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const { login, user } = useAuth();
+  const { login, user, loading } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/admin");
+    }
+  }, [loading, user, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +67,14 @@ export default function AdminLoginPage() {
       setIsSubmitting(false);
     }
   };
+
+  if (loading || user) {
+    return (
+      <div className="min-h-screen bg-hero-gradient flex items-center justify-center">
+        <FiLoader className="animate-spin text-3xl text-white" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-hero-gradient flex items-center justify-center px-4 py-12">

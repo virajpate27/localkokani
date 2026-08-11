@@ -3,11 +3,10 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
+  onAuthStateChanged, signInWithEmailAndPassword, signOut,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/lib/firebase";
 
 const AuthContext = createContext(null);
 
@@ -16,8 +15,19 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        // Only treat this session as "logged in" for admin purposes
+        // if an /admins/{uid} document actually exists for this user.
+        const adminDocSnap = await getDoc(doc(db, "admins", currentUser.uid));
+        if (adminDocSnap.exists()) {
+          setUser(currentUser);
+        } else {
+          setUser(null); // authenticated, but NOT an admin — e.g. an owner account
+        }
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
@@ -38,8 +48,6 @@ export function AuthProvider({ children }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 }
