@@ -210,3 +210,10 @@ export async function hasActiveOrScheduledPromotion(entityId, promotionType) {
     return false; // fail-open — admin-side approval check still catches real conflicts
   }
 }
+
+export async function getPendingPromotionRequestsCount() {
+  const snap = await getDocs(
+    query(collection(db, REQUESTS_COLLECTION), where("status", "==", "pending_payment"))
+  );
+  return snap.size;
+}

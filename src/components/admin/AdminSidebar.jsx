@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { getNewLeadsCount } from "@/lib/services/dashboardService";
 import { getPendingPartnerApplicationsCount } from "@/lib/services/partnerService"; // ⬅️ ADD
+ import { getPendingPromotionRequestsCount } from "@/lib/services/promotionService";
  
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: FiGrid },
@@ -31,10 +32,12 @@ export default function AdminSidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [newLeadsCount, setNewLeadsCount] = useState(0);
     const [pendingPartnersCount, setPendingPartnersCount] = useState(0);
+  const [pendingPromotionsCount, setPendingPromotionsCount] = useState(0);
 
   useEffect(() => {
     getNewLeadsCount().then(setNewLeadsCount).catch(() => { });
     getPendingPartnerApplicationsCount().then(setPendingPartnersCount).catch(() => {});
+    getPendingPromotionRequestsCount().then(setPendingPromotionsCount).catch(() => {});
   }, [pathname]);
 
   const handleLogout = async () => {
@@ -81,10 +84,15 @@ export default function AdminSidebar() {
                   {newLeadsCount}
                 </span>
               )}
-              {/* NEW: badge for partner applications */}
               {item.href === "/admin/partner-applications" && pendingPartnersCount > 0 && (
                 <span className="ml-auto bg-accent text-white text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center">
                   {pendingPartnersCount}
+                </span>
+              )}
+              {/* NEW: badge for Feature & Sponsor */}
+              {item.href === "/admin/promotions" && pendingPromotionsCount > 0 && (
+                <span className="ml-auto bg-accent text-white text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                  {pendingPromotionsCount}
                 </span>
               )}
             </Link>
