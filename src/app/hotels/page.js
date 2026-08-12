@@ -3,6 +3,7 @@ import { getAllHotels } from "@/lib/services/hotelService";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import HotelsFilterGrid from "@/components/hotels/HotelsFilterGrid";
 
+
 export const revalidate = 1800; // 30 min — hotels list changes more often than destinations
 
 export const metadata = {

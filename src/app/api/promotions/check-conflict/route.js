@@ -4,11 +4,6 @@ import { initializeApp, getApps, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 
 function getAdminDb() {
-  console.log("DEBUG — projectId:", process.env.FIREBASE_ADMIN_PROJECT_ID);
-  console.log("DEBUG — clientEmail:", process.env.FIREBASE_ADMIN_CLIENT_EMAIL);
-  console.log("DEBUG — privateKey exists:", !!process.env.FIREBASE_ADMIN_PRIVATE_KEY);
-  console.log("DEBUG — privateKey starts with:", process.env.FIREBASE_ADMIN_PRIVATE_KEY?.substring(0, 30));
-
   if (!getApps().length) {
     initializeApp({
       credential: cert({
@@ -40,10 +35,6 @@ export async function POST(request) {
     return NextResponse.json({ hasConflict: !snap.empty });
   } catch (error) {
     console.error("Promotion conflict check error:", error);
-    // TEMPORARY — return the actual error message for debugging, remove once fixed
-    return NextResponse.json(
-      { error: "Check failed", debugMessage: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Check failed" }, { status: 500 });
   }
 }

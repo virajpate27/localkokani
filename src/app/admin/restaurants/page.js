@@ -27,6 +27,7 @@ import { incrementRestaurantCount } from "@/lib/services/destinationService";
 import { deleteFromCloudinary } from "@/lib/cloudinary";
 import { triggerRevalidation } from "@/utils/revalidate";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
+import PromotionBadge from "@/components/admin/PromotionBadge";
 
 const statusStyles = {
   active: "bg-accent/10 text-accent-dark",
@@ -295,6 +296,7 @@ export default function AdminRestaurantsPage() {
                   </th>
                   <th className="px-5 py-3.5 font-medium">Restaurant</th>
                   <th className="px-5 py-3.5 font-medium">Owner</th>
+                  <th className="px-5 py-3.5 font-medium">Promotion</th>
                   <th className="px-5 py-3.5 font-medium">Destination</th>
                   <th className="px-5 py-3.5 font-medium">WhatsApp</th>
                   <th className="px-5 py-3.5 font-medium">Price</th>
@@ -322,7 +324,7 @@ export default function AdminRestaurantsPage() {
                         )}
                       </button>
                     </td>
-                   
+
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
                         <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 dark:bg-gray-800">
@@ -341,7 +343,7 @@ export default function AdminRestaurantsPage() {
                         </span>
                       </div>
                     </td>
-                     <td className="px-5 py-3.5">
+                    <td className="px-5 py-3.5">
                       {restaurant.ownerId ? (
                         <Link
                           href={`/admin/owners/${restaurant.ownerId}`}
@@ -354,6 +356,14 @@ export default function AdminRestaurantsPage() {
                           Unassigned
                         </span>
                       )}
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <PromotionBadge
+                        featured={restaurant.featured}
+                        sponsored={restaurant.sponsored}
+                        featuredUntil={restaurant.featuredUntil}
+                        sponsoredUntil={restaurant.sponsoredUntil}
+                      />
                     </td>
                     <td className="px-5 py-3.5 dark:text-gray-300">
                       {restaurant.destinationName}
