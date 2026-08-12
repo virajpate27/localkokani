@@ -10,8 +10,9 @@ import {
   FiCheck,
   FiX,
   FiClock,
-  FaWhatsapp,
+  
 } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 import toast from "react-hot-toast";
 import {
   getPromotionPricing,
