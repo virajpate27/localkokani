@@ -207,6 +207,6 @@ export async function hasActiveOrScheduledPromotion(entityId, promotionType) {
     return data.hasConflict || false;
   } catch (error) {
     console.error("Conflict check failed:", error);
-    return false; // fail-open on the pre-check — the admin-side safety net (Part B) still catches real conflicts on approval
+    return false; // fail-open — admin-side approval check still catches real conflicts
   }
 }
