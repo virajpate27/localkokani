@@ -39,7 +39,7 @@ export async function updatePromotionPricing(pricing) {
   return setDoc(docRef, { ...pricing, updatedAt: serverTimestamp() }, { merge: true });
 }
 
-function addDays(dateString, days) {
+export function addDays(dateString, days) {
   const date = new Date(dateString);
   date.setDate(date.getDate() + days);
   return date.toISOString().split("T")[0];
@@ -216,4 +216,15 @@ export async function getPendingPromotionRequestsCount() {
     query(collection(db, REQUESTS_COLLECTION), where("status", "==", "pending_payment"))
   );
   return snap.size;
+}
+
+export async function getExtendableRequestsByOwner(ownerId) {
+  const snap = await getDocs(
+    query(
+      collection(db, REQUESTS_COLLECTION),
+      where("ownerId", "==", ownerId),
+      where("status", "in", ["scheduled", "active"])
+    )
+  );
+  return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
