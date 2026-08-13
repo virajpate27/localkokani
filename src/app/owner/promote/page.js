@@ -23,7 +23,7 @@ import {
   DURATIONS,
 } from "@/lib/services/promotionService";
 import { formatCurrency } from "@/utils/helpers";
-import { hasActiveOrScheduledPromotion } from "@/lib/services/promotionService";
+
 
 const statusConfig = {
   pending_payment: {
