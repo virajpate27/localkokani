@@ -84,7 +84,10 @@ export async function getPromotionRequestsByOwner(ownerId) {
 
 // Approve — confirms payment received, activates the promotion on the actual listing
 export async function approvePromotionRequest(requestId, request, adminNotes = "") {
-  // Safety check: don't allow approving a second concurrent promotion for the same listing+type
+  // Safety check: block approval only if there's a GENUINE overlapping conflict —
+  // i.e. another scheduled/active request for the same listing+type whose date range
+  // actually intersects this one. A back-to-back extension (starts the day the other ends)
+  // is NOT a conflict and must be allowed.
   const conflictSnap = await getDocs(
     query(
       collection(db, REQUESTS_COLLECTION),
@@ -93,9 +96,16 @@ export async function approvePromotionRequest(requestId, request, adminNotes = "
       where("status", "in", ["scheduled", "active"])
     )
   );
-  const hasConflict = conflictSnap.docs.some((d) => d.id !== requestId);
-  if (hasConflict) {
-    throw new Error("This listing already has an active or scheduled promotion of this type.");
+
+  const hasRealOverlap = conflictSnap.docs.some((d) => {
+    if (d.id === requestId) return false; // don't compare against itself
+    const other = d.data();
+    // Two date ranges overlap if: this.startDate <= other.endDate AND this.endDate >= other.startDate
+    return request.startDate <= other.endDate && request.endDate >= other.startDate;
+  });
+
+  if (hasRealOverlap) {
+    throw new Error("This listing already has an overlapping active or scheduled promotion of this type.");
   }
 
   const docRef = doc(db, REQUESTS_COLLECTION, requestId);
