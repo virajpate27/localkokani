@@ -29,6 +29,8 @@ import { formatCurrency } from "@/utils/helpers";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
 import { activateScheduledPromotions } from "@/lib/services/promotionService";
 import { getOwnerById } from "@/lib/services/ownerService";
+import CronStatusIndicator from "@/components/admin/CronStatusIndicator";
+import { getCronRunStatus } from "@/lib/services/promotionService";
 
 const tabs = [
   { value: "pending_payment", label: "Pending" },
@@ -57,45 +59,38 @@ export default function AdminPromotionsPage() {
   const [endEarlyTarget, setEndEarlyTarget] = useState(null);
   const [notes, setNotes] = useState("");
   const [notifyingId, setNotifyingId] = useState(null);
+  const [cronStatus, setCronStatus] = useState(null);
 
   const loadData = async () => {
-    setIsLoading(true);
+  setIsLoading(true);
 
-    const expiredCount = await expireOutdatedPromotions();
-    if (expiredCount > 0) {
-      toast(
-        `${expiredCount} promotion(s) expired and were removed automatically`,
-        { icon: "⏱️" },
-      );
+  const expiredCount = await expireOutdatedPromotions();
+  if (expiredCount > 0) {
+    toast(`${expiredCount} promotion(s) expired and were removed automatically`, { icon: "⏱️" });
+  }
+
+  const activated = await activateScheduledPromotions();
+  if (activated.length > 0) {
+    toast(`${activated.length} scheduled promotion(s) went live automatically`, { icon: "🚀" });
+    for (const request of activated) {
+      await triggerRevalidation([
+        "/", "/destinations", `/${request.entityType}s`,
+        `/${request.entityType}s/${request.entitySlug}`,
+        `/destinations/${request.destinationSlug}`,
+      ]);
     }
+  }
 
-    // NEW: activate any promotions whose scheduled start date has now arrived
-    const activated = await activateScheduledPromotions();
-    if (activated.length > 0) {
-      toast(
-        `${activated.length} scheduled promotion(s) went live automatically`,
-        { icon: "🚀" },
-      );
-      // Revalidate affected pages since their status just changed
-      for (const request of activated) {
-        await triggerRevalidation([
-          "/",
-          "/destinations",
-          `/${request.entityType}s`,
-          `/${request.entityType}s/${request.entitySlug}`,
-          `/destinations/${request.destinationSlug}`,
-        ]);
-      }
-    }
-
-    const [pricingData, requestsData] = await Promise.all([
-      getPromotionPricing(),
-      getAllPromotionRequestsAdmin(),
-    ]);
-    setPricing(pricingData);
-    setRequests(requestsData);
-    setIsLoading(false);
-  };
+  const [pricingData, requestsData, cronStatusData] = await Promise.all([
+    getPromotionPricing(),
+    getAllPromotionRequestsAdmin(),
+    getCronRunStatus(), // ⬅️ ADD
+  ]);
+  setPricing(pricingData);
+  setRequests(requestsData);
+  setCronStatus(cronStatusData); // ⬅️ ADD
+  setIsLoading(false);
+};
 
   useEffect(() => {
     loadData();
@@ -297,6 +292,9 @@ export default function AdminPromotionsPage() {
           <FiSave /> {isSavingPricing ? "Saving..." : "Save Pricing"}
         </button>
       </div>
+
+       {/* NEW: Cron status indicator */}
+    <CronStatusIndicator status={cronStatus} />
 
       {/* Requests */}
       <div>

@@ -235,3 +235,9 @@ export async function getExtendableRequestsByOwner(ownerId) {
   );
   return serializeDocs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
 }
+
+export async function getCronRunStatus() {
+  const docRef = doc(db, "systemStatus", "promotionCron");
+  const docSnap = await getDoc(docRef);
+  return docSnap.exists() ? serializeDoc({ id: docSnap.id, ...docSnap.data() }) : null;
+}
