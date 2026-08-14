@@ -84,10 +84,7 @@ export async function getPromotionRequestsByOwner(ownerId) {
 
 // Approve — confirms payment received, activates the promotion on the actual listing
 export async function approvePromotionRequest(requestId, request, adminNotes = "") {
-  // Safety check: block approval only if there's a GENUINE overlapping conflict —
-  // i.e. another scheduled/active request for the same listing+type whose date range
-  // actually intersects this one. A back-to-back extension (starts the day the other ends)
-  // is NOT a conflict and must be allowed.
+
   const conflictSnap = await getDocs(
     query(
       collection(db, REQUESTS_COLLECTION),
