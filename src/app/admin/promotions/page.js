@@ -314,8 +314,7 @@ export default function AdminPromotionsPage() {
         </button>
       </div>
 
-       {/* NEW: Cron status indicator */}
-    <CronStatusIndicator status={cronStatus} />
+    
 
     <div className="flex items-center justify-between gap-3">
   <CronStatusIndicator status={cronStatus} />
