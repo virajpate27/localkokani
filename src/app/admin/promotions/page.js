@@ -10,7 +10,7 @@ import {
   FiCheck,
   FiX,
   FiClock,
-  
+  FiRefreshCw
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import toast from "react-hot-toast";
@@ -60,6 +60,8 @@ export default function AdminPromotionsPage() {
   const [notes, setNotes] = useState("");
   const [notifyingId, setNotifyingId] = useState(null);
   const [cronStatus, setCronStatus] = useState(null);
+  const [isRunningCron, setIsRunningCron] = useState(false);
+
 
   const loadData = async () => {
   setIsLoading(true);
@@ -225,6 +227,25 @@ export default function AdminPromotionsPage() {
     }
   };
 
+ const handleRunCronNow = async () => {
+  setIsRunningCron(true);
+  try {
+    const res = await fetch("/api/admin/run-promotion-processing", { method: "POST" });
+    const data = await res.json();
+    if (res.ok) {
+      toast.success(`Processed: ${data.activatedCount} activated, ${data.expiredCount} expired`);
+      loadData();
+    } else {
+      toast.error(data.error || "Failed to run");
+    }
+  } catch (error) {
+    console.error("Manual cron trigger error:", error);
+    toast.error("Failed to trigger processing");
+  } finally {
+    setIsRunningCron(false);
+  }
+};
+
   const filteredRequests =
     statusFilter === "all"
       ? requests
@@ -295,6 +316,17 @@ export default function AdminPromotionsPage() {
 
        {/* NEW: Cron status indicator */}
     <CronStatusIndicator status={cronStatus} />
+
+    <div className="flex items-center justify-between gap-3">
+  <CronStatusIndicator status={cronStatus} />
+  <button
+    onClick={handleRunCronNow}
+    disabled={isRunningCron}
+    className="flex items-center gap-1.5 text-secondary text-xs font-medium hover:underline shrink-0 disabled:opacity-50"
+  >
+    <FiRefreshCw className={isRunningCron ? "animate-spin" : ""} /> Run Now
+  </button>
+</div>
 
       {/* Requests */}
       <div>
