@@ -4,14 +4,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee , FiUsers , FiUserCheck, FiZap  } from "react-icons/fi";
+import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee, FiUsers, FiUserCheck, FiZap, FiMail } from "react-icons/fi";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { getNewLeadsCount } from "@/lib/services/dashboardService";
 import { getPendingPartnerApplicationsCount } from "@/lib/services/partnerService"; // ⬅️ ADD
- import { getPendingPromotionRequestsCount } from "@/lib/services/promotionService";
- 
+import { getPendingPromotionRequestsCount } from "@/lib/services/promotionService";
+import { getNewContactMessagesCount } from "@/lib/services/contactService";
+
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: FiGrid },
   { label: "Destinations", href: "/admin/destinations", icon: FiMapPin },
@@ -23,6 +24,7 @@ const navItems = [
   { label: "Partner Applications", href: "/admin/partner-applications", icon: FiUsers },
   { label: "Owners", href: "/admin/owners", icon: FiUserCheck },
   { label: "Feature & Sponsor", href: "/admin/promotions", icon: FiZap },
+  { label: "Contact Messages", href: "/admin/contact-messages", icon: FiMail },
 ];
 
 export default function AdminSidebar() {
@@ -31,13 +33,15 @@ export default function AdminSidebar() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [newLeadsCount, setNewLeadsCount] = useState(0);
-    const [pendingPartnersCount, setPendingPartnersCount] = useState(0);
+  const [pendingPartnersCount, setPendingPartnersCount] = useState(0);
   const [pendingPromotionsCount, setPendingPromotionsCount] = useState(0);
+  const [newMessagesCount, setNewMessagesCount] = useState(0);
 
   useEffect(() => {
     getNewLeadsCount().then(setNewLeadsCount).catch(() => { });
-    getPendingPartnerApplicationsCount().then(setPendingPartnersCount).catch(() => {});
-    getPendingPromotionRequestsCount().then(setPendingPromotionsCount).catch(() => {});
+    getPendingPartnerApplicationsCount().then(setPendingPartnersCount).catch(() => { });
+    getPendingPromotionRequestsCount().then(setPendingPromotionsCount).catch(() => { });
+    getNewContactMessagesCount().then(setNewMessagesCount).catch(() => { });
   }, [pathname]);
 
   const handleLogout = async () => {
@@ -73,9 +77,8 @@ export default function AdminSidebar() {
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${
-                isActive ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
-              }`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm transition-colors ${isActive ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
+                }`}
             >
               <item.icon className={isActive ? "text-accent" : ""} />
               {item.label}
@@ -93,6 +96,11 @@ export default function AdminSidebar() {
               {item.href === "/admin/promotions" && pendingPromotionsCount > 0 && (
                 <span className="ml-auto bg-accent text-white text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center">
                   {pendingPromotionsCount}
+                </span>
+              )}
+              {item.href === "/admin/contact-messages" && newMessagesCount > 0 && (
+                <span className="ml-auto bg-accent text-white text-xs font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                  {newMessagesCount}
                 </span>
               )}
             </Link>
