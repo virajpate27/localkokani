@@ -215,535 +215,534 @@ export default function RestaurantForm({ initialData = null }) {
                 .filter((f) => f.question.trim() && f.answer.trim())
                 .map((f) => ({ question: f.question.trim(), answer: f.answer.trim() })),
         };
-    };
 
 
-    if (formData.featured && !initialData?.featured) {
-        payload.featuredPromotedAt = serverTimestamp(); // newly featured — stamp it now
-    }
-    if (formData.sponsored && !initialData?.sponsored) {
-        payload.sponsoredPromotedAt = serverTimestamp(); // newly sponsored — stamp it now
-    }
-
-    // Collect every public path that needs fresh data after this save,
-    // including old slug/destination paths in case of a rename or move.
-    const pathsToRevalidate = new Set([
-        "/restaurants",
-        "/",
-        "/destinations",
-        `/restaurants/${payload.slug}`,
-        `/destinations/${payload.destinationSlug}`,
-    ]);
-
-    try {
-        if (isEditMode) {
-            if (initialData.slug !== payload.slug) {
-                pathsToRevalidate.add(`/restaurants/${initialData.slug}`);
-            }
-            if (initialData.destinationSlug !== payload.destinationSlug) {
-                if (initialData.destinationSlug) {
-                    pathsToRevalidate.add(`/destinations/${initialData.destinationSlug}`);
-                }
-            }
-
-            await updateRestaurant(initialData.id, payload);
-
-            // NEW: if destination changed, adjust restaurantCount on both old and new destination
-            if (initialData.destinationId !== formData.destinationId) {
-                await incrementRestaurantCount(initialData.destinationId, -1);
-                await incrementRestaurantCount(formData.destinationId, 1);
-            }
-
-            const removedImages = originalImages.filter(
-                (orig) => !images.some((img) => img.publicId === orig.publicId)
-            );
-            for (const img of removedImages) {
-                if (img.publicId) await deleteFromCloudinary(img.publicId);
-            }
-
-            await triggerRevalidation(Array.from(pathsToRevalidate));
-            toast.success("Restaurant updated");
-        } else {
-            await createRestaurant(payload);
-            await incrementRestaurantCount(formData.destinationId, 1); // NEW
-
-            await triggerRevalidation(Array.from(pathsToRevalidate));
-            toast.success("Restaurant created");
+        if (formData.featured && !initialData?.featured) {
+            payload.featuredPromotedAt = serverTimestamp(); // newly featured — stamp it now
+        }
+        if (formData.sponsored && !initialData?.sponsored) {
+            payload.sponsoredPromotedAt = serverTimestamp(); // newly sponsored — stamp it now
         }
 
+        // Collect every public path that needs fresh data after this save,
+        // including old slug/destination paths in case of a rename or move.
+        const pathsToRevalidate = new Set([
+            "/restaurants",
+            "/",
+            "/destinations",
+            `/restaurants/${payload.slug}`,
+            `/destinations/${payload.destinationSlug}`,
+        ]);
+
+        try {
+            if (isEditMode) {
+                if (initialData.slug !== payload.slug) {
+                    pathsToRevalidate.add(`/restaurants/${initialData.slug}`);
+                }
+                if (initialData.destinationSlug !== payload.destinationSlug) {
+                    if (initialData.destinationSlug) {
+                        pathsToRevalidate.add(`/destinations/${initialData.destinationSlug}`);
+                    }
+                }
+
+                await updateRestaurant(initialData.id, payload);
+
+                // NEW: if destination changed, adjust restaurantCount on both old and new destination
+                if (initialData.destinationId !== formData.destinationId) {
+                    await incrementRestaurantCount(initialData.destinationId, -1);
+                    await incrementRestaurantCount(formData.destinationId, 1);
+                }
+
+                const removedImages = originalImages.filter(
+                    (orig) => !images.some((img) => img.publicId === orig.publicId)
+                );
+                for (const img of removedImages) {
+                    if (img.publicId) await deleteFromCloudinary(img.publicId);
+                }
+
+                await triggerRevalidation(Array.from(pathsToRevalidate));
+                toast.success("Restaurant updated");
+            } else {
+                await createRestaurant(payload);
+                await incrementRestaurantCount(formData.destinationId, 1); // NEW
+
+                await triggerRevalidation(Array.from(pathsToRevalidate));
+                toast.success("Restaurant created");
+            }
+
+            router.push("/admin/restaurants");
+            router.refresh();
+        } catch (error) {
+            console.error("Save restaurant error:", error);
+            toast.error("Failed to save restaurant. Please try again.");
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleCancel = async () => {
+        const newlyUploaded = images.filter(
+            (img) => !originalImages.some((orig) => orig.publicId === img.publicId)
+        );
+        for (const img of newlyUploaded) {
+            if (img.publicId) await deleteFromCloudinary(img.publicId);
+        }
         router.push("/admin/restaurants");
-        router.refresh();
-    } catch (error) {
-        console.error("Save restaurant error:", error);
-        toast.error("Failed to save restaurant. Please try again.");
-    } finally {
-        setIsSaving(false);
-    }
-};
+    };
 
-const handleCancel = async () => {
-    const newlyUploaded = images.filter(
-        (img) => !originalImages.some((orig) => orig.publicId === img.publicId)
-    );
-    for (const img of newlyUploaded) {
-        if (img.publicId) await deleteFromCloudinary(img.publicId);
-    }
-    router.push("/admin/restaurants");
-};
-
-return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
-        <div className="card p-6">
-            <MultiImageUploader value={images} onChange={setImages} folder="restaurants" />
-            {errors.images && <p className="text-red-500 text-xs mt-2">{errors.images}</p>}
-        </div>
-
-        <div className="card p-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-                Assigned Owner <span className="text-gray-400 font-normal">(optional)</span>
-            </label>
-            <p className="text-gray-400 text-xs mb-3">
-                Link this listing to a registered partner account. The owner will be able to see this listing on their dashboard.
-            </p>
-            <OwnerSelector
-                value={formData.ownerId}
-                valueName={formData.ownerName}
-                onChange={(ownerId, ownerName) => setFormData((prev) => ({ ...prev, ownerId, ownerName }))}
-            />
-        </div>
-
-        <div className="card p-6 space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">Restaurant Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="e.g. Fisherman's Wharf"
-                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-                            }`}
-                    />
-                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">Destination</label>
-                    <select
-                        name="destinationId"
-                        value={formData.destinationId}
-                        onChange={handleChange}
-                        disabled={isLoadingDestinations}
-                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none bg-white dark:bg-gray-900 ${errors.destinationId ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-                            }`}
-                    >
-                        <option value="">{isLoadingDestinations ? "Loading..." : "Select a destination"}</option>
-                        {destinations.map((dest) => (
-                            <option key={dest.id} value={dest.id}>{dest.name}</option>
-                        ))}
-                    </select>
-                    {errors.destinationId && <p className="text-red-500 text-xs mt-1">{errors.destinationId}</p>}
-                </div>
+    return (
+        <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
+            <div className="card p-6">
+                <MultiImageUploader value={images} onChange={setImages} folder="restaurants" />
+                {errors.images && <p className="text-red-500 text-xs mt-2">{errors.images}</p>}
             </div>
 
-            <div>
-                <label className="block text-sm font-medium dark:text-gray-300 mb-2">Description</label>
-                <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    rows={4}
-                    className={`w-full px-4 py-3 rounded-xl border text-sm outline-none resize-none ${errors.description ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-                        }`}
+            <div className="card p-6">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Assigned Owner <span className="text-gray-400 font-normal">(optional)</span>
+                </label>
+                <p className="text-gray-400 text-xs mb-3">
+                    Link this listing to a registered partner account. The owner will be able to see this listing on their dashboard.
+                </p>
+                <OwnerSelector
+                    value={formData.ownerId}
+                    valueName={formData.ownerName}
+                    onChange={(ownerId, ownerName) => setFormData((prev) => ({ ...prev, ownerId, ownerName }))}
                 />
-                {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
             </div>
 
-            <div>
-                <label className="block text-sm font-medium dark:text-gray-300 mb-2">Address</label>
-                <input
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-xl border text-sm outline-none ${errors.address ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-                        }`}
-                />
-                {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
-            </div>
+            <div className="card p-6 space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">Restaurant Name</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="e.g. Fisherman's Wharf"
+                            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.name ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+                                }`}
+                        />
+                        {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                    </div>
 
-            <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Partner Plan</label>
-                <div className="flex gap-3">
-                    {["basic", "premium"].map((plan) => (
-                        <button
-                            key={plan}
-                            type="button"
-                            onClick={() => setFormData((prev) => ({ ...prev, partnerPlan: plan }))}
-                            className={`flex-1 py-2.5 rounded-lg border text-sm font-medium capitalize transition-colors ${formData.partnerPlan === plan ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-600 hover:border-primary"
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">Destination</label>
+                        <select
+                            name="destinationId"
+                            value={formData.destinationId}
+                            onChange={handleChange}
+                            disabled={isLoadingDestinations}
+                            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none bg-white dark:bg-gray-900 ${errors.destinationId ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                                 }`}
                         >
-                            {plan}
-                        </button>
-                    ))}
+                            <option value="">{isLoadingDestinations ? "Loading..." : "Select a destination"}</option>
+                            {destinations.map((dest) => (
+                                <option key={dest.id} value={dest.id}>{dest.name}</option>
+                            ))}
+                        </select>
+                        {errors.destinationId && <p className="text-red-500 text-xs mt-1">{errors.destinationId}</p>}
+                    </div>
                 </div>
-            </div>
 
-            <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                    WhatsApp Number <span className="text-gray-400 font-normal">(optional — uses site default if blank)</span>
-                </label>
-                <input
-                    type="tel"
-                    name="whatsappNumber"
-                    value={formData.whatsappNumber}
-                    onChange={handleChange}
-                    placeholder={formData.partnerPlan === "basic" ? "Leave blank — Basic plan uses site default" : "Owner's WhatsApp number (e.g. 919876543210)"}
-                    className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.whatsappNumber ? "border-red-300" : "border-gray-200 focus:border-secondary"
-                        }`}
-                />
-                {errors.whatsappNumber && <p className="text-red-500 text-xs mt-1">{errors.whatsappNumber}</p>}
-
-                {/* Business-rule guardrails — warn on mismatches, don't hard-block (admin may have valid reasons) */}
-                {formData.partnerPlan === "basic" && formData.whatsappNumber.trim() && (
-                    <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
-                        ⚠️ This is a Basic plan listing but has a custom WhatsApp number set — enquiries will bypass your commission tracking. Confirm this is intentional.
-                    </p>
-                )}
-                {formData.partnerPlan === "premium" && !formData.whatsappNumber.trim() && (
-                    <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
-                        ⚠️ This is a Premium plan listing but no custom WhatsApp number is set — enquiries will currently go to your site's default number instead of the owner's.
-                    </p>
-                )}
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <div>
-                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">
-                        Avg. Cost for Two (₹)
-                    </label>
-                    <input
-                        type="number"
-                        name="costForTwo"
-                        value={formData.costForTwo}
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">Description</label>
+                    <textarea
+                        name="description"
+                        value={formData.description}
                         onChange={handleChange}
-                        placeholder="e.g. 1500"
-                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.costForTwo ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+                        rows={4}
+                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none resize-none ${errors.description ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                             }`}
                     />
-                    {errors.costForTwo && <p className="text-red-500 text-xs mt-1">{errors.costForTwo}</p>}
+                    {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">Price Range</label>
-                    <select
-                        name="priceRange"
-                        value={formData.priceRange}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
-                    >
-                        <option value="$">$ (Budget)</option>
-                        <option value="$$">$$ (Mid-range)</option>
-                        <option value="$$$">$$$ (Premium)</option>
-                        <option value="$$$$">$$$$ (Fine Dining)</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">Rating (optional)</label>
-                    <input
-                        type="number"
-                        name="rating"
-                        step="0.1"
-                        min="0"
-                        max="5"
-                        value={formData.rating}
-                        onChange={handleChange}
-                        placeholder="e.g. 4.5"
-                        className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
-                    />
-                </div>
-
-                <div>
-                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">Opening Hours</label>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">Address</label>
                     <input
                         type="text"
-                        name="openingHours"
-                        value={formData.openingHours}
+                        name="address"
+                        value={formData.address}
                         onChange={handleChange}
-                        placeholder="e.g. 12PM - 11PM"
-                        className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
-                    />
-                </div>
-            </div>
-        </div>
-
-        <div className="card p-6">
-            <TagInput
-                value={cuisine}
-                onChange={setCuisine}
-                label="Cuisine Types"
-                suggestions={CUISINE_SUGGESTIONS}
-            />
-        </div>
-
-        <div className="card p-6">
-  <FaqEditor value={faqs} onChange={setFaqs} />
-</div>
-
-        <div className="card p-6 space-y-5">
-            <div>
-                <h3 className="font-display font-semibold text-primary dark:text-white">
-                    Map Location <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
-                </h3>
-                <p className="dark:dark:text-gray-500 text-xs mt-1">
-                    Recommended: paste a Google Maps embed URL for the most accurate map.
-                    Lat/Lng below is used only as a fallback if no embed URL is provided.
-                </p>
-            </div>
-
-            <div>
-                <label className="block text-sm font-medium dark:text-gray-300 mb-2">
-                    Google Maps Embed URL
-                </label>
-                <textarea
-                    name="mapEmbedUrl"
-                    value={formData.mapEmbedUrl}
-                    onChange={handleChange}
-                    rows={2}
-                    placeholder="https://www.google.com/maps/embed?pb=..."
-                    className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none font-mono ${errors.mapEmbedUrl ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-                        }`}
-                />
-                {errors.mapEmbedUrl && <p className="text-red-500 text-xs mt-1">{errors.mapEmbedUrl}</p>}
-                <details className="mt-2">
-                    <summary className="text-secondary text-xs font-medium cursor-pointer hover:underline">
-                        How do I get this URL?
-                    </summary>
-                    <ol className="list-decimal list-inside dark:text-gray-500 text-xs mt-2 space-y-1 pl-1">
-                        <li>Search for your Restaurant/business on Google Maps</li>
-                        <li>Click <strong>Share</strong> → <strong>Embed a map</strong> tab</li>
-                        <li>Copy just the URL inside <code className="dark:bg-gray-800 px-1 rounded">src="..."</code> from the iframe code shown</li>
-                        <li>Paste that URL here (not the full iframe tag, just the URL)</li>
-                    </ol>
-                </details>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">
-                        Latitude <span className="dark:dark:text-gray-500 font-normal">(fallback only)</span>
-                    </label>
-                    <input
-                        type="number"
-                        step="any"
-                        name="lat"
-                        value={formData.lat}
-                        onChange={handleChange}
-                        placeholder="e.g. 15.1631"
-                        className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
-                    />
-                </div>
-                <div>
-                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">
-                        Longitude <span className="dark:dark:text-gray-500 font-normal">(fallback only)</span>
-                    </label>
-                    <input
-                        type="number"
-                        step="any"
-                        name="lng"
-                        value={formData.lng}
-                        onChange={handleChange}
-                        placeholder="e.g. 73.9463"
-                        className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
-                    />
-                </div>
-            </div>
-        </div>
-
-        <div className="card p-6 space-y-4">
-            <label className={`flex items-center gap-2.5 ${hasActiveFeaturedPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                <input
-                    type="checkbox"
-                    name="featured"
-                    checked={formData.featured}
-                    disabled={hasActiveFeaturedPromotion}
-                    onChange={handleChange}
-                    className="w-4 h-4 accent-secondary rounded"
-                />
-                <span className="text-sm text-gray-700">Show on homepage (Featured Restaurant)</span>
-            </label>
-            {hasActiveFeaturedPromotion && (
-                <p className="text-secondary text-xs -mt-1 pl-6">
-                    🔒 Controlled by an active paid promotion until {formatShortDate(initialData.featuredUntil)}.{" "}
-                    <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
-                </p>
-            )}
-            <label className={`flex items-center gap-2.5 ${isPremium ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
-                <input
-                    type="checkbox"
-                    name="verified"
-                    checked={formData.verified}
-                    disabled={!isPremium}
-                    onChange={handleChange}
-                    className="w-4 h-4 accent-secondary rounded"
-                />
-                <span className="text-sm text-gray-700 flex items-center gap-2">
-                    Premium Verified
-                    <span className="text-xs text-gray-400 font-normal">
-                        {isPremium ? "(shows a trust badge)" : "(Premium plan only)"}
-                    </span>
-                </span>
-            </label>
-            <label className={`flex items-center gap-2.5 ${hasActiveSponsoredPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
-                <input
-                    type="checkbox"
-                    name="sponsored"
-                    checked={formData.sponsored}
-                    disabled={hasActiveSponsoredPromotion}
-                    onChange={handleChange}
-                    className="w-4 h-4 accent-secondary rounded"
-                />
-                <span className="text-sm text-gray-700">Sponsored Listing</span>
-            </label>
-            {hasActiveSponsoredPromotion && (
-                <p className="text-secondary text-xs -mt-1 pl-6">
-                    🔒 Controlled by an active paid promotion until {formatShortDate(initialData.sponsoredUntil)}.{" "}
-                    <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
-                </p>
-            )}
-            <div>
-                <label className="block text-sm font-medium dark:text-gray-300 mb-2">Status</label>
-                <select
-                    name="status"
-                    value={formData.status}
-                    onChange={handleChange}
-                    className="w-full sm:w-64 px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
-                >
-                    <option value="active">Active (visible to public)</option>
-                    <option value="draft">Draft (hidden from public)</option>
-                    <option value="archived">Archived (hidden from public)</option>
-                </select>
-            </div>
-        </div>
-
-        <div className="card p-6 space-y-4">
-            <div>
-                <h3 className="font-display font-semibold text-primary">
-                    Custom Badge{" "}
-                    <span className="text-gray-400 font-normal text-sm">
-                        {isPremium ? "(optional)" : "(Premium plan only)"}
-                    </span>
-                </h3>
-                <p className="text-gray-400 text-xs mt-1">
-                    Shows a small label on the card image and detail page — e.g. "Top Rated", "Most Booked", "Family Friendly".
-                </p>
-            </div>
-
-            <div className={`grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-4 ${!isPremium ? "opacity-50 pointer-events-none" : ""}`}>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Badge Text</label>
-                    <input
-                        type="text"
-                        name="customBadgeText"
-                        value={formData.customBadgeText}
-                        onChange={handleChange}
-                        disabled={!isPremium}
-                        maxLength={24}
-                        placeholder="e.g. Top Rated"
-                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.customBadgeText ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none ${errors.address ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
                             }`}
                     />
-                    {errors.customBadgeText && <p className="text-red-500 text-xs mt-1">{errors.customBadgeText}</p>}
+                    {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
                 </div>
+
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Badge Color</label>
-                    <select
-                        name="customBadgeColor"
-                        value={formData.customBadgeColor}
-                        onChange={handleChange}
-                        disabled={!isPremium}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
-                    >
-                        {BADGE_COLOR_OPTIONS.map((opt) => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Partner Plan</label>
+                    <div className="flex gap-3">
+                        {["basic", "premium"].map((plan) => (
+                            <button
+                                key={plan}
+                                type="button"
+                                onClick={() => setFormData((prev) => ({ ...prev, partnerPlan: plan }))}
+                                className={`flex-1 py-2.5 rounded-lg border text-sm font-medium capitalize transition-colors ${formData.partnerPlan === plan ? "bg-primary text-white border-primary" : "border-gray-200 text-gray-600 hover:border-primary"
+                                    }`}
+                            >
+                                {plan}
+                            </button>
                         ))}
-                    </select>
-                </div>
-            </div>
-
-            {formData.customBadgeText.trim() && isPremium && (
-                <div>
-                    <p className="text-xs text-gray-400 mb-2">Preview:</p>
-                    <CustomBadge text={formData.customBadgeText} color={formData.customBadgeColor} position="inline" />
-                </div>
-            )}
-        </div>
-
-        <div className="card p-6 space-y-4">
-            <div>
-                <h3 className="font-display font-semibold text-primary">Availability</h3>
-                <p className="text-gray-400 text-xs mt-1">
-                    Manually set this hotel's availability status. Useful for creating urgency or marking a property as temporarily unavailable.
-                </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr] gap-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                    <select
-                        name="availabilityStatus"
-                        value={formData.availabilityStatus}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
-                    >
-                        {AVAILABILITY_OPTIONS.map((opt) => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                    </select>
+                    </div>
                 </div>
 
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Custom Message <span className="text-gray-400 font-normal">(optional)</span>
+                        WhatsApp Number <span className="text-gray-400 font-normal">(optional — uses site default if blank)</span>
                     </label>
                     <input
-                        type="text"
-                        name="availabilityMessage"
-                        value={formData.availabilityMessage}
+                        type="tel"
+                        name="whatsappNumber"
+                        value={formData.whatsappNumber}
                         onChange={handleChange}
-                        maxLength={40}
-                        placeholder="e.g. Only 2 rooms left!"
-                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.availabilityMessage ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                        placeholder={formData.partnerPlan === "basic" ? "Leave blank — Basic plan uses site default" : "Owner's WhatsApp number (e.g. 919876543210)"}
+                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.whatsappNumber ? "border-red-300" : "border-gray-200 focus:border-secondary"
                             }`}
                     />
-                    {errors.availabilityMessage && <p className="text-red-500 text-xs mt-1">{errors.availabilityMessage}</p>}
+                    {errors.whatsappNumber && <p className="text-red-500 text-xs mt-1">{errors.whatsappNumber}</p>}
+
+                    {/* Business-rule guardrails — warn on mismatches, don't hard-block (admin may have valid reasons) */}
+                    {formData.partnerPlan === "basic" && formData.whatsappNumber.trim() && (
+                        <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
+                            ⚠️ This is a Basic plan listing but has a custom WhatsApp number set — enquiries will bypass your commission tracking. Confirm this is intentional.
+                        </p>
+                    )}
+                    {formData.partnerPlan === "premium" && !formData.whatsappNumber.trim() && (
+                        <p className="text-orange-500 text-xs mt-1.5 flex items-center gap-1">
+                            ⚠️ This is a Premium plan listing but no custom WhatsApp number is set — enquiries will currently go to your site's default number instead of the owner's.
+                        </p>
+                    )}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">
+                            Avg. Cost for Two (₹)
+                        </label>
+                        <input
+                            type="number"
+                            name="costForTwo"
+                            value={formData.costForTwo}
+                            onChange={handleChange}
+                            placeholder="e.g. 1500"
+                            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.costForTwo ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+                                }`}
+                        />
+                        {errors.costForTwo && <p className="text-red-500 text-xs mt-1">{errors.costForTwo}</p>}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">Price Range</label>
+                        <select
+                            name="priceRange"
+                            value={formData.priceRange}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
+                        >
+                            <option value="$">$ (Budget)</option>
+                            <option value="$$">$$ (Mid-range)</option>
+                            <option value="$$$">$$$ (Premium)</option>
+                            <option value="$$$$">$$$$ (Fine Dining)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">Rating (optional)</label>
+                        <input
+                            type="number"
+                            name="rating"
+                            step="0.1"
+                            min="0"
+                            max="5"
+                            value={formData.rating}
+                            onChange={handleChange}
+                            placeholder="e.g. 4.5"
+                            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">Opening Hours</label>
+                        <input
+                            type="text"
+                            name="openingHours"
+                            value={formData.openingHours}
+                            onChange={handleChange}
+                            placeholder="e.g. 12PM - 11PM"
+                            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
+                        />
+                    </div>
                 </div>
             </div>
 
-            {/* Live preview */}
-            <div>
-                <p className="text-xs text-gray-400 mb-2">Preview:</p>
-                <AvailabilityBadge
-                    status={formData.availabilityStatus}
-                    message={formData.availabilityMessage}
-                    size="lg"
+            <div className="card p-6">
+                <TagInput
+                    value={cuisine}
+                    onChange={setCuisine}
+                    label="Cuisine Types"
+                    suggestions={CUISINE_SUGGESTIONS}
                 />
-                {formData.availabilityStatus === "available" && !formData.availabilityMessage.trim() && (
-                    <p className="text-gray-400 text-xs mt-1">No badge shown (default "Available" state is hidden by design)</p>
+            </div>
+
+            <div className="card p-6">
+  <FaqEditor value={faqs} onChange={setFaqs} />
+</div>
+
+            <div className="card p-6 space-y-5">
+                <div>
+                    <h3 className="font-display font-semibold text-primary dark:text-white">
+                        Map Location <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
+                    </h3>
+                    <p className="dark:dark:text-gray-500 text-xs mt-1">
+                        Recommended: paste a Google Maps embed URL for the most accurate map.
+                        Lat/Lng below is used only as a fallback if no embed URL is provided.
+                    </p>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">
+                        Google Maps Embed URL
+                    </label>
+                    <textarea
+                        name="mapEmbedUrl"
+                        value={formData.mapEmbedUrl}
+                        onChange={handleChange}
+                        rows={2}
+                        placeholder="https://www.google.com/maps/embed?pb=..."
+                        className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors resize-none font-mono ${errors.mapEmbedUrl ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
+                            }`}
+                    />
+                    {errors.mapEmbedUrl && <p className="text-red-500 text-xs mt-1">{errors.mapEmbedUrl}</p>}
+                    <details className="mt-2">
+                        <summary className="text-secondary text-xs font-medium cursor-pointer hover:underline">
+                            How do I get this URL?
+                        </summary>
+                        <ol className="list-decimal list-inside dark:text-gray-500 text-xs mt-2 space-y-1 pl-1">
+                            <li>Search for your Restaurant/business on Google Maps</li>
+                            <li>Click <strong>Share</strong> → <strong>Embed a map</strong> tab</li>
+                            <li>Copy just the URL inside <code className="dark:bg-gray-800 px-1 rounded">src="..."</code> from the iframe code shown</li>
+                            <li>Paste that URL here (not the full iframe tag, just the URL)</li>
+                        </ol>
+                    </details>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">
+                            Latitude <span className="dark:dark:text-gray-500 font-normal">(fallback only)</span>
+                        </label>
+                        <input
+                            type="number"
+                            step="any"
+                            name="lat"
+                            value={formData.lat}
+                            onChange={handleChange}
+                            placeholder="e.g. 15.1631"
+                            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium dark:text-gray-300 mb-2">
+                            Longitude <span className="dark:dark:text-gray-500 font-normal">(fallback only)</span>
+                        </label>
+                        <input
+                            type="number"
+                            step="any"
+                            name="lng"
+                            value={formData.lng}
+                            onChange={handleChange}
+                            placeholder="e.g. 73.9463"
+                            className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div className="card p-6 space-y-4">
+                <label className={`flex items-center gap-2.5 ${hasActiveFeaturedPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                    <input
+                        type="checkbox"
+                        name="featured"
+                        checked={formData.featured}
+                        disabled={hasActiveFeaturedPromotion}
+                        onChange={handleChange}
+                        className="w-4 h-4 accent-secondary rounded"
+                    />
+                    <span className="text-sm text-gray-700">Show on homepage (Featured Restaurant)</span>
+                </label>
+                {hasActiveFeaturedPromotion && (
+                    <p className="text-secondary text-xs -mt-1 pl-6">
+                        🔒 Controlled by an active paid promotion until {formatShortDate(initialData.featuredUntil)}.{" "}
+                        <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
+                    </p>
+                )}
+                <label className={`flex items-center gap-2.5 ${isPremium ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}>
+                    <input
+                        type="checkbox"
+                        name="verified"
+                        checked={formData.verified}
+                        disabled={!isPremium}
+                        onChange={handleChange}
+                        className="w-4 h-4 accent-secondary rounded"
+                    />
+                    <span className="text-sm text-gray-700 flex items-center gap-2">
+                        Premium Verified
+                        <span className="text-xs text-gray-400 font-normal">
+                            {isPremium ? "(shows a trust badge)" : "(Premium plan only)"}
+                        </span>
+                    </span>
+                </label>
+                <label className={`flex items-center gap-2.5 ${hasActiveSponsoredPromotion ? "cursor-not-allowed" : "cursor-pointer"}`}>
+                    <input
+                        type="checkbox"
+                        name="sponsored"
+                        checked={formData.sponsored}
+                        disabled={hasActiveSponsoredPromotion}
+                        onChange={handleChange}
+                        className="w-4 h-4 accent-secondary rounded"
+                    />
+                    <span className="text-sm text-gray-700">Sponsored Listing</span>
+                </label>
+                {hasActiveSponsoredPromotion && (
+                    <p className="text-secondary text-xs -mt-1 pl-6">
+                        🔒 Controlled by an active paid promotion until {formatShortDate(initialData.sponsoredUntil)}.{" "}
+                        <Link href="/admin/promotions" className="underline font-medium">Manage in Feature & Sponsor Management</Link>
+                    </p>
+                )}
+                <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-2">Status</label>
+                    <select
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        className="w-full sm:w-64 px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none bg-white dark:bg-gray-900"
+                    >
+                        <option value="active">Active (visible to public)</option>
+                        <option value="draft">Draft (hidden from public)</option>
+                        <option value="archived">Archived (hidden from public)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div className="card p-6 space-y-4">
+                <div>
+                    <h3 className="font-display font-semibold text-primary">
+                        Custom Badge{" "}
+                        <span className="text-gray-400 font-normal text-sm">
+                            {isPremium ? "(optional)" : "(Premium plan only)"}
+                        </span>
+                    </h3>
+                    <p className="text-gray-400 text-xs mt-1">
+                        Shows a small label on the card image and detail page — e.g. "Top Rated", "Most Booked", "Family Friendly".
+                    </p>
+                </div>
+
+                <div className={`grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-4 ${!isPremium ? "opacity-50 pointer-events-none" : ""}`}>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Badge Text</label>
+                        <input
+                            type="text"
+                            name="customBadgeText"
+                            value={formData.customBadgeText}
+                            onChange={handleChange}
+                            disabled={!isPremium}
+                            maxLength={24}
+                            placeholder="e.g. Top Rated"
+                            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.customBadgeText ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                                }`}
+                        />
+                        {errors.customBadgeText && <p className="text-red-500 text-xs mt-1">{errors.customBadgeText}</p>}
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Badge Color</label>
+                        <select
+                            name="customBadgeColor"
+                            value={formData.customBadgeColor}
+                            onChange={handleChange}
+                            disabled={!isPremium}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+                        >
+                            {BADGE_COLOR_OPTIONS.map((opt) => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                {formData.customBadgeText.trim() && isPremium && (
+                    <div>
+                        <p className="text-xs text-gray-400 mb-2">Preview:</p>
+                        <CustomBadge text={formData.customBadgeText} color={formData.customBadgeColor} position="inline" />
+                    </div>
                 )}
             </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-            <button type="submit" disabled={isSaving} className="btn-primary flex items-center gap-2 disabled:opacity-60">
-                {isSaving ? <FiLoader className="animate-spin" /> : <FiSave />}
-                {isSaving ? "Saving..." : isEditMode ? "Update Restaurant" : "Create Restaurant"}
-            </button>
-            <button type="button" onClick={handleCancel} className="dark:text-gray-500 font-medium text-sm hover:text-primary dark:text-white">
-                Cancel
-            </button>
-        </div>
-    </form>
-);
+            <div className="card p-6 space-y-4">
+                <div>
+                    <h3 className="font-display font-semibold text-primary">Availability</h3>
+                    <p className="text-gray-400 text-xs mt-1">
+                        Manually set this hotel's availability status. Useful for creating urgency or marking a property as temporarily unavailable.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr] gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <select
+                            name="availabilityStatus"
+                            value={formData.availabilityStatus}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none bg-white"
+                        >
+                            {AVAILABILITY_OPTIONS.map((opt) => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Custom Message <span className="text-gray-400 font-normal">(optional)</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="availabilityMessage"
+                            value={formData.availabilityMessage}
+                            onChange={handleChange}
+                            maxLength={40}
+                            placeholder="e.g. Only 2 rooms left!"
+                            className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors ${errors.availabilityMessage ? "border-red-300" : "border-gray-200 focus:border-secondary"
+                                }`}
+                        />
+                        {errors.availabilityMessage && <p className="text-red-500 text-xs mt-1">{errors.availabilityMessage}</p>}
+                    </div>
+                </div>
+
+                {/* Live preview */}
+                <div>
+                    <p className="text-xs text-gray-400 mb-2">Preview:</p>
+                    <AvailabilityBadge
+                        status={formData.availabilityStatus}
+                        message={formData.availabilityMessage}
+                        size="lg"
+                    />
+                    {formData.availabilityStatus === "available" && !formData.availabilityMessage.trim() && (
+                        <p className="text-gray-400 text-xs mt-1">No badge shown (default "Available" state is hidden by design)</p>
+                    )}
+                </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+                <button type="submit" disabled={isSaving} className="btn-primary flex items-center gap-2 disabled:opacity-60">
+                    {isSaving ? <FiLoader className="animate-spin" /> : <FiSave />}
+                    {isSaving ? "Saving..." : isEditMode ? "Update Restaurant" : "Create Restaurant"}
+                </button>
+                <button type="button" onClick={handleCancel} className="dark:text-gray-500 font-medium text-sm hover:text-primary dark:text-white">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    );
 }
