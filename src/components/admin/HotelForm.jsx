@@ -19,6 +19,7 @@ import OwnerSelector from "./OwnerSelector";
 import Link from "next/link";
 import { getAllPromotionRequestsAdmin } from "@/lib/services/promotionService";
 import { serverTimestamp } from "firebase/firestore";
+import FaqEditor from "./FaqEditor";
 
 const BADGE_COLOR_OPTIONS = [
   { value: "primary", label: "Primary (Navy)" },
@@ -53,6 +54,8 @@ export default function HotelForm({ initialData = null }) {
 
   const [destinations, setDestinations] = useState([]);
   const [isLoadingDestinations, setIsLoadingDestinations] = useState(true);
+  const [faqs, setFaqs] = useState(initialData?.faqs || []);
+
 
   const [formData, setFormData] = useState({
     name: initialData?.name || prefillName || "",
@@ -77,7 +80,7 @@ export default function HotelForm({ initialData = null }) {
     partnerPlan: initialData?.partnerPlan || "basic",
     ownerId: initialData?.ownerId || (prefillOwnerId || null),
     ownerName: initialData?.ownerName || (prefillOwnerName || null),
-  
+
   });
 
   useEffect(() => {
@@ -195,7 +198,7 @@ export default function HotelForm({ initialData = null }) {
       images,
       amenities,
       roomTypes: cleanedRoomTypes,
-    
+
       status: formData.status,
       searchKeywords: [
         formData.name.toLowerCase(),
@@ -205,7 +208,7 @@ export default function HotelForm({ initialData = null }) {
       ],
       mapEmbedUrl: formData.mapEmbedUrl.trim() || null,
       verified: formData.verified,
-     
+
       customBadgeText: formData.customBadgeText.trim() || null,
       customBadgeColor: formData.customBadgeColor,
       availabilityStatus: formData.availabilityStatus,
@@ -220,7 +223,9 @@ export default function HotelForm({ initialData = null }) {
       ownerName: formData.ownerName,
       featured: formData.featured,
       sponsored: formData.sponsored,
-
+      faqs: faqs
+        .filter((f) => f.question.trim() && f.answer.trim())
+        .map((f) => ({ question: f.question.trim(), answer: f.answer.trim() })),
     };
 
     if (formData.featured && !initialData?.featured) {
@@ -508,6 +513,10 @@ export default function HotelForm({ initialData = null }) {
       {/* Room Types */}
       <div className="card p-6">
         <RoomTypesEditor value={roomTypes} onChange={setRoomTypes} />
+      </div>
+
+      <div className="card p-6">
+        <FaqEditor value={faqs} onChange={setFaqs} />
       </div>
 
       {/* Location coordinates */}

@@ -15,7 +15,7 @@ import ReviewsList from "@/components/reviews/ReviewsList";
 import ReviewForm from "@/components/reviews/ReviewForm";
 
 import WishlistButton from "@/components/ui/WishlistButton";
-import { isValidGoogleMapsEmbedUrl } from "@/utils/helpers";
+import { isValidGoogleMapsEmbedUrl , generateFaqSchema  } from "@/utils/helpers";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import CustomBadge from "@/components/ui/CustomBadge";
 import ShareButton from "@/components/ui/ShareButton";
@@ -23,6 +23,7 @@ import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
 import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
 import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
+import FaqAccordion from "@/components/ui/FaqAccordion";
 
 export const revalidate = 1800;
 
@@ -63,8 +64,9 @@ export async function generateMetadata({ params }) {
 
 export default async function HotelDetailPage({ params }) {
   const { slug } = await params;
-  const hotel = await getHotelBySlug(slug);
 
+  const hotel = await getHotelBySlug(slug);
+  const faqSchema = generateFaqSchema(hotel.faqs);
   if (!hotel) {
     notFound();
   }
@@ -84,6 +86,7 @@ export default async function HotelDetailPage({ params }) {
   return (
     <>
       <JsonLd data={hotelSchema} />
+      {faqSchema && <JsonLd data={faqSchema} />}
 
       <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs
@@ -210,6 +213,16 @@ export default async function HotelDetailPage({ params }) {
                   </div>
                 </div>
               )}
+
+             {/* NEW: FAQ section — place after Map, before Reviews */}
+            {hotel.faqs?.length > 0 && (
+              <div>
+                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                  Frequently Asked Questions
+                </h2>
+                <FaqAccordion faqs={hotel.faqs} />
+              </div>
+            )}
 
             {/* NEW: Reviews section */}
             <div>

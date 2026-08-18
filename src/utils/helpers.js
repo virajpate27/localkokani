@@ -155,3 +155,21 @@ export function isValidWhatsAppNumber(number) {
   // Expects digits only, country code included, 10-15 digits (covers most international formats)
   return /^\d{10,15}$/.test(number.trim());
 }
+
+export function generateFaqSchema(faqs = []) {
+  const validFaqs = faqs.filter((f) => f.question?.trim() && f.answer?.trim());
+  if (validFaqs.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: validFaqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+}

@@ -26,6 +26,8 @@ import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
 import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
 import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
 import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
+import FaqAccordion from "@/components/ui/FaqAccordion";
+import { generateFaqSchema } from "@/utils/helpers";
 
 export async function generateStaticParams() {
   const restaurants = await getAllRestaurants();
@@ -69,6 +71,8 @@ export default async function RestaurantDetailPage({ params }) {
     restaurant.destinationId,
   );
 
+  const faqSchema = generateFaqSchema(restaurant.faqs);
+
   const restaurantSchema = {
     "@context": "https://schema.org",
     "@type": "Restaurant",
@@ -96,6 +100,7 @@ export default async function RestaurantDetailPage({ params }) {
   return (
     <>
       <JsonLd data={restaurantSchema} />
+      {faqSchema && <JsonLd data={faqSchema} />}
 
       <div className="bg-white dark:bg-gray-900">
         <Breadcrumbs
@@ -218,6 +223,16 @@ export default async function RestaurantDetailPage({ params }) {
                   </div>
                 </div>
               )}
+
+              {/* NEW: FAQ section */}
+            {restaurant.faqs?.length > 0 && (
+              <div>
+                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                  Frequently Asked Questions
+                </h2>
+                <FaqAccordion faqs={restaurant.faqs} />
+              </div>
+            )}
 
             {/* NEW: Reviews section */}
             <div>
