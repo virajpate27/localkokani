@@ -487,8 +487,8 @@ export default function RestaurantForm({ initialData = null }) {
             </div>
 
             <div className="card p-6">
-  <FaqEditor value={faqs} onChange={setFaqs} />
-</div>
+                <FaqEditor value={faqs} onChange={setFaqs} />
+            </div>
 
             <div className="card p-6 space-y-5">
                 <div>
