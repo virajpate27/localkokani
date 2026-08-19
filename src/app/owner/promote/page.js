@@ -84,9 +84,9 @@ function PromoteContent() {
         getExtendableRequestsByOwner(owner.uid), // ⬅️ ADD
       ]);
       const allListings = [
-        ...hotels.map((h) => ({ ...h, type: "hotel" })),
-        ...restaurants.map((r) => ({ ...r, type: "restaurant" })),
-      ];
+  ...hotels.filter((h) => h.status === "active").map((h) => ({ ...h, type: "hotel" })),
+  ...restaurants.filter((r) => r.status === "active").map((r) => ({ ...r, type: "restaurant" })),
+];
       setListings(allListings);
       setPricing(pricingData);
       setRequests(requestsData);
