@@ -38,7 +38,7 @@ export default function Hero({ heroImageUrl }) {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/50" />
       </div>
 
-      <div className="container-custom relative z-10 py-24 text-center">
+      <div className="container-custom relative z-10 py-16 sm:py-24 text-center">
         <span className="inline-block bg-white/10 backdrop-blur-md text-white/90 text-xs font-medium uppercase px-4 py-1.5 rounded-full mb-6 animate-fade-in">
           ✨ Trusted by 10,000+ happy travelers
         </span>

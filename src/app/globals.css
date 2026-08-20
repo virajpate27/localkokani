@@ -8,13 +8,7 @@
     scroll-behavior: smooth;
   }
 
-  .bx-shadow {
-    box-shadow: rgba(255, 255, 255, 0.15) 0px 0px 0px 10px, rgba(0, 0, 0, 0.04) 0px 2px 48px 0px;
-}
 
-.cbord{
-  border: 1px solid #e4e1d6;
-}
 }
 
 @layer components {
@@ -37,6 +31,16 @@
   .card {
     @apply bg-white dark:bg-gray-900 rounded-2xl shadow-card hover:shadow-card-hover dark:shadow-none dark:border dark:border-gray-800 transition-all duration-300;
   }
+
+  .bx-shadow {
+    @apply shadow-[0_0_0_10px_rgba(255,255,255,0.15),0_2px_48px_0_rgba(0,0,0,0.04)];
+  }
+  
+  .cbord {
+    @apply border border-[#e4e1d6];
+  }
+
+
 }
 
 @layer utilities {
