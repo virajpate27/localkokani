@@ -13,6 +13,7 @@ const pageTitles = {
   "/admin/leads": "Leads & Enquiries",
   "/admin/owners": "Owners",
   "/admin/contact-messages": "Contact Messages",
+  "/admin/settings": "Settings",
 };
 
 export default function AdminTopbar() {

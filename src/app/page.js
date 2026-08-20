@@ -6,18 +6,14 @@ import FeaturedHotels from "@/components/home/FeaturedHotels";
 import FeaturedRestaurants from "@/components/home/FeaturedRestaurants";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import CtaBanner from "@/components/home/CtaBanner";
-
+import { getSiteSettings } from "@/lib/services/settingsService";
 
 // Dynamically import Testimonials since Swiper's JS isn't needed until scrolled into view
 const Testimonials = dynamic(() => import("@/components/home/Testimonials"), {
   loading: () => <div className="h-96 bg-gray-50 dark:bg-gray-950" />, // prevents layout shift while chunk loads
 });
 
-
 export const revalidate = 3600; // regenerate page every 1 hour
-
-
-
 
 export const metadata = {
   title: "StayFinder | Book Hotels & Explore Top Destinations",
@@ -25,10 +21,11 @@ export const metadata = {
     "Discover handpicked hotels across top destinations. Best prices, verified stays, instant WhatsApp booking assistance.",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const settings = await getSiteSettings();
   return (
     <>
-      <Hero />
+      <Hero heroImageUrl={settings.heroImage?.url} />
       <FeaturedDestinations />
       <FeaturedHotels />
       <FeaturedRestaurants />

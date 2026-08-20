@@ -5,10 +5,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiSearch, FiMapPin, FiCalendar, FiUsers } from "react-icons/fi";
 import SearchAutosuggest from "@/components/search/SearchAutosuggest";
+import Image from "next/image";
+
+const DEFAULT_BANNER = "/images/default-hero-banner.jpg";
 
 export default function Hero() {
   const router = useRouter();
   const [query, setQuery] = useState("");
+   const bannerSrc = heroImageUrl || DEFAULT_BANNER;
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -18,9 +22,20 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-hero-gradient min-h-[85vh] flex items-center">
-      <div className="absolute top-20 -right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 -left-20 w-72 h-72 bg-secondary/30 rounded-full blur-3xl" />
+      <section className="relative overflow-hidden min-h-[85vh] flex items-center">
+      {/* Banner image layer — continuously zooms via animate-zoom-slow */}
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src={bannerSrc}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover animate-zoom-slow"
+        />
+        {/* Dark overlay, matches your rgba(2,2,2,0.5) gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/50" />
+      </div>
 
       <div className="container-custom relative z-10 py-24 text-center">
         <span className="inline-block bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-fade-in">
@@ -38,7 +53,7 @@ export default function Hero() {
           no hidden fees, ever.
         </p>
 
-        <div className="mt-10 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-2 sm:p-3 max-w-2xl mx-auto animate-slide-up">
+        <div className="mt-10 bg-white rounded-2xl shadow-2xl p-2 sm:p-3 max-w-2xl mx-auto animate-slide-up">
           <SearchAutosuggest variant="hero" placeholder="Search destination or hotel name..." />
         </div>
 

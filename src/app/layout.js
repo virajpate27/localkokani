@@ -1,5 +1,5 @@
 // src/app/layout.js
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import NextTopLoader from "nextjs-toploader";
@@ -24,6 +24,14 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-poppins",
   display: "swap", // ✅ already set
+});
+
+const fraunces = Fraunces({ // ⬅️ ADD
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
+  display: "swap",
 });
 
 export const metadata = {
@@ -51,8 +59,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-      <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
-         <head>
+    <html lang="en" className={`${inter.variable} ${poppins.variable} ${fraunces.variable}`}>
+      <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -72,22 +80,25 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="font-sans bg-gray-50 dark:bg-gray-950 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased transition-colors">
-        <Link href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+        <Link
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
+        >
           Skip to main content
         </Link>
         <JsonLd data={generateOrganizationSchema()} />
         <ThemeProvider>
           <AuthProvider>
-             <OwnerAuthProvider>
-            <WishlistProvider>
-              <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
-              <Navbar />
-              <main id="main-content" className="min-h-screen">
-                {children}
-              </main>
-              <Footer />
-              <Toaster position="top-center" />
-            </WishlistProvider>
+            <OwnerAuthProvider>
+              <WishlistProvider>
+                <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
+                <Navbar />
+                <main id="main-content" className="min-h-screen">
+                  {children}
+                </main>
+                <Footer />
+                <Toaster position="top-center" />
+              </WishlistProvider>
             </OwnerAuthProvider>
           </AuthProvider>
         </ThemeProvider>

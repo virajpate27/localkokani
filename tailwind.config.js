@@ -6,7 +6,7 @@ module.exports = {
     "./src/components/**/*.{js,jsx}",
     "./src/app/**/*.{js,jsx}",
   ],
-   darkMode: "class",
+  darkMode: "class",
   theme: {
     screens: {
       xs: "375px",
@@ -32,7 +32,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],
-        display: ["var(--font-poppins)", "sans-serif"],
+        display: ["var(--font-fraunces)", "sans-serif"],
       },
       backgroundImage: {
         "hero-gradient": "linear-gradient(135deg, #1e3b6c 0%, #3193a6 100%)",
@@ -47,6 +47,7 @@ module.exports = {
       animation: {
         "fade-in": "fadeIn 0.6s ease-in-out",
         "slide-up": "slideUp 0.5s ease-out",
+        "zoom-slow": "zoomSlow 30s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -56,6 +57,11 @@ module.exports = {
         slideUp: {
           "0%": { opacity: 0, transform: "translateY(20px)" },
           "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        zoomSlow: {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.15)" },
+          "100%": { transform: "scale(1)" },
         },
       },
     },
