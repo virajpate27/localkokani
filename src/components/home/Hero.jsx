@@ -7,12 +7,13 @@ import { FiSearch, FiMapPin, FiCalendar, FiUsers } from "react-icons/fi";
 import SearchAutosuggest from "@/components/search/SearchAutosuggest";
 import Image from "next/image";
 
+
 const DEFAULT_BANNER = "/images/default-hero-banner.jpg";
 
-export default function Hero() {
+export default function Hero({ heroImageUrl }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
-   const bannerSrc = heroImageUrl || DEFAULT_BANNER;
+  const bannerSrc = heroImageUrl || DEFAULT_BANNER;
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ export default function Hero() {
   };
 
   return (
-      <section className="relative overflow-hidden min-h-[85vh] flex items-center">
+    <section className="relative overflow-hidden min-h-[85vh] flex items-center">
       {/* Banner image layer — continuously zooms via animate-zoom-slow */}
       <div className="absolute inset-0 -z-10">
         <Image
