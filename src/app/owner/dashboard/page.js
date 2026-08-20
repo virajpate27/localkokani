@@ -32,6 +32,7 @@ function DashboardContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [managedHotels, setManagedHotels] = useState([]);
   const [managedRestaurants, setManagedRestaurants] = useState([]);
+  const [inactiveListings, setInactiveListings] = useState([]);
   const { owner } = useOwnerAuth();
 
   useEffect(() => {
@@ -39,8 +40,24 @@ function DashboardContent() {
       getApplicationsByOwner(owner.uid)
         .then(setApplications)
         .finally(() => setIsLoading(false));
-      getHotelsByOwner(owner.uid).then(setManagedHotels);
-      getRestaurantsByOwner(owner.uid).then(setManagedRestaurants);
+
+      Promise.all([
+        getHotelsByOwner(owner.uid),
+        getRestaurantsByOwner(owner.uid),
+      ]).then(([hotels, restaurants]) => {
+        setManagedHotels(hotels.filter((h) => h.status === "active"));
+        setManagedRestaurants(restaurants.filter((r) => r.status === "active"));
+
+        const inactive = [
+          ...hotels
+            .filter((h) => h.status !== "active")
+            .map((h) => ({ ...h, type: "hotel" })),
+          ...restaurants
+            .filter((r) => r.status !== "active")
+            .map((r) => ({ ...r, type: "restaurant" })),
+        ];
+        setInactiveListings(inactive);
+      });
     }
   }, [owner]);
 
@@ -126,6 +143,39 @@ function DashboardContent() {
                     <p className="text-gray-400 text-xs">View live listing →</p>
                   </div>
                 </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {inactiveListings.length > 0 && (
+          <div className="mb-8">
+            <h2 className="font-display font-semibold text-lg text-gray-500 mb-4">
+              Not Currently Visible ({inactiveListings.length})
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {inactiveListings.map((listing) => (
+                <div
+                  key={`${listing.type}-${listing.id}`}
+                  className="card p-4 flex items-center gap-3 opacity-70"
+                >
+                  <div className="w-11 h-11 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
+                    {listing.type === "hotel" ? (
+                      <FiHome className="text-gray-400" />
+                    ) : (
+                      <FiCoffee className="text-gray-400" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-600 text-sm">
+                      {listing.name}
+                    </p>
+                    <p className="text-gray-400 text-xs capitalize">
+                      Status: {listing.status} — contact us if you have
+                      questions
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
