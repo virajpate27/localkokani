@@ -7,6 +7,14 @@
   html {
     scroll-behavior: smooth;
   }
+
+  .bx-shadow {
+    box-shadow: rgba(255, 255, 255, 0.15) 0px 0px 0px 10px, rgba(0, 0, 0, 0.04) 0px 2px 48px 0px;
+}
+
+.cbord{
+  border: 1px solid #e4e1d6;
+}
 }
 
 @layer components {
@@ -35,6 +43,8 @@
   .pb-safe {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
+
+  
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -47,3 +57,4 @@
     scroll-behavior: auto !important;
   }
 }
+

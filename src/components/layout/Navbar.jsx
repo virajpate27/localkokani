@@ -10,7 +10,7 @@ import { FiMenu, FiX, FiSearch, FiMapPin, FiHeart } from "react-icons/fi";
 import SearchAutosuggest from "@/components/search/SearchAutosuggest";
 
 import { useWishlist } from "@/context/WishlistContext";
-import ThemeToggle from "@/components/ui/ThemeToggle"; 
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -42,11 +42,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-    scrolled
-      ? "bg-white dark:bg-gray-900 dark:bg-gray-900 shadow-card"
-      : "bg-white dark:bg-gray-900/80 dark:bg-gray-900/80 backdrop-blur-md"
-  }`}
+      className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
+          ? "bg-white dark:bg-gray-900 dark:bg-gray-900 shadow-card"
+          : "bg-white dark:bg-gray-900/80 dark:bg-gray-900/80 backdrop-blur-md"
+        }`}
     >
       <nav className="container-custom flex items-center justify-between h-20">
         <Link href="/" className="flex items-center gap-2 group shrink-0">
@@ -54,8 +53,8 @@ export default function Navbar() {
             <FiMapPin className="text-white text-xl" />
           </div>
           <span className="font-display font-bold text-xl sm:text-2xl text-primary dark:text-white dark:text-white whitespace-nowrap">
-    Stay<span className="text-accent-dark dark:text-accent">Finder</span>
-  </span>
+            Stay<span className="text-accent-dark dark:text-accent">Finder</span>
+          </span>
         </Link>
 
         {/* Desktop Links + inline search */}
@@ -83,14 +82,14 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3 shrink-0">
-    <ThemeToggle />
-    <button onClick={() => setSearchOpen((prev) => !prev)} className="w-11 h-11 rounded-full flex items-center justify-center dark:bg-gray-800 dark:bg-gray-800 hover:bg-secondary hover:text-white transition-colors" aria-label="Toggle search">
-      {searchOpen ? <FiX /> : <FiSearch />}
-    </button>
-    <Link href="/destinations" className="btn-primary whitespace-nowrap">
-      Explore Stays
-    </Link>
-  </div>
+          <ThemeToggle />
+          <button onClick={() => setSearchOpen((prev) => !prev)} className="w-11 h-11 rounded-full flex items-center justify-center dark:bg-gray-800 dark:bg-gray-800 hover:bg-secondary hover:text-white transition-colors rounded-full cbord" aria-label="Toggle search">
+            {searchOpen ? <FiX /> : <FiSearch />}
+          </button>
+          <Link href="/destinations" className="btn-primary whitespace-nowrap">
+            Explore Stays
+          </Link>
+        </div>
 
         <button
           className="md:hidden text-2xl text-primary dark:text-white"
@@ -104,25 +103,24 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 dark:bg-gray-900 border-t dark:border-gray-800 dark:border-gray-800 animate-slide-up">
           <div className="flex items-center justify-between p-4">
-        <SearchAutosuggest variant="default" />
-        <ThemeToggle className="ml-3 shrink-0" />
-      </div>
+            <SearchAutosuggest variant="default" />
+            <ThemeToggle className="ml-3 shrink-0" />
+          </div>
           <ul className="flex flex-col px-4 pb-4 gap-1">
             {navLinks.map((link) => (
-          <li key={link.href}>
-            <Link
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className={`block px-4 py-3 rounded-xl font-medium ${
-                pathname === link.href
-                  ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-white dark:text-primary dark:text-white-light"
-                  : "dark:text-gray-300 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-950 dark:hover:bg-gray-800"
-              }`}
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`block px-4 py-3 rounded-xl font-medium ${pathname === link.href
+                      ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-white dark:text-primary dark:text-white-light"
+                      : "dark:text-gray-300 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-950 dark:hover:bg-gray-800"
+                    }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
 
             <li className="pt-2">
               <div >

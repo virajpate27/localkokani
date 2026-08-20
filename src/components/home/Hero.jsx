@@ -39,14 +39,14 @@ export default function Hero({ heroImageUrl }) {
       </div>
 
       <div className="container-custom relative z-10 py-24 text-center">
-        <span className="inline-block bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-6 animate-fade-in">
+        <span className="inline-block bg-white/10 backdrop-blur-md text-white/90 text-xs font-medium uppercase px-4 py-1.5 rounded-full mb-6 animate-fade-in">
           ✨ Trusted by 10,000+ happy travelers
         </span>
 
-        <h1 className="font-display font-extrabold text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-white leading-tight max-w-4xl mx-auto animate-slide-up">
+        <h1 className="font-display font-medium text-3xl xs:text-4xl sm:text-5xl md:text-6xl text-white leading-tight max-w-4xl mx-auto animate-slide-up">
           Find Your Perfect Stay,
           <br />
-          <span className="text-accent">Anywhere You Go</span>
+          <span className="text-accent italic">Anywhere You Go</span>
         </h1>
 
         <p className="text-white/80 text-lg mt-6 max-w-xl mx-auto animate-slide-up">
@@ -54,7 +54,7 @@ export default function Hero({ heroImageUrl }) {
           no hidden fees, ever.
         </p>
 
-        <div className="mt-10 bg-white rounded-2xl shadow-2xl p-2 sm:p-3 max-w-2xl mx-auto animate-slide-up">
+        <div className="mt-10 bg-white rounded-2xl shadow-2xl p-2 sm:p-3 max-w-2xl mx-auto animate-slide-up bx-shadow">
           <SearchAutosuggest variant="hero" placeholder="Search destination or hotel name..." />
         </div>
 
