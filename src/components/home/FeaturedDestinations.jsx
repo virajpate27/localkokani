@@ -11,7 +11,7 @@ export default async function FeaturedDestinations() {
   if (!destinations.length) return null; // gracefully hide section if empty
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-900">
+    <section className="py-14 bg-white dark:bg-gray-900">
       <div className="container-custom">
         <div className="flex items-end justify-between mb-10">
           <div>

@@ -10,7 +10,7 @@ export default async function FeaturedRestaurants() {
   if (!restaurants.length) return null;
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-950 overflow-hidden">
+    <section className="py-14 bg-gray-50 dark:bg-gray-950 overflow-hidden">
       <div className="container-custom">
         <div className="flex items-end justify-between mb-10">
           <div>

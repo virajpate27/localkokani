@@ -10,7 +10,7 @@ export default async function FeaturedHotels() {
   if (!hotels.length) return null;
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-900 overflow-hidden">
+    <section className="py-14 bg-blue-50 dark:bg-gray-900 overflow-hidden">
       <div className="container-custom">
         <div className="flex items-end justify-between mb-10">
           <div>

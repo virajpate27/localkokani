@@ -26,7 +26,7 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-950">
+    <section className="py-14 bg-blue-50 dark:bg-gray-950">
       <div className="container-custom">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-secondary font-semibold text-sm uppercase tracking-wider">
