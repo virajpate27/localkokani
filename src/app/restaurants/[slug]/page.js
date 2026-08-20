@@ -37,7 +37,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const restaurant = await getRestaurantBySlug(slug);
-  if (!restaurant) return { title: "Restaurant Not Found | StayFinder" };
+
+if (!restaurant || restaurant.status !== "active") {
+    return { title: "Restaurant Not Found | StayFinder" };
+  }
 
   const title = `${restaurant.name} | ${restaurant.destinationName} | StayFinder`;
   const description =
@@ -57,7 +60,9 @@ export default async function RestaurantDetailPage({ params }) {
   const { slug } = await params;
   const restaurant = await getRestaurantBySlug(slug);
 
-  if (!restaurant) notFound();
+  if (!restaurant || restaurant.status !== "active") {
+    notFound();
+  }
 
   const reviews = await getApprovedReviewsForEntity(
     "restaurant",

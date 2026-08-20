@@ -15,7 +15,7 @@ import ReviewsList from "@/components/reviews/ReviewsList";
 import ReviewForm from "@/components/reviews/ReviewForm";
 
 import WishlistButton from "@/components/ui/WishlistButton";
-import { isValidGoogleMapsEmbedUrl , generateFaqSchema  } from "@/utils/helpers";
+import { isValidGoogleMapsEmbedUrl, generateFaqSchema } from "@/utils/helpers";
 import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import CustomBadge from "@/components/ui/CustomBadge";
 import ShareButton from "@/components/ui/ShareButton";
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const hotel = await getHotelBySlug(slug);
 
-  if (!hotel) {
+if (!hotel || hotel.status !== "active") {
     return { title: "Hotel Not Found | StayFinder" };
   }
 
@@ -64,8 +64,14 @@ export async function generateMetadata({ params }) {
 
 export default async function HotelDetailPage({ params }) {
   const { slug } = await params;
+  
 
   const hotel = await getHotelBySlug(slug);
+
+   if (!hotel || hotel.status !== "active") {
+    notFound();
+  }
+
   const faqSchema = generateFaqSchema(hotel.faqs);
   if (!hotel) {
     notFound();
@@ -214,7 +220,7 @@ export default async function HotelDetailPage({ params }) {
                 </div>
               )}
 
-             {/* NEW: FAQ section — place after Map, before Reviews */}
+            {/* NEW: FAQ section — place after Map, before Reviews */}
             {hotel.faqs?.length > 0 && (
               <div>
                 <h2 className="font-display font-bold text-2xl text-primary mb-4">
