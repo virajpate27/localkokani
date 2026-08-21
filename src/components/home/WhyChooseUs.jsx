@@ -1,14 +1,16 @@
 // src/components/home/WhyChooseUs.jsx
 import { FiCheckCircle, FiPhoneCall, FiDollarSign, FiShield } from "react-icons/fi";
+import { FaIndianRupeeSign } from "react-icons/fa6";
+
 
 const features = [
   {
     icon: FiCheckCircle,
     title: "Verified Stays",
-    desc: "Every hotel is personally vetted for quality and cleanliness.",
+    desc: "Every hotel & restaurant is personally vetted for quality and cleanliness.",
   },
   {
-    icon: FiDollarSign,
+    icon: FaIndianRupeeSign,
     title: "Best Price Promise",
     desc: "Transparent pricing with zero hidden charges, ever.",
   },
@@ -37,14 +39,14 @@ export default function WhyChooseUs() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((f) => (
             <div
               key={f.title}
               className="card p-7 text-center hover:-translate-y-1"
             >
-              <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
-                <f.icon className="text-primary dark:text-white text-2xl" />
+              <div className="w-10 h-10 sm:w-14 sm:h-14 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
+                <f.icon className="text-primary dark:text-white text-base sm:text-2xl" />
               </div>
               <h3 className="font-display font-semibold text-lg text-primary dark:text-white">
                 {f.title}

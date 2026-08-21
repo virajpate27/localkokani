@@ -114,7 +114,7 @@ export default function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-3 rounded-xl font-medium ${pathname === link.href
                       ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-white dark:text-primary dark:text-white-light"
-                      : "dark:text-gray-300 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-950 dark:hover:bg-gray-800"
+                      : "text-gray-300 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-950 dark:hover:bg-gray-800"
                     }`}
                 >
                   {link.label}

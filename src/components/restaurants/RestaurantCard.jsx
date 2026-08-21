@@ -58,7 +58,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
             return (
               <span
                 key={c}
-                className="flex items-center gap-1 text-xs dark:bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-md"
+                className="flex items-center gap-1 text-xs bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-md"
               >
                 <Icon className="text-accent-dark text-[11px]" />
                 {c}
