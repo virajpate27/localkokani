@@ -33,7 +33,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
               {restaurant.rating}
             </div>
           )}
-          {restaurant.verified && <VerifiedBadge showLabel={false} className="!p-2 !rounded-lg" />}
+
         </div>
         <WishlistButton item={restaurant} entityType="restaurant" className="absolute top-3 right-3" />
         {sponsored && <SponsoredBadge />}
@@ -44,9 +44,13 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
         <p className="flex items-center gap-1 text-secondary text-xs font-medium uppercase tracking-wide">
           <FiMapPin /> {restaurant.destinationName}
         </p>
-        <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
-          {restaurant.name}
-        </h3>
+
+        <div className="flex">
+          <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+            {restaurant.name}
+          </h3>
+          {restaurant.verified && <VerifiedBadge showLabel={false} className="!p-2 !rounded-lg" />}
+        </div>
 
         <div className="flex flex-wrap gap-1.5 mt-3">
           {(restaurant.cuisine || []).slice(0, 2).map((c) => {
@@ -77,7 +81,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
                   {formatCurrency(restaurant.costForTwo)}
                   <span className="text-xs font-normal dark:dark:text-gray-500"> for two</span>
                 </p>
-                <p className="dark:dark:text-gray-500 text-xs">{restaurant.priceRange}</p>
+                
               </>
             ) : (
               <p className="text-primary dark:text-white font-semibold text-sm">{restaurant.priceRange}</p>
