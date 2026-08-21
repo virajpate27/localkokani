@@ -1,5 +1,6 @@
 // src/components/ui/VerifiedBadge.jsx
 import { FiCheckCircle } from "react-icons/fi";
+import { GoShieldCheck } from "react-icons/go";
 
 export default function VerifiedBadge({ size = "text-xs", showLabel = true, className = "" }) {
   return (
@@ -7,7 +8,8 @@ export default function VerifiedBadge({ size = "text-xs", showLabel = true, clas
       className={`inline-flex items-center gap-1 bg-gradient-to-r from-primary to-secondary text-white font-medium px-2.5 py-1 rounded-lg shadow-sm ${size} ${className}`}
       title="Premium Owner"
     >
-      <FiCheckCircle className="shrink-0" />
+      <GoShieldCheck className="shrink-0" />
+      
       {showLabel && "Premium"}
     </span>
   );
