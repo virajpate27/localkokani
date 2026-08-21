@@ -55,7 +55,7 @@ export default function RecentLeadsTable({ leads = [] }) {
             <div className="min-w-0">
               <p className="font-medium text-primary dark:text-white truncate">{lead.name}</p>
               <p className="dark:dark:text-gray-500 text-sm truncate">
-                {lead.hotelName} · {lead.phone}
+                {lead.hotelName}  {lead.phone}
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0">

@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { createLead } from "@/lib/services/leadService";
 import { useMathCaptcha } from "@/hooks/useMathCaptcha";
 import MathCaptcha from "@/components/ui/MathCaptcha";
+import DateInput from "@/components/ui/DateInput"; // ⬅️ ADD
+import TimeInput from "@/components/ui/TimeInput"; // ⬅️ ADD
 
 const initialFormState = { name: "", phone: "", date: "", time: "", guests: 2 };
 
@@ -120,31 +122,31 @@ export default function ReservationForm({ restaurant }) {
         {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            min={today}
-            onChange={handleChange}
-            className={`w-full pl-3 pr-2 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.date ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-              }`}
-          />
-        </div>
-        <div>
-          <input
-            type="time"
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-            className={`w-full pl-3 pr-2 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.time ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-              }`}
-          />
-        </div>
-      </div>
-      {errors.date && <p className="text-red-500 text-xs -mt-2">{errors.date}</p>}
-      {errors.time && <p className="text-red-500 text-xs -mt-2">{errors.time}</p>}
+     <div className="grid grid-cols-2 gap-3">
+  <div>
+    <DateInput
+      name="date"
+      value={formData.date}
+      onChange={handleChange}
+      min={today}
+      label="Date"
+      icon={FiCalendar}
+      error={errors.date}
+    />
+  </div>
+  <div>
+    <TimeInput
+      name="time"
+      value={formData.time}
+      onChange={handleChange}
+      label="Time"
+      icon={FiClock}
+      error={errors.time}
+    />
+  </div>
+</div>
+{errors.date && <p className="text-red-500 text-xs -mt-2">{errors.date}</p>}
+{errors.time && <p className="text-red-500 text-xs -mt-2">{errors.time}</p>}
 
       <div>
         <div className="relative">

@@ -54,7 +54,7 @@ export default function Hero({ heroImageUrl }) {
           no hidden fees, ever.
         </p>
 
-        <div className="mt-10 bg-white rounded-2xl shadow-2xl p-2 sm:p-3 max-w-2xl mx-auto animate-slide-up bx-shadow">
+        <div className="mt-10 bg-white rounded-2xl  p-2 sm:p-3 max-w-2xl mx-auto animate-slide-up bx-shadow">
           <SearchAutosuggest variant="hero" placeholder="Search destination or hotel name..." />
         </div>
 

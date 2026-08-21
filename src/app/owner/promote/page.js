@@ -28,6 +28,7 @@ import {
   DURATIONS,
 } from "@/lib/services/promotionService";
 import { formatCurrency } from "@/utils/helpers";
+import DateInput from "@/components/ui/DateInput"; 
 
 const statusConfig = {
   pending_payment: {
@@ -353,30 +354,18 @@ function PromoteContent() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Start Date{" "}
-            {extendingFrom && (
-              <span className="text-gray-400 font-normal">
-                (auto-set to continue seamlessly)
-              </span>
-            )}
-          </label>
-          <div className="relative">
-            <FiCalendar className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              type="date"
-              value={startDate}
-              min={
-                extendingFrom
-                  ? startDate
-                  : new Date().toISOString().split("T")[0]
-              } // lock the min to the computed continuation date while extending
-              onChange={(e) => setStartDate(e.target.value)}
-              disabled={!!extendingFrom}
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-secondary text-sm outline-none disabled:bg-gray-50 disabled:text-gray-400"
-            />
-          </div>
-        </div>
+  <label className="block text-sm font-medium text-gray-700 mb-2">
+    Start Date {extendingFrom && <span className="text-gray-400 font-normal">(auto-set to continue seamlessly)</span>}
+  </label>
+  <DateInput
+    value={startDate}
+    onChange={(e) => setStartDate(e.target.value)}
+    min={extendingFrom ? startDate : new Date().toISOString().split("T")[0]}
+    label="Select a date"
+    icon={FiCalendar}
+    disabled={!!extendingFrom}
+  />
+</div>
 
         <div className="bg-gray-50 rounded-xl p-4 flex items-center justify-between">
           <div>

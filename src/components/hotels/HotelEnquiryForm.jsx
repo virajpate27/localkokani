@@ -9,6 +9,7 @@ import { createLead } from "@/lib/services/leadService";
 import EnquiryConfirmModal from "./EnquiryConfirmModal";
 import { useMathCaptcha } from "@/hooks/useMathCaptcha";
 import MathCaptcha from "@/components/ui/MathCaptcha"; 
+import DateInput from "@/components/ui/DateInput";
 
 const initialFormState = {
   name: "",
@@ -248,32 +249,32 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
         </div>
 
         {/* Dates */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <input
-              type="date"
-              name="checkIn"
-              value={formData.checkIn}
-              min={today}
-              onChange={handleChange}
-              className={`w-full pl-3 pr-2 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.checkIn ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-                }`}
-            />
-          </div>
-          <div>
-            <input
-              type="date"
-              name="checkOut"
-              value={formData.checkOut}
-              min={formData.checkIn || today}
-              onChange={handleChange}
-              className={`w-full pl-3 pr-2 py-3 rounded-xl border border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-secondary text-sm outline-none ${errors.checkOut ? "border-red-300" : "dark:border-gray-800 focus:border-secondary"
-                }`}
-            />
-          </div>
-        </div>
-        {errors.checkIn && <p className="text-red-500 text-xs -mt-2">{errors.checkIn}</p>}
-        {errors.checkOut && <p className="text-red-500 text-xs -mt-2">{errors.checkOut}</p>}
+       <div className="grid grid-cols-2 gap-3">
+  <div>
+    <DateInput
+      name="checkIn"
+      value={formData.checkIn}
+      onChange={handleChange}
+      min={today}
+      label="Check-in"
+      icon={FiCalendar}
+      error={errors.checkIn}
+    />
+  </div>
+  <div>
+    <DateInput
+      name="checkOut"
+      value={formData.checkOut}
+      onChange={handleChange}
+      min={formData.checkIn || today}
+      label="Check-out"
+      icon={FiCalendar}
+      error={errors.checkOut}
+    />
+  </div>
+</div>
+{errors.checkIn && <p className="text-red-500 text-xs -mt-2">{errors.checkIn}</p>}
+{errors.checkOut && <p className="text-red-500 text-xs -mt-2">{errors.checkOut}</p>}
 
         {/* Guests */}
         <div>
