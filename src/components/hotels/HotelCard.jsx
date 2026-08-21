@@ -32,6 +32,7 @@ export default function HotelCard({ hotel, priority = false, sponsored = false }
           <div className="bg-white dark:bg-gray-900/95 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1 text-sm font-semibold text-primary dark:text-white shadow-sm">
             <FiStar className="text-accent fill-accent" />
             {hotel.rating}
+           
           </div>
          
         </div>
@@ -44,9 +45,13 @@ export default function HotelCard({ hotel, priority = false, sponsored = false }
         <p className="flex items-center gap-1 text-secondary text-xs font-medium uppercase tracking-wide">
           <FiMapPin /> {hotel.destinationName}
         </p>
-        <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
-          {hotel.name}  {hotel.verified && <VerifiedBadge showLabel={false} className="!p-2 !rounded-lg" />}
+        <div className="flex">
+          <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+          {hotel.name}  
         </h3>
+
+         {hotel.verified && <VerifiedBadge showLabel={false} className="!p-2 !rounded-lg" />}
+        </div>
 
         <div className="flex flex-wrap gap-1.5 mt-3">
           {(hotel.amenities || []).slice(0, 2).map((a) => (
