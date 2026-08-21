@@ -5,6 +5,9 @@ import { useState } from "react";
 import { FiUser, FiMail, FiMessageSquare, FiSend, FiCheckCircle } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { createContactMessage } from "@/lib/services/contactService";
+import { useMathCaptcha } from "@/hooks/useMathCaptcha"; // ⬅️ ADD
+import MathCaptcha from "@/components/ui/MathCaptcha"; // ⬅️ ADD
+
 
 const initialFormState = { name: "", email: "", subject: "", message: "" };
 
@@ -13,6 +16,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const captcha = useMathCaptcha(); 
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -36,6 +40,10 @@ export default function ContactForm() {
       return;
     }
 
+    if (!captcha.validate()) { // ⬅️ ADD
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await createContactMessage({
@@ -46,6 +54,7 @@ export default function ContactForm() {
       });
       setSubmitted(true);
       setFormData(initialFormState);
+      captcha.reset();
     } catch (error) {
       console.error("Contact form error:", error);
       toast.error("Failed to send message. Please try again.");
@@ -140,6 +149,8 @@ export default function ContactForm() {
         </div>
         {errors.message && <p className="text-red-500 text-xs mt-1" role="alert">{errors.message}</p>}
       </div>
+
+       <MathCaptcha captcha={captcha} />
 
       <button type="submit" disabled={isSubmitting} className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-60">
         <FiSend className="text-sm" />

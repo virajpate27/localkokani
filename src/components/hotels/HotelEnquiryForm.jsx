@@ -7,6 +7,8 @@ import { FaWhatsapp } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { createLead } from "@/lib/services/leadService";
 import EnquiryConfirmModal from "./EnquiryConfirmModal";
+import { useMathCaptcha } from "@/hooks/useMathCaptcha";
+import MathCaptcha from "@/components/ui/MathCaptcha"; 
 
 const initialFormState = {
   name: "",
@@ -26,6 +28,7 @@ export default function HotelEnquiryForm({ hotel }) {
   const [isSending, setIsSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [fallbackUrl, setFallbackUrl] = useState(null);
+  const captcha = useMathCaptcha();
 
 const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
@@ -106,6 +109,10 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
       toast.error("Please fix the highlighted fields");
       return;
     }
+    if (!captcha.validate()) { 
+      return;
+    }
+
     setShowModal(true);
   };
 
@@ -153,6 +160,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
       setShowModal(false);
       setSubmitted(true);
       setFormData(initialFormState);
+      captcha.reset();
     }
 
     setIsSending(false);
@@ -298,6 +306,8 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
           />
         </div>
 
+          <MathCaptcha captcha={captcha} />
+ 
         <button
           type="submit"
           className="w-full bg-accent hover:bg-accent-dark text-white font-medium py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"

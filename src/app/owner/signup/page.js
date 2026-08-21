@@ -7,6 +7,8 @@ import Link from "next/link";
 import { FiUser, FiMail, FiPhone, FiLock, FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useOwnerAuth } from "@/context/OwnerAuthContext";
+import { useMathCaptcha } from "@/hooks/useMathCaptcha"; // ⬅️ ADD
+import MathCaptcha from "@/components/ui/MathCaptcha"; // ⬅️ ADD
 
 export default function OwnerSignupPage() {
   const router = useRouter();
@@ -17,6 +19,7 @@ export default function OwnerSignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const captcha = useMathCaptcha();
 
   // NEW: redirect away if already logged in as an owner
   useEffect(() => {
@@ -45,6 +48,7 @@ export default function OwnerSignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
+    if (!captcha.validate()) return;
 
     setIsSubmitting(true);
     try {
@@ -164,6 +168,8 @@ export default function OwnerSignupPage() {
               </div>
               {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
             </div>
+            
+            <MathCaptcha captcha={captcha} />
 
             <button type="submit" disabled={isSubmitting} className="btn-primary w-full disabled:opacity-60">
               {isSubmitting ? "Creating account..." : "Create Account"}

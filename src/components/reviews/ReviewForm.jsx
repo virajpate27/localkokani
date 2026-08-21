@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { FiUser, FiSend, FiCheckCircle } from "react-icons/fi";
 import StarRatingInput from "@/components/ui/StarRatingInput";
 import { createReview } from "@/lib/services/reviewService";
+import { useMathCaptcha } from "@/hooks/useMathCaptcha";
+import MathCaptcha from "@/components/ui/MathCaptcha";
 
 export default function ReviewForm({ entityType, entity }) {
   const [guestName, setGuestName] = useState("");
@@ -15,6 +17,7 @@ export default function ReviewForm({ entityType, entity }) {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+   const captcha = useMathCaptcha(); 
 
   const validate = () => {
     const newErrors = {};
@@ -33,6 +36,10 @@ export default function ReviewForm({ entityType, entity }) {
       return;
     }
 
+    if (!captcha.validate()) { // ⬅️ ADD
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       await createReview({
@@ -48,6 +55,7 @@ export default function ReviewForm({ entityType, entity }) {
       setGuestName("");
       setRating(0);
       setComment("");
+      captcha.reset();
     } catch (error) {
       console.error("Review submission error:", error);
       toast.error("Failed to submit review. Please try again.");
@@ -116,6 +124,8 @@ export default function ReviewForm({ entityType, entity }) {
         />
         {errors.comment && <p className="text-red-500 text-xs mt-1">{errors.comment}</p>}
       </div>
+
+       <MathCaptcha captcha={captcha} />
 
       <button
         type="submit"

@@ -13,6 +13,10 @@ import ImageUploader from "@/components/admin/ImageUploader";
 import { createPartnerApplication } from "@/lib/services/partnerService";
 import { useOwnerAuth } from "@/context/OwnerAuthContext";
 
+import { useMathCaptcha } from "@/hooks/useMathCaptcha"; // ⬅️ ADD
+import MathCaptcha from "@/components/ui/MathCaptcha"; // ⬅️ ADD
+
+
 
 const initialFormData = {
   ownerFullName: "", ownerMobile: "", ownerWhatsapp: "", ownerEmail: "", ownerAltContact: "",
@@ -53,7 +57,7 @@ export default function PartnerRegistrationForm() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
-
+  const captcha = useMathCaptcha();
 
   const isHotel = formData.propertyType === "hotel";
   const hiddenSteps = isHotel ? [] : [4]; // restaurants skip the "Accommodation" step
@@ -138,6 +142,10 @@ export default function PartnerRegistrationForm() {
   const handleSubmit = async () => {
     if (!validateStep()) {
       toast.error("Please accept all required agreements");
+      return;
+    }
+
+    if (!captcha.validate()) { // ⬅️ ADD
       return;
     }
 
@@ -604,6 +612,10 @@ export default function PartnerRegistrationForm() {
                 <span className="text-sm text-gray-700">{item.label}</span>
               </label>
             ))}
+
+            <div className="pt-2">
+              <MathCaptcha captcha={captcha} />
+            </div>
           </div>
         )}
 

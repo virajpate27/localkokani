@@ -6,6 +6,8 @@ import { FiUser, FiPhone, FiCalendar, FiClock, FiUsers } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { createLead } from "@/lib/services/leadService";
+import { useMathCaptcha } from "@/hooks/useMathCaptcha";
+import MathCaptcha from "@/components/ui/MathCaptcha";
 
 const initialFormState = { name: "", phone: "", date: "", time: "", guests: 2 };
 
@@ -13,6 +15,7 @@ export default function ReservationForm({ restaurant }) {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
  const whatsappNumber = restaurant.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+ const captcha = useMathCaptcha();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,6 +40,10 @@ export default function ReservationForm({ restaurant }) {
     e.preventDefault();
     if (!validate()) {
       toast.error("Please fix the highlighted fields");
+      return;
+    }
+
+    if (!captcha.validate()) { // ⬅️ ADD
       return;
     }
 
@@ -74,6 +81,7 @@ export default function ReservationForm({ restaurant }) {
     });
 
     setFormData(initialFormState);
+    captcha.reset();
   };
 
   const today = new Date().toISOString().split("T")[0];
@@ -153,6 +161,8 @@ export default function ReservationForm({ restaurant }) {
           />
         </div>
       </div>
+
+       <MathCaptcha captcha={captcha} />
 
       <button
         type="submit"
