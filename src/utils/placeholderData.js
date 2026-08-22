@@ -115,7 +115,7 @@ export const placeholderTestimonials = [
     location: "Pune",
     rating: 5,
     text: "Found a beautiful stay, connected directly with owner, and enjoyed a peaceful Kokan vacation.",
-    avatar: "../test1.webp",
+    avatar: "https://res.cloudinary.com/gwy8xgtr/image/upload/v1787401711/test1_vtxdrl.webp",
   },
   {
     id: "t2",
@@ -123,7 +123,7 @@ export const placeholderTestimonials = [
     location: "Mumbai",
     rating: 5,
     text: "Booking was simple, prices were affordable, and our homestay experience felt genuinely welcoming.",
-    avatar: "https://i.pravatar.cc/100?img=12",
+    avatar: "https://res.cloudinary.com/gwy8xgtr/image/upload/v1787401711/test2_ridlko.webp",
   },
   {
     id: "t3",
@@ -131,6 +131,6 @@ export const placeholderTestimonials = [
     location: "Nagpur",
     rating: 4,
     text: "Direct communication with the owner made our entire stay smooth, convenient, and stress-free.",
-    avatar: "https://i.pravatar.cc/100?img=32",
+    avatar: "https://res.cloudinary.com/gwy8xgtr/image/upload/v1787401711/test3_cbfmnq.webp",
   },
 ];
