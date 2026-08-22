@@ -10,7 +10,7 @@ export default function CtaBanner() {
   );
 
   return (
-    <section className="py-16">
+    <section className="py-16 dark:bg-gray-900">
       <div className="container-custom">
         <div className="relative overflow-hidden rounded-4xl bg-hero-gradient px-8 py-16 text-center">
           <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl" />
