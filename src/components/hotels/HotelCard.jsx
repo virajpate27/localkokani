@@ -46,7 +46,7 @@ export default function HotelCard({ hotel, priority = false, sponsored = false }
           <FiMapPin /> {hotel.destinationName}
         </p>
         <div className="flex">
-          <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+          <h3 className="font-display font-semibold text-lg text-primary dark:text-white mt-1.5 line-clamp-1">
           {hotel.name}  
         </h3>
 

@@ -35,7 +35,7 @@ module.exports = {
         display: ["var(--font-fraunces)", "sans-serif"],
       },
       backgroundImage: {
-        "hero-gradient": "linear-gradient(135deg, #1e3b6c 0%, #3193a6 100%)",
+        "hero-gradient": "linear-gradient(135deg, #00144a 0%, #3193a6 100%)",
       },
       boxShadow: {
         card: "0 4px 20px rgba(30, 59, 108, 0.08)",

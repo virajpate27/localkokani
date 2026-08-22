@@ -31,7 +31,7 @@ export default function Testimonials() {
           }}
           autoplay={{ delay: 4500, disableOnInteraction: false }}
           pagination={{ clickable: true }}
-          className="pb-16 !px-1"
+          className="my-2 pb-16 !px-1"
         >
           {placeholderTestimonials.map((t) => (
             <SwiperSlide key={t.id}>

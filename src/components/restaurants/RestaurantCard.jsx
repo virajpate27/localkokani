@@ -46,7 +46,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
         </p>
 
         <div className="flex">
-          <h3 className="font-display font-semibold text-lg text-primary mt-1.5 line-clamp-1">
+          <h3 className="font-display font-semibold text-lg text-primary dark:text-white mt-1.5 line-clamp-1">
             {restaurant.name}
           </h3>
           {restaurant.verified && <VerifiedBadge showLabel={false} className="!p-2 !rounded-lg" />}
@@ -58,7 +58,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
             return (
               <span
                 key={c}
-                className="flex items-center gap-1 text-xs bg-gray-100 dark:text-gray-300 px-2 py-1 rounded-md"
+                className="flex items-center gap-1 text-xs bg-gray-100 dark:text-gray-600 px-2 py-1 rounded-md"
               >
                 <Icon className="text-accent-dark text-[11px]" />
                 {c}
