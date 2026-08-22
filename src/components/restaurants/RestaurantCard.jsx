@@ -58,7 +58,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
             return (
               <span
                 key={c}
-                className="flex items-center gap-1 text-xs bg-gray-800 dark:text-gray-300 px-2 py-1 rounded-md"
+                className="flex items-center gap-1 text-xs bg-gray-100 dark:text-gray-300 px-2 py-1 rounded-md"
               >
                 <Icon className="text-accent-dark text-[11px]" />
                 {c}
@@ -81,7 +81,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
                   {formatCurrency(restaurant.costForTwo)}
                   <span className="text-xs font-normal dark:dark:text-gray-500"> for two</span>
                 </p>
-                
+
               </>
             ) : (
               <p className="text-primary dark:text-white font-semibold text-sm">{restaurant.priceRange}</p>

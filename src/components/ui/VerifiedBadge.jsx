@@ -6,7 +6,7 @@ import { IoShieldCheckmark } from "react-icons/io5";
 export default function VerifiedBadge({ size = "text-xs", showLabel = true, className = "" }) {
   return (
     <span
-      className={`inline-flex items-center text-[#0157fc] text-xl `}
+      className={`inline-flex items-center text-[#0157fc] text-base `}
       title="Premium Owner"
     >
       <IoShieldCheckmark className="shrink-0" />
