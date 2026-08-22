@@ -523,9 +523,9 @@ export default function HotelForm({ initialData = null }) {
       <div className="card p-6 space-y-5">
         <div>
           <h3 className="font-display font-semibold text-primary dark:text-white">
-            Map Location <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
+            Map Location <span className="dark:text-gray-500 font-normal text-sm">(optional)</span>
           </h3>
-          <p className="dark:dark:text-gray-500 text-xs mt-1">
+          <p className="dark:text-gray-500 text-xs mt-1">
             Recommended: paste a Google Maps embed URL for the most accurate map.
             Lat/Lng below is used only as a fallback if no embed URL is provided.
           </p>
@@ -561,7 +561,7 @@ export default function HotelForm({ initialData = null }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label className="block text-sm font-medium dark:text-gray-300 mb-2">
-              Latitude <span className="dark:dark:text-gray-500 font-normal">(fallback only)</span>
+              Latitude <span className="dark:text-gray-500 font-normal">(fallback only)</span>
             </label>
             <input
               type="number"
@@ -575,7 +575,7 @@ export default function HotelForm({ initialData = null }) {
           </div>
           <div>
             <label className="block text-sm font-medium dark:text-gray-300 mb-2">
-              Longitude <span className="dark:dark:text-gray-500 font-normal">(fallback only)</span>
+              Longitude <span className="dark:text-gray-500 font-normal">(fallback only)</span>
             </label>
             <input
               type="number"

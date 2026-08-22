@@ -15,7 +15,7 @@ export default function StatCard({ icon: Icon, label, value, href, accentColor =
       className="card p-6 flex items-center justify-between hover:-translate-y-1 transition-transform group"
     >
       <div>
-        <p className="dark:dark:text-gray-500 text-sm font-medium">{label}</p>
+        <p className="dark:text-gray-500 text-sm font-medium">{label}</p>
         <p className="font-display font-bold text-3xl text-primary dark:text-white mt-1">
           {value}
         </p>

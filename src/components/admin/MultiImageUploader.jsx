@@ -76,7 +76,7 @@ export default function MultiImageUploader({
     <div>
       <label className="block text-sm font-medium dark:text-gray-300 mb-2">
         {label}{" "}
-        <span className="dark:dark:text-gray-500 font-normal">
+        <span className="dark:text-gray-500 font-normal">
           ({value.length}/{maxImages})
         </span>
       </label>
@@ -140,7 +140,7 @@ export default function MultiImageUploader({
           {isUploading ? (
             <>
               <FiLoader className="animate-spin text-2xl text-secondary mb-2" />
-              <p className="dark:dark:text-gray-500 text-sm">Uploading...</p>
+              <p className="dark:text-gray-500 text-sm">Uploading...</p>
             </>
           ) : (
             <>
@@ -148,7 +148,7 @@ export default function MultiImageUploader({
               <p className="dark:text-gray-500 text-sm font-medium flex items-center gap-1.5">
                 <FiUpload /> Click or drag images here
               </p>
-              <p className="dark:dark:text-gray-500 text-xs mt-1">
+              <p className="dark:text-gray-500 text-xs mt-1">
                 First image becomes the cover photo
               </p>
             </>

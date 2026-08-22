@@ -182,7 +182,7 @@ export default function AdminLeadsPage() {
 
         <div className="flex items-center gap-3">
           <div className="relative">
-            <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500 text-sm" />
+            <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 text-sm" />
             <input
               type="text"
               value={searchQuery}
@@ -207,7 +207,7 @@ export default function AdminLeadsPage() {
       ) : filteredLeads.length === 0 ? (
         <div className="card p-12 text-center">
           <FiMessageSquare className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="dark:dark:text-gray-500">
+          <p className="dark:text-gray-500">
             {leads.length === 0
               ? "No enquiries yet"
               : "No enquiries match your filters"}
@@ -238,7 +238,7 @@ export default function AdminLeadsPage() {
                   >
                     <td className="px-5 py-3.5">
                       <p className="font-medium text-primary dark:text-white">{lead.name}</p>
-                      <p className="dark:dark:text-gray-500 text-xs">{lead.phone}</p>
+                      <p className="dark:text-gray-500 text-xs">{lead.phone}</p>
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-2">
@@ -267,7 +267,7 @@ export default function AdminLeadsPage() {
                         {lead.status}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 dark:dark:text-gray-500 text-xs">
+                    <td className="px-5 py-3.5 dark:text-gray-500 text-xs">
                       {formatDate(lead.createdAt)}
                     </td>
                     <td className="px-5 py-3.5">
@@ -277,7 +277,7 @@ export default function AdminLeadsPage() {
                             e.stopPropagation();
                             setDeleteTarget(lead);
                           }}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
                           aria-label="Delete"
                         >
                           <FiTrash2 className="text-sm" />

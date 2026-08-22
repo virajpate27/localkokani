@@ -13,7 +13,7 @@ function formatDate(isoString) {
 export default function ReviewsList({ reviews = [] }) {
   if (reviews.length === 0) {
     return (
-      <p className="dark:dark:text-gray-500 text-sm py-6 text-center">
+      <p className="dark:text-gray-500 text-sm py-6 text-center">
         No reviews yet. Be the first to share your experience!
       </p>
     );
@@ -30,7 +30,7 @@ export default function ReviewsList({ reviews = [] }) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between flex-wrap gap-1">
                 <p className="font-medium text-primary dark:text-white text-sm">{review.guestName}</p>
-                <span className="dark:dark:text-gray-500 text-xs">{formatDate(review.createdAt)}</span>
+                <span className="dark:text-gray-500 text-xs">{formatDate(review.createdAt)}</span>
               </div>
               <div className="flex gap-0.5 mt-1">
                 {Array.from({ length: 5 }).map((_, i) => (

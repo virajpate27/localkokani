@@ -52,7 +52,7 @@ export default function Testimonials() {
                     <p className="font-semibold text-primary dark:text-white text-sm">
                       {t.name}
                     </p>
-                    <p className="dark:dark:text-gray-500 text-xs">{t.location}</p>
+                    <p className="dark:text-gray-500 text-xs">{t.location}</p>
                   </div>
                 </div>
               </div>

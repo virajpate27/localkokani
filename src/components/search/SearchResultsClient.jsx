@@ -148,7 +148,7 @@ export default function SearchResultsClient({
                           <p className="font-display font-semibold text-primary dark:text-white truncate">
                             {dest.title}
                           </p>
-                          <p className="dark:dark:text-gray-500 text-sm truncate">{dest.subtitle}</p>
+                          <p className="dark:text-gray-500 text-sm truncate">{dest.subtitle}</p>
                         </div>
                       </Link>
                     ))}
@@ -197,7 +197,7 @@ export default function SearchResultsClient({
                           {hotel.price && (
                             <p className="font-display font-bold text-primary dark:text-white mt-3 pt-3 border-t dark:border-gray-800">
                               {formatCurrency(hotel.price)}
-                              <span className="text-xs font-normal dark:dark:text-gray-500"> /night</span>
+                              <span className="text-xs font-normal dark:text-gray-500"> /night</span>
                             </p>
                           )}
                         </div>
@@ -248,7 +248,7 @@ export default function SearchResultsClient({
                           {restaurant.price && (
                             <p className="font-display font-bold text-primary dark:text-white mt-3 pt-3 border-t dark:border-gray-800">
                               {formatCurrency(restaurant.price)}
-                              <span className="text-xs font-normal dark:dark:text-gray-500"> for two</span>
+                              <span className="text-xs font-normal dark:text-gray-500"> for two</span>
                             </p>
                           )}
                         </div>

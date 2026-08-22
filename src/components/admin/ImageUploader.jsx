@@ -86,7 +86,7 @@ export default function ImageUploader({
           {isUploading ? (
             <>
               <FiLoader className="animate-spin text-2xl text-secondary mb-2" />
-              <p className="dark:dark:text-gray-500 text-sm">Uploading...</p>
+              <p className="dark:text-gray-500 text-sm">Uploading...</p>
             </>
           ) : (
             <>
@@ -94,7 +94,7 @@ export default function ImageUploader({
               <p className="dark:text-gray-500 text-sm font-medium flex items-center gap-1.5">
                 <FiUpload /> Click or drag an image here
               </p>
-              <p className="dark:dark:text-gray-500 text-xs mt-1">PNG, JPG up to 5MB</p>
+              <p className="dark:text-gray-500 text-xs mt-1">PNG, JPG up to 5MB</p>
             </>
           )}
         </div>

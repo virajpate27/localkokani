@@ -33,34 +33,34 @@ export default function EnquiryConfirmModal({
         <div className="bg-gray-50 dark:bg-gray-950 rounded-xl p-4 space-y-2 text-sm mb-6">
           <p className="font-medium text-primary dark:text-white mb-2">{hotel.name}</p>
           <div className="grid grid-cols-2 gap-y-1.5 dark:text-gray-300">
-            <span className="dark:dark:text-gray-500">Name</span>
+            <span className="dark:text-gray-500">Name</span>
             <span>{formData.name}</span>
 
-            <span className="dark:dark:text-gray-500">Phone</span>
+            <span className="dark:text-gray-500">Phone</span>
             <span>{formData.phone}</span>
 
             {formData.email && (
               <>
-                <span className="dark:dark:text-gray-500">Email</span>
+                <span className="dark:text-gray-500">Email</span>
                 <span>{formData.email}</span>
               </>
             )}
 
             {formData.checkIn && (
               <>
-                <span className="dark:dark:text-gray-500">Check-in</span>
+                <span className="dark:text-gray-500">Check-in</span>
                 <span>{formData.checkIn}</span>
               </>
             )}
 
             {formData.checkOut && (
               <>
-                <span className="dark:dark:text-gray-500">Check-out</span>
+                <span className="dark:text-gray-500">Check-out</span>
                 <span>{formData.checkOut}</span>
               </>
             )}
 
-            <span className="dark:dark:text-gray-500">Guests</span>
+            <span className="dark:text-gray-500">Guests</span>
             <span>{formData.guests}</span>
           </div>
           {formData.message && (

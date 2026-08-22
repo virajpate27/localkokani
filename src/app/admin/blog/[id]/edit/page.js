@@ -32,7 +32,7 @@ export default function EditBlogPostPage() {
   if (notFoundState) {
     return (
       <div className="card p-10 text-center">
-        <p className="dark:dark:text-gray-500 mb-4">Post not found.</p>
+        <p className="dark:text-gray-500 mb-4">Post not found.</p>
         <button onClick={() => router.push("/admin/blog")} className="text-secondary font-medium hover:underline">
           Back to Blog
         </button>
@@ -42,7 +42,7 @@ export default function EditBlogPostPage() {
 
   return (
     <div>
-      <p className="dark:dark:text-gray-500 text-sm mb-6">
+      <p className="dark:text-gray-500 text-sm mb-6">
         Editing <span className="font-medium text-primary dark:text-white">{post.title}</span>
       </p>
       <BlogPostForm initialData={post} />

@@ -176,7 +176,7 @@ export default function DestinationForm({ initialData = null }) {
       {/* SEO Section */}
       <div className="card p-6 space-y-5">
         <h3 className="font-display font-semibold text-primary dark:text-white">
-          SEO Settings <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
+          SEO Settings <span className="dark:text-gray-500 font-normal text-sm">(optional)</span>
         </h3>
         <div>
           <label className="block text-sm font-medium dark:text-gray-300 mb-2">

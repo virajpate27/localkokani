@@ -43,7 +43,7 @@ export default function BlogPostCard({ post, priority = false }) {
         <p className="dark:text-gray-500 text-sm mt-2 line-clamp-2 flex-1">
           {post.excerpt}
         </p>
-        <div className="flex items-center gap-3 mt-4 pt-4 border-t dark:border-gray-800 dark:dark:text-gray-500 text-xs">
+        <div className="flex items-center gap-3 mt-4 pt-4 border-t dark:border-gray-800 dark:text-gray-500 text-xs">
           <span>{formatDate(post.publishedAt)}</span>
           {post.readTimeMinutes && (
             <span className="flex items-center gap-1">

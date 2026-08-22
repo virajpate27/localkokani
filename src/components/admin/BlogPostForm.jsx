@@ -156,7 +156,7 @@ export default function BlogPostForm({ initialData = null }) {
 
         <div>
           <label className="block text-sm font-medium dark:text-gray-300 mb-2">
-            Excerpt <span className="dark:dark:text-gray-500 font-normal">(shown in listings)</span>
+            Excerpt <span className="dark:text-gray-500 font-normal">(shown in listings)</span>
           </label>
           <textarea
             name="excerpt"
@@ -188,7 +188,7 @@ export default function BlogPostForm({ initialData = null }) {
 
           <div>
             <label className="block text-sm font-medium dark:text-gray-300 mb-2">
-              Related Destination <span className="dark:dark:text-gray-500 font-normal">(optional)</span>
+              Related Destination <span className="dark:text-gray-500 font-normal">(optional)</span>
             </label>
             <select
               name="destinationId"
@@ -209,7 +209,7 @@ export default function BlogPostForm({ initialData = null }) {
       <div className="card p-6">
         <div className="flex items-center justify-between mb-3">
           <label className="block text-sm font-medium dark:text-gray-300">
-            Content <span className="dark:dark:text-gray-500 font-normal">(Markdown supported)</span>
+            Content <span className="dark:text-gray-500 font-normal">(Markdown supported)</span>
           </label>
           <button
             type="button"
@@ -243,7 +243,7 @@ export default function BlogPostForm({ initialData = null }) {
       {/* SEO */}
       <div className="card p-6 space-y-5">
         <h3 className="font-display font-semibold text-primary dark:text-white">
-          SEO Settings <span className="dark:dark:text-gray-500 font-normal text-sm">(optional)</span>
+          SEO Settings <span className="dark:text-gray-500 font-normal text-sm">(optional)</span>
         </h3>
         <div>
           <label className="block text-sm font-medium dark:text-gray-300 mb-2">Meta Title</label>

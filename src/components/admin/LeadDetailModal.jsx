@@ -61,7 +61,7 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
               className={`flex-1 text-sm font-medium py-2 rounded-lg transition-all ${
                 lead.status === opt.value
                   ? opt.color + " ring-2 ring-offset-1 ring-current"
-                  : "bg-gray-50 dark:bg-gray-950 dark:dark:text-gray-500 hover:dark:bg-gray-800"
+                  : "bg-gray-50 dark:bg-gray-950 dark:text-gray-500 hover:dark:bg-gray-800"
               }`}
             >
               {opt.label}
@@ -80,7 +80,7 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
               )}
             </div>
             <div>
-              <p className="dark:dark:text-gray-500 text-xs">
+              <p className="dark:text-gray-500 text-xs">
                 {isRestaurant ? "Restaurant" : "Hotel"}
               </p>
               <p className="font-medium text-primary dark:text-white">{lead.entityName}</p>
@@ -92,7 +92,7 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
             <div className="flex items-center gap-2.5">
               <FiPhone className="text-secondary shrink-0" />
               <div className="min-w-0">
-                <p className="dark:dark:text-gray-500 text-xs">Phone</p>
+                <p className="dark:text-gray-500 text-xs">Phone</p>
                 <p className="font-medium text-primary dark:text-white text-sm truncate">{lead.phone}</p>
               </div>
             </div>
@@ -100,7 +100,7 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
               <div className="flex items-center gap-2.5">
                 <FiMail className="text-secondary shrink-0" />
                 <div className="min-w-0">
-                  <p className="dark:dark:text-gray-500 text-xs">Email</p>
+                  <p className="dark:text-gray-500 text-xs">Email</p>
                   <p className="font-medium text-primary dark:text-white text-sm truncate">{lead.email}</p>
                 </div>
               </div>
@@ -114,14 +114,14 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
                 <div className="flex items-center gap-2.5">
                   <FiCalendar className="text-secondary shrink-0" />
                   <div>
-                    <p className="dark:dark:text-gray-500 text-xs">Date</p>
+                    <p className="dark:text-gray-500 text-xs">Date</p>
                     <p className="font-medium text-primary dark:text-white text-sm">{lead.date || "—"}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <FiClock className="text-secondary shrink-0" />
                   <div>
-                    <p className="dark:dark:text-gray-500 text-xs">Time</p>
+                    <p className="dark:text-gray-500 text-xs">Time</p>
                     <p className="font-medium text-primary dark:text-white text-sm">{lead.time || "—"}</p>
                   </div>
                 </div>
@@ -133,14 +133,14 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
                 <div className="flex items-center gap-2.5">
                   <FiCalendar className="text-secondary shrink-0" />
                   <div>
-                    <p className="dark:dark:text-gray-500 text-xs">Check-in</p>
+                    <p className="dark:text-gray-500 text-xs">Check-in</p>
                     <p className="font-medium text-primary dark:text-white text-sm">{lead.checkIn || "—"}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <FiCalendar className="text-secondary shrink-0" />
                   <div>
-                    <p className="dark:dark:text-gray-500 text-xs">Check-out</p>
+                    <p className="dark:text-gray-500 text-xs">Check-out</p>
                     <p className="font-medium text-primary dark:text-white text-sm">{lead.checkOut || "—"}</p>
                   </div>
                 </div>
@@ -152,7 +152,7 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
           <div className="flex items-center gap-2.5">
             <FiUsers className="text-secondary shrink-0" />
             <div>
-              <p className="dark:dark:text-gray-500 text-xs">Guests</p>
+              <p className="dark:text-gray-500 text-xs">Guests</p>
               <p className="font-medium text-primary dark:text-white text-sm">{lead.guests}</p>
             </div>
           </div>
@@ -162,13 +162,13 @@ export default function LeadDetailModal({ lead, onClose, onStatusChange }) {
             <div className="flex items-start gap-2.5">
               <FiMessageSquare className="text-secondary shrink-0 mt-0.5" />
               <div>
-                <p className="dark:dark:text-gray-500 text-xs">Message</p>
+                <p className="dark:text-gray-500 text-xs">Message</p>
                 <p className="dark:text-gray-300 text-sm">{lead.message}</p>
               </div>
             </div>
           )}
 
-          <p className="dark:dark:text-gray-500 text-xs pt-3 border-t dark:border-gray-800">
+          <p className="dark:text-gray-500 text-xs pt-3 border-t dark:border-gray-800">
             Submitted on {formatDate(lead.createdAt)}
           </p>
         </div>

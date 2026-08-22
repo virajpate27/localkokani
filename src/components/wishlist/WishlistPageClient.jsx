@@ -118,17 +118,17 @@ export default function WishlistPageClient() {
                             {item.price ? (
                               <>
                                 {formatCurrency(item.price)}
-                                <span className="text-xs font-normal dark:dark:text-gray-500">
+                                <span className="text-xs font-normal dark:text-gray-500">
                                   {isRestaurant ? " for two" : " /night"}
                                 </span>
                               </>
                             ) : (
-                              <span className="dark:dark:text-gray-500 text-sm font-normal">Price unavailable</span>
+                              <span className="dark:text-gray-500 text-sm font-normal">Price unavailable</span>
                             )}
                           </p>
                           <button
                             onClick={() => removeFromWishlist(item.id, item.entityType)}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
                             aria-label="Remove from wishlist"
                           >
                             <FiTrash2 className="text-sm" />

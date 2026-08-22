@@ -117,7 +117,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
         <div className="flex items-center justify-between lg:hidden mb-6">
           <h3 className="font-display font-bold text-xl text-primary dark:text-white">Filters</h3>
           <button onClick={() => setShowMobileFilters(false)}>
-            <FiX className="text-2xl dark:dark:text-gray-500" />
+            <FiX className="text-2xl dark:text-gray-500" />
           </button>
         </div>
 
@@ -256,7 +256,7 @@ export default function RestaurantsFilterGrid({ restaurants }) {
                 </option>
               ))}
             </select>
-            <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 dark:dark:text-gray-500 pointer-events-none text-sm" />
+            <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 dark:text-gray-500 pointer-events-none text-sm" />
           </div>
         </div>
 

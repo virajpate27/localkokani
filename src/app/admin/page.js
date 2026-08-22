@@ -61,7 +61,7 @@ export default function AdminDashboardPage() {
         <h2 className="font-display font-bold text-2xl text-primary dark:text-white capitalize">
           Welcome back, {firstName} 👋
         </h2>
-        <p className="dark:dark:text-gray-500 text-sm mt-1">
+        <p className="dark:text-gray-500 text-sm mt-1">
           Here's what's happening with your listings today.
         </p>
       </div>

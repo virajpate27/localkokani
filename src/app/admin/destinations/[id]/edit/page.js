@@ -44,7 +44,7 @@ export default function EditDestinationPage() {
   if (notFoundState) {
     return (
       <div className="card p-10 text-center">
-        <p className="dark:dark:text-gray-500 mb-4">Destination not found.</p>
+        <p className="dark:text-gray-500 mb-4">Destination not found.</p>
         <button
           onClick={() => router.push("/admin/destinations")}
           className="text-secondary font-medium hover:underline"
@@ -57,7 +57,7 @@ export default function EditDestinationPage() {
 
   return (
     <div>
-      <p className="dark:dark:text-gray-500 text-sm mb-6">
+      <p className="dark:text-gray-500 text-sm mb-6">
         Editing <span className="font-medium text-primary dark:text-white">{destination.name}</span>
       </p>
       <DestinationForm initialData={destination} />

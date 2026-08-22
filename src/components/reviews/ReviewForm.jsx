@@ -97,7 +97,7 @@ export default function ReviewForm({ entityType, entity }) {
       <div>
         <label htmlFor="review-guest-name" className="sr-only">Your name</label>
         <div className="relative">
-          <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+          <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
           <input
             id="review-guest-name"
             type="text"
@@ -135,7 +135,7 @@ export default function ReviewForm({ entityType, entity }) {
         <FiSend className="text-sm" />
         {isSubmitting ? "Submitting..." : "Submit Review"}
       </button>
-      <p className="dark:dark:text-gray-500 text-xs">
+      <p className="dark:text-gray-500 text-xs">
         Reviews are moderated and typically appear within 24 hours.
       </p>
     </form>

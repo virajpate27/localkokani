@@ -123,7 +123,7 @@ export default function SearchAutosuggest({
             : "flex items-center gap-2 dark:bg-gray-800 rounded-xl px-4 py-2.5"
         }
       >
-        <FiSearch className={isHero ? "text-secondary text-xl shrink-0" : "dark:dark:text-gray-500 shrink-0"} />
+        <FiSearch className={isHero ? "text-secondary text-xl shrink-0" : "dark:text-gray-500 shrink-0"} />
         <input
           type="text"
           value={query}
@@ -135,9 +135,9 @@ export default function SearchAutosuggest({
           onFocus={() => query.trim() && setIsOpen(true)}
           placeholder={placeholder}
           aria-label="Search destination or hotel"
-          className="w-full outline-none bg-transparent dark:text-gray-300 placeholder:dark:dark:text-gray-500 text-sm"
+          className="w-full outline-none bg-transparent dark:text-gray-300 placeholder:dark:text-gray-500 text-sm"
         />
-        {isLoading && <FiLoader className="animate-spin dark:dark:text-gray-500 shrink-0" />}
+        {isLoading && <FiLoader className="animate-spin dark:text-gray-500 shrink-0" />}
         {query && !isLoading && (
           <button
             onClick={() => {
@@ -147,7 +147,7 @@ export default function SearchAutosuggest({
             }}
             aria-label="Clear search"
           >
-            <FiX className="dark:dark:text-gray-500 hover:dark:text-gray-300 shrink-0" />
+            <FiX className="dark:text-gray-500 hover:dark:text-gray-300 shrink-0" />
           </button>
         )}
       </div>
@@ -156,7 +156,7 @@ export default function SearchAutosuggest({
       {isOpen && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border dark:border-gray-800 max-h-[400px] overflow-y-auto z-50">
           {results.length === 0 && !isLoading ? (
-            <div className="p-6 text-center dark:dark:text-gray-500 text-sm">
+            <div className="p-6 text-center dark:text-gray-500 text-sm">
               No results for "{query}"
             </div>
           ) : (
@@ -184,7 +184,7 @@ export default function SearchAutosuggest({
                     <p className="font-medium text-primary dark:text-white text-sm truncate">
                       {result.title}
                     </p>
-                    <p className="dark:dark:text-gray-500 text-xs flex items-center gap-1 truncate">
+                    <p className="dark:text-gray-500 text-xs flex items-center gap-1 truncate">
                       {result.type === "hotel" ? (
                         <FiHome />
                       ) : result.type === "restaurant" ? (

@@ -23,7 +23,7 @@ export default function Hero({ heroImageUrl }) {
   };
 
   return (
-    <section className="relative overflow-hidden min-h-[85vh] flex items-center">
+    <section className="relative overflow-hidden min-h-[70vh] sm:min-h-[85vh] flex items-center">
       {/* Banner image layer — continuously zooms via animate-zoom-slow */}
       <div className="absolute inset-0 -z-10">
         <Image

@@ -55,7 +55,7 @@ export default function AdminDestinationsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="dark:dark:text-gray-500 text-sm">
+        <p className="dark:text-gray-500 text-sm">
           {destinations.length} destinations total
         </p>
         <Link href="/admin/destinations/new" className="btn-primary flex items-center gap-2">
@@ -70,7 +70,7 @@ export default function AdminDestinationsPage() {
       ) : destinations.length === 0 ? (
         <div className="card p-12 text-center">
           <FiMapPin className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="dark:dark:text-gray-500 mb-4">No destinations yet</p>
+          <p className="dark:text-gray-500 mb-4">No destinations yet</p>
           <Link href="/admin/destinations/new" className="btn-primary inline-flex items-center gap-2">
             <FiPlus /> Add Your First Destination
           </Link>
@@ -115,21 +115,21 @@ export default function AdminDestinationsPage() {
                           Featured
                         </span>
                       ) : (
-                        <span className="text-xs dark:dark:text-gray-500">—</span>
+                        <span className="text-xs dark:text-gray-500">—</span>
                       )}
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/destinations/${dest.id}/edit`}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
                           aria-label="Edit"
                         >
                           <FiEdit2 className="text-sm" />
                         </Link>
                         <button
                           onClick={() => setDeleteTarget(dest)}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
                           aria-label="Delete"
                         >
                           <FiTrash2 className="text-sm" />

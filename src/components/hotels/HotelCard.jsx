@@ -68,13 +68,13 @@ export default function HotelCard({ hotel, priority = false, sponsored = false }
 
         <div className="flex items-end justify-between mt-4 pt-4 border-t dark:border-gray-800">
           <div>
-            <p className="text-xs dark:dark:text-gray-500">Starting from</p>
+            <p className="text-xs dark:text-gray-500">Starting from</p>
             <p className="font-display font-bold text-lg text-primary dark:text-white">
               {formatCurrency(hotel.price)}
-              <span className="text-xs font-normal dark:dark:text-gray-500"> /night</span>
+              <span className="text-xs font-normal dark:text-gray-500"> /night</span>
             </p>
           </div>
-          <span className="text-xs dark:dark:text-gray-500">
+          <span className="text-xs dark:text-gray-500">
             {hotel.reviewCount} reviews
           </span>
         </div>

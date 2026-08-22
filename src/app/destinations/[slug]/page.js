@@ -144,7 +144,7 @@ export default async function DestinationDetailPage({ params }) {
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
             <h2 className="section-title">Hotels in {destination.name}</h2>
-            <span className="dark:dark:text-gray-500 text-sm">
+            <span className="dark:text-gray-500 text-sm">
               Sorted by price (low to high)
             </span>
           </div>
@@ -164,7 +164,7 @@ export default async function DestinationDetailPage({ params }) {
               <h2 className="section-title">
                 Restaurants in {destination.name}
               </h2>
-              <span className="dark:dark:text-gray-500 text-sm">
+              <span className="dark:text-gray-500 text-sm">
                 Sorted by rating (highest first)
               </span>
             </div>

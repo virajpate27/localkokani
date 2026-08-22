@@ -200,7 +200,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
         <div>
 
           <div className="relative">
-            <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+            <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
             <input
               type="text"
               name="name"
@@ -217,7 +217,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
         {/* Phone */}
         <div>
           <div className="relative">
-            <FiPhone className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+            <FiPhone className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
             <input
               type="tel"
               name="phone"
@@ -234,7 +234,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
         {/* Email */}
         <div>
           <div className="relative">
-            <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+            <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
             <input
               type="email"
               name="email"
@@ -279,7 +279,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
         {/* Guests */}
         <div>
           <div className="relative">
-            <FiUsers className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+            <FiUsers className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
             <input
               type="number"
               name="guests"
@@ -296,7 +296,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
 
         {/* Message */}
         <div className="relative">
-          <FiMessageSquare className="absolute left-3.5 top-3.5 dark:dark:text-gray-500" />
+          <FiMessageSquare className="absolute left-3.5 top-3.5 dark:text-gray-500" />
           <textarea
             name="message"
             value={formData.message}
@@ -317,7 +317,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
           Review & Send on WhatsApp
         </button>
 
-        <p className="text-center text-xs dark:dark:text-gray-500">
+        <p className="text-center text-xs dark:text-gray-500">
           We'll never share your details. Your enquiry goes straight to our team.
         </p>
       </form>

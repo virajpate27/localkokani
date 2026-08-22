@@ -97,7 +97,7 @@ export default function AdminLoginPage() {
           <h1 className="font-display font-bold text-2xl text-primary dark:text-white text-center">
             Admin Login
           </h1>
-          <p className="dark:dark:text-gray-500 text-sm text-center mt-2 mb-8">
+          <p className="dark:text-gray-500 text-sm text-center mt-2 mb-8">
             Sign in to manage destinations, hotels, and enquiries
           </p>
 
@@ -110,7 +110,7 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <div className="relative">
-                <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+                <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
                 <input
                   type="email"
                   value={email}
@@ -124,7 +124,7 @@ export default function AdminLoginPage() {
 
             <div>
               <div className="relative">
-                <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+                <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
@@ -136,7 +136,7 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500 hover:dark:text-gray-300"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500 hover:dark:text-gray-300"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}

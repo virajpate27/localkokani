@@ -18,7 +18,7 @@ export default function QuickActions() {
           </div>
           <div>
             <p className="font-medium text-primary dark:text-white text-sm">Add Destination</p>
-            <p className="dark:dark:text-gray-500 text-xs">Create a new destination</p>
+            <p className="dark:text-gray-500 text-xs">Create a new destination</p>
           </div>
         </Link>
 
@@ -31,7 +31,7 @@ export default function QuickActions() {
           </div>
           <div>
             <p className="font-medium text-primary dark:text-white text-sm">Add Hotel</p>
-            <p className="dark:dark:text-gray-500 text-xs">List a new hotel</p>
+            <p className="dark:text-gray-500 text-xs">List a new hotel</p>
           </div>
         </Link>
         <Link
@@ -43,7 +43,7 @@ export default function QuickActions() {
           </div>
           <div>
             <p className="font-medium text-primary dark:text-white text-sm">Add Restaurant</p>
-            <p className="dark:dark:text-gray-500 text-xs">List a new restaurant</p>
+            <p className="dark:text-gray-500 text-xs">List a new restaurant</p>
           </div>
         </Link>
       </div>

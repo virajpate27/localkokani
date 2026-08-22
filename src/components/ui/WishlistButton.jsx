@@ -26,7 +26,7 @@ export default function WishlistButton({ item, entityType = "hotel", size = "tex
     >
       <FiHeart
         className={`${size} transition-colors ${
-          saved ? "text-red-500 fill-red-500" : "dark:dark:text-gray-500"
+          saved ? "text-red-500 fill-red-500" : "dark:text-gray-500"
         }`}
       />
     </button>

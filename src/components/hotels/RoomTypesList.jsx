@@ -14,13 +14,13 @@ export default function RoomTypesList({ roomTypes = [] }) {
         >
           <div>
             <p className="font-medium text-primary dark:text-white">{room.name}</p>
-            <p className="flex items-center gap-1.5 dark:dark:text-gray-500 text-sm mt-1">
+            <p className="flex items-center gap-1.5 dark:text-gray-500 text-sm mt-1">
               <FiUsers /> Up to {room.capacity} guests
             </p>
           </div>
           <p className="font-display font-bold text-primary dark:text-white">
             {formatCurrency(room.price)}
-            <span className="text-xs font-normal dark:dark:text-gray-500 block text-right">
+            <span className="text-xs font-normal dark:text-gray-500 block text-right">
               /night
             </span>
           </p>

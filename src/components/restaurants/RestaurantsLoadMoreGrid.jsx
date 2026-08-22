@@ -47,7 +47,7 @@ export default function RestaurantsLoadMoreGrid({ restaurants }) {
             ) : (
               <>
                 Load More Restaurants
-                <span className="dark:dark:text-gray-500 font-normal">
+                <span className="dark:text-gray-500 font-normal">
                   ({Math.min(remainingCount, PAGE_SIZE)} more)
                 </span>
                 <FiChevronDown />

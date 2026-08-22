@@ -92,7 +92,7 @@ export default function ReservationForm({ restaurant }) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <div className="relative">
-          <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+          <FiUser className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
           <input
             type="text"
             name="name"
@@ -108,7 +108,7 @@ export default function ReservationForm({ restaurant }) {
 
       <div>
         <div className="relative">
-          <FiPhone className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+          <FiPhone className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
           <input
             type="tel"
             name="phone"
@@ -150,7 +150,7 @@ export default function ReservationForm({ restaurant }) {
 
       <div>
         <div className="relative">
-          <FiUsers className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:dark:text-gray-500" />
+          <FiUsers className="absolute left-3.5 top-1/2 -translate-y-1/2 dark:text-gray-500" />
           <input
             type="number"
             name="guests"

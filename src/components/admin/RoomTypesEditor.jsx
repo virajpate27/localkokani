@@ -22,7 +22,7 @@ export default function RoomTypesEditor({ value = [], onChange }) {
     <div>
       <div className="flex items-center justify-between mb-3">
         <label className="block text-sm font-medium dark:text-gray-300">
-          Room Types <span className="dark:dark:text-gray-500 font-normal">(optional)</span>
+          Room Types <span className="dark:text-gray-500 font-normal">(optional)</span>
         </label>
         <button
           type="button"
@@ -34,7 +34,7 @@ export default function RoomTypesEditor({ value = [], onChange }) {
       </div>
 
       {value.length === 0 ? (
-        <p className="dark:dark:text-gray-500 text-sm border border-dashed dark:border-gray-800 rounded-xl p-5 text-center">
+        <p className="dark:text-gray-500 text-sm border border-dashed dark:border-gray-800 rounded-xl p-5 text-center">
           No room types added yet
         </p>
       ) : (
@@ -69,7 +69,7 @@ export default function RoomTypesEditor({ value = [], onChange }) {
               <button
                 type="button"
                 onClick={() => removeRoom(index)}
-                className="w-9 h-9 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors justify-self-end sm:justify-self-center"
+                className="w-9 h-9 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors justify-self-end sm:justify-self-center"
               >
                 <FiTrash2 className="text-sm" />
               </button>

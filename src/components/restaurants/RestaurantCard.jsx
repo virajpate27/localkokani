@@ -79,7 +79,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
               <>
                 <p className="font-display font-bold text-primary dark:text-white text-sm">
                   {formatCurrency(restaurant.costForTwo)}
-                  <span className="text-xs font-normal dark:dark:text-gray-500"> for two</span>
+                  <span className="text-xs font-normal dark:text-gray-500"> for two</span>
                 </p>
 
               </>
@@ -88,7 +88,7 @@ export default function RestaurantCard({ restaurant, priority = false, sponsored
             )}
           </div>
           {restaurant.openingHours && (
-            <span className="dark:dark:text-gray-500 text-xs truncate max-w-[120px] text-right">
+            <span className="dark:text-gray-500 text-xs truncate max-w-[120px] text-right">
               {restaurant.openingHours}
             </span>
           )}

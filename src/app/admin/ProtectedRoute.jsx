@@ -21,7 +21,7 @@ export default function ProtectedRoute({ children }) {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="text-center">
           <FiLoader className="animate-spin text-3xl text-primary dark:text-white mx-auto mb-3" />
-          <p className="dark:dark:text-gray-500 text-sm">Checking authentication...</p>
+          <p className="dark:text-gray-500 text-sm">Checking authentication...</p>
         </div>
       </div>
     );

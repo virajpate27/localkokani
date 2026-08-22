@@ -50,7 +50,7 @@ export default function AdminBlogPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <p className="dark:dark:text-gray-500 text-sm">{posts.length} posts total</p>
+        <p className="dark:text-gray-500 text-sm">{posts.length} posts total</p>
         <Link href="/admin/blog/new" className="btn-primary flex items-center gap-2">
           <FiPlus /> New Post
         </Link>
@@ -63,7 +63,7 @@ export default function AdminBlogPage() {
       ) : posts.length === 0 ? (
         <div className="card p-12 text-center">
           <FiFileText className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="dark:dark:text-gray-500 mb-4">No posts yet</p>
+          <p className="dark:text-gray-500 mb-4">No posts yet</p>
           <Link href="/admin/blog/new" className="btn-primary inline-flex items-center gap-2">
             <FiPlus /> Write Your First Post
           </Link>
@@ -101,10 +101,10 @@ export default function AdminBlogPage() {
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/admin/blog/${post.id}/edit`} className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors">
+                        <Link href={`/admin/blog/${post.id}/edit`} className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors">
                           <FiEdit2 className="text-sm" />
                         </Link>
-                        <button onClick={() => setDeleteTarget(post)} className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors">
+                        <button onClick={() => setDeleteTarget(post)} className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors">
                           <FiTrash2 className="text-sm" />
                         </button>
                       </div>

@@ -252,7 +252,7 @@ export default function AdminHotelsPage() {
       ) : filteredHotels.length === 0 ? (
         <div className="card p-12 text-center">
           <FiHome className="text-4xl text-gray-300 mx-auto mb-3" />
-          <p className="dark:dark:text-gray-500">No hotels in this view</p>
+          <p className="dark:text-gray-500">No hotels in this view</p>
         </div>
       ) : (
         <div className="card overflow-hidden">
@@ -369,7 +369,7 @@ export default function AdminHotelsPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/hotels/${hotel.id}/edit`}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
                           aria-label="Edit"
                         >
                           <FiEdit2 className="text-sm" />
@@ -377,7 +377,7 @@ export default function AdminHotelsPage() {
                         {hotel.status === "archived" ? (
                           <button
                             onClick={() => handleRestore(hotel)}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-secondary/10 hover:text-secondary transition-colors"
                             aria-label="Restore"
                             title="Restore to active"
                           >
@@ -386,7 +386,7 @@ export default function AdminHotelsPage() {
                         ) : (
                           <button
                             onClick={() => handleArchive(hotel)}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-orange-50 hover:text-orange-500 transition-colors"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-orange-50 hover:text-orange-500 transition-colors"
                             aria-label="Archive"
                             title="Archive (hide from public)"
                           >
@@ -395,7 +395,7 @@ export default function AdminHotelsPage() {
                         )}
                         <button
                           onClick={() => setDeleteTarget(hotel)}
-                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
+                          className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-gray-500 hover:bg-red-50 hover:text-red-500 transition-colors"
                           aria-label="Delete permanently"
                           title="Delete permanently"
                         >

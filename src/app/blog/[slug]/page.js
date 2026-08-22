@@ -100,7 +100,7 @@ export default async function BlogPostPage({ params }) {
             {post.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-4 dark:dark:text-gray-500 text-sm mt-4">
+          <div className="flex flex-wrap items-center gap-4 dark:text-gray-500 text-sm mt-4">
             <span className="flex items-center gap-1.5">
               <FiCalendar /> {formatDate(post.publishedAt)}
             </span>
