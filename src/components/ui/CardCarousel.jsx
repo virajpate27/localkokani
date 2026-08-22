@@ -14,7 +14,7 @@ export default function CardCarousel({ items, renderItem, navPrefix }) {
 
   return (
     <div className="relative">
-      <div className="relative [mask-image:linear-gradient(to_right,black_85%,transparent_100%)] sm:[mask-image:none]">
+      <div className="relative ">
         <Swiper
           modules={[Navigation]}
           navigation={{ prevEl: `.${prevClass}`, nextEl: `.${nextClass}` }}
