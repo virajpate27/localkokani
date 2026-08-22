@@ -51,7 +51,7 @@ export default function WhyChooseUs() {
               <h3 className="font-display font-semibold text-lg text-primary dark:text-white">
                 {f.title}
               </h3>
-              <p className="dark:text-gray-500 text-sm mt-2 leading-relaxed">
+              <p className="dark:text-gray-500 text-xs sm:text-sm mt-2 leading-relaxed">
                 {f.desc}
               </p>
             </div>
