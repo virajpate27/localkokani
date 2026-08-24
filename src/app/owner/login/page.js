@@ -1,13 +1,13 @@
 // src/app/owner/login/page.js
 "use client";
-
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiLoader } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useOwnerAuth } from "@/context/OwnerAuthContext";
-import Image from "next/image";
+
 
 
 export default function OwnerLoginPage() {
@@ -60,7 +60,7 @@ export default function OwnerLoginPage() {
             <div className="relative w-10 h-10 shrink-0">
               <Image
                 src="/logo.png"
-                alt="Local Kokani"
+                alt="StayFinder"
                 fill
                 className="object-contain"
               />

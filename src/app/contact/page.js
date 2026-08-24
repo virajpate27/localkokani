@@ -6,8 +6,8 @@ import ContactForm from "@/components/contact/ContactForm";
 
 
 export const metadata = {
-  title: "Contact Us | Local Kokani",
-  description: "Get in touch with the Local Kokani team — questions, feedback, or partnership enquiries.",
+  title: "Contact Us | StayFinder",
+  description: "Get in touch with the StayFinder team — questions, feedback, or partnership enquiries.",
   alternates: { canonical: "/contact" },
 };
 
@@ -60,8 +60,8 @@ export default function ContactPage() {
               <div>
                 <p className="font-medium text-primary">Email</p>
                 <p className="text-gray-500 text-sm mt-1">For general enquiries and partnerships</p>
-                <a href="mailto:hello@Local Kokani.com" className="text-secondary text-sm font-medium hover:underline mt-1 inline-block">
-                  hello@Local Kokani.com
+                <a href="mailto:hello@StayFinder.com" className="text-secondary text-sm font-medium hover:underline mt-1 inline-block">
+                  hello@StayFinder.com
                 </a>
               </div>
             </div>

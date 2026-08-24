@@ -30,19 +30,19 @@ export async function generateMetadata({ params }) {
   const destination = await getDestinationBySlug(slug);
 
   if (!destination) {
-    return { title: "Destination Not Found | Local Kokani" };
+    return { title: "Destination Not Found | StayFinder" };
   }
 
   return {
     title:
       destination.seo?.metaTitle ||
-      `Best Hotels in ${destination.name} | Local Kokani`,
+      `Best Hotels in ${destination.name} | StayFinder`,
     description:
       destination.seo?.metaDescription ||
       `Explore ${destination.hotelCount || "top"} handpicked hotels in ${destination.name}. ${destination.description?.slice(0, 100)}`,
     alternates: { canonical: `/destinations/${destination.slug}` },
     openGraph: {
-      title: `Best Hotels in ${destination.name} | Local Kokani`,
+      title: `Best Hotels in ${destination.name} | StayFinder`,
       description: destination.description,
       images: destination.image?.url ? [destination.image.url] : [],
     },
@@ -112,7 +112,7 @@ export default async function DestinationDetailPage({ params }) {
             </div>
             <ShareButton
               title={destination.name}
-              text={`Explore hotels and restaurants in ${destination.name} on Local Kokani`}
+              text={`Explore hotels and restaurants in ${destination.name} on StayFinder`}
               url={`${process.env.NEXT_PUBLIC_SITE_URL}/destinations/${destination.slug}`}
               variant="icon"
               // Note: on a dark hero background, the icon-variant white bg still shows clearly since it has its own white/95 background regardless of what's behind it

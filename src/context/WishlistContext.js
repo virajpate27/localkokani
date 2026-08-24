@@ -4,7 +4,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const WishlistContext = createContext(null);
-const STORAGE_KEY = "Local Kokani_wishlist";
+const STORAGE_KEY = "StayFinder_wishlist";
 
 export function WishlistProvider({ children }) {
   const [wishlist, setWishlist] = useState([]);

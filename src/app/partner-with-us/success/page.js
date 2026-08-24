@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { FiCheckCircle } from "react-icons/fi";
 
-export const metadata = { title: "Application Submitted | Local Kokani", robots: { index: false } };
+export const metadata = { title: "Application Submitted | StayFinder", robots: { index: false } };
 
 export default async function PartnerSuccessPage({ searchParams }) {
   const { ref } = await searchParams;

@@ -4,8 +4,8 @@ import { FiMapPin, FiHeart, FiUsers, FiTrendingUp } from "react-icons/fi";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 export const metadata = {
-  title: "About Us | Local Kokani",
-  description: "Learn about Local Kokani's mission to connect travelers with handpicked hotels and restaurants across India.",
+  title: "About Us | StayFinder",
+  description: "Learn about StayFinder's mission to connect travelers with handpicked hotels and restaurants across India.",
   alternates: { canonical: "/about" },
 };
 
@@ -19,7 +19,7 @@ const values = [
   {
     icon: FiHeart,
     title: "Handpicked, Not Automated",
-    description: "Every hotel and restaurant on Local Kokani is personally reviewed before it goes live — no bulk listings, no unchecked data.",
+    description: "Every hotel and restaurant on StayFinder is personally reviewed before it goes live — no bulk listings, no unchecked data.",
   },
   {
     icon: FiUsers,
@@ -46,7 +46,7 @@ export default function AboutPage() {
             <FiMapPin className="text-accent text-2xl" />
           </div>
           <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
-            About Local Kokani
+            About StayFinder
           </h1>
           <p className="text-white/80 mt-4 max-w-xl mx-auto">
             We're on a mission to make finding your next stay — and your next meal — simple, honest, and human.
@@ -59,7 +59,7 @@ export default function AboutPage() {
           <h2 className="font-display font-bold text-2xl text-primary mb-4">Our Story</h2>
           <div className="space-y-4 text-gray-600 leading-relaxed">
             <p>
-              Local Kokani started with a simple frustration: booking a hotel or finding a good local
+              StayFinder started with a simple frustration: booking a hotel or finding a good local
               restaurant while traveling in India often meant sifting through outdated listings, fake
               reviews, or paying inflated prices through faceless platforms.
             </p>
@@ -70,7 +70,7 @@ export default function AboutPage() {
               places they're visiting.
             </p>
             <p>
-              Today, Local Kokani helps travelers discover handpicked hotels and restaurants across India's
+              Today, StayFinder helps travelers discover handpicked hotels and restaurants across India's
               most-loved destinations, while giving property owners — many of them small, independent
               businesses — a fair, straightforward way to reach more guests.
             </p>
@@ -109,7 +109,7 @@ export default function AboutPage() {
             Have a hotel or restaurant to list?
           </h2>
           <p className="text-white/80 mt-3 max-w-lg mx-auto">
-            Join Local Kokani as a partner and reach thousands of travelers looking for their next stay.
+            Join StayFinder as a partner and reach thousands of travelers looking for their next stay.
           </p>
           <a href="/partner-with-us" className="btn-accent inline-flex items-center gap-2 mt-6">
             Become a Partner

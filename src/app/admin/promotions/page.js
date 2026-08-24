@@ -191,7 +191,7 @@ export default function AdminPromotionsPage() {
       request.entityType === "hotel" ? "hotel" : "restaurant";
 
     if (request.status === "active") {
-      return `Hi ${ownerName}, great news! Your ${request.promotionType} promotion for *${request.entityName}* is now live and will run until ${request.endDate}. Thanks for partnering with Local Kokani!`;
+      return `Hi ${ownerName}, great news! Your ${request.promotionType} promotion for *${request.entityName}* is now live and will run until ${request.endDate}. Thanks for partnering with StayFinder!`;
     }
     if (request.status === "scheduled") {
       return `Hi ${ownerName}, your ${request.promotionType} promotion for *${request.entityName}* has been approved and is scheduled to go live on ${request.startDate}, running until ${request.endDate}.`;
@@ -199,7 +199,7 @@ export default function AdminPromotionsPage() {
     if (request.status === "rejected") {
       return `Hi ${ownerName}, unfortunately your ${request.promotionType} promotion request for *${request.entityName}* couldn't be approved${request.adminNotes ? `. Reason: ${request.adminNotes}` : "."} Feel free to reach out with any questions.`;
     }
-    return `Hi ${ownerName}, this is regarding your ${request.promotionType} promotion request for your ${propertyLabel} *${request.entityName}* on Local Kokani.`;
+    return `Hi ${ownerName}, this is regarding your ${request.promotionType} promotion request for your ${propertyLabel} *${request.entityName}* on StayFinder.`;
   };
 
   const handleNotifyOwner = async (request) => {

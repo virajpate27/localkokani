@@ -156,7 +156,7 @@ export default function AdminLoginPage() {
 
         <p className="text-center text-white/60 text-sm mt-6">
           <Link href="/" className="hover:text-white">
-            ← Back to Local Kokani
+            ← Back to StayFinder
           </Link>
         </p>
       </div>

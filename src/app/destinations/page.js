@@ -9,12 +9,12 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 export const revalidate = 3600;
 
 export const metadata = {
-  title: "All Destinations | Local Kokani",
+  title: "All Destinations | StayFinder",
   description:
     "Browse handpicked destinations across India — from beaches to mountains to heritage cities. Find your perfect hotel in every top location.",
   alternates: { canonical: "/destinations" },
   openGraph: {
-    title: "All Destinations | Local Kokani",
+    title: "All Destinations | StayFinder",
     description:
       "Browse handpicked destinations across India and find your perfect stay.",
   },

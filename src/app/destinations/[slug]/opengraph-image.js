@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 import { getDestinationBySlug } from "@/lib/services/destinationService";
 
 export const runtime = "nodejs";
-export const alt = "Destination on Local Kokani";
+export const alt = "Destination on StayFinder";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -41,7 +41,7 @@ export default async function Image({ params }) {
         )}
         <div style={{ display: "flex", flexDirection: "column", position: "relative", zIndex: 10 }}>
           <span style={{ color: "white", fontSize: "26px", fontWeight: 700, marginBottom: "16px" }}>
-            📍 Local Kokani
+            📍 StayFinder
           </span>
           <h1 style={{ fontSize: "60px", fontWeight: 800, color: "white", margin: 0 }}>
             {destination?.name || "Explore Destinations"}

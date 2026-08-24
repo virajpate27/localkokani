@@ -187,7 +187,7 @@ export default function DestinationForm({ initialData = null }) {
             name="metaTitle"
             value={formData.metaTitle}
             onChange={handleChange}
-            placeholder={`Best Hotels in ${formData.name || "..."} | Local Kokani`}
+            placeholder={`Best Hotels in ${formData.name || "..."} | StayFinder`}
             className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none transition-colors"
           />
         </div>

@@ -39,10 +39,10 @@ export async function generateMetadata({ params }) {
   const restaurant = await getRestaurantBySlug(slug);
 
 if (!restaurant || restaurant.status !== "active") {
-    return { title: "Restaurant Not Found | Local Kokani" };
+    return { title: "Restaurant Not Found | StayFinder" };
   }
 
-  const title = `${restaurant.name} | ${restaurant.destinationName} | Local Kokani`;
+  const title = `${restaurant.name} | ${restaurant.destinationName} | StayFinder`;
   const description =
     restaurant.description?.slice(0, 155) ||
     `Reserve a table at ${restaurant.name}.`;
@@ -145,7 +145,7 @@ export default async function RestaurantDetailPage({ params }) {
             <div className="flex items-center gap-2">
               <ShareButton
                 title={restaurant.name}
-                text={`Check out ${restaurant.name} in ${restaurant.destinationName} on Local Kokani`}
+                text={`Check out ${restaurant.name} in ${restaurant.destinationName} on StayFinder`}
                 url={`${process.env.NEXT_PUBLIC_SITE_URL}/restaurants/${restaurant.slug}`}
                 variant="button"
               />

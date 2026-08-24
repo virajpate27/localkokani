@@ -27,7 +27,7 @@ export default function Footer() {
         <div>
          <div className="flex items-center gap-2 mb-4">
   <div className="relative w-10 h-10 shrink-0">
-    <Image src="/logo.png" alt="Local Kokani" fill className="object-contain" />
+    <Image src="/logo.png" alt="StayFinder" fill className="object-contain" />
   </div>
   <span className="font-display font-bold text-2xl">
     Local<span className="text-accent">Kokani</span>
@@ -108,7 +108,7 @@ export default function Footer() {
           </h4>
           <ul className="space-y-3 text-white/70 text-sm">
             <li className="flex items-center gap-2">
-              <FiMail /> hello@Local Kokani.com
+              <FiMail /> hello@StayFinder.com
             </li>
             <li className="flex items-center gap-2">
               <FiPhone /> +{whatsappNumber}
@@ -131,7 +131,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10 py-5">
         <p className="text-center text-white/60 text-sm">
-          © {year} Local Kokani. All rights reserved.
+          © {year} StayFinder. All rights reserved.
         </p>
       </div>
     </footer>

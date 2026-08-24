@@ -61,7 +61,7 @@ export default function AdminSidebar() {
       <div className="p-6 border-b border-white/10">
   <Link href="/admin" className="flex items-center gap-2">
     <div className="relative w-9 h-9 shrink-0">
-      <Image src="/logo.png" alt="Local Kokani" fill className="object-contain" />
+      <Image src="/logo.png" alt="StayFinder" fill className="object-contain" />
     </div>
     <span className="font-display font-bold text-lg text-white">
       Local<span className="text-accent">Kokani</span>

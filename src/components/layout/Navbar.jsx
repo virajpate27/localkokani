@@ -53,7 +53,7 @@ export default function Navbar({ logoUrl }) {
         <Link href="/" className="flex items-center gap-2 group shrink-0">
           <div className="relative w-10 h-10 shrink-0">
             {logoUrl ? (
-              <Image src={logoUrl} alt="Local Kokani" fill className="object-contain" priority />
+              <Image src={logoUrl} alt="StayFinder" fill className="object-contain" priority />
             ) : (
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                 <FiMapPin className="text-white text-xl" />

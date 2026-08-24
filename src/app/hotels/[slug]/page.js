@@ -37,10 +37,10 @@ export async function generateMetadata({ params }) {
   const hotel = await getHotelBySlug(slug);
 
 if (!hotel || hotel.status !== "active") {
-    return { title: "Hotel Not Found | Local Kokani" };
+    return { title: "Hotel Not Found | StayFinder" };
   }
 
-  const title = `${hotel.name} | ${hotel.destinationName} | Local Kokani`;
+  const title = `${hotel.name} | ${hotel.destinationName} | StayFinder`;
   const description =
     hotel.description?.slice(0, 155) ||
     `Book ${hotel.name} in ${hotel.destinationName}. Verified stay, best price guarantee.`;
@@ -134,7 +134,7 @@ export default async function HotelDetailPage({ params }) {
             <div className="flex items-center gap-2">
               <ShareButton
                 title={hotel.name}
-                text={`Check out ${hotel.name} in ${hotel.destinationName} on Local Kokani`}
+                text={`Check out ${hotel.name} in ${hotel.destinationName} on StayFinder`}
                 url={`https://localkokani.vercel.app/hotels/${hotel.slug}`}
                 variant="button"
               />

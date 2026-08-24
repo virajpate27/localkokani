@@ -34,10 +34,10 @@ export async function generateMetadata({ params }) {
   const post = await getPublishedPostBySlug(slug);
 
   if (!post) {
-    return { title: "Article Not Found | Local Kokani" };
+    return { title: "Article Not Found | StayFinder" };
   }
 
-  const title = post.seo?.metaTitle || `${post.title} | Local Kokani Blog`;
+  const title = post.seo?.metaTitle || `${post.title} | StayFinder Blog`;
   const description = post.seo?.metaDescription || post.excerpt;
 
   return {
@@ -72,8 +72,8 @@ export default async function BlogPostPage({ params }) {
     image: post.coverImage?.url,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
-    author: { "@type": "Organization", name: "Local Kokani" },
-    publisher: { "@type": "Organization", name: "Local Kokani" },
+    author: { "@type": "Organization", name: "StayFinder" },
+    publisher: { "@type": "Organization", name: "StayFinder" },
   };
 
   return (
