@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useOwnerAuth } from "@/context/OwnerAuthContext";
 import { useMathCaptcha } from "@/hooks/useMathCaptcha"; // ⬅️ ADD
 import MathCaptcha from "@/components/ui/MathCaptcha"; // ⬅️ ADD
+import Image from "next/image";
 
 export default function OwnerSignupPage() {
   const router = useRouter();
@@ -90,9 +91,14 @@ export default function OwnerSignupPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="font-display font-bold text-2xl text-primary">
-            Stay<span className="text-accent-dark">Finder</span>
-          </Link>
+         <Link href="/" className="inline-flex items-center gap-2">
+  <div className="relative w-10 h-10 shrink-0">
+    <Image src="/logo.png" alt="StayFinder" fill className="object-contain" />
+  </div>
+  <span className="font-display font-bold text-2xl text-primary">
+    Local<span className="text-accent-dark">Kokani</span>
+  </span>
+</Link>
           <p className="text-gray-400 text-sm mt-2">Partner Portal</p>
         </div>
 

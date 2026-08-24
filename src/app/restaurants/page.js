@@ -6,7 +6,7 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 export const revalidate = 1800;
 
 export const metadata = {
-  title: "Restaurants | StayFinder",
+  title: "Restaurants | Local Kokani",
   description: "Discover handpicked restaurants across top destinations — from fine dining to local favorites.",
   alternates: { canonical: "/restaurants" },
 };

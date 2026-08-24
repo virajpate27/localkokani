@@ -12,6 +12,8 @@ import { WishlistProvider } from "@/context/WishlistContext";
 import Link from "next/link";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { OwnerAuthProvider } from "@/context/OwnerAuthContext";
+import { getSiteSettings } from "@/lib/services/settingsService";
+import { SITE_NAME } from "@/lib/siteConfig";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,10 +37,10 @@ const fraunces = Fraunces({ // ⬅️ ADD
 });
 
 export const metadata = {
-  metadataBase: new URL("https://localkokani.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://localkokani.vercel.app"),
   title: {
-    default: "StayFinder | Book Hotels & Explore Top Destinations",
-    template: "%s | StayFinder",
+    default: `${SITE_NAME} | Book Hotels & Explore Top Destinations`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Discover handpicked hotels across top destinations. Best prices, verified stays, instant WhatsApp booking assistance.",
@@ -46,18 +48,18 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "StayFinder",
+    siteName: SITE_NAME,
   },
   twitter: {
     card: "summary_large_image",
-    title: "StayFinder | Book Hotels & Explore Top Destinations",
-    description:
-      "Discover handpicked hotels across top destinations. Best prices, verified stays.",
+    title: `${SITE_NAME} | Book Hotels & Explore Top Destinations`,
+    description: "Discover handpicked hotels across top destinations. Best prices, verified stays.",
   },
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const settings = await getSiteSettings();
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable} ${fraunces.variable}`}>
       <head>
@@ -66,7 +68,7 @@ export default function RootLayout({ children }) {
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('stayfinder_theme');
+                  var theme = localStorage.getItem('Local Kokani_theme');
                   if (!theme) {
                     theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                   }
@@ -92,11 +94,11 @@ export default function RootLayout({ children }) {
             <OwnerAuthProvider>
               <WishlistProvider>
                 <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
-                <Navbar />
+                <Navbar logoUrl={settings.logo?.url} />
                 <main id="main-content" className="min-h-screen">
                   {children}
                 </main>
-                <Footer />
+                 <Footer logoUrl={settings.logo?.url} />
                 <Toaster position="top-center" />
               </WishlistProvider>
             </OwnerAuthProvider>

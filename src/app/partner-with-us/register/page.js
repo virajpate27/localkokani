@@ -2,7 +2,7 @@
 import PartnerRegistrationForm from "@/components/partner/PartnerRegistrationForm";
 
 export const metadata = {
-  title: "Partner Registration | StayFinder",
+  title: "Partner Registration | Local Kokani",
   robots: { index: false, follow: true },
 };
 

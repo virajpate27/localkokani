@@ -252,7 +252,7 @@ export default function BlogPostForm({ initialData = null }) {
             name="metaTitle"
             value={formData.metaTitle}
             onChange={handleChange}
-            placeholder={formData.title ? `${formData.title} | StayFinder Blog` : ""}
+            placeholder={formData.title ? `${formData.title} | Local Kokani Blog` : ""}
             className="w-full px-4 py-3 rounded-xl border dark:border-gray-800 focus:border-secondary text-sm outline-none"
           />
         </div>

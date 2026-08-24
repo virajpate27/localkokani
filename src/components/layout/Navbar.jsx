@@ -12,7 +12,7 @@ import SearchAutosuggest from "@/components/search/SearchAutosuggest";
 import { useWishlist } from "@/context/WishlistContext";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import Image from "next/image";
-
+import { SITE_NAME } from "@/lib/siteConfig";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -53,7 +53,7 @@ export default function Navbar({ logoUrl }) {
         <Link href="/" className="flex items-center gap-2 group shrink-0">
           <div className="relative w-10 h-10 shrink-0">
             {logoUrl ? (
-              <Image src={logoUrl} alt="StayFinder" fill className="object-contain" priority />
+              <Image src={logoUrl} alt={SITE_NAME} fill className="object-contain" priority />
             ) : (
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                 <FiMapPin className="text-white text-xl" />
@@ -61,7 +61,7 @@ export default function Navbar({ logoUrl }) {
             )}
           </div>
           <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
-            Stay<span className="text-accent-dark">Finder</span>
+            Local<span className="text-accent-dark">Kokani</span>
           </span>
         </Link>
 

@@ -1,6 +1,6 @@
 // src/app/wishlist/page.js
 export const metadata = {
-  title: "My Wishlist | StayFinder",
+  title: "My Wishlist | Local Kokani",
   robots: { index: false, follow: true },
 };
 

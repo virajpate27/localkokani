@@ -7,12 +7,12 @@ import EmptyState from "@/components/ui/EmptyState";
 export const revalidate = 3600;
 
 export const metadata = {
-  title: "Travel Guides & Tips | StayFinder Blog",
+  title: "Travel Guides & Tips | Local Kokani Blog",
   description:
     "Destination guides, travel tips, and inspiration to help you plan your next trip — from best times to visit to hidden local gems.",
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: "Travel Guides & Tips | StayFinder Blog",
+    title: "Travel Guides & Tips | Local Kokani Blog",
     description: "Destination guides, travel tips, and inspiration for your next trip.",
   },
 };

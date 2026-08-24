@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 import { getHotelBySlug } from "@/lib/services/hotelService";
 
 export const runtime = "nodejs";
-export const alt = "Hotel on StayFinder";
+export const alt = "Hotel on Local Kokani";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -63,7 +63,7 @@ export default async function Image({ params }) {
               📍
             </div>
             <span style={{ color: "white", fontSize: "28px", fontWeight: 700 }}>
-              StayFinder
+              Local Kokani
             </span>
           </div>
           <h1

@@ -7,10 +7,10 @@ export async function generateMetadata({ searchParams }) {
   const query = q || "";
 
   return {
-    title: query ? `Search results for "${query}" | StayFinder` : "Search | StayFinder",
+    title: query ? `Search results for "${query}" | Local Kokani` : "Search | Local Kokani",
     description: query
-      ? `Explore hotels and destinations matching "${query}" on StayFinder.`
-      : "Search hotels and destinations across StayFinder.",
+      ? `Explore hotels and destinations matching "${query}" on Local Kokani.`
+      : "Search hotels and destinations across Local Kokani.",
     robots: { index: false, follow: true }, // search result pages shouldn't be indexed
   };
 }

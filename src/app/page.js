@@ -16,7 +16,7 @@ const Testimonials = dynamic(() => import("@/components/home/Testimonials"), {
 export const revalidate = 3600; // regenerate page every 1 hour
 
 export const metadata = {
-  title: "StayFinder | Book Hotels & Explore Top Destinations",
+  title: "Local Kokani | Book Hotels & Explore Top Destinations",
   description:
     "Discover handpicked hotels across top destinations. Best prices, verified stays, instant WhatsApp booking assistance.",
 };

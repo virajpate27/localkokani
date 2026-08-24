@@ -13,6 +13,7 @@ import { getPendingPartnerApplicationsCount } from "@/lib/services/partnerServic
 import { getPendingPromotionRequestsCount } from "@/lib/services/promotionService";
 import { getNewContactMessagesCount } from "@/lib/services/contactService";
 import Image from "next/image"; 
+import { SITE_NAME } from "@/lib/siteConfig";
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: FiGrid },
@@ -61,11 +62,12 @@ export default function AdminSidebar() {
       <div className="p-6 border-b border-white/10">
   <Link href="/admin" className="flex items-center gap-2">
     <div className="relative w-9 h-9 shrink-0">
-      <Image src="/logo.png" alt="StayFinder" fill className="object-contain" />
+      {/* If you want the logo here too, pass logoUrl down similarly, or keep the icon fallback */}
+      <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+        <FiMapPin className="text-accent" />
+      </div>
     </div>
-    <span className="font-display font-bold text-lg text-white">
-      Local<span className="text-accent">Kokani</span>
-    </span>
+    <span className="font-display font-bold text-lg text-white">{SITE_NAME}</span>
   </Link>
   <p className="text-white/40 text-xs mt-1">Admin Panel</p>
 </div>

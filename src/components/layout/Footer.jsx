@@ -14,8 +14,9 @@ import {
 import { FaWhatsapp } from 'react-icons/fa';
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { SITE_NAME } from "@/lib/siteConfig"; 
 
-export default function Footer() {
+export default function Footer({ logoUrl }) {
   const year = new Date().getFullYear();
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const pathname = usePathname();
@@ -25,14 +26,20 @@ export default function Footer() {
     <footer className="bg-primary text-white ">
       <div className="container-custom py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         <div>
-         <div className="flex items-center gap-2 mb-4">
-  <div className="relative w-10 h-10 shrink-0">
-    <Image src="/logo.png" alt="StayFinder" fill className="object-contain" />
-  </div>
-  <span className="font-display font-bold text-2xl">
-    Local<span className="text-accent">Kokani</span>
-  </span>
-</div>
+        <div className="flex items-center gap-2 mb-4">
+            <div className="relative w-10 h-10 shrink-0">
+              {logoUrl ? (
+                <Image src={logoUrl} alt={SITE_NAME} fill className="object-contain" />
+              ) : (
+                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                  <FiMapPin className="text-accent text-xl" />
+                </div>
+              )}
+            </div>
+            <span className="font-display font-bold text-2xl">
+              Local<span className="text-accent">Kokani</span>
+            </span>
+          </div>
           <p className="text-white/70 text-sm leading-relaxed">
             Handpicked hotels across top destinations. Verified stays, honest
             prices, and real human help — every step of the way.
@@ -108,7 +115,7 @@ export default function Footer() {
           </h4>
           <ul className="space-y-3 text-white/70 text-sm">
             <li className="flex items-center gap-2">
-              <FiMail /> hello@StayFinder.com
+              <FiMail /> hello@Local Kokani.com
             </li>
             <li className="flex items-center gap-2">
               <FiPhone /> +{whatsappNumber}
@@ -131,7 +138,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10 py-5">
         <p className="text-center text-white/60 text-sm">
-          © {year} StayFinder. All rights reserved.
+          © {year} Local Kokani. All rights reserved.
         </p>
       </div>
     </footer>
