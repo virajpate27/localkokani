@@ -517,7 +517,7 @@ export default function PartnerRegistrationForm() {
                 <ul className="text-gray-500 text-sm mt-3 space-y-1">
                   <li>• Standard listing page</li>
                   <li>• Basic visibility</li>
-                  <li>• Enquiries routed through StayFinder's WhatsApp</li>
+                  <li>• Enquiries routed through Local Kokani's WhatsApp</li>
                   <li className="text-gray-400 text-xs pt-1">Commission applies per confirmed booking</li>
                 </ul>
               </button>
@@ -575,7 +575,7 @@ export default function PartnerRegistrationForm() {
           <div className="space-y-5">
             <h2 className="font-display font-bold text-xl text-primary">Hotel/Restaurant Partner Agreement</h2>
             <div className="bg-gray-50 rounded-xl p-5 text-sm text-gray-600 leading-relaxed">
-              By becoming a StayFinder partner, you agree to list accurate property information,
+              By becoming a Local Kokani partner, you agree to list accurate property information,
               honor bookings confirmed through our platform, respond to guest enquiries promptly,
               and maintain the standards described in this agreement. Commission or subscription
               terms apply based on your selected plan.
@@ -655,7 +655,7 @@ export default function PartnerRegistrationForm() {
             <h3 className="font-display font-bold text-lg text-primary mb-4">Full Partner Agreement</h3>
             <div className="text-gray-600 text-sm space-y-3">
               <p>1. The Partner agrees to provide accurate, up-to-date information about the property...</p>
-              <p>2. StayFinder facilitates enquiries between guests and partners via WhatsApp...</p>
+              <p>2. Local Kokani facilitates enquiries between guests and partners via WhatsApp...</p>
               <p>3. Partners are responsible for honoring confirmed bookings and maintaining listed rates...</p>
               <p>[Replace this section with your actual legal agreement text.]</p>
             </div>

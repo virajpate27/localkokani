@@ -10,6 +10,7 @@ import { useMathCaptcha } from "@/hooks/useMathCaptcha";
 import MathCaptcha from "@/components/ui/MathCaptcha";
 import DateInput from "@/components/ui/DateInput"; // ⬅️ ADD
 import TimeInput from "@/components/ui/TimeInput"; // ⬅️ ADD
+import { SITE_NAME } from "@/lib/siteConfig";
 
 const initialFormState = { name: "", phone: "", date: "", time: "", guests: 2 };
 
@@ -50,7 +51,7 @@ export default function ReservationForm({ restaurant }) {
     }
 
     const lines = [
-      `Hi! I'd like to reserve a table at *${restaurant.name}* (${restaurant.destinationName}).`,
+      `Hi! I'd like to reserve a table at *${restaurant.name}* (${restaurant.destinationName}) via ${SITE_NAME}.`,
       ``,
       `👤 Name: ${formData.name.trim()}`,
       `📞 Phone: ${formData.phone.trim()}`,

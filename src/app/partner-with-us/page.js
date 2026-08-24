@@ -4,9 +4,9 @@ import { FiCheckCircle, FiArrowRight } from "react-icons/fi";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Partner With Us | StayFinder",
+  title: "Partner With Us | Local Kokani",
   description:
-    "List your hotel or restaurant on StayFinder and reach more guests.",
+    "List your hotel or restaurant on Local Kokani and reach more guests.",
 }; 
 
 export default function OldRegisterRedirect() {

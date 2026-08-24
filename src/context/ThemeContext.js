@@ -4,7 +4,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext(null);
-const STORAGE_KEY = "stayfinder_theme";
+const STORAGE_KEY = "Local Kokani_theme";
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("light");

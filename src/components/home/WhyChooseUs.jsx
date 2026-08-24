@@ -32,7 +32,7 @@ export default function WhyChooseUs() {
       <div className="container-custom">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-secondary font-semibold text-sm uppercase tracking-wider">
-            Why StayFinder
+            Why Local Kokani
           </span>
           <h2 className="section-title mt-2">
             Booking Made Simple & Trustworthy

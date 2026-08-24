@@ -10,6 +10,7 @@ import EnquiryConfirmModal from "./EnquiryConfirmModal";
 import { useMathCaptcha } from "@/hooks/useMathCaptcha";
 import MathCaptcha from "@/components/ui/MathCaptcha"; 
 import DateInput from "@/components/ui/DateInput";
+import { SITE_NAME } from "@/lib/siteConfig";
 
 const initialFormState = {
   name: "",
@@ -89,7 +90,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
 
   const buildWhatsAppMessage = () => {
     const lines = [
-      `Hi! I'd like to enquire about *${hotel.name}* (${hotel.destinationName}).`,
+      `Hi! I'd like to enquire about *${hotel.name}* (${hotel.destinationName}) via ${SITE_NAME}.`,,
       ``,
       `👤 Name: ${formData.name.trim()}`,
       `📞 Phone: ${formData.phone.trim()}`,

@@ -12,6 +12,7 @@ import { getNewLeadsCount } from "@/lib/services/dashboardService";
 import { getPendingPartnerApplicationsCount } from "@/lib/services/partnerService"; // ⬅️ ADD
 import { getPendingPromotionRequestsCount } from "@/lib/services/promotionService";
 import { getNewContactMessagesCount } from "@/lib/services/contactService";
+import Image from "next/image"; 
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: FiGrid },
@@ -58,16 +59,16 @@ export default function AdminSidebar() {
   const SidebarContent = (
     <>
       <div className="p-6 border-b border-white/10">
-        <Link href="/admin" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-white dark:bg-gray-900/10 flex items-center justify-center">
-            <FiMapPin className="text-accent" />
-          </div>
-          <span className="font-display font-bold text-lg text-white">
-            Stay<span className="text-accent">Finder</span>
-          </span>
-        </Link>
-        <p className="text-white/40 text-xs mt-1">Admin Panel</p>
-      </div>
+  <Link href="/admin" className="flex items-center gap-2">
+    <div className="relative w-9 h-9 shrink-0">
+      <Image src="/logo.png" alt="Local Kokani" fill className="object-contain" />
+    </div>
+    <span className="font-display font-bold text-lg text-white">
+      Local<span className="text-accent">Kokani</span>
+    </span>
+  </Link>
+  <p className="text-white/40 text-xs mt-1">Admin Panel</p>
+</div>
 
       <nav className="flex-1 p-4 space-y-1">
         {navItems.map((item) => {

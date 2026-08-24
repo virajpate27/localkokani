@@ -9,7 +9,7 @@ const COLLECTION = "siteSettings";
 export async function getSiteSettings() {
   const docRef = doc(db, COLLECTION, DOC_ID);
   const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) return { heroImage: null };
+  if (!docSnap.exists()) return { heroImage: null, logo: null };
   return serializeDoc({ id: docSnap.id, ...docSnap.data() });
 }
 

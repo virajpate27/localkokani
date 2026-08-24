@@ -1,5 +1,7 @@
 // src/utils/helpers.js
 
+import { SITE_NAME } from "@/lib/siteConfig";
+
 export function generateHotelSchema(hotel) {
   const schema = {
     "@context": "https://schema.org",
@@ -125,7 +127,7 @@ export function generateOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "StayFinder",
+      name: SITE_NAME,
     url: "https://localkokani.vercel.app",
     logo: "https://localkokani.vercel.app/logo.png",
     contactPoint: {

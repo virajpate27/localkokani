@@ -2,8 +2,8 @@
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 export const metadata = {
-  title: "Privacy Policy | StayFinder",
-  description: "How StayFinder collects, uses, and protects your personal information.",
+  title: "Privacy Policy | Local Kokani",
+  description: "How Local Kokani collects, uses, and protects your personal information.",
   alternates: { canonical: "/privacy-policy" },
 };
 
@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
           <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-primary prose-a:text-secondary">
             <h2>1. Information We Collect</h2>
             <p>
-              When you use StayFinder, we may collect information you provide directly to us, such as
+              When you use Local Kokani, we may collect information you provide directly to us, such as
               your name, phone number, email address, and travel preferences when you submit an enquiry,
               write a review, or register as a partner. We also automatically collect certain technical
               information, including your IP address and browsing behavior on our site, to help us
@@ -48,7 +48,7 @@ export default function PrivacyPolicyPage() {
               the relevant hotel or restaurant, since this is necessary to fulfill your request. We do
               not sell your personal information to third parties. We may share information with service
               providers who help us operate our platform (such as our hosting and cloud storage providers),
-              solely for the purpose of running StayFinder.
+              solely for the purpose of running Local Kokani.
             </p>
 
             <h2>4. Data Storage & Security</h2>
@@ -69,14 +69,14 @@ export default function PrivacyPolicyPage() {
             <p>
               You may request access to, correction of, or deletion of your personal information at any
               time by contacting us at{" "}
-              <a href="mailto:hello@stayfinder.com">hello@stayfinder.com</a>. If you registered as a
+              <a href="mailto:hello@Local Kokani.com">hello@Local Kokani.com</a>. If you registered as a
               partner or created an owner account, you can update your details directly through your
               dashboard.
             </p>
 
             <h2>7. Children's Privacy</h2>
             <p>
-              StayFinder is not directed at individuals under the age of 18. We do not knowingly collect
+              Local Kokani is not directed at individuals under the age of 18. We do not knowingly collect
               personal information from children.
             </p>
 
@@ -90,7 +90,7 @@ export default function PrivacyPolicyPage() {
             <p>
               If you have any questions about this Privacy Policy, please reach out via our{" "}
               <a href="/contact">Contact page</a> or email us at{" "}
-              <a href="mailto:hello@stayfinder.com">hello@stayfinder.com</a>.
+              <a href="mailto:hello@Local Kokani.com">hello@Local Kokani.com</a>.
             </p>
           </div>
         </div>

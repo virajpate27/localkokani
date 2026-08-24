@@ -1,5 +1,5 @@
 // src/components/layout/Navbar.jsx
-
+import Image from "next/image";
 
 "use client";
 
@@ -11,6 +11,7 @@ import SearchAutosuggest from "@/components/search/SearchAutosuggest";
 
 import { useWishlist } from "@/context/WishlistContext";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import { SITE_NAME } from "@/lib/siteConfig";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -20,7 +21,7 @@ const navLinks = [
   { label: "Blog", href: "/blog" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ logoUrl }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -43,19 +44,25 @@ export default function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
-          ? "bg-white dark:bg-gray-900 dark:bg-gray-900 shadow-card"
-          : "bg-white dark:bg-gray-900/80 dark:bg-gray-900/80 backdrop-blur-md"
+        ? "bg-white dark:bg-gray-900 dark:bg-gray-900 shadow-card"
+        : "bg-white dark:bg-gray-900/80 dark:bg-gray-900/80 backdrop-blur-md"
         }`}
     >
       <nav className="container-custom flex items-center justify-between h-20">
         <Link href="/" className="flex items-center gap-2 group shrink-0">
+      <div className="relative w-10 h-10 shrink-0">
+        {logoUrl ? (
+          <Image src={logoUrl} alt="Local Kokani" fill className="object-contain" priority />
+        ) : (
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
             <FiMapPin className="text-white text-xl" />
           </div>
-          <span className="font-display font-bold text-xl sm:text-2xl text-primary dark:text-white dark:text-white whitespace-nowrap">
-            Stay<span className="text-accent-dark dark:text-accent">Finder</span>
-          </span>
-        </Link>
+        )}
+      </div>
+      <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
+        Stay<span className="text-accent-dark">Finder</span>
+      </span>
+    </Link>
 
         {/* Desktop Links + inline search */}
         <div className="hidden md:flex items-center gap-6 flex-1 justify-center max-w-md mx-8">
@@ -113,8 +120,8 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-3 rounded-xl font-medium ${pathname === link.href
-                      ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-white dark:text-primary dark:text-white-light"
-                      : "text-gray-300 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-950 dark:hover:bg-gray-800"
+                    ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-white dark:text-primary dark:text-white-light"
+                    : "text-gray-300 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-950 dark:hover:bg-gray-800"
                     }`}
                 >
                   {link.label}

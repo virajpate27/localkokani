@@ -7,12 +7,12 @@ import HotelsFilterGrid from "@/components/hotels/HotelsFilterGrid";
 export const revalidate = 1800; // 30 min — hotels list changes more often than destinations
 
 export const metadata = {
-  title: "All Hotels | StayFinder",
+  title: "All Hotels | Local Kokani",
   description:
     "Browse our full collection of handpicked hotels across India. Filter by price, rating, and amenities to find your perfect stay.",
   alternates: { canonical: "/hotels" },
   openGraph: {
-    title: "All Hotels | StayFinder",
+    title: "All Hotels | Local Kokani",
     description: "Browse handpicked hotels across India's top destinations.",
   },
 };

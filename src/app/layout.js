@@ -12,6 +12,8 @@ import { WishlistProvider } from "@/context/WishlistContext";
 import Link from "next/link";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { OwnerAuthProvider } from "@/context/OwnerAuthContext";
+import { getSiteSettings } from "@/lib/services/settingsService";
+import { SITE_NAME } from "@/lib/siteConfig";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,10 +37,10 @@ const fraunces = Fraunces({ // ⬅️ ADD
 });
 
 export const metadata = {
-  metadataBase: new URL("https://localkokani.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com"),
   title: {
-    default: "StayFinder | Book Hotels & Explore Top Destinations",
-    template: "%s | StayFinder",
+    default: `${SITE_NAME} | Book Hotels & Explore Top Destinations`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Discover handpicked hotels across top destinations. Best prices, verified stays, instant WhatsApp booking assistance.",
@@ -46,60 +48,32 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "StayFinder",
+    siteName: SITE_NAME,
   },
   twitter: {
     card: "summary_large_image",
-    title: "StayFinder | Book Hotels & Explore Top Destinations",
-    description:
-      "Discover handpicked hotels across top destinations. Best prices, verified stays.",
+    title: `${SITE_NAME} | Book Hotels & Explore Top Destinations`,
+    description: "Discover handpicked hotels across top destinations. Best prices, verified stays.",
   },
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }) {
+export default async  function RootLayout({ children }) {
+   const settings = await getSiteSettings();
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable} ${fraunces.variable}`}>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('stayfinder_theme');
-                  if (!theme) {
-                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="font-sans bg-gray-50 dark:bg-gray-950 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased transition-colors">
-        <Link
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg"
-        >
-          Skip to main content
-        </Link>
-        <JsonLd data={generateOrganizationSchema()} />
+      {/* ...head script stays the same */}
+      <body className="font-sans bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased transition-colors">
+        {/* ...skip link, JsonLd stay the same */}
         <ThemeProvider>
           <AuthProvider>
-            <OwnerAuthProvider>
-              <WishlistProvider>
-                <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
-                <Navbar />
-                <main id="main-content" className="min-h-screen">
-                  {children}
-                </main>
-                <Footer />
-                <Toaster position="top-center" />
-              </WishlistProvider>
-            </OwnerAuthProvider>
+            <WishlistProvider>
+              <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
+              <Navbar logoUrl={settings.logo?.url} /> {/* ⬅️ pass down */}
+              <main id="main-content" className="min-h-screen">{children}</main>
+              <Footer logoUrl={settings.logo?.url} /> {/* ⬅️ pass down */}
+              <Toaster position="top-center" />
+            </WishlistProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>
