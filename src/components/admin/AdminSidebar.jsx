@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee, FiUsers, FiUserCheck, FiZap, FiMail, FiSettings  } from "react-icons/fi";
+import { FiGrid, FiMapPin, FiHome, FiMessageSquare, FiStar, FiLogOut, FiMenu, FiX, FiFileText, FiCoffee, FiUsers, FiUserCheck, FiZap, FiMail, FiSettings } from "react-icons/fi";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ import { getNewLeadsCount } from "@/lib/services/dashboardService";
 import { getPendingPartnerApplicationsCount } from "@/lib/services/partnerService"; // ⬅️ ADD
 import { getPendingPromotionRequestsCount } from "@/lib/services/promotionService";
 import { getNewContactMessagesCount } from "@/lib/services/contactService";
-import Image from "next/image"; 
+import Image from "next/image";
 import { SITE_NAME } from "@/lib/siteConfig";
 
 const navItems = [
@@ -60,17 +60,17 @@ export default function AdminSidebar() {
   const SidebarContent = (
     <>
       <div className="p-6 border-b border-white/10">
-  <Link href="/admin" className="flex items-center gap-2">
-    <div className="relative w-9 h-9 shrink-0">
-      {/* If you want the logo here too, pass logoUrl down similarly, or keep the icon fallback */}
-      <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
-        <FiMapPin className="text-accent" />
+        <Link href="/admin" className="flex items-center gap-2">
+          <div className="relative w-9 h-9 shrink-0">
+            {/* If you want the logo here too, pass logoUrl down similarly, or keep the icon fallback */}
+            <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+              <FiMapPin className="text-accent" />
+            </div>
+          </div>
+          <span className="font-display font-bold text-lg text-white">{SITE_NAME}</span>
+        </Link>
+        <p className="text-white/40 text-xs mt-1">Admin Panel</p>
       </div>
-    </div>
-    <span className="font-display font-bold text-lg text-white">{SITE_NAME}</span>
-  </Link>
-  <p className="text-white/40 text-xs mt-1">Admin Panel</p>
-</div>
 
       <nav className="flex-1 p-4 space-y-1">
         {navItems.map((item) => {
