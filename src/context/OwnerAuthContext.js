@@ -55,7 +55,7 @@ export function OwnerAuthProvider({ children }) {
       {children}
     </OwnerAuthContext.Provider>
   );
-}
+} 
 
 export function useOwnerAuth() {
   const context = useContext(OwnerAuthContext);
