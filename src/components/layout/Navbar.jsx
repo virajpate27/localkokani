@@ -1,5 +1,5 @@
 // src/components/layout/Navbar.jsx
-import Image from "next/image";
+
 
 "use client";
 
@@ -11,7 +11,8 @@ import SearchAutosuggest from "@/components/search/SearchAutosuggest";
 
 import { useWishlist } from "@/context/WishlistContext";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import { SITE_NAME } from "@/lib/siteConfig";
+import Image from "next/image";
+
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -50,19 +51,19 @@ export default function Navbar({ logoUrl }) {
     >
       <nav className="container-custom flex items-center justify-between h-20">
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-      <div className="relative w-10 h-10 shrink-0">
-        {logoUrl ? (
-          <Image src={logoUrl} alt="Local Kokani" fill className="object-contain" priority />
-        ) : (
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-            <FiMapPin className="text-white text-xl" />
+          <div className="relative w-10 h-10 shrink-0">
+            {logoUrl ? (
+              <Image src={logoUrl} alt="Local Kokani" fill className="object-contain" priority />
+            ) : (
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <FiMapPin className="text-white text-xl" />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
-        Stay<span className="text-accent-dark">Finder</span>
-      </span>
-    </Link>
+          <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
+            Stay<span className="text-accent-dark">Finder</span>
+          </span>
+        </Link>
 
         {/* Desktop Links + inline search */}
         <div className="hidden md:flex items-center gap-6 flex-1 justify-center max-w-md mx-8">

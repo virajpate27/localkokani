@@ -28,7 +28,8 @@ const poppins = Poppins({
   display: "swap", // ✅ already set
 });
 
-const fraunces = Fraunces({ // ⬅️ ADD
+const fraunces = Fraunces({
+  // ⬅️ ADD
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
@@ -37,7 +38,9 @@ const fraunces = Fraunces({ // ⬅️ ADD
 });
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://localkokani.vercel.app",
+  ),
   title: {
     default: `${SITE_NAME} | Book Hotels & Explore Top Destinations`,
     template: `%s | ${SITE_NAME}`,
@@ -53,15 +56,19 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} | Book Hotels & Explore Top Destinations`,
-    description: "Discover handpicked hotels across top destinations. Best prices, verified stays.",
+    description:
+      "Discover handpicked hotels across top destinations. Best prices, verified stays.",
   },
   robots: { index: true, follow: true },
 };
 
-export default async  function RootLayout({ children }) {
-   const settings = await getSiteSettings();
+export default async function RootLayout({ children }) {
+  const settings = await getSiteSettings();
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} ${fraunces.variable}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${poppins.variable} ${fraunces.variable}`}
+    >
       {/* ...head script stays the same */}
       <body className="font-sans bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased transition-colors">
         {/* ...skip link, JsonLd stay the same */}
@@ -70,7 +77,9 @@ export default async  function RootLayout({ children }) {
             <WishlistProvider>
               <NextTopLoader color="#3193a6" showSpinner={false} height={3} />
               <Navbar logoUrl={settings.logo?.url} /> {/* ⬅️ pass down */}
-              <main id="main-content" className="min-h-screen">{children}</main>
+              <main id="main-content" className="min-h-screen">
+                {children}
+              </main>
               <Footer logoUrl={settings.logo?.url} /> {/* ⬅️ pass down */}
               <Toaster position="top-center" />
             </WishlistProvider>
