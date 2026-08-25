@@ -36,12 +36,12 @@ export default function SponsoredListingsSection({
   if (mixedItems.length === 0) return null;
 
   return (
-    <section className="py-16 bg-primary/5">
+    <section className="py-10 bg-primary/5">
       <div className="container-custom">
         <div className="flex items-center gap-2 mb-2">
           <FiZap className="text-primary" />
-          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-            Promoted
+          <span className="text-primary dark:text-white font-semibold text-sm uppercase tracking-wider">
+            Premium
           </span>
         </div>
         <h2 className="section-title mb-10">

@@ -151,7 +151,7 @@ export default async function DestinationDetailPage({ params }) {
       />
 
       {/* Hotels List */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-950 min-h-[40vh]">
+      <section className="py-12 bg-gray-50 dark:bg-gray-900 min-h-[40vh]">
         <div className="container-custom">
           <div className="flex items-center justify-between mb-10">
             <h2 className="section-title">Hotels in {destination.name}</h2>
@@ -169,7 +169,7 @@ export default async function DestinationDetailPage({ params }) {
 
       {/* Restaurants List */}
       {restaurants.length > 0 && (
-        <section className="py-16 bg-white dark:bg-gray-900">
+        <section className="py-16 bg-white dark:bg-gray-950">
           <div className="container-custom">
             <div className="flex items-center justify-between mb-10">
               <h2 className="section-title">
