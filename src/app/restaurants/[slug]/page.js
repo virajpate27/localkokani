@@ -124,7 +124,7 @@ export default async function RestaurantDetailPage({ params }) {
           </p>
           <div className="flex flex-wrap items-center justify-between gap-3 mt-2">
             <div className="flex flex-wrap items-center gap-3">
-              <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary dark:text-white">
+              <h1 className="font-display font-extrabold text-2xl md:text-4xl text-primary dark:text-white">
                 {restaurant.name}
                  {restaurant.verified && <VerifiedBadge />}
               </h1>
