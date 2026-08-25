@@ -126,7 +126,7 @@ export default async function HotelDetailPage({ params }) {
                 <span className="font-semibold text-primary text-sm">
                   {hotel.rating}
                 </span>
-                <span className="text-gray-400 text-xs">
+                <span className="text-gray-800 text-xs">
                   ({hotel.reviewCount} reviews)
                 </span>
               </div>
@@ -165,7 +165,7 @@ export default async function HotelDetailPage({ params }) {
           {/* Main content */}
           <div className="space-y-10 order-2 lg:order-1">
             {/* Description */}
-            <div>
+            <div className="card2 p-6">
               <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 About This Hotel
               </h2>
@@ -174,7 +174,7 @@ export default async function HotelDetailPage({ params }) {
 
             {/* Amenities */}
             {hotel.amenities?.length > 0 && (
-              <div>
+              <div className="card2 p-6">
                 <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Amenities
                 </h2>
@@ -184,7 +184,7 @@ export default async function HotelDetailPage({ params }) {
 
             {/* Room Types */}
             {hotel.roomTypes?.length > 0 && (
-              <div>
+              <div className="card2 p-6">
                 <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Room Options
                 </h2>
@@ -196,7 +196,7 @@ export default async function HotelDetailPage({ params }) {
             {hotel.partnerPlan === "premium" &&
               (hotel.mapEmbedUrl ||
                 (hotel.location?.lat && hotel.location?.lng)) && (
-                <div>
+                <div className="card2 p-6">
                   <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                     Location
                   </h2>
@@ -221,7 +221,7 @@ export default async function HotelDetailPage({ params }) {
 
             {/* NEW: FAQ section — place after Map, before Reviews */}
             {hotel.faqs?.length > 0 && (
-              <div>
+              <div className="card2 p-6">
                 <h2 className="font-display font-bold text-2xl text-primary mb-4">
                   Frequently Asked Questions
                 </h2>
@@ -230,7 +230,7 @@ export default async function HotelDetailPage({ params }) {
             )}
 
             {/* NEW: Reviews section */}
-            <div>
+            <div className="card2 p-6">
               <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 Guest Reviews {reviews.length > 0 && `(${reviews.length})`}
               </h2>

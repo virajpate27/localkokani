@@ -40,6 +40,10 @@
     @apply border border-[#e4e1d6];
   }
 
+  .card2 {
+    @apply rounded-2xl transition-all duration-300 bg-white dark:bg-gray-900 shadow-[0_0_0_1px_rgba(0,0,0,0.05)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.1)];
+  }
+
 
 }
 

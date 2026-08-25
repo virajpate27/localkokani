@@ -126,6 +126,12 @@ export default function HotelGallery({ images = [], hotelName }) {
           height: 40px;
           border-radius: 9999px;
         }
+
+        .main-gallery-swiper .swiper-navigation-icon{
+        width: 10px;
+        }
+
+
         .main-gallery-swiper .swiper-button-next::after,
         .main-gallery-swiper .swiper-button-prev::after {
           font-size: 16px;
