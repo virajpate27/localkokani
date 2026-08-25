@@ -47,7 +47,7 @@ export default function Navbar({ logoUrl }) {
       className={`sticky top-0 z-50 transition-all duration-300 ${scrolled
         ? "bg-white dark:bg-gray-900 dark:bg-gray-900 shadow-card"
         : "bg-white dark:bg-gray-900/80 dark:bg-gray-900/80 backdrop-blur-md"
-        }`}
+        }`} 
     >
       <nav className="container-custom flex items-center justify-between h-20">
         <Link href="/" className="flex items-center gap-2 group shrink-0">
@@ -60,7 +60,7 @@ export default function Navbar({ logoUrl }) {
               </div>
             )}
           </div>
-          <span className="font-display font-bold text-xl sm:text-2xl text-primary whitespace-nowrap">
+          <span className="font-display font-bold text-xl sm:text-2xl text-primary dark:text-white whitespace-nowrap">
             Local<span className="text-accent-dark">Kokani</span>
           </span>
         </Link>
@@ -121,8 +121,8 @@ export default function Navbar({ logoUrl }) {
                   href={link.href}
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-3 rounded-xl font-medium ${pathname === link.href
-                    ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-white dark:text-primary dark:text-white-light"
-                    : "text-gray-300 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-950 dark:hover:bg-gray-800"
+                    ? "bg-primary/10 dark:bg-gray-950 text-primary dark:text-white dark:text-primary dark:text-white-light"
+                    : "text-gray-400 dark:text-gray-300 hover:bg-gray-50  dark:hover:bg-gray-800"
                     }`}
                 >
                   {link.label}
@@ -135,7 +135,7 @@ export default function Navbar({ logoUrl }) {
                 <Link
                   href="/wishlist"
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-950"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium dark:text-gray-300 hover:bg-gray-50 "
                 >
                   <FiHeart className="text-secondary" />
                   Wishlist {count > 0 && <span className="text-accent font-semibold">({count})</span>}

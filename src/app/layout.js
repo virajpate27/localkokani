@@ -37,7 +37,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://yourdomain.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://localkokani.vercel.app"),
   title: {
     default: `${SITE_NAME} | Book Hotels & Explore Top Destinations`,
     template: `%s | ${SITE_NAME}`,

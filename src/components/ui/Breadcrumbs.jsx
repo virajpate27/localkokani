@@ -14,10 +14,10 @@ export default function Breadcrumbs({ items }) {
   return (
     <>
       <JsonLd data={generateBreadcrumbSchema(schemaItems)} />
-      <nav aria-label="Breadcrumb" className="container-custom pt-6">
+      <nav aria-label="Breadcrumb" className="container-custom py-1">
         <ol className="flex items-center flex-wrap gap-1.5 text-sm dark:text-gray-500">
           <li className="flex items-center gap-1.5">
-            <Link href="/" className="hover:text-primary dark:text-white flex items-center gap-1">
+            <Link href="/" className="text-white hover:text-primary dark:text-white flex items-center gap-1">
               <FiHome /> Home
             </Link>
             <FiChevronRight className="text-gray-300" />
@@ -28,7 +28,7 @@ export default function Breadcrumbs({ items }) {
                 <span className="text-primary dark:text-white font-medium">{item.name}</span>
               ) : (
                 <>
-                  <Link href={item.url} className="hover:text-primary dark:text-white">
+                  <Link href={item.url} className="text-white hover:text-primary dark:text-white">
                     {item.name}
                   </Link>
                   <FiChevronRight className="text-gray-300" />

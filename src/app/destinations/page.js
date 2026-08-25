@@ -25,17 +25,17 @@ export default async function DestinationsPage() {
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-900">
+      <div className="bg-secondary dark:bg-gray-900">
         <Breadcrumbs items={[{ name: "Destinations", url: "/destinations" }]} />
       </div>
 
       {/* Page Header */}
-      <section className="bg-hero-gradient py-16">
+      <section className="bg-primary py-8">
         <div className="container-custom text-center">
-          <span className="inline-block bg-white text-secondary dark:bg-gray-900/10 backdrop-blur-sm dark:text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
+          <span className="inline-block text-white bg-white/10 backdrop-blur-md dark:bg-gray-900/10 dark:text-white/90 text-sm font-medium px-4 py-1.5 rounded-full mb-4">
             {destinations.length} Destinations
           </span>
-          <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
+          <h1 className="font-display font-extrabold text-2xl md:text-3xl text-white">
             Explore Every Destination
           </h1>
           <p className="text-white/80 mt-4 max-w-xl mx-auto">
