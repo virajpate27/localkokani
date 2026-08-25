@@ -126,8 +126,9 @@ export default async function RestaurantDetailPage({ params }) {
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="font-display font-extrabold text-3xl md:text-4xl text-primary dark:text-white">
                 {restaurant.name}
+                 {restaurant.verified && <VerifiedBadge />}
               </h1>
-              {restaurant.verified && <VerifiedBadge />}
+             
               <CustomBadge
                 text={restaurant.customBadgeText}
                 color={restaurant.customBadgeColor}
@@ -169,7 +170,7 @@ export default async function RestaurantDetailPage({ params }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-3">
-            <p className="flex items-center gap-1.5 dark:text-gray-300 text-sm font-medium">
+            <p className="flex items-center gap-1.5 text-primary dark:text-white text-base font-bold">
               {restaurant.costForTwo
                 ? `${formatCurrency(restaurant.costForTwo)} for two (Approx.)`
                 : restaurant.priceRange}
@@ -186,7 +187,7 @@ export default async function RestaurantDetailPage({ params }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10 mt-10">
           <div className="space-y-10 order-2 lg:order-1">
-            <div>
+            <div class="card2 p-4 sm:p-6">
               <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 About
               </h2>
@@ -194,7 +195,7 @@ export default async function RestaurantDetailPage({ params }) {
             </div>
 
             {restaurant.cuisine?.length > 0 && (
-              <div>
+              <div class="card2 p-4 sm:p-6">
                 <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Cuisine
                 </h2>
@@ -205,7 +206,7 @@ export default async function RestaurantDetailPage({ params }) {
             {restaurant.partnerPlan === "premium" &&
               (restaurant.mapEmbedUrl ||
                 (restaurant.location?.lat && restaurant.location?.lng)) && (
-                <div>
+                <div class="card2 p-4 sm:p-6">
                   <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                     Location
                   </h2>
@@ -230,8 +231,8 @@ export default async function RestaurantDetailPage({ params }) {
 
               {/* NEW: FAQ section */}
             {restaurant.faqs?.length > 0 && (
-              <div>
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+              <div class="card2 p-4 sm:p-6">
+                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Frequently Asked Questions
                 </h2>
                 <FaqAccordion faqs={restaurant.faqs} />
@@ -239,7 +240,7 @@ export default async function RestaurantDetailPage({ params }) {
             )}
 
             {/* NEW: Reviews section */}
-            <div>
+            <div class="card2 p-4 sm:p-6">
               <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 Guest Reviews {reviews.length > 0 && `(${reviews.length})`}
               </h2>
@@ -267,7 +268,7 @@ export default async function RestaurantDetailPage({ params }) {
                 </div>
               ) : (
                 <>
-                  <h3 className="font-display font-semibold text-primary mb-4">
+                  <h3 className="font-display font-semibold text-primary dark:text-white mb-4">
                     Reserve a Table
                   </h3>
                   {restaurant.availabilityStatus === "limited" && (

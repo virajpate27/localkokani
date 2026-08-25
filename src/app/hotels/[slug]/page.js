@@ -89,7 +89,7 @@ export default async function HotelDetailPage({ params }) {
 
   const hotelSchema = generateHotelSchema(hotel);
 
-  return (
+  return ( 
     <>
       <JsonLd data={hotelSchema} />
       {faqSchema && <JsonLd data={faqSchema} />}

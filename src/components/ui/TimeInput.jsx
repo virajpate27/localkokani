@@ -13,7 +13,7 @@ export default function TimeInput({ value, onChange, label, icon: Icon, error, n
         name={name}
         value={value}
         onChange={onChange}
-        className={`w-full ${Icon ? "pl-10" : "pl-4"} pr-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white ${
+        className={`w-full ${Icon ? "pl-10" : "pl-4"} pr-4 py-3 rounded-xl border text-sm outline-none transition-colors bg-white dark:bg-gray-900 ${
           error ? "border-red-300" : "border-gray-200 focus:border-secondary"
         } ${!value ? "text-transparent" : "text-gray-700"}`}
         {...rest}

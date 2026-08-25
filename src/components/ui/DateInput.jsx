@@ -12,7 +12,7 @@ export default function DateInput({
       <input
         type="date"
         name={name}
-        value={value}
+        value={value} 
         min={min}
         onChange={onChange}
         disabled={disabled}
