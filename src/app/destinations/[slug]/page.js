@@ -17,6 +17,7 @@ import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
 import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
 import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
 import ShareButton from "@/components/ui/ShareButton";
+import ExpandableText from "@/components/ui/ExpandableText"; 
 
 export const revalidate = 3600;
 
@@ -137,9 +138,7 @@ export default async function DestinationDetailPage({ params }) {
           <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
             About {destination.name}
           </h2>
-          <p className="dark:text-gray-300 leading-relaxed">
-            {destination.description}
-          </p>
+         <ExpandableText text={destination.description} lines={4} />
         </div>
       </section>
 

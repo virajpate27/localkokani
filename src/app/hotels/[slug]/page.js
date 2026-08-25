@@ -24,6 +24,7 @@ import { getSponsoredHotelsByDestination } from "@/lib/services/hotelService";
 import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantService";
 import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
 import FaqAccordion from "@/components/ui/FaqAccordion";
+import ExpandableText from "@/components/ui/ExpandableText";
 
 export const revalidate = 1800;
 
@@ -168,9 +169,7 @@ export default async function HotelDetailPage({ params }) {
               <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 About This Hotel
               </h2>
-              <p className="dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                {hotel.description}
-              </p>
+              <ExpandableText text={hotel.description} lines={4} />
             </div>
 
             {/* Amenities */}

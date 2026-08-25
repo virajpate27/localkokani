@@ -28,6 +28,7 @@ import { getSponsoredRestaurantsByDestination } from "@/lib/services/restaurantS
 import SponsoredListingsSection from "@/components/destinations/SponsoredListingsSection";
 import FaqAccordion from "@/components/ui/FaqAccordion";
 import { generateFaqSchema } from "@/utils/helpers";
+import ExpandableText from "@/components/ui/ExpandableText";
 
 export async function generateStaticParams() {
   const restaurants = await getAllRestaurants();
@@ -189,9 +190,7 @@ export default async function RestaurantDetailPage({ params }) {
               <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                 About
               </h2>
-              <p className="dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                {restaurant.description}
-              </p>
+             <ExpandableText text={restaurant.description} lines={4} />
             </div>
 
             {restaurant.cuisine?.length > 0 && (
