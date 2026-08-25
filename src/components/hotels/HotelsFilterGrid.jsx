@@ -189,7 +189,7 @@ export default function HotelsFilterGrid({ hotels }) {
                 className="w-4 h-4 accent-secondary rounded"
               />
               <span className="text-sm dark:text-gray-300 group-hover:text-primary dark:text-white flex items-center gap-1.5">
-                Verified only <FiCheckCircle className="text-primary dark:text-white text-xs" />
+                Premium only <FiCheckCircle className="text-primary dark:text-white text-xs" />
               </span>
             </label>
           </div>

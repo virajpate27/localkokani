@@ -51,7 +51,7 @@ export default async function FeaturedDestinations() {
                 <div className="flex items-center gap-3 mt-1">
                   <p className="flex items-center gap-1.5 text-white/80 text-sm">
                     <FiHome className="text-accent" />
-                    {dest.hotelCount || 0} hotels
+                    {dest.hotelCount || 0}
                   </p>
                   {dest.restaurantCount > 0 && (
                     <p className="flex items-center gap-1.5 text-white/80 text-sm">
