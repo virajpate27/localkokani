@@ -94,7 +94,7 @@ export default async function HotelDetailPage({ params }) {
       <JsonLd data={hotelSchema} />
       {faqSchema && <JsonLd data={faqSchema} />}
 
-      <div className="bg-white dark:bg-gray-900">
+      <div className="bg-secondary dark:bg-gray-900">
         <Breadcrumbs
           items={[
             { name: "Hotels", url: "/hotels" },

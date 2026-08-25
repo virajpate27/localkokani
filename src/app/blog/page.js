@@ -22,13 +22,13 @@ export default async function BlogListingPage() {
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-900">
+      <div className="bg-secondary dark:bg-gray-900">
         <Breadcrumbs items={[{ name: "Blog", url: "/blog" }]} />
       </div>
 
-      <section className="bg-hero-gradient py-14">
+       <section className="bg-primary py-8">
         <div className="container-custom text-center">
-          <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
+          <h1 className="font-display font-extrabold text-2xl md:text-3xl text-white">
             Travel Guides & Tips
           </h1>
           <p className="text-white/80 mt-4 max-w-xl mx-auto">

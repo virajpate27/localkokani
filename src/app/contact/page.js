@@ -20,9 +20,9 @@ export default function ContactPage() {
         <Breadcrumbs items={[{ name: "Contact", url: "/contact" }]} />
       </div>
 
-      <section className="bg-hero-gradient py-14">
+       <section className="bg-primary py-8">
         <div className="container-custom text-center">
-          <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">Get in Touch</h1>
+          <h1 className="font-display font-extrabold text-2xl md:text-3xl text-white">Get in Touch</h1>
           <p className="text-white/80 mt-4 max-w-xl mx-auto">
             Questions about a booking, a partnership, or just want to say hello? We'd love to hear from you.
           </p>

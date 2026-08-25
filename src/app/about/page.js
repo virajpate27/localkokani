@@ -45,7 +45,7 @@ export default function AboutPage() {
           <div className="w-14 h-14 mx-auto rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center mb-4">
             <FiMapPin className="text-accent text-2xl" />
           </div>
-          <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
+          <h1 className="font-display font-extrabold text-2xl md:text-3xl text-white">
             About Local Kokani
           </h1>
           <p className="text-white/80 mt-4 max-w-xl mx-auto">

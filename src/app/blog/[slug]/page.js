@@ -80,7 +80,7 @@ export default async function BlogPostPage({ params }) {
     <>
       <JsonLd data={articleSchema} />
 
-      <div className="bg-white dark:bg-gray-900">
+      <div className="bg-secondary dark:bg-gray-900">
         <Breadcrumbs
           items={[
             { name: "Blog", url: "/blog" },

@@ -13,7 +13,7 @@ export default function WishlistPageClient() {
 
   return (
     <>
-      <section className="bg-hero-gradient py-14">
+       <section className="bg-primary py-8">
         <div className="container-custom text-center">
           <div className="w-14 h-14 mx-auto rounded-2xl bg-white dark:bg-gray-900/10 backdrop-blur-sm flex items-center justify-center mb-4">
             <FiHeart className="text-accent text-2xl" />

@@ -120,7 +120,7 @@ export default function SearchAutosuggest({
         className={
           isHero
             ? "flex items-center gap-3 flex-1 px-4 py-3"
-            : "flex items-center gap-2 dark:bg-gray-800 rounded-xl px-4 py-2.5"
+            : "flex bg-gray-100 items-center gap-2 dark:bg-gray-800 rounded-xl px-4 py-2.5"
         }
       >
         <FiSearch className={isHero ? "text-secondary text-xl shrink-0" : "dark:text-gray-500 shrink-0"} />

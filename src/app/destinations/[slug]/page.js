@@ -73,7 +73,7 @@ export default async function DestinationDetailPage({ params }) {
     <>
       <JsonLd data={destinationSchema} />
 
-      <div className="bg-white dark:bg-gray-900">
+      <div className="bg-secondary dark:bg-gray-900">
         <Breadcrumbs
           items={[
             { name: "Destinations", url: "/destinations" },
@@ -101,7 +101,7 @@ export default async function DestinationDetailPage({ params }) {
               <p className="flex items-center gap-1.5 text-white/80 text-sm font-medium mb-2">
                 <FiMapPin /> {destination.country}
               </p>
-              <h1 className="font-display font-extrabold text-4xl md:text-5xl text-white">
+              <h1 className="font-display font-extrabold text-2xl md:text-3xl text-white">
                 {destination.name}
               </h1>
               <p className="flex items-center gap-1.5 text-white/90 text-sm font-medium mt-3">
