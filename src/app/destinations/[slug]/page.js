@@ -85,7 +85,7 @@ export default async function DestinationDetailPage({ params }) {
         />
       </div>
 
-      <section className="relative h-[45vh] min-h-[350px] overflow-hidden">
+      <section className="relative h-[20vh] min-h-[200px] sm:h-[45vh] sm:min-h-[250px] overflow-hidden">
         <Image
           src={destination.image?.url || "/placeholder-destination.jpg"}
           alt={`${destination.name}, ${destination.country}`}

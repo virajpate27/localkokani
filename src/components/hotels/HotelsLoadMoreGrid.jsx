@@ -37,7 +37,7 @@ export default function HotelsLoadMoreGrid({ hotels, destinationName }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {visibleHotels.map((hotel) => (
           <HotelCard key={hotel.id} hotel={hotel} />
         ))}
