@@ -10,7 +10,7 @@ export default function RoomTypesList({ roomTypes = [] }) {
       {roomTypes.map((room, i) => (
         <div
           key={i}
-          className="flex items-center justify-between border dark:border-gray-800 rounded-xl p-4 hover:border-secondary/40 transition-colors"
+          className="flex items-center justify-between border bg-gray-50 dark:bg-gray-950 dark:border-gray-800 rounded-xl p-4 hover:border-secondary/40 transition-colors"
         >
           <div>
             <p className="font-medium text-primary dark:text-white">{room.name}</p>

@@ -23,20 +23,20 @@ export default function FaqAccordion({ faqs = [] }) {
             <button
               onClick={() => toggle(index)}
               aria-expanded={isOpen}
-              className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-gray-50 transition-colors"
+              className="w-full flex bg-gray-50 dark:bg-gray-950 items-center justify-between gap-4 px-5 py-4 text-left hover:bg-gray-50 transition-colors"
             >
-              <span className="font-medium text-primary text-sm">{faq.question}</span>
+              <span className="font-medium text-primary dark:text-white text-sm">{faq.question}</span>
               <FiChevronDown
                 className={`text-gray-400 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
               />
             </button>
             <div
-              className={`grid transition-all duration-200 ease-in-out ${
+              className={`grid transition-all bg-gray-50 dark:bg-gray-950  duration-200 ease-in-out ${
                 isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
             >
               <div className="overflow-hidden">
-                <p className="text-gray-600 text-sm px-5 pb-4 leading-relaxed">{faq.answer}</p>
+                <p className="text-gray-600 dark:text-white text-sm px-5 pb-4 leading-relaxed">{faq.answer}</p>
               </div>
             </div>
           </div>

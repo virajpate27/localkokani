@@ -24,7 +24,7 @@ export default function ExpandableText({ text, lines = 4, className = "" }) {
     <div>
       <p
         ref={textRef}
-        className={`text-gray-600 leading-relaxed whitespace-pre-line transition-all duration-300 ${
+        className={`text-gray-600 dark:text-gray-200 leading-relaxed whitespace-pre-line transition-all duration-300 ${
           !isExpanded ? `overflow-hidden` : ""
         } ${className}`}
         style={!isExpanded ? { display: "-webkit-box", WebkitLineClamp: lines, WebkitBoxOrient: "vertical" } : undefined}

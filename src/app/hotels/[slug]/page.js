@@ -121,12 +121,12 @@ export default async function HotelDetailPage({ params }) {
                 color={hotel.customBadgeColor}
                 position="inline"
               />
-              <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1 rounded-lg">
+              <div className="flex items-center gap-1 bg-primary/10 dark:bg-gray-800 px-2.5 py-1 rounded-lg">
                 <FiStar className="text-accent fill-accent text-sm" />
-                <span className="font-semibold text-primary text-sm">
+                <span className="font-semibold text-primary dark:text-white text-sm">
                   {hotel.rating}
                 </span>
-                <span className="text-gray-800 text-xs">
+                <span className="text-gray-800 dark:text-white text-xs">
                   ({hotel.reviewCount} reviews)
                 </span>
               </div>
@@ -222,7 +222,7 @@ export default async function HotelDetailPage({ params }) {
             {/* NEW: FAQ section — place after Map, before Reviews */}
             {hotel.faqs?.length > 0 && (
               <div className="card2 p-6">
-                <h2 className="font-display font-bold text-2xl text-primary mb-4">
+                <h2 className="font-display font-bold text-2xl text-primary dark:text-white mb-4">
                   Frequently Asked Questions
                 </h2>
                 <FaqAccordion faqs={hotel.faqs} />

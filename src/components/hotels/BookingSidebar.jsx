@@ -13,14 +13,14 @@ export default function BookingSidebar({ hotel }) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <p className="text-gray-400 text-xs">Starting from</p>
-          <p className="font-display font-bold text-3xl text-primary">
+          <p className="font-display font-bold text-3xl text-primary dark:text-white">
             {formatCurrency(hotel.price)}
             <span className="text-sm font-normal text-gray-400"> /night</span>
           </p>
         </div>
         <div className="flex items-center gap-1 bg-primary/10 px-2.5 py-1.5 rounded-lg">
           <FiStar className="text-accent fill-accent" />
-          <span className="font-semibold text-primary text-sm">{hotel.rating}</span>
+          <span className="font-semibold text-primary text-sm dark:text-white">{hotel.rating}</span>
         </div>
       </div>
 
