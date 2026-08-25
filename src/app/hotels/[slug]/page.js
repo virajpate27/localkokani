@@ -113,8 +113,9 @@ export default async function HotelDetailPage({ params }) {
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="font-display font-extrabold text-2xl md:text-4xl text-primary dark:text-white">
                 {hotel.name}
+                {hotel.verified && <VerifiedBadge />}
               </h1>
-              {hotel.verified && <VerifiedBadge />}
+              
               <CustomBadge
                 text={hotel.customBadgeText}
                 color={hotel.customBadgeColor}
