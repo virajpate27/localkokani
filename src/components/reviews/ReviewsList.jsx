@@ -22,7 +22,7 @@ export default function ReviewsList({ reviews = [] }) {
   return (
     <div className="space-y-5">
       {reviews.map((review) => (
-        <div key={review.id} className="border-b dark:border-gray-800 pb-5 last:border-0">
+        <div key={review.id} className="border-b dark:border-gray-800 pb-5 card2 p-3 last:border-0">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
               <FiUser className="text-primary dark:text-white text-sm" />
