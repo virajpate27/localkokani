@@ -169,7 +169,7 @@ export default function ReservationForm({ restaurant }) {
 
       <button
         type="submit"
-        className="w-full bg-accent hover:bg-accent-dark text-white font-medium py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
+        className="w-full bg-[#25d366] hover:bg-accent-dark text-white font-medium py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
       >
         <FaWhatsapp className="text-lg" /> Reserve on WhatsApp
       </button>

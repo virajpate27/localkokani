@@ -28,6 +28,7 @@ const navItems = [
   { label: "Feature & Sponsor", href: "/admin/promotions", icon: FiZap },
   { label: "Contact Messages", href: "/admin/contact-messages", icon: FiMail },
   { label: "Settings", href: "/admin/settings", icon: FiSettings },
+  { label: "Landing Pages", href: "/admin/landing-pages", icon: FiFileText }
 ];
 
 export default function AdminSidebar() {

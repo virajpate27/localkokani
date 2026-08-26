@@ -312,7 +312,7 @@ const whatsappNumber = hotel.whatsappNumber || process.env.NEXT_PUBLIC_WHATSAPP_
  
         <button
           type="submit"
-          className="w-full bg-accent hover:bg-accent-dark text-white font-medium py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-[#25d366] hover:bg-accent-dark text-white font-medium py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
         >
           <FaWhatsapp className="text-lg" />
           Review & Send on WhatsApp

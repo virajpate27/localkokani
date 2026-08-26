@@ -17,7 +17,7 @@ export default function DateInput({
         onChange={onChange}
         disabled={disabled}
         className={`w-full ${Icon ? "pl-10" : "pl-4"} pr-4 py-3 rounded-xl border text-sm outline-none transition-colors ${
-          disabled ? "bg-gray-50 text-gray-400" : "bg-white dark:bg-gray-900"
+          disabled ? "bg-gray-50 text-gray-400" : "bg-white dark:bg-gray-900 dark:border-gray-800"
         } ${error ? "border-red-300" : "border-gray-200 focus:border-secondary"} ${
           !value ? "text-transparent" : disabled ? "" : "text-gray-700"
         }`}
