@@ -4,7 +4,6 @@ import {
   FiTv, FiTruck, FiSun, FiHeart, FiCheck
 } from "react-icons/fi";
 
-// Maps common amenity strings to icons — falls back to a generic check icon
 const AMENITY_ICONS = {
   "free wifi": FiWifi,
   wifi: FiWifi,
@@ -18,7 +17,7 @@ const AMENITY_ICONS = {
   "beach access": FiSun,
 };
 
-function getIcon(amenity) {
+export function getAmenityIcon(amenity) { // ⬅️ CHANGED — added "export"
   const key = amenity.toLowerCase();
   const match = Object.keys(AMENITY_ICONS).find((k) => key.includes(k));
   return match ? AMENITY_ICONS[match] : FiCheck;
@@ -30,16 +29,16 @@ export default function AmenitiesGrid({ amenities = [] }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {amenities.map((amenity) => {
-        const Icon = getIcon(amenity);
+        const Icon = getAmenityIcon(amenity); // ⬅️ CHANGED — use the now-exported function
         return (
           <div
             key={amenity}
-            className="flex items-center gap-3 bg-gray-50 dark:bg-gray-950 rounded-xl px-4 py-3"
+            className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3"
           >
             <div className="w-9 h-9 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0">
               <Icon className="text-secondary" />
             </div>
-            <span className="text-sm dark:text-gray-300">{amenity}</span>
+            <span className="text-sm text-gray-700">{amenity}</span>
           </div>
         );
       })}

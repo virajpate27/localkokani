@@ -9,6 +9,7 @@ import VerifiedBadge from "@/components/ui/VerifiedBadge";
 import SponsoredBadge from "@/components/ui/SponsoredBadge";
 import CustomBadge from "@/components/ui/CustomBadge";
 import AvailabilityBadge from "@/components/ui/AvailabilityBadge";
+import { getAmenityIcon } from "./AmenitiesGrid"; 
 
 export default function HotelCard({ hotel, priority = false, sponsored = false }) {
   const imageUrl = getOptimizedUrl(hotel.images?.[0]?.url, { width: 600 }) || "/placeholder-hotel.jpg";
@@ -53,13 +54,20 @@ export default function HotelCard({ hotel, priority = false, sponsored = false }
          {hotel.verified && <VerifiedBadge showLabel={false} className="!p-2 !rounded-lg" />}
         </div>
 
-        <div className="flex flex-wrap gap-1.5 mt-3">
-          {(hotel.amenities || []).slice(0, 2).map((a) => (
-            <span key={a} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">
-              {a}
-            </span>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-1.5 mt-3">
+  {(hotel.amenities || []).slice(0, 2).map((a) => {
+    const Icon = getAmenityIcon(a);
+    return (
+      <span
+        key={a}
+        className="flex items-center gap-1 text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md"
+      >
+        <Icon className="text-secondary text-[11px]" />
+        {a}
+      </span>
+    );
+  })}
+</div>
 
         <AvailabilityBadge
           status={hotel.availabilityStatus}
