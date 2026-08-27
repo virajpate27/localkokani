@@ -142,7 +142,7 @@ export default async function LandingPage({ params }) {
 
       {/* Explore Region (long-form markdown) */}
       {page.exploreSection?.content && (
-        <section className="py-16 bg-white">
+        <section className="py-14 ">
           <div className="container-custom max-w-3xl">
             <h2 className="section-title mb-6">{page.exploreSection.heading}</h2>
             <MarkdownContent content={page.exploreSection.content} />
@@ -205,7 +205,7 @@ export default async function LandingPage({ params }) {
 
       {/* FAQ */}
       {page.faqs?.length > 0 && (
-        <section className="py-16 bg-gray-50">
+        <section className="py-14 ">
           <div className="container-custom max-w-3xl">
             <h2 className="section-title mb-8">Frequently Asked Questions</h2>
             <FaqAccordion faqs={page.faqs} />
@@ -215,7 +215,7 @@ export default async function LandingPage({ params }) {
 
       {/* SEO Content Section */}
       {page.seoContentSection?.content && (
-        <section className="py-16 bg-white">
+        <section className="py-14 bg-blue-50 dark:bg-gray-900">
           <div className="container-custom max-w-3xl">
             {page.seoContentSection.heading && <h2 className="section-title mb-6">{page.seoContentSection.heading}</h2>}
             <MarkdownContent content={page.seoContentSection.content} />
