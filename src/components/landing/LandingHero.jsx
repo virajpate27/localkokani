@@ -1,6 +1,6 @@
 // src/components/landing/LandingHero.jsx
 import Image from "next/image";
-import Link from "next/link";
+import Link from "next/link"; 
 import SearchAutosuggest from "@/components/search/SearchAutosuggest";
 
 export default function LandingHero({ h1, subtitle, heroImage, ctaPrimaryText, ctaPrimaryLink, ctaSecondaryText, ctaSecondaryLink }) {
@@ -16,7 +16,7 @@ export default function LandingHero({ h1, subtitle, heroImage, ctaPrimaryText, c
         </h1>
         {subtitle && <p className="text-white/85 text-lg mt-5 max-w-2xl mx-auto">{subtitle}</p>}
 
-        <div className="mt-8 bg-white rounded-2xl shadow-2xl p-2 sm:p-3 max-w-2xl mx-auto">
+        <div className="mt-8 bg-white rounded-2xl  p-2 sm:p-3 max-w-2xl bx-shadow mx-auto">
           <SearchAutosuggest variant="hero" placeholder="Search destination or hotel name..." />
         </div>
 

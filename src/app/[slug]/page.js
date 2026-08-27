@@ -74,7 +74,7 @@ export default async function LandingPage({ params }) {
 
       {/* Popular Destinations */}
       {destinations.length > 0 && (
-        <section className="py-16 bg-white">
+        <section className="py-16 ">
           <div className="container-custom">
             <div className="mb-10">
               <h2 className="section-title">{page.destinationsSection.heading}</h2>
@@ -101,7 +101,7 @@ export default async function LandingPage({ params }) {
 
       {/* Featured Hotels */}
       {hotels.length > 0 && (
-        <section className="py-16 bg-gray-50">
+        <section className="py-14 bg-blue-50 dark:bg-gray-900">
           <div className="container-custom">
             <div className="mb-10">
               <h2 className="section-title">{page.hotelsSection.heading}</h2>
@@ -118,7 +118,7 @@ export default async function LandingPage({ params }) {
 
       {/* Featured Restaurants */}
       {restaurants.length > 0 && (
-        <section className="py-16 bg-white">
+        <section className="py-14">
           <div className="container-custom">
             <div className="mb-10">
               <h2 className="section-title">{page.restaurantsSection.heading}</h2>
@@ -155,7 +155,7 @@ export default async function LandingPage({ params }) {
 
       {/* Weekend Getaways */}
       {getawayDestinations.length > 0 && (
-        <section className="py-16 bg-gray-50">
+        <section className="py-14 bg-blue-50 dark:bg-gray-900">
           <div className="container-custom">
             <div className="mb-10">
               <h2 className="section-title">{page.weekendGetawaysSection.heading}</h2>
@@ -182,11 +182,8 @@ export default async function LandingPage({ params }) {
 
       {/* Customer Reviews (reuses homepage Testimonials for now — shows real testimonial content) */}
       {page.reviewsSection?.heading && (
-        <section className="py-16 bg-white">
-          <div className="container-custom text-center max-w-2xl mx-auto mb-4">
-            <h2 className="section-title">{page.reviewsSection.heading}</h2>
-            {page.reviewsSection.description && <p className="text-gray-500 mt-3">{page.reviewsSection.description}</p>}
-          </div>
+        <section className="">
+         
           <Testimonials />
         </section>
       )}

@@ -73,7 +73,7 @@ export default function AdminSidebar() {
         <p className="text-white/40 text-xs mt-1">Admin Panel</p>
       </div>
 
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const isActive =
             item.href === "/admin" ? pathname === "/admin" : pathname?.startsWith(item.href);
