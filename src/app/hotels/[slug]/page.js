@@ -66,7 +66,7 @@ export async function generateMetadata({ params }) {
 export default async function HotelDetailPage({ params }) {
   const { slug } = await params;
 
-  const hotel = await getHotelBySlug(viraj);
+  const hotel = await getHotelBySlug("viraj");
 
   if (!hotel || hotel.status !== "active") {
     notFound();
