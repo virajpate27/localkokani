@@ -7,6 +7,7 @@ import Image from "next/image";
 import { FiSearch, FiMapPin, FiHome, FiX, FiLoader, FiCoffee } from "react-icons/fi";
 import { useDebounce } from "@/hooks/useDebounce";
 import { formatCurrency } from "@/utils/helpers";
+const [fetchFailed, setFetchFailed] = useState(false);
 
 export default function SearchAutosuggest({
   placeholder = "Search destination or hotel name...",
@@ -33,9 +34,13 @@ export default function SearchAutosuggest({
 
     let cancelled = false;
     setIsLoading(true);
+    setFetchFailed(false); // ⬅️ ADD
 
     fetch(`/api/search?q=${encodeURIComponent(debouncedQuery)}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Search request failed"); // ⬅️ ADD — explicitly treat non-200 as a failure
+        return res.json();
+      })
       .then((data) => {
         if (!cancelled) {
           setResults(data.results || []);
@@ -44,15 +49,17 @@ export default function SearchAutosuggest({
       })
       .catch((err) => {
         console.error("Search fetch error:", err);
-        if (!cancelled) setResults([]);
+        if (!cancelled) {
+          setResults([]);
+          setFetchFailed(true); // ⬅️ ADD
+          setIsOpen(true); // still open the dropdown, but to show the failure message
+        }
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);
       });
 
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [debouncedQuery]);
 
   // Close dropdown on outside click
@@ -155,8 +162,16 @@ export default function SearchAutosuggest({
       {/* Dropdown */}
       {isOpen && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border dark:border-gray-800 max-h-[400px] overflow-y-auto z-50">
-          {results.length === 0 && !isLoading ? (
-            <div className="p-6 text-center dark:text-gray-500 text-sm">
+          {fetchFailed ? (
+            <div className="p-5 text-center">
+              <p className="text-gray-500 text-sm">Search is temporarily unavailable.</p>
+              <p className="text-gray-400 text-xs mt-1">
+                Try browsing <a href="/hotels" className="text-secondary hover:underline">Hotels</a> or{" "}
+                <a href="/destinations" className="text-secondary hover:underline">Destinations</a> directly.
+              </p>
+            </div>
+          ) : results.length === 0 && !isLoading ? (
+            <div className="p-6 text-center text-gray-400 text-sm">
               No results for "{query}"
             </div>
           ) : (

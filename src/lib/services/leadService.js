@@ -7,6 +7,14 @@ import { serializeDocs } from "@/utils/helpers";
 
 const COLLECTION = "leads";
 
+
+export async function getNewLeadsCount() {
+  const snap = await getCountFromServer(
+    query(collection(db, COLLECTION), where("status", "==", "new"))
+  );
+  return snap.data().count;
+}
+
 export async function createLead(data) {
   return addDoc(collection(db, COLLECTION), {
     ...data,
