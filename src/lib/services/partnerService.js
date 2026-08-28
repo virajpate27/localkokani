@@ -1,7 +1,6 @@
 // src/lib/services/partnerService.js
 import {
-  collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc,
-  query, orderBy, where, serverTimestamp,
+  collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, orderBy, where, serverTimestamp, getCountFromServer, query,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { serializeDoc, serializeDocs } from "@/utils/helpers";
@@ -80,10 +79,10 @@ export async function rejectPartnerApplication(id, reviewNotes = "") {
 }
 
 export async function getPendingPartnerApplicationsCount() {
-  const snap = await getDocs(
+  const snap = await getCountFromServer(
     query(collection(db, COLLECTION), where("status", "==", "pending"))
   );
-  return snap.size;
+  return snap.data().count;
 }
 
 export async function deletePartnerApplication(id) {

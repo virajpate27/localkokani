@@ -219,10 +219,10 @@ export async function hasActiveOrScheduledPromotion(entityId, promotionType) {
 }
 
 export async function getPendingPromotionRequestsCount() {
-  const snap = await getDocs(
+  const snap = await getCountFromServer(
     query(collection(db, REQUESTS_COLLECTION), where("status", "==", "pending_payment"))
   );
-  return snap.size;
+  return snap.data().count;
 }
 
 export async function getExtendableRequestsByOwner(ownerId) {

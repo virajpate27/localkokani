@@ -1,11 +1,19 @@
 // src/lib/services/contactService.js
 import {
-  collection, doc, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, serverTimestamp,
+  collection, doc, addDoc, getDocs, updateDoc, deleteDoc, query, orderBy, serverTimestamp, where, getCountFromServer
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { serializeDocs } from "@/utils/helpers";
 
+
 const COLLECTION = "contactMessages";
+
+export async function getNewContactMessagesCount() {
+  const snap = await getCountFromServer(
+    query(collection(db, COLLECTION), where("status", "==", "new"))
+  );
+  return snap.data().count;
+}
 
 export async function createContactMessage(data) {
   return addDoc(collection(db, COLLECTION), {

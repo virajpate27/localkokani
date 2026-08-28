@@ -1,6 +1,6 @@
 // src/lib/services/leadService.js
 import {
-  collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp,
+  collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp, getCountFromServer 
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { serializeDocs } from "@/utils/helpers";
