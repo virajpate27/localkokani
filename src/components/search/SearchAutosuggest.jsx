@@ -7,7 +7,7 @@ import Image from "next/image";
 import { FiSearch, FiMapPin, FiHome, FiX, FiLoader, FiCoffee } from "react-icons/fi";
 import { useDebounce } from "@/hooks/useDebounce";
 import { formatCurrency } from "@/utils/helpers";
-const [fetchFailed, setFetchFailed] = useState(false);
+
 
 export default function SearchAutosuggest({
   placeholder = "Search destination or hotel name...",
@@ -21,6 +21,7 @@ export default function SearchAutosuggest({
   const [isLoading, setIsLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef(null);
+  const [fetchFailed, setFetchFailed] = useState(false);
 
   const debouncedQuery = useDebounce(query, 350);
 
